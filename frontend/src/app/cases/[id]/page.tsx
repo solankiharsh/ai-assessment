@@ -389,9 +389,9 @@ export default function CasePage() {
                 {activeTab === "evidence" && <TabEvidence investigation={inv} liveEvents={[]} />}
                 {activeTab === "log" && (
                   <ExecutionLog
-                    logs={(inv.error_log?.length ? inv.error_log : deriveCapturedLogs(inv.search_history)) ?? []}
+                    logs={(inv.logs?.length ? inv.logs : (inv.error_log?.length ? inv.error_log : deriveCapturedLogs(inv.search_history))) ?? []}
                     heightClass="h-96"
-                    emptyMessage={!inv.error_log?.length && !deriveCapturedLogs(inv.search_history).length ? "No execution logs captured for this run. Live logs appear here during an active investigation." : undefined}
+                    emptyMessage={!inv.logs?.length && !inv.error_log?.length && !deriveCapturedLogs(inv.search_history).length ? "No execution logs captured for this run. Live logs appear here during an active investigation." : undefined}
                   />
                 )}
               </div>

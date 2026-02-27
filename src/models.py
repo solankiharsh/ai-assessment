@@ -406,6 +406,7 @@ class ResearchState(BaseModel):
     # ── Control Flow ──
     should_terminate: bool = False
     error_log: list[str] = Field(default_factory=list)
+    logs: list[str] = Field(default_factory=list, description="Descriptive investigation logs")
 
     # ── Sources identified but not retrievable (403, timeout, no Wayback, etc.) ──
     inaccessible_urls: list[dict[str, Any]] = Field(
