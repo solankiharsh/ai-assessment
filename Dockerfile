@@ -24,12 +24,10 @@ RUN pip install --no-cache-dir -e .
 # Playwright Chromium for tiered fetch (Tier 2). Skip if not needed to save image size.
 RUN playwright install chromium --with-deps || true
 
-# Frontend: install and build Next.js
+# Frontend: copy full tree first so path aliases resolve correctly in Docker
 WORKDIR /app/frontend
-COPY frontend/package.json frontend/package-lock.json ./
-RUN npm ci
 COPY frontend/ ./
-RUN npm run build
+RUN npm ci && npx next build --webpack
 
 # Runtime env: Next.js and spawn backend from /app
 ENV REPO_ROOT=/app \
