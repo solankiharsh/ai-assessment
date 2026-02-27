@@ -112,14 +112,14 @@ class ResearchGraph:
                 "end": END,
             },
         )
-        graph.add_edge("entity_resolution", "generate_report")
+        graph.add_edge("entity_resolution", "temporal_analysis")
+        graph.add_edge("temporal_analysis", "generate_report")
         graph.add_edge("web_research", "fact_extraction")
         graph.add_edge("fact_extraction", "director")
         graph.add_edge("risk_analysis", "director")
         graph.add_edge("connection_mapping", "director")
         graph.add_edge("source_verification", "director")
-        graph.add_edge("generate_report", "temporal_analysis")
-        graph.add_edge("temporal_analysis", "update_graph_db")
+        graph.add_edge("generate_report", "update_graph_db")
         graph.add_edge("update_graph_db", END)
 
         return graph.compile(checkpointer=self._checkpointer)
@@ -526,8 +526,6 @@ class ResearchGraph:
 
     def _route_from_director(self, state_dict: dict) -> str:
         state = ResearchState(**state_dict)
-        if state.should_terminate:
-            return "end"
         if not state.last_decision:
             return "web_research"
         action = state.last_decision.next_action

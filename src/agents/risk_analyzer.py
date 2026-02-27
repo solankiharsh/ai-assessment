@@ -77,10 +77,12 @@ class RiskAnalysisAgent:
                 user_prompt=user_prompt,
             )
             state.total_llm_calls += 1
+            data = self._parse_json(raw)
+            judge_summary = data.get("summary") or data.get("overall_risk_assessment") or raw[:1000]
             self._parse_and_merge(state, raw)
             # Preserve judge output in transcript
             state.risk_debate_transcript.append(
-                {"role": "judge", "argument": raw[:2000], "timestamp": ts}
+                {"role": "judge", "argument": judge_summary, "timestamp": ts}
             )
         except Exception as e:
             logger.error("risk_analysis_error", error=str(e))
