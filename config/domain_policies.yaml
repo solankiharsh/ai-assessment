@@ -1,0 +1,88 @@
+# Per-domain rate limits, required headers, and fetch tier policies.
+# Used by DomainRateLimiter and TieredFetcher.
+
+defaults:
+  requests_per_second: 2.0
+  concurrent_limit: 5
+  fetch_tier: "all"  # all | httpx_only | playwright_only | skip
+
+domains:
+  sec.gov:
+    requests_per_second: 0.5
+    concurrent_limit: 2
+    fetch_tier: all
+    required_headers:
+      User-Agent: "DeepResearchAgent/1.0 {sec_contact_email}"
+
+  efts.sec.gov:
+    requests_per_second: 0.5
+    concurrent_limit: 2
+    fetch_tier: all
+
+  finra.org:
+    requests_per_second: 1.0
+    concurrent_limit: 3
+    fetch_tier: all
+
+  brokercheck.finra.org:
+    requests_per_second: 0.5
+    concurrent_limit: 2
+    fetch_tier: all
+
+  # Domains that always require login — skip Playwright
+  linkedin.com:
+    requests_per_second: 1.0
+    concurrent_limit: 2
+    fetch_tier: httpx_only
+
+  facebook.com:
+    fetch_tier: skip
+
+  instagram.com:
+    fetch_tier: skip
+
+  twitter.com:
+    requests_per_second: 1.0
+    concurrent_limit: 2
+    fetch_tier: httpx_only
+
+  x.com:
+    requests_per_second: 1.0
+    concurrent_limit: 2
+    fetch_tier: httpx_only
+
+  glassdoor.com:
+    fetch_tier: httpx_only
+
+  bloomberg.com:
+    requests_per_second: 1.0
+    concurrent_limit: 2
+    fetch_tier: httpx_only
+
+  wsj.com:
+    requests_per_second: 1.0
+    concurrent_limit: 2
+    fetch_tier: httpx_only
+
+  ft.com:
+    requests_per_second: 1.0
+    concurrent_limit: 2
+    fetch_tier: httpx_only
+
+  reddit.com:
+    requests_per_second: 1.0
+    concurrent_limit: 2
+    fetch_tier: httpx_only
+
+  tiktok.com:
+    fetch_tier: skip
+
+# Search provider rate limits
+search_providers:
+  tavily:
+    requests_per_second: 5.0
+    concurrent_limit: 10
+
+  brave:
+    requests_per_second: 3.0
+    concurrent_limit: 5

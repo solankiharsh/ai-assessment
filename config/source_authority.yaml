@@ -1,0 +1,37 @@
+# Source authority scores by domain pattern.
+# Used by SourceReference.compute_authority() and ConfidenceScore calculation.
+# Scores range from 0.0 (untrusted) to 1.0 (fully authoritative).
+
+high_authority:  # 0.9
+  - sec.gov
+  - courts.gov
+  - edgar
+  - bloomberg.com
+  - reuters.com
+  - wsj.com
+  - ft.com
+  - linkedin.com
+
+medium_authority:  # 0.7
+  - crunchbase.com
+  - pitchbook.com
+  - businesswire.com
+  - prnewswire.com
+  - wikipedia.org
+  - nytimes.com
+
+gov_edu_authority: 0.85  # Any .gov or .edu domain
+
+default_authority: 0.4  # Fallback for unknown domains
+
+# Domain-specific overrides (exact match or substring)
+overrides:
+  finra.org: 0.9
+  brokercheck.finra.org: 0.9
+  dfpi.ca.gov: 0.9
+  opensecrets.org: 0.75
+  bbb.org: 0.6
+  glassdoor.com: 0.4
+  reddit.com: 0.3
+  twitter.com: 0.3
+  x.com: 0.3
