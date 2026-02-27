@@ -77,12 +77,19 @@ class RiskAnalysisAgent:
                 user_prompt=user_prompt,
             )
             state.total_llm_calls += 1
+            
             data = self._parse_json(raw)
-            judge_summary = data.get("summary") or data.get("overall_risk_assessment") or raw[:1000]
+            # Prioritize narrative fields for the transcript
+            judge_narrative = (
+                data.get("summary") or 
+                data.get("overall_risk_assessment") or 
+                self._extract_narrative_from_raw(raw)
+            )
+            
             self._parse_and_merge(state, raw)
             # Preserve judge output in transcript
             state.risk_debate_transcript.append(
-                {"role": "judge", "argument": judge_summary, "timestamp": ts}
+                {"role": "judge", "argument": judge_narrative, "timestamp": ts}
             )
         except Exception as e:
             logger.error("risk_analysis_error", error=str(e))
@@ -133,15 +140,40 @@ class RiskAnalysisAgent:
             flags_added=flags_added,
         )
 
+    def _extract_narrative_from_raw(self, raw: str) -> str:
+        """Extract narrative part of judge output by removing JSON blocks."""
+        cleaned = raw.strip()
+        # Remove JSON blocks
+        if "```json" in cleaned:
+            parts = cleaned.split("```json")
+            # Take everything before the first JSON block or after the last one
+            cleaned = parts[0].strip() or parts[-1].split("```")[-1].strip()
+        
+        # If still empty or looks like JSON, just take first 1000 chars and hope for the best
+        if not cleaned or (cleaned.startswith("{") and cleaned.endswith("}")):
+            return "Narrative assessment included in structured flags."
+            
+        return cleaned[:1000]
+
     def _parse_json(self, raw: str) -> dict[str, Any]:
+        """Utility to safely extract JSON from LLM markdown blocks."""
         cleaned = raw.strip()
         for prefix in ("```json", "```"):
             if prefix in cleaned:
-                cleaned = cleaned.split(prefix)[1].split("```")[0]
-                break
+                try:
+                    parts = cleaned.split(prefix)
+                    if len(parts) > 1:
+                        content = parts[1].split("```")[0]
+                        if content.strip():
+                            cleaned = content.strip()
+                            break
+                except Exception:
+                    continue
+        
         start, end = cleaned.find("{"), cleaned.rfind("}") + 1
         if start >= 0 and end > start:
             cleaned = cleaned[start:end]
+            
         try:
             return json.loads(cleaned)
         except json.JSONDecodeError:
