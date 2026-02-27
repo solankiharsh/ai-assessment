@@ -27,7 +27,12 @@ RUN playwright install chromium --with-deps || true
 # Frontend: copy full tree first so path aliases resolve correctly in Docker
 WORKDIR /app/frontend
 COPY frontend/ ./
-RUN npm ci && npx next build
+
+# Install deps and build in separate steps so Railway logs show which step failed
+RUN npm ci
+# Increase Node memory for Next.js build (helps avoid OOM on free tier)
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+RUN npx next build
 
 # Runtime env: Next.js and spawn backend from /app
 ENV REPO_ROOT=/app \
