@@ -32,7 +32,10 @@ COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
 
 # Copy source code
-COPY frontend/ ./
+COPY frontend ./
+
+# Diagnostic: check what was actually copied
+RUN ls -la && ls -R src/lib || echo "ls -R failed"
 
 # Verify the critical file for shadcn resolution
 RUN ls -la src/lib/utils.ts || (echo "CRITICAL: utils.ts missing in frontend/src/lib!" && exit 1)
