@@ -29,11 +29,14 @@ export function ConsoleLayout({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement;
+      const raw = e.target;
+      const el =
+        raw instanceof Element ? raw : (raw as Node)?.parentElement ?? null;
+      if (!el) return;
       const isInput =
-        target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.getAttribute("contenteditable") === "true";
+        el.tagName === "INPUT" ||
+        el.tagName === "TEXTAREA" ||
+        el.getAttribute("contenteditable") === "true";
       if (isInput) return;
       if (e.key === "Escape") {
         exitFocusMode();
