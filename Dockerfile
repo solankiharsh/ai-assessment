@@ -18,6 +18,7 @@ COPY pyproject.toml ./
 COPY src ./src
 COPY config ./config
 COPY scripts ./scripts
+COPY outputs ./outputs
 
 RUN pip install --no-cache-dir -e .
 
