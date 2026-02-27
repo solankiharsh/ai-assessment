@@ -1,15 +1,5 @@
 # Due Diligence Report: Timothy Overturf
 
-**Role:** CEO @ Sisu Capital
-**Generated:** N/A
-**Confidence:** 0.00
-
----
-
-## 1. Executive Summary
-
-# Due Diligence Report: Timothy Overturf
-
 **Generated:** January 2025 | **Investigation ID:** TO-2025-001 | **Iterations:** 11
 
 ---
@@ -33,7 +23,7 @@ The most alarming findings include:
 | Facts Extracted | 200+ |
 | Entities Discovered | 45+ |
 | Critical/High Risk Flags | 15 |
-| Search Iterations | 14 |
+| Search Iterations | 11 |
 | Overall Confidence | **92%** |
 
 **Recommendation: DO NOT ENGAGE** without resolution of pending SEC litigation and comprehensive independent verification of any current business activities.
@@ -299,7 +289,7 @@ While the allegations against Timothy Overturf and Sisu Capital, LLC are serious
 
 - **Searches conducted:** 14
 - **Iterations:** 11
-- **Estimated cost:** $0.0000
+- **Estimated cost:** $3.1866
 
 ### Sources Identified But Not Retrievable
 
