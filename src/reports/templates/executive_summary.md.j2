@@ -1,0 +1,28 @@
+# Executive Summary: {{ subject.full_name }}
+
+**Role:** {{ subject.current_role or 'Unknown' }} @ {{ subject.current_organization or 'Unknown' }}
+**Confidence:** {{ "%.2f"|format(overall_confidence) }}
+
+---
+
+{{ llm_narrative[:3000] if llm_narrative else '(No narrative available)' }}
+
+---
+
+### Key Metrics
+
+- **Entities discovered:** {{ entities | length }}
+- **Connections mapped:** {{ connections | length }}
+- **Risk flags:** {{ risk_flags | length }}
+{% if risk_flags %}
+- **Highest severity:** {{ risk_flags[0].severity.value if risk_flags else 'none' }}
+{% endif %}
+- **Investigation iterations:** {{ iteration }}
+
+{% if risk_flags %}
+### Top Risks
+
+{% for rf in risk_flags[:5] %}
+- **[{{ rf.severity.value | upper }}]** {{ rf.title }}
+{% endfor %}
+{% endif %}
