@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ReactFlow,
   Background,
@@ -22,14 +22,26 @@ import type { EntityType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/store/useUIStore";
 
-const ENTITY_COLORS: Record<EntityType, string> = {
-  person: "#3b82f6",
-  organization: "#a855f7",
-  location: "#06b6d4",
-  event: "#f59e0b",
-  document: "#64748b",
-  financial_instrument: "#22c55e",
+/** Resolve CSS variable values at runtime for inline styles (canvas rendering). */
+function resolveCssVar(varExpr: string): string {
+  if (typeof window === "undefined") return "#64748b";
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(varExpr.replace(/^var\(--/, "--").replace(/\)$/, ""))
+    .trim() || "#64748b";
+}
+
+/** Fixed color palette for entity types (used for canvas-level rendering in ReactFlow). */
+const ENTITY_HEX: Record<EntityType, string> = {
+  person: "#60A5FA",
+  organization: "#A78BFA",
+  location: "#22D3EE",
+  event: "#FBBF24",
+  document: "#94A3B8",
+  financial_instrument: "#34D399",
 };
+
+/** Default max nodes before we auto-prune for readability. */
+const DEFAULT_MAX_NODES = 60;
 
 function CustomNode({
   data,
@@ -40,44 +52,49 @@ function CustomNode({
     type?: EntityType;
     confidence?: number;
     hasRisk?: boolean;
+    degree?: number;
   };
   selected?: boolean;
 }) {
   const type = data.type ?? "person";
-  const color = ENTITY_COLORS[type] ?? ENTITY_COLORS.person;
-  const hasRisk = data.hasRisk ?? (data.confidence ?? 1) < 0.5;
+  const color = ENTITY_HEX[type] ?? ENTITY_HEX.person;
+  const hasRisk = data.hasRisk ?? false;
   const zoom = useViewport().zoom;
-  const showLabel = zoom >= 0.8;
+  const showType = zoom >= 0.7;
+  const degree = data.degree ?? 0;
+  // Scale node size by connectivity
+  const scale = Math.min(1.4, 1 + degree * 0.03);
 
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center border-2 px-2 py-1 text-xs",
-        "bg-[var(--bg-card)] text-[var(--foreground)]",
-        selected && "ring-2 ring-[var(--accent)]",
-        hasRisk && "animate-pulse-risk"
+        "flex flex-col items-center justify-center border-2 px-3 py-1.5 text-xs",
+        "text-[var(--foreground)]",
+        selected && "ring-2 ring-[var(--accent)]"
       )}
       style={{
-        backgroundColor: `${color}22`,
+        backgroundColor: `${color}18`,
         borderColor: color,
-        boxShadow: hasRisk ? `0 0 12px ${color}66` : undefined,
-        clipPath:
-          type === "organization"
-            ? "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
-            : undefined,
+        boxShadow: hasRisk
+          ? `0 0 14px ${color}88`
+          : `0 1px 4px rgba(0,0,0,0.3)`,
         borderRadius:
-          type === "person" ? "9999px" : type === "location" ? "4px" : "6px",
-        minWidth: type === "organization" ? "64px" : "56px",
-        minHeight: type === "organization" ? "56px" : "40px",
+          type === "person" ? "9999px" : type === "location" ? "4px" : "8px",
+        minWidth: `${Math.round(72 * scale)}px`,
+        minHeight: `${Math.round(44 * scale)}px`,
+        transform: `scale(${scale})`,
       }}
     >
-      <div className="font-medium truncate max-w-[80px] text-center">
+      <div
+        className="font-medium truncate text-center"
+        style={{ maxWidth: `${Math.round(100 * scale)}px`, fontSize: "11px" }}
+      >
         {data.label ?? "?"}
       </div>
-      {showLabel && (
+      {showType && (
         <div
-          className="text-[10px] capitalize opacity-80"
-          style={{ color }}
+          className="text-[9px] capitalize mt-0.5"
+          style={{ color, opacity: 0.85 }}
         >
           {type.replace(/_/g, " ")}
         </div>
@@ -88,29 +105,47 @@ function CustomNode({
 
 const nodeTypes: NodeTypes = { custom: CustomNode };
 
-/** Force-directed layout: repulsion between nodes + attraction along edges. */
+/**
+ * Deterministic force-directed layout using a seeded PRNG.
+ * This prevents the infinite re-render loop that Math.random() caused.
+ */
+function seededRandom(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (s * 16807 + 0) % 2147483647;
+    return s / 2147483647;
+  };
+}
+
 function runForceLayout(
   nodeIds: string[],
   edges: { source: string; target: string }[],
   width: number,
   height: number,
-  iterations = 120
+  iterations = 150
 ): Map<string, { x: number; y: number }> {
+  const rand = seededRandom(
+    nodeIds.reduce((h, id) => h + id.charCodeAt(0) + id.length, 42)
+  );
   const positions = new Map<string, { x: number; y: number }>();
   nodeIds.forEach((id) => {
     positions.set(id, {
-      x: width * (0.1 + 0.8 * Math.random()),
-      y: height * (0.1 + 0.8 * Math.random()),
+      x: width * (0.1 + 0.8 * rand()),
+      y: height * (0.1 + 0.8 * rand()),
     });
   });
-  const repel = 8000;
-  const attract = 0.04;
-  const damp = 0.85;
+  const repel = 12000;
+  const attract = 0.035;
+  const damp = 0.82;
+  const centerGravity = 0.01;
+  const cx = width / 2;
+  const cy = height / 2;
 
   for (let iter = 0; iter < iterations; iter++) {
     const forces = new Map<string, { fx: number; fy: number }>();
     nodeIds.forEach((id) => forces.set(id, { fx: 0, fy: 0 }));
 
+    // Repulsion
     for (let i = 0; i < nodeIds.length; i++) {
       for (let j = i + 1; j < nodeIds.length; j++) {
         const a = nodeIds[i];
@@ -130,6 +165,7 @@ function runForceLayout(
       }
     }
 
+    // Attraction along edges
     edges.forEach(({ source, target }) => {
       if (!positions.has(source) || !positions.has(target)) return;
       const pa = positions.get(source)!;
@@ -146,82 +182,110 @@ function runForceLayout(
       forces.get(target)!.fy -= fy;
     });
 
+    // Center gravity
+    nodeIds.forEach((id) => {
+      const pos = positions.get(id)!;
+      const force = forces.get(id)!;
+      force.fx += (cx - pos.x) * centerGravity;
+      force.fy += (cy - pos.y) * centerGravity;
+    });
+
+    // Apply forces
     nodeIds.forEach((id) => {
       const pos = positions.get(id)!;
       const force = forces.get(id)!;
       pos.x = pos.x + force.fx * damp;
       pos.y = pos.y + force.fy * damp;
-      pos.x = Math.max(0, Math.min(width, pos.x));
-      pos.y = Math.max(0, Math.min(height, pos.y));
+      pos.x = Math.max(40, Math.min(width - 40, pos.x));
+      pos.y = Math.max(40, Math.min(height - 40, pos.y));
     });
   }
 
   return positions;
 }
 
-function toFlowNodes(
-  nodes: { id: string; label: string; type: EntityType; data?: Record<string, unknown> }[],
-  filterType: EntityType | null,
-  riskEntityIds: Set<string>,
-  visibleNodeIds: Set<string>,
-  positions: Map<string, { x: number; y: number }>
-): Node[] {
-  const byType = filterType
-    ? nodes.filter((n) => n.type === filterType)
-    : nodes;
-  const filtered = byType.filter((n) => visibleNodeIds.has(n.id));
-  const span = Math.max(400, Math.sqrt(filtered.length) * 200);
-  return filtered.map((n) => {
-    const pos = positions.get(n.id) ?? {
-      x: Math.random() * span,
-      y: Math.random() * span,
-    };
-    return {
-      id: n.id,
-      type: "custom" as const,
-      position: pos,
-      data: {
-        label: n.label,
-        type: n.type,
-        confidence: (n.data as { confidence?: number })?.confidence,
-        hasRisk: riskEntityIds.has(n.id),
-      },
-    };
-  });
-}
+type GraphNode = {
+  id: string;
+  label: string;
+  type: EntityType;
+  data?: Record<string, unknown>;
+};
+type GraphEdge = {
+  id: string;
+  source: string;
+  target: string;
+  label?: string;
+  confidence?: number;
+};
 
-function toFlowEdges(
-  edges: { id: string; source: string; target: string; confidence?: number }[],
-  nodeIds: Set<string>,
+/**
+ * Select the top-N most connected nodes for display.
+ * Always includes: the subject entity, risk-flagged entities, and their 1-hop neighbors.
+ */
+function selectTopNodes(
+  allNodes: GraphNode[],
+  allEdges: GraphEdge[],
+  riskEntityIds: Set<string>,
+  maxNodes: number,
+  filterType: EntityType | null,
   confidenceThreshold: number
-): Edge[] {
-  return edges
-    .filter(
-      (e) =>
-        nodeIds.has(e.source) &&
-        nodeIds.has(e.target) &&
-        (e.confidence ?? 1) >= confidenceThreshold
-    )
-    .map((e) => {
-      const conf = e.confidence ?? 1;
-      return {
-        id: e.id,
-        source: e.source,
-        target: e.target,
-        type: "smoothstep" as const,
-        label: conf < 1 ? `${Math.round(conf * 100)}%` : undefined,
-        labelStyle: { fontSize: 10, fill: "var(--muted)" },
-        labelShowBg: true,
-        labelBgStyle: { fill: "var(--panel)" },
-        labelBgBorderRadius: 2,
-        labelBgPadding: [2, 4] as [number, number],
-        style: {
-          stroke: "var(--muted)",
-          strokeWidth: conf >= 0.7 ? 1.5 : 1,
-          strokeDasharray: conf < 0.5 ? "5 5" : undefined,
-        },
-      };
+): Set<string> {
+  // Compute degree per node
+  const degree = new Map<string, number>();
+  allNodes.forEach((n) => degree.set(n.id, 0));
+  allEdges.forEach((e) => {
+    if ((e.confidence ?? 1) < confidenceThreshold) return;
+    degree.set(e.source, (degree.get(e.source) ?? 0) + 1);
+    degree.set(e.target, (degree.get(e.target) ?? 0) + 1);
+  });
+
+  // Apply type filter
+  const candidates = filterType
+    ? allNodes.filter((n) => n.type === filterType)
+    : allNodes;
+
+  // Apply confidence filter
+  const confFiltered = candidates.filter(
+    (n) =>
+      ((n.data as { confidence?: number })?.confidence ?? 1) >=
+      confidenceThreshold
+  );
+
+  // Priority: risk entities first, then by degree
+  const sorted = [...confFiltered].sort((a, b) => {
+    const aRisk = riskEntityIds.has(a.id) ? 1 : 0;
+    const bRisk = riskEntityIds.has(b.id) ? 1 : 0;
+    if (aRisk !== bRisk) return bRisk - aRisk;
+    return (degree.get(b.id) ?? 0) - (degree.get(a.id) ?? 0);
+  });
+
+  const selected = new Set<string>();
+  // Always include risk-flagged entities
+  sorted.forEach((n) => {
+    if (riskEntityIds.has(n.id)) selected.add(n.id);
+  });
+
+  // Fill up to maxNodes with highest-degree nodes
+  for (const n of sorted) {
+    if (selected.size >= maxNodes) break;
+    selected.add(n.id);
+  }
+
+  // Add 1-hop neighbors of risk entities (up to limit)
+  const neighborBudget = Math.max(0, maxNodes - selected.size);
+  if (neighborBudget > 0) {
+    const neighbors: string[] = [];
+    allEdges.forEach((e) => {
+      if ((e.confidence ?? 1) < confidenceThreshold) return;
+      if (riskEntityIds.has(e.source) && !selected.has(e.target))
+        neighbors.push(e.target);
+      if (riskEntityIds.has(e.target) && !selected.has(e.source))
+        neighbors.push(e.source);
     });
+    neighbors.slice(0, neighborBudget).forEach((id) => selected.add(id));
+  }
+
+  return selected;
 }
 
 interface InvestigationGraphProps {
@@ -230,58 +294,94 @@ interface InvestigationGraphProps {
   riskEntityIds?: Set<string>;
 }
 
-type GraphNode = { id: string; label: string; type: EntityType; data?: Record<string, unknown> };
-type GraphEdge = { id: string; source: string; target: string; confidence?: number };
-
 export function InvestigationGraph({
   caseId,
   onNodeSelect,
   riskEntityIds = new Set(),
 }: InvestigationGraphProps) {
   const confidenceThreshold = useUIStore((s) => s.confidenceThreshold);
-  const [entityTypeFilter, setEntityTypeFilter] = useState<EntityType | null>(null);
+  const [entityTypeFilter, setEntityTypeFilter] = useState<EntityType | null>(
+    null
+  );
   const [focusedNodeId, setFocusedNodeId] = useState<string | null>(null);
+  const [maxNodes, setMaxNodes] = useState(DEFAULT_MAX_NODES);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["graph", caseId],
     queryFn: () => api.getGraph(caseId),
   });
 
-  const rawNodes = data?.nodes ?? [];
-  const rawEdges = data?.edges ?? [];
+  const rawNodes: GraphNode[] = data?.nodes ?? [];
+  const rawEdges: GraphEdge[] = data?.edges ?? [];
 
+  // Compute degree map once
+  const degreeMap = useMemo(() => {
+    const d = new Map<string, number>();
+    rawNodes.forEach((n) => d.set(n.id, 0));
+    rawEdges.forEach((e) => {
+      d.set(e.source, (d.get(e.source) ?? 0) + 1);
+      d.set(e.target, (d.get(e.target) ?? 0) + 1);
+    });
+    return d;
+  }, [rawNodes, rawEdges]);
+
+  // Select visible node IDs (pruned to top-N)
   const visibleNodeIds = useMemo(() => {
     if (!rawNodes.length) return new Set<string>();
-    const typeFiltered = entityTypeFilter
-      ? rawNodes.filter((n) => n.type === entityTypeFilter)
-      : rawNodes;
-    const typeIds = new Set(typeFiltered.map((n) => n.id));
-    const nodeConf = (n: GraphNode) => (n.data as { confidence?: number })?.confidence ?? 1;
-    const edgeConf = (e: GraphEdge) => e.confidence ?? 1;
-    const passesByEntity = new Set(
-      typeFiltered
-        .filter((n) => typeIds.has(n.id) && nodeConf(n) >= confidenceThreshold)
-        .map((n) => n.id)
-    );
-    const passesByEdge = new Set<string>();
-    rawEdges.forEach((e) => {
-      if (edgeConf(e) < confidenceThreshold) return;
-      if (typeIds.has(e.source)) passesByEdge.add(e.source);
-      if (typeIds.has(e.target)) passesByEdge.add(e.target);
-    });
-    const byConfidence = new Set<string>([...passesByEntity, ...passesByEdge]);
 
-    if (focusedNodeId && typeIds.has(focusedNodeId)) {
+    // If focused on a node, show its 2-hop neighborhood
+    if (focusedNodeId) {
       const oneHop = new Set<string>([focusedNodeId]);
       rawEdges.forEach((e) => {
-        if (edgeConf(e) < confidenceThreshold) return;
-        if (e.source === focusedNodeId && typeIds.has(e.target)) oneHop.add(e.target);
-        if (e.target === focusedNodeId && typeIds.has(e.source)) oneHop.add(e.source);
+        if ((e.confidence ?? 1) < confidenceThreshold) return;
+        if (e.source === focusedNodeId) oneHop.add(e.target);
+        if (e.target === focusedNodeId) oneHop.add(e.source);
       });
-      return new Set([...oneHop].filter((id) => byConfidence.has(id)));
+      // Also add 2nd-hop neighbors for context
+      const twoHop = new Set(oneHop);
+      rawEdges.forEach((e) => {
+        if ((e.confidence ?? 1) < confidenceThreshold) return;
+        if (oneHop.has(e.source) && !twoHop.has(e.target) && twoHop.size < 40)
+          twoHop.add(e.target);
+        if (oneHop.has(e.target) && !twoHop.has(e.source) && twoHop.size < 40)
+          twoHop.add(e.source);
+      });
+      return twoHop;
     }
-    return byConfidence;
-  }, [rawNodes, rawEdges, entityTypeFilter, confidenceThreshold, focusedNodeId]);
+
+    // If searching, filter by name
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      const matched = new Set(
+        rawNodes.filter((n) => n.label.toLowerCase().includes(q)).map((n) => n.id)
+      );
+      // Add their 1-hop neighbors
+      rawEdges.forEach((e) => {
+        if (matched.has(e.source)) matched.add(e.target);
+        if (matched.has(e.target)) matched.add(e.source);
+      });
+      return matched;
+    }
+
+    return selectTopNodes(
+      rawNodes,
+      rawEdges,
+      riskEntityIds,
+      maxNodes,
+      entityTypeFilter,
+      confidenceThreshold
+    );
+  }, [
+    rawNodes,
+    rawEdges,
+    riskEntityIds,
+    maxNodes,
+    entityTypeFilter,
+    confidenceThreshold,
+    focusedNodeId,
+    searchQuery,
+  ]);
 
   const visibleEdges = useMemo(() => {
     return rawEdges.filter(
@@ -292,7 +392,14 @@ export function InvestigationGraph({
     );
   }, [rawEdges, visibleNodeIds, confidenceThreshold]);
 
-  const layoutSize = Math.max(600, Math.sqrt(visibleNodeIds.size) * 200);
+  // Stable fingerprint to prevent re-layout when nothing changed
+  const layoutFingerprint = useMemo(() => {
+    const ids = [...visibleNodeIds].sort().join(",");
+    const edgeIds = visibleEdges.map((e) => e.id).sort().join(",");
+    return `${ids}|${edgeIds}`;
+  }, [visibleNodeIds, visibleEdges]);
+
+  const layoutSize = Math.max(600, Math.sqrt(visibleNodeIds.size) * 220);
 
   const positions = useMemo(() => {
     const ids = [...visibleNodeIds];
@@ -301,32 +408,85 @@ export function InvestigationGraph({
       ids,
       visibleEdges.map((e) => ({ source: e.source, target: e.target })),
       layoutSize,
-      layoutSize
+      layoutSize,
+      Math.min(200, 80 + ids.length * 2)
     );
-  }, [visibleNodeIds, visibleEdges, layoutSize]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layoutFingerprint, layoutSize]);
 
-  const initialNodes = useMemo(() => {
+  // Build ReactFlow nodes and edges (memoized, stable)
+  const flowNodes: Node[] = useMemo(() => {
     if (!rawNodes.length) return [];
-    return toFlowNodes(
-      rawNodes,
-      entityTypeFilter,
-      riskEntityIds,
-      visibleNodeIds,
-      positions
-    );
-  }, [rawNodes, entityTypeFilter, riskEntityIds, visibleNodeIds, positions]);
+    const span = Math.max(400, Math.sqrt(visibleNodeIds.size) * 220);
+    return rawNodes
+      .filter((n) => visibleNodeIds.has(n.id))
+      .map((n) => {
+        const pos = positions.get(n.id) ?? {
+          x: Math.random() * span,
+          y: Math.random() * span,
+        };
+        return {
+          id: n.id,
+          type: "custom" as const,
+          position: pos,
+          data: {
+            label: n.label,
+            type: n.type,
+            confidence: (n.data as { confidence?: number })?.confidence,
+            hasRisk: riskEntityIds.has(n.id),
+            degree: degreeMap.get(n.id) ?? 0,
+          },
+        };
+      });
+  }, [rawNodes, visibleNodeIds, positions, riskEntityIds, degreeMap]);
 
-  const initialEdges = useMemo(() => {
-    return toFlowEdges(rawEdges, visibleNodeIds, confidenceThreshold);
-  }, [rawEdges, visibleNodeIds, confidenceThreshold]);
+  const flowEdges: Edge[] = useMemo(() => {
+    return visibleEdges.map((e) => {
+      const conf = e.confidence ?? 1;
+      const label = e.label
+        ? e.label.replace(/_/g, " ").toLowerCase()
+        : undefined;
+      return {
+        id: e.id,
+        source: e.source,
+        target: e.target,
+        type: "smoothstep" as const,
+        label: label,
+        labelStyle: {
+          fontSize: 9,
+          fill: "var(--text-secondary)",
+          fontWeight: 500,
+        },
+        labelShowBg: true,
+        labelBgStyle: {
+          fill: "var(--bg-card)",
+          fillOpacity: 0.9,
+        },
+        labelBgBorderRadius: 3,
+        labelBgPadding: [3, 5] as [number, number],
+        animated: conf < 0.5,
+        style: {
+          stroke: conf >= 0.7 ? "var(--text-secondary)" : "var(--muted)",
+          strokeWidth: conf >= 0.7 ? 1.5 : 1,
+          strokeDasharray: conf < 0.5 ? "5 5" : undefined,
+        },
+      };
+    });
+  }, [visibleEdges]);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  // Use useNodesState for drag support. Initialize once, sync via fingerprint.
+  const [nodes, setNodes, onNodesChange] = useNodesState(flowNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(flowEdges);
+  const prevFingerprintRef = useRef(layoutFingerprint);
 
+  // Sync only when the data fingerprint actually changes — prevents infinite loop
   useEffect(() => {
-    setNodes(initialNodes);
-    setEdges(initialEdges);
-  }, [initialNodes, initialEdges, setNodes, setEdges]);
+    if (prevFingerprintRef.current !== layoutFingerprint) {
+      prevFingerprintRef.current = layoutFingerprint;
+      setNodes(flowNodes);
+      setEdges(flowEdges);
+    }
+  }, [layoutFingerprint, flowNodes, flowEdges, setNodes, setEdges]);
 
   const onNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
@@ -336,12 +496,15 @@ export function InvestigationGraph({
     [onNodeSelect]
   );
 
-  const showFullGraph = useCallback(() => setFocusedNodeId(null), []);
+  const showFullGraph = useCallback(() => {
+    setFocusedNodeId(null);
+    setSearchQuery("");
+  }, []);
 
   if (isLoading) {
     return (
       <div className="flex h-full items-center justify-center text-[var(--muted)]">
-        Loading graph…
+        Loading graph...
       </div>
     );
   }
@@ -360,6 +523,10 @@ export function InvestigationGraph({
     );
   }
 
+  const totalNodes = rawNodes.length;
+  const shownNodes = visibleNodeIds.size;
+  const isPruned = shownNodes < totalNodes && !focusedNodeId && !searchQuery.trim();
+
   return (
     <div className="h-full w-full">
       <ReactFlow
@@ -370,18 +537,62 @@ export function InvestigationGraph({
         onNodeClick={onNodeClick}
         nodeTypes={nodeTypes}
         fitView
+        fitViewOptions={{ padding: 0.15 }}
+        minZoom={0.1}
+        maxZoom={2.5}
         className="react-flow-dark"
       >
-        <Background color="var(--muted)" gap={12} />
+        <Background color="var(--muted)" gap={16} size={1} />
         <Controls className="!bottom-2 !left-2 !bg-[var(--bg-card)] !border-[var(--border)]" />
         <MiniMap
           className="!bg-[var(--bg-card)] !border-[var(--border)]"
-          nodeColor={(n) =>
-            ENTITY_COLORS[(n.data.type as EntityType) ?? "person"] ?? "#64748b"
-          }
+          nodeColor={(n) => ENTITY_HEX[(n.data?.type as EntityType) ?? "person"] ?? "#64748b"}
+          maskColor="rgba(11, 15, 25, 0.7)"
         />
+
+        {/* Top-left: search + controls */}
+        <Panel position="top-left" className="flex flex-col gap-2 max-w-[240px]">
+          <input
+            type="text"
+            placeholder="Search entities..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="rounded border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 text-xs text-[var(--foreground)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none"
+          />
+          <div className="flex items-center gap-2 text-[10px] text-[var(--muted)]">
+            <span>
+              {shownNodes}/{totalNodes} entities
+            </span>
+            {isPruned && (
+              <span>
+                (top {maxNodes})
+              </span>
+            )}
+          </div>
+          {isPruned && (
+            <div className="flex gap-1">
+              {[30, 60, 100, totalNodes].map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => setMaxNodes(n)}
+                  className={cn(
+                    "rounded border px-1.5 py-0.5 text-[10px]",
+                    maxNodes === n
+                      ? "border-[var(--accent)] bg-[var(--accent)]/20 text-[var(--accent)]"
+                      : "border-[var(--border)] text-[var(--muted)] hover:bg-[var(--bg-hover)]"
+                  )}
+                >
+                  {n === totalNodes ? "All" : n}
+                </button>
+              ))}
+            </div>
+          )}
+        </Panel>
+
+        {/* Top-right: legend + reset */}
         <Panel position="top-right" className="flex flex-col gap-2">
-          {focusedNodeId && (
+          {(focusedNodeId || searchQuery.trim()) && (
             <button
               type="button"
               onClick={showFullGraph}

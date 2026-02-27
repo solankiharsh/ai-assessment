@@ -18,20 +18,31 @@ export function ExpandableReasoningBlock({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className={cn("rounded border border-[var(--border)]", className)}>
+    <div
+      className={cn(
+        "rounded-lg border border-[var(--border)]",
+        className
+      )}
+    >
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-2 px-2 py-1.5 text-left text-sm hover:bg-zinc-800/50"
+        className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors hover:bg-[var(--bg-card)]"
       >
         {open ? (
-          <ChevronDown className="h-4 w-4 shrink-0 text-zinc-500" />
+          <ChevronDown className="h-3.5 w-3.5 shrink-0 text-[var(--muted)]" />
         ) : (
-          <ChevronRight className="h-4 w-4 shrink-0 text-zinc-500" />
+          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-[var(--muted)]" />
         )}
-        <span className="flex-1 truncate">{title}</span>
+        <span className="flex-1 truncate text-[var(--text-secondary)]">
+          {title}
+        </span>
       </button>
-      {open && <div className="border-t border-[var(--border)] px-2 pb-2 pt-1">{content}</div>}
+      {open && (
+        <div className="border-t border-[var(--border)] px-3 pb-2.5 pt-2">
+          {content}
+        </div>
+      )}
     </div>
   );
 }

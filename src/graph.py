@@ -418,16 +418,31 @@ class ResearchGraph:
             final_state_dict = await self.graph.ainvoke(
                 initial_state.model_dump(),
                 config={
-                    "recursion_limit": max_iter * 4,
+                    "recursion_limit": max_iter * 10 + 20,
                     "configurable": {"thread_id": slug},
                 },
             )
             final_state = ResearchState(**final_state_dict)
         except Exception as e:
             logger.error("investigation_error", error=str(e))
-            final_state = initial_state
+            # Try to recover last checkpoint state before falling back to empty initial_state
+            recovered = False
+            if self._checkpointer is not None:
+                try:
+                    checkpoint = self._checkpointer.get(
+                        {"configurable": {"thread_id": slug}}
+                    )
+                    if checkpoint and checkpoint.get("channel_values"):
+                        final_state = ResearchState(**checkpoint["channel_values"])
+                        recovered = True
+                        logger.info("recovered_from_checkpoint", entities=len(final_state.entities))
+                except Exception:
+                    pass
+            if not recovered:
+                final_state = initial_state
             final_state.error_log.append(f"Investigation failed: {e}")
-            final_state.final_report = f"Investigation terminated due to error: {e}"
+            if not final_state.final_report or final_state.final_report.startswith("Investigation terminated"):
+                final_state.final_report = f"Investigation terminated due to error: {e}"
 
         final_state.estimated_cost_usd = self.llm_client.total_cost
         duration = round(time.time() - start_time, 1)

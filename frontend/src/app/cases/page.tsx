@@ -1,224 +1,278 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { subjectToSlug } from "@/lib/utils";
 import { formatRelativeTime } from "@/lib/utils";
-import { CaseStatusIndicator } from "@/components/CaseStatusIndicator";
-import { Plus, Loader2, Search, ArrowUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CaseStatusIndicator } from "@/components/CaseStatusIndicator";
+import { NewInvestigationModal } from "@/components/NewInvestigationModal";
+import {
+  Plus,
+  Search,
+  Shield,
+  Users,
+  AlertTriangle,
+  CheckCircle2,
+} from "lucide-react";
+import type { CaseSummary } from "@/lib/types";
 
-type SortKey = "updated" | "risk";
+type SortKey = "updated" | "risk" | "name";
+
+function getRiskTier(score?: number): { label: string; color: string } {
+  if (!score || score === 0) return { label: "Clear", color: "var(--risk-low)" };
+  if (score > 50) return { label: "High", color: "var(--risk-high)" };
+  if (score > 20) return { label: "Medium", color: "var(--risk-medium)" };
+  return { label: "Low", color: "var(--risk-low)" };
+}
+
+function CaseCard({ case_ }: { case_: CaseSummary }) {
+  const risk = getRiskTier(case_.risk_score);
+
+  return (
+    <Link
+      href={`/cases/${case_.id}`}
+      className="group flex flex-col rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-4 transition-all hover:border-[var(--border-strong)] hover:bg-[var(--bg-hover)]"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <h3 className="truncate text-sm font-semibold text-[var(--foreground)] group-hover:text-white">
+            {case_.subject_name}
+          </h3>
+          <p className="mt-0.5 text-xs text-[var(--muted)]">
+            {formatRelativeTime(case_.updated_at)}
+          </p>
+        </div>
+        <CaseStatusIndicator status={case_.status} />
+      </div>
+
+      <div className="mt-4 flex items-center gap-4">
+        {case_.risk_score != null && (
+          <div className="flex items-center gap-1.5">
+            <span
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: risk.color }}
+            />
+            <span className="font-mono text-xs" style={{ color: risk.color }}>
+              {case_.risk_score}
+            </span>
+            <span className="text-xs text-[var(--muted)]">{risk.label}</span>
+          </div>
+        )}
+        {case_.confidence != null && (
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs text-[var(--muted)]">Confidence</span>
+            <span className="font-mono text-xs text-[var(--text-secondary)]">
+              {Math.round(case_.confidence * 100)}%
+            </span>
+          </div>
+        )}
+      </div>
+    </Link>
+  );
+}
+
+function StatCard({
+  icon: Icon,
+  value,
+  label,
+  accent,
+}: {
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+  value: number;
+  label: string;
+  accent?: string;
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3">
+      <Icon className="h-5 w-5" style={{ color: accent ?? "var(--muted)" }} />
+      <div>
+        <div className="font-mono text-lg font-semibold text-[var(--foreground)]">
+          {value}
+        </div>
+        <div className="text-xs text-[var(--muted)]">{label}</div>
+      </div>
+    </div>
+  );
+}
 
 export default function CasesPage() {
-  const [subject, setSubject] = useState("");
-  const [role, setRole] = useState("");
-  const [org, setOrg] = useState("");
-  const [maxIterations, setMaxIterations] = useState<number | "">("");
-  const [sort, setSort] = useState<SortKey>("updated");
-  const [search, setSearch] = useState("");
-  const queryClient = useQueryClient();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [searchQ, setSearchQ] = useState("");
+  const [sortBy, setSortBy] = useState<SortKey>("updated");
 
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["cases"],
     queryFn: () => api.listCases(),
   });
 
-  const mutate = useMutation({
-    mutationFn: (payload: {
-      subject_name: string;
-      current_role?: string;
-      current_org?: string;
-      max_iterations?: number;
-    }) => api.investigate(payload),
-    onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["cases"] });
-      window.location.href = `/cases/${res.case_id}`;
-    },
-  });
-
   const cases = data?.cases ?? [];
-  const filtered = search.trim()
-    ? cases.filter((c) =>
-        c.subject_name.toLowerCase().includes(search.toLowerCase())
-      )
-    : cases;
-  const sorted = [...filtered].sort((a, b) => {
-    if (sort === "risk") {
-      const ra = a.risk_score ?? 0;
-      const rb = b.risk_score ?? 0;
-      return rb - ra;
-    }
-    return (
-      new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-    );
-  });
+  const totalCases = cases.length;
+  const highRiskCount = useMemo(
+    () => cases.filter((c) => (c.risk_score ?? 0) > 50).length,
+    [cases]
+  );
+  const completedCount = useMemo(
+    () => cases.filter((c) => c.status === "complete").length,
+    [cases]
+  );
 
-  const handleCreate = () => {
-    const name = subject.trim();
-    if (!name) return;
-    mutate.mutate({
-      subject_name: name,
-      ...(role.trim() && { current_role: role.trim() }),
-      ...(org.trim() && { current_org: org.trim() }),
-      ...(typeof maxIterations === "number" &&
-        maxIterations >= 1 &&
-        maxIterations <= 50 && { max_iterations: maxIterations }),
+  const filtered = useMemo(() => {
+    let list = cases;
+    if (searchQ.trim()) {
+      const q = searchQ.toLowerCase();
+      list = list.filter(
+        (c) =>
+          c.subject_name.toLowerCase().includes(q) ||
+          c.id.toLowerCase().includes(q)
+      );
+    }
+    list = [...list].sort((a, b) => {
+      if (sortBy === "risk")
+        return (b.risk_score ?? 0) - (a.risk_score ?? 0);
+      if (sortBy === "name")
+        return a.subject_name.localeCompare(b.subject_name);
+      return (
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      );
     });
-  };
+    return list;
+  }, [cases, searchQ, sortBy]);
 
   return (
-    <div className="flex h-full flex-col overflow-hidden">
-      <header className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-4 py-3">
-        <h1 className="text-lg font-semibold tracking-tight">
-          Case management
-        </h1>
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
-            <input
-              type="text"
-              placeholder="Search cases…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-48 rounded border border-[var(--border)] bg-zinc-900 py-1.5 pl-8 pr-2 text-sm placeholder:text-zinc-500"
-            />
+    <>
+      <div className="mx-auto max-w-5xl space-y-6 p-6">
+        {/* Page header */}
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-xl font-semibold text-[var(--foreground)]">
+              Investigations
+            </h1>
+            <p className="mt-1 text-sm text-[var(--muted)]">
+              Background research and due diligence cases
+            </p>
           </div>
           <button
             type="button"
-            onClick={() => setSort(sort === "updated" ? "risk" : "updated")}
-            className="flex items-center gap-1 rounded border border-[var(--border)] bg-zinc-900 px-2 py-1.5 text-xs text-zinc-400 hover:bg-zinc-800"
+            onClick={() => setModalOpen(true)}
+            className="flex items-center gap-2 rounded-md bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[var(--accent)]/90"
           >
-            <ArrowUpDown className="h-3.5 w-3.5" />
-            {sort === "updated" ? "Last updated" : "Risk"}
+            <Plus className="h-4 w-4" />
+            New investigation
           </button>
         </div>
-      </header>
 
-      <div className="flex flex-1 gap-6 overflow-hidden p-4">
-        <section className="flex flex-1 flex-col overflow-hidden rounded border border-[var(--border)] bg-zinc-900/50">
-          <div className="flex items-center justify-between border-b border-[var(--border)] px-4 py-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-              Investigations
-            </span>
+        {/* Stats row */}
+        {totalCases > 0 && (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <StatCard icon={Users} value={totalCases} label="Total cases" />
+            <StatCard
+              icon={AlertTriangle}
+              value={highRiskCount}
+              label="High risk"
+              accent="var(--risk-high)"
+            />
+            <StatCard
+              icon={CheckCircle2}
+              value={completedCount}
+              label="Completed"
+              accent="var(--risk-low)"
+            />
+            <StatCard
+              icon={Shield}
+              value={totalCases - completedCount}
+              label="In progress"
+              accent="var(--accent)"
+            />
           </div>
-          <div className="flex-1 overflow-y-auto">
-            {isLoading && (
-              <div className="flex items-center justify-center gap-2 py-12 text-zinc-500">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                Loading…
-              </div>
-            )}
-            {error && (
-              <div className="flex flex-col items-center justify-center gap-2 py-12 text-amber-500">
-                <p>Failed to load cases.</p>
-                <button
-                  type="button"
-                  onClick={() => refetch()}
-                  className="rounded border border-amber-500/50 px-3 py-1.5 text-sm hover:bg-amber-500/10"
-                >
-                  Retry
-                </button>
-              </div>
-            )}
-            {!isLoading && !error && sorted.length === 0 && (
-              <div className="py-12 text-center text-sm text-zinc-500">
-                {search.trim()
-                  ? "No cases match your search."
-                  : "No investigations yet. Create one below."}
-              </div>
-            )}
-            <ul className="divide-y divide-[var(--border)]">
-              {sorted.map((c) => (
-                <li key={c.id}>
-                  <Link
-                    href={`/cases/${c.id}`}
-                    className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-zinc-800/50"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <div className="font-medium text-zinc-100">
-                        {c.subject_name}
-                      </div>
-                      <div className="text-xs text-zinc-500">
-                        {formatRelativeTime(c.updated_at)}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      {c.risk_score != null && (
-                        <span className="text-xs text-amber-500/90">
-                          Risk {c.risk_score}
-                        </span>
-                      )}
-                      <CaseStatusIndicator status={c.status} />
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+        )}
 
-        <section className="w-[320px] shrink-0 rounded border border-[var(--border)] bg-zinc-900/50 p-4">
-          <h2 className="mb-3 text-sm font-medium uppercase tracking-wider text-zinc-500">
-            New investigation
-          </h2>
-          <input
-            type="text"
-            placeholder="Subject name *"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleCreate()}
-            className="mb-2 w-full rounded border border-[var(--border)] bg-zinc-800 px-3 py-2 text-sm placeholder:text-zinc-500"
-          />
-          <input
-            type="text"
-            placeholder="Current role (optional)"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            className="mb-2 w-full rounded border border-[var(--border)] bg-zinc-800 px-3 py-2 text-sm placeholder:text-zinc-500"
-          />
-          <input
-            type="text"
-            placeholder="Current organization (optional)"
-            value={org}
-            onChange={(e) => setOrg(e.target.value)}
-            className="mb-2 w-full rounded border border-[var(--border)] bg-zinc-800 px-3 py-2 text-sm placeholder:text-zinc-500"
-          />
-          <input
-            type="number"
-            min={1}
-            max={50}
-            placeholder="Max iterations (optional)"
-            value={maxIterations === "" ? "" : maxIterations}
-            onChange={(e) => {
-              const v = e.target.value;
-              setMaxIterations(v === "" ? "" : Math.min(50, Math.max(1, parseInt(v, 10) || 1)));
-            }}
-            className="mb-3 w-full rounded border border-[var(--border)] bg-zinc-800 px-3 py-2 text-sm placeholder:text-zinc-500"
-          />
-          <button
-            type="button"
-            onClick={handleCreate}
-            disabled={!subject.trim() || mutate.isPending}
-            className={cn(
-              "flex w-full items-center justify-center gap-2 rounded border py-2 text-sm font-medium",
-              "border-amber-500/60 bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 disabled:opacity-50"
+        {/* Search & sort */}
+        <div className="flex items-center gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted)]" />
+            <input
+              type="text"
+              placeholder="Search investigations..."
+              value={searchQ}
+              onChange={(e) => setSearchQ(e.target.value)}
+              className="w-full rounded-md border border-[var(--border)] bg-[var(--bg-card)] py-2 pl-9 pr-3 text-sm transition-colors focus:border-[var(--accent)] focus:outline-none"
+            />
+          </div>
+          <div className="flex items-center gap-1 rounded-md border border-[var(--border)] bg-[var(--bg-card)] p-1">
+            {(
+              [
+                { id: "updated" as const, label: "Recent" },
+                { id: "risk" as const, label: "Risk" },
+                { id: "name" as const, label: "Name" },
+              ] as const
+            ).map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => setSortBy(s.id)}
+                className={cn(
+                  "rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
+                  sortBy === s.id
+                    ? "bg-[var(--bg-hover)] text-[var(--foreground)]"
+                    : "text-[var(--muted)] hover:text-[var(--text-secondary)]"
+                )}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Case grid */}
+        {isLoading && (
+          <div className="py-12 text-center text-sm text-[var(--muted)]">
+            Loading investigations...
+          </div>
+        )}
+
+        {!isLoading && filtered.length === 0 && (
+          <div className="flex flex-col items-center gap-4 py-16">
+            <Shield className="h-12 w-12 text-[var(--border-strong)]" />
+            <div className="text-center">
+              <p className="text-sm font-medium text-[var(--foreground)]">
+                {cases.length === 0
+                  ? "No investigations yet"
+                  : "No results match your search"}
+              </p>
+              <p className="mt-1 text-sm text-[var(--muted)]">
+                {cases.length === 0
+                  ? "Start your first investigation to see results here"
+                  : "Try a different search term"}
+              </p>
+            </div>
+            {cases.length === 0 && (
+              <button
+                type="button"
+                onClick={() => setModalOpen(true)}
+                className="flex items-center gap-2 rounded-md bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--accent)]/90"
+              >
+                <Plus className="h-4 w-4" />
+                New investigation
+              </button>
             )}
-          >
-            {mutate.isPending ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Plus className="h-4 w-4" />
-            )}
-            Run pipeline
-          </button>
-          <p className="mt-2 text-[10px] text-zinc-500">
-            Starts the deep research pipeline. You’ll be taken to the case; use the <strong>Graph</strong> tab to see the connection network and the right panel for the investigation report.
-          </p>
-        </section>
+          </div>
+        )}
+
+        {!isLoading && filtered.length > 0 && (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((c) => (
+              <CaseCard key={c.id} case_={c} />
+            ))}
+          </div>
+        )}
       </div>
-    </div>
+
+      <NewInvestigationModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
+    </>
   );
 }

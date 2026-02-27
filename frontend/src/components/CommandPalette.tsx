@@ -33,7 +33,9 @@ export function CommandPalette({
 
   const select = useCallback(
     (entity: Entity) => {
-      router.push(`/cases/${caseId}?entity=${encodeURIComponent(entity.id)}&tab=entities`);
+      router.push(
+        `/cases/${caseId}?entity=${encodeURIComponent(entity.id)}&tab=entities`
+      );
       onClose();
       setQ("");
       setIndex(0);
@@ -55,7 +57,9 @@ export function CommandPalette({
       }
       if (e.key === "ArrowUp") {
         e.preventDefault();
-        setIndex((i) => (i - 1 + filtered.length) % Math.max(1, filtered.length));
+        setIndex(
+          (i) => (i - 1 + filtered.length) % Math.max(1, filtered.length)
+        );
         return;
       }
       if (e.key === "Enter" && filtered[index]) {
@@ -73,52 +77,75 @@ export function CommandPalette({
 
   if (!open) return null;
 
+  const TYPE_COLORS: Record<string, string> = {
+    person: "var(--entity-person)",
+    organization: "var(--entity-org)",
+    location: "var(--entity-location)",
+    event: "var(--entity-event)",
+    document: "var(--entity-document)",
+    financial_instrument: "var(--entity-financial)",
+  };
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] bg-black/60"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 pt-[15vh] backdrop-blur-sm"
       role="dialog"
       aria-label="Command palette"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-xl rounded border border-[var(--border)] bg-[#0c0c0e] shadow-xl"
+        className="w-full max-w-xl rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-2 border-b border-[var(--border)] px-3 py-2">
-          <Search className="h-4 w-4 text-zinc-500" />
+        <div className="flex items-center gap-2.5 border-b border-[var(--border)] px-4 py-3">
+          <Search className="h-4 w-4 text-[var(--muted)]" />
           <input
             type="text"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Jump to entity…"
-            className="flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-500"
+            placeholder="Search entities..."
+            className="flex-1 bg-transparent text-sm outline-none"
             autoFocus
           />
-          <span className="text-[10px] text-zinc-500">Esc to close</span>
+          <kbd className="rounded border border-[var(--border)] bg-[var(--background)] px-1.5 py-0.5 font-mono text-[10px] text-[var(--muted)]">
+            Esc
+          </kbd>
         </div>
         <ul className="max-h-72 overflow-y-auto py-1">
           {filtered.length === 0 && (
-            <li className="px-3 py-4 text-center text-sm text-zinc-500">
-              No entities match.
+            <li className="px-4 py-6 text-center text-sm text-[var(--muted)]">
+              No entities match
             </li>
           )}
-          {filtered.map((entity, i) => (
-            <li key={entity.id}>
-              <button
-                type="button"
-                onClick={() => select(entity)}
-                className={cn(
-                  "flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm",
-                  i === index ? "bg-amber-500/20 text-amber-400" : "hover:bg-zinc-800"
-                )}
-              >
-                <span className="truncate">{entity.name}</span>
-                <span className="shrink-0 rounded bg-zinc-700 px-1.5 py-0.5 text-[10px] text-zinc-400">
-                  {entity.entity_type}
-                </span>
-              </button>
-            </li>
-          ))}
+          {filtered.map((entity, i) => {
+            const color =
+              TYPE_COLORS[entity.entity_type] ?? "var(--muted)";
+            return (
+              <li key={entity.id}>
+                <button
+                  type="button"
+                  onClick={() => select(entity)}
+                  className={cn(
+                    "flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-sm transition-colors",
+                    i === index
+                      ? "bg-[var(--bg-hover)] text-[var(--foreground)]"
+                      : "text-[var(--text-secondary)] hover:bg-[var(--bg-card)]"
+                  )}
+                >
+                  <span className="truncate">{entity.name}</span>
+                  <span
+                    className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-medium uppercase"
+                    style={{
+                      backgroundColor: `${color}15`,
+                      color,
+                    }}
+                  >
+                    {entity.entity_type.replace(/_/g, " ")}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

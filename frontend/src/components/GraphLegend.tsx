@@ -26,11 +26,11 @@ export function GraphLegend({
   return (
     <div
       className={cn(
-        "rounded border border-[var(--border)] bg-zinc-900/95 p-2 text-xs",
+        "rounded border border-[var(--border)] bg-[var(--bg-card)] p-2 text-xs",
         className
       )}
     >
-      <div className="mb-1.5 font-medium uppercase tracking-wider text-zinc-500">
+      <div className="mb-1.5 font-medium uppercase tracking-wider text-[var(--muted)]">
         Entity types
       </div>
       <ul className="space-y-1">
@@ -42,8 +42,8 @@ export function GraphLegend({
               className={cn(
                 "flex items-center gap-2 rounded px-1.5 py-0.5 w-full text-left",
                 activeType === t
-                  ? "bg-amber-500/20 text-amber-400"
-                  : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+                  ? "bg-[var(--accent)]/20 text-[var(--accent)]"
+                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--foreground)]"
               )}
             >
               <span className="font-mono text-sm">{ENTITY_SHAPES[t]}</span>

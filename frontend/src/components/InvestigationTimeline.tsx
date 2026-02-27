@@ -14,18 +14,18 @@ export function InvestigationTimeline({
   if (items.length === 0) return null;
 
   return (
-    <ul className="space-y-1.5 border-l-2 border-zinc-700 pl-3">
+    <ul className="space-y-1.5 border-l-2 border-[var(--border-strong)] pl-3">
       {items.map((r, i) => (
         <li key={`${r.iteration}-${r.timestamp}-${i}`} className="relative -left-[11px]">
-          <span className="absolute h-2 w-2 rounded-full bg-zinc-500" />
+          <span className="absolute h-2 w-2 rounded-full bg-[var(--muted)]" />
           <div className="text-xs">
-            <span className="text-zinc-400">{r.phase}</span>
-            <span className="mx-1 text-zinc-600">·</span>
-            <span className="text-zinc-500">
+            <span className="text-[var(--text-secondary)]">{r.phase}</span>
+            <span className="mx-1 text-[var(--muted)]">·</span>
+            <span className="text-[var(--muted)]">
               {formatRelativeTime(r.timestamp)}
             </span>
           </div>
-          <div className="truncate text-xs text-zinc-400" title={r.query}>
+          <div className="truncate text-xs text-[var(--text-secondary)]" title={r.query}>
             {r.query}
           </div>
         </li>
