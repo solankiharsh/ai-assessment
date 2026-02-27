@@ -1,0 +1,92 @@
+# Risk taxonomy with severity thresholds and descriptions.
+# Used by risk analysis agents and report generation.
+
+categories:
+  regulatory:
+    description: "SEC enforcement, FINRA sanctions, state regulatory actions"
+    default_severity: high
+    keywords:
+      - sec enforcement
+      - finra sanction
+      - regulatory action
+      - consent decree
+      - cease and desist
+      - license revocation
+
+  litigation:
+    description: "Lawsuits, court judgments, arbitrations"
+    default_severity: high
+    keywords:
+      - lawsuit
+      - litigation
+      - court judgment
+      - arbitration
+      - class action
+      - settlement
+
+  financial:
+    description: "Bankruptcy, insolvency, financial irregularities"
+    default_severity: high
+    keywords:
+      - bankruptcy
+      - insolvency
+      - financial fraud
+      - embezzlement
+      - ponzi
+      - misappropriation
+
+  reputational:
+    description: "Negative press, public controversy, ethical concerns"
+    default_severity: medium
+    keywords:
+      - scandal
+      - controversy
+      - misconduct
+      - whistleblower
+      - fired
+      - terminated
+
+  association:
+    description: "Links to sanctioned or high-risk entities"
+    default_severity: medium
+    keywords:
+      - sanctioned entity
+      - politically exposed
+      - criminal association
+      - shell company
+      - offshore
+
+  inconsistency:
+    description: "Contradictions in claims, timeline gaps, credential issues"
+    default_severity: medium
+    keywords:
+      - contradiction
+      - discrepancy
+      - timeline gap
+      - credential fraud
+      - resume inflation
+
+  sanctions:
+    description: "OFAC, EU, UN sanctions list matches"
+    default_severity: critical
+    keywords:
+      - ofac
+      - sanctions list
+      - designated national
+      - embargo
+
+  political_exposure:
+    description: "PEP status, government roles, political donations"
+    default_severity: low
+    keywords:
+      - politically exposed
+      - government official
+      - political donation
+      - lobbyist
+
+severity_thresholds:
+  critical: 0.9
+  high: 0.7
+  medium: 0.5
+  low: 0.3
+  info: 0.0

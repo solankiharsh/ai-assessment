@@ -1,0 +1,40 @@
+# Per-task model routing configuration.
+# Each task maps to a preferred model and fallback chain.
+# Tier values: "deep" or "fast" — used when no specific model is matched.
+
+tasks:
+  research_director:
+    tier: deep
+    description: "Strategic planning and investigation direction"
+
+  fact_extraction:
+    tier: fast
+    description: "Structured entity/fact extraction from web content"
+
+  risk_debate:
+    tier: fast
+    description: "Adversarial proponent/skeptic debate agents"
+
+  risk_judge:
+    tier: deep
+    description: "Final risk assessment adjudication"
+
+  report_synthesis:
+    tier: deep
+    description: "Executive report generation"
+
+  entity_resolution:
+    tier: fast
+    description: "Fuzzy entity deduplication and merge decisions"
+
+  temporal_analysis:
+    tier: deep
+    description: "Timeline extraction and contradiction detection"
+
+  source_verification:
+    tier: fast
+    description: "Cross-reference claims and confidence scoring"
+
+  connection_mapping:
+    tier: deep
+    description: "Relationship and network analysis"
