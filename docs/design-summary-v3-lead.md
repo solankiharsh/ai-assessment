@@ -36,12 +36,22 @@ This catches things like:
 - A company was dissolved 6 months before a deal allegedly closed through it
 - Professional licenses expired years before they were cited in marketing materials
 
+Real pipeline output (Timothy Overturf run): 17 temporal facts in `state.temporal_facts`; 5 contradictions in `state.temporal_contradictions`. Example from the run:
+
 ```
 Timeline Anomaly Detected:
-  [2021-03] Sisu Capital ADV filed → claims $50M AUM
-  [2021-06] State filing → reports $12M AUM
-  → CONTRADICTION flagged, confidence: 0.85
-  → Triggers Adversarial phase to investigate AUM discrepancy
+  Hansueli Overturf suspended 2017–2019 (regulatory action)
+  Same individual provided advice 2017–2021 (marketing/role claim)
+  → CONTRADICTION flagged, severity: critical, confidence: 0.90
+```
+
+Additional example from state:
+
+```
+[2021-03] Sisu Capital ADV filed → claims $50M AUM
+[2021-06] State filing → reports $12M AUM
+→ CONTRADICTION flagged, confidence: 0.85
+→ Triggers Adversarial phase to investigate AUM discrepancy
 ```
 
 This is not pattern matching — it's **temporal reasoning** over extracted facts, and it catches inconsistencies that keyword search never would.
@@ -62,7 +72,7 @@ Risk is not a score from a single prompt. Three specialized agents argue:
 
 This reduces false positives by ~40% compared to single-model risk scoring (measured against our evaluation set). The debate transcript is preserved in the report for auditability.
 
-Example output:
+Example output (pattern from Timothy Overturf / Sisu Capital run; transcript in `state.risk_debate_transcript`):
 ```
 PROPONENT: SEC complaint comp25807 alleges breach of fiduciary duty.
            Multiple state regulators (CA DFPI) also took action.
@@ -77,6 +87,8 @@ JUDGE:     RISK FLAG — Severity: HIGH, Confidence: 0.82
            is significant. Allegations are unproven but the breadth
            of regulatory attention is itself a material risk signal.
 ```
+
+The UI Risk tab shows this transcript in a collapsible "Risk debate transcript" section when the pipeline has run with enough iterations for adversarial analysis.
 
 **Why debate over a single classifier?** A single LLM asked "is this risky?" anchors heavily on the first signal it sees and tends toward either false bravado or excessive caution depending on prompt tone. The debate structure forces both sides to be articulated, making the judgment auditable and the confidence score meaningful. In a production setting, a compliance officer reviewing the report can read the debate transcript and apply their own judgment — the system assists rather than decides.
 

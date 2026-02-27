@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { Shield, Search } from "lucide-react";
 
 function getCaseIdFromPath(pathname: string | null): string | null {
   if (!pathname || !pathname.startsWith("/cases/")) return null;
@@ -13,28 +14,26 @@ function getCaseIdFromPath(pathname: string | null): string | null {
   return rest;
 }
 
-function StatBadge({
+function StatPill({
   value,
   label,
-  danger,
+  variant,
 }: {
   value: number | string;
   label: string;
-  danger?: boolean;
+  variant?: "danger" | "default";
 }) {
   return (
-    <div className="flex flex-col items-end">
+    <div className="flex items-center gap-1.5 rounded-md border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1">
       <span
         className={cn(
-          "font-mono text-sm font-bold",
-          danger ? "text-[var(--risk-high)]" : "text-[var(--foreground)]"
+          "font-mono text-sm font-semibold",
+          variant === "danger" ? "text-[var(--risk-high)]" : "text-[var(--foreground)]"
         )}
       >
         {value}
       </span>
-      <span className="text-[10px] uppercase tracking-wider text-[var(--muted)]">
-        {label}
-      </span>
+      <span className="text-xs text-[var(--muted)]">{label}</span>
     </div>
   );
 }
@@ -52,71 +51,80 @@ export function HeaderBar() {
   const riskFlags = caseData?.risk_flags?.length ?? 0;
   const sources = caseData?.search_history?.length ?? 0;
 
-  const navTabs = [
-    { href: "/cases", label: "Cases", active: pathname === "/cases" },
+  const navItems = [
+    { href: "/cases", label: "Investigations", active: pathname === "/cases" },
     {
       href: caseId ? `/cases/${caseId}` : "/cases",
-      label: "Investigation",
+      label: "Analysis",
       active: !!caseId && pathname?.startsWith("/cases/") && pathname !== "/cases",
     },
-    { href: "/phases", label: "Phases", active: pathname === "/phases" },
+    { href: "/phases", label: "Methodology", active: pathname === "/phases" },
   ];
 
   return (
     <header className="flex h-12 shrink-0 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-secondary)] px-4">
       <div className="flex items-center gap-3">
-        <div
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-gradient-to-br from-[var(--accent)] to-[var(--purple)] font-bold text-white"
-          aria-hidden
-        >
-          DR
-        </div>
-        <div>
-          <div className="text-sm font-semibold text-[var(--foreground)]">
-            Deep Research Console
+        <Link href="/cases" className="flex items-center gap-2.5">
+          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-[var(--border)] bg-[var(--bg-card)]">
+            <Shield className="h-4 w-4 text-[var(--accent)]" />
           </div>
-          <div className="text-[10px] text-[var(--muted)]">
-            Investigative Intelligence Platform
+          <div className="hidden sm:block">
+            <span className="text-sm font-semibold text-[var(--foreground)]">
+              Deep Research
+            </span>
           </div>
-        </div>
+        </Link>
+
+        <div className="mx-2 h-5 w-px bg-[var(--border)]" />
+
+        <nav className="flex items-center gap-1" role="tablist">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              role="tab"
+              aria-selected={item.active}
+              className={cn(
+                "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                item.active
+                  ? "bg-[var(--bg-card)] text-[var(--foreground)]"
+                  : "text-[var(--muted)] hover:text-[var(--text-secondary)]"
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
       </div>
 
-      <nav
-        className="flex rounded-lg bg-[var(--background)] p-1"
-        role="tablist"
-      >
-        {navTabs.map((tab) => (
-          <Link
-            key={tab.label}
-            href={tab.href}
-            role="tab"
-            aria-selected={tab.active}
-            className={cn(
-              "rounded-md px-4 py-2 text-sm font-medium transition-colors",
-              tab.active
-                ? "bg-[var(--bg-card)] text-[var(--foreground)] shadow-sm"
-                : "text-[var(--muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--foreground)]"
-            )}
-          >
-            {tab.label}
-          </Link>
-        ))}
-      </nav>
+      <div className="flex items-center gap-3">
+        {caseData && (
+          <div className="hidden items-center gap-2 md:flex">
+            <StatPill value={entities} label="entities" />
+            <StatPill
+              value={riskFlags}
+              label="risks"
+              variant={riskFlags > 0 ? "danger" : "default"}
+            />
+            <StatPill value={sources} label="sources" />
+          </div>
+        )}
 
-      <div className="flex items-center gap-6">
-        <StatBadge
-          value={caseData ? entities : "—"}
-          label="Entities"
-        />
-        <StatBadge
-          value={caseData ? riskFlags : "—"}
-          label="Risk Flags"
-          danger={riskFlags > 0}
-        />
-        <StatBadge
-          value={caseData ? sources : "—"}
-          label="Sources"
-        />
+        <button
+          type="button"
+          className="flex items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--bg-card)] px-3 py-1.5 text-sm text-[var(--muted)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--text-secondary)]"
+          onClick={() => {
+            window.dispatchEvent(
+              new KeyboardEvent("keydown", { key: "k", metaKey: true })
+            );
+          }}
+        >
+          <Search className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">Search</span>
+          <kbd className="rounded border border-[var(--border)] bg-[var(--background)] px-1.5 py-0.5 font-mono text-[10px] text-[var(--muted)]">
+            ⌘K
+          </kbd>
+        </button>
       </div>
     </header>
   );

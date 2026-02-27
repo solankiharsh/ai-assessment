@@ -16,26 +16,26 @@ export function ConfidenceBadge({
     pct >= 80 ? "high" : pct >= 50 ? "medium" : pct >= 20 ? "low" : "none";
   const color =
     tier === "high"
-      ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/40"
+      ? "bg-[var(--risk-low)]/15 text-[var(--risk-low)] border-[var(--risk-low)]/30"
       : tier === "medium"
-        ? "bg-amber-500/20 text-amber-400 border-amber-500/40"
+        ? "bg-[var(--risk-medium)]/15 text-[var(--risk-medium)] border-[var(--risk-medium)]/30"
         : tier === "low"
-          ? "bg-orange-500/20 text-orange-400 border-orange-500/40"
-          : "bg-zinc-700/50 text-zinc-500 border-zinc-600";
+          ? "bg-[var(--risk-high)]/15 text-[var(--risk-high)] border-[var(--risk-high)]/30"
+          : "bg-[var(--bg-card)] text-[var(--muted)] border-[var(--border)]";
 
   return (
     <div className="flex items-center gap-2">
       <span
         className={cn(
-          "inline-flex rounded border font-mono font-medium",
+          "inline-flex rounded-md border font-mono font-semibold",
           color,
-          size === "small" ? "px-1.5 py-0.5 text-xs" : "px-2 py-1 text-sm"
+          size === "small" ? "px-1.5 py-0.5 text-xs" : "px-2.5 py-1 text-sm"
         )}
       >
         {pct}%
       </span>
       {label && (
-        <span className="text-xs text-zinc-500">{label}</span>
+        <span className="text-xs text-[var(--muted)]">{label}</span>
       )}
     </div>
   );

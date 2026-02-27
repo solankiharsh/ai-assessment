@@ -5,9 +5,15 @@ import { cn } from "@/lib/utils";
 type Status = "running" | "complete" | "failed" | undefined;
 
 const styles: Record<NonNullable<Status>, string> = {
-  running: "bg-amber-500/20 text-amber-400 border-amber-500/40",
-  complete: "bg-emerald-500/20 text-emerald-400 border-emerald-500/40",
-  failed: "bg-red-500/20 text-red-400 border-red-500/40",
+  running: "bg-[var(--accent)]/15 text-[var(--accent)] border-[var(--accent)]/30",
+  complete: "bg-[var(--risk-low)]/15 text-[var(--risk-low)] border-[var(--risk-low)]/30",
+  failed: "bg-[var(--risk-critical)]/15 text-[var(--risk-critical)] border-[var(--risk-critical)]/30",
+};
+
+const labels: Record<NonNullable<Status>, string> = {
+  running: "Running",
+  complete: "Complete",
+  failed: "Failed",
 };
 
 export function CaseStatusIndicator({
@@ -21,14 +27,12 @@ export function CaseStatusIndicator({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded border px-1.5 font-medium",
+        "inline-flex items-center rounded-md border font-medium",
         styles[s],
-        small ? "text-[10px] px-1" : "text-xs"
+        small ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-0.5 text-xs"
       )}
     >
-      {s === "running" && "Running"}
-      {s === "complete" && "Complete"}
-      {s === "failed" && "Failed"}
+      {labels[s]}
     </span>
   );
 }

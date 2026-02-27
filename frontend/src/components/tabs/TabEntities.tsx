@@ -111,23 +111,23 @@ export function TabEntities({ investigation: inv }: { investigation: Investigati
               riskFlags={inv.risk_flags}
             />
             <div className="mt-4">
-              <h4 className="mb-2 text-xs font-medium uppercase tracking-wider text-zinc-500">
+              <h4 className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
                 Connections
               </h4>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <div className="text-xs text-zinc-500">Outgoing</div>
+                  <div className="text-xs text-[var(--muted)]">Outgoing</div>
                   <ul className="mt-1 space-y-1">
                     {(expandOutgoing
                       ? connectionsForEntity.out
                       : connectionsForEntity.out.slice(0, 10)
                     ).map((c) => (
-                      <li key={c.id} className="flex items-center gap-1.5 text-xs text-zinc-400">
+                      <li key={c.id} className="flex items-center gap-1.5 text-xs text-[var(--text-secondary)]">
                         {formatRelationship(c.relationship_type)} →{" "}
                         {entityNameById.get(c.target_entity_id) ?? c.target_entity_id}
                         {c.confidence != null && c.confidence !== 1 && (
                           <span
-                            className="rounded px-1 py-0.5 text-[10px] text-zinc-500 bg-zinc-700/80"
+                            className="rounded px-1 py-0.5 text-[10px] text-[var(--muted)] bg-[var(--bg-elevated)]"
                             title="Connection confidence"
                           >
                             {(c.confidence * 100).toFixed(0)}%
@@ -151,18 +151,18 @@ export function TabEntities({ investigation: inv }: { investigation: Investigati
                   </ul>
                 </div>
                 <div>
-                  <div className="text-xs text-zinc-500">Incoming</div>
+                  <div className="text-xs text-[var(--muted)]">Incoming</div>
                   <ul className="mt-1 space-y-1">
                     {(expandIncoming
                       ? connectionsForEntity.in
                       : connectionsForEntity.in.slice(0, 10)
                     ).map((c) => (
-                      <li key={c.id} className="flex items-center gap-1.5 text-xs text-zinc-400">
+                      <li key={c.id} className="flex items-center gap-1.5 text-xs text-[var(--text-secondary)]">
                         {entityNameById.get(c.source_entity_id) ?? c.source_entity_id} →{" "}
                         {formatRelationship(c.relationship_type)}
                         {c.confidence != null && c.confidence !== 1 && (
                           <span
-                            className="rounded px-1 py-0.5 text-[10px] text-zinc-500 bg-zinc-700/80"
+                            className="rounded px-1 py-0.5 text-[10px] text-[var(--muted)] bg-[var(--bg-elevated)]"
                             title="Connection confidence"
                           >
                             {(c.confidence * 100).toFixed(0)}%
@@ -189,7 +189,7 @@ export function TabEntities({ investigation: inv }: { investigation: Investigati
             </div>
           </>
         ) : (
-          <div className="flex h-full items-center justify-center text-sm text-zinc-500">
+          <div className="flex h-full items-center justify-center text-sm text-[var(--muted)]">
             Select an entity from the list.
           </div>
         )}

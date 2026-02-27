@@ -17,7 +17,7 @@ export function ConflictIndicator({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-1 rounded bg-amber-500/20 text-amber-400",
+        "inline-flex items-center gap-1 rounded bg-[var(--risk-medium)]/20 text-[var(--risk-medium)]",
         compact ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-1 text-xs",
         className
       )}

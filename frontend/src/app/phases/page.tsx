@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { useQuery, useQueries } from "@tanstack/react-query";
 import { PhaseExplainer } from "@/components/PhaseExplainer";
+import { TabMethodology } from "@/components/tabs/TabMethodology";
 import { api } from "@/lib/api";
 import type { SearchPhase } from "@/lib/types";
 
@@ -47,12 +48,17 @@ export default function PhasesPage() {
   }, [caseQueries]);
 
   return (
-    <div className="h-full">
-      <PhaseExplainer
-        selectedPhase={selectedPhase}
-        onSelectPhase={setSelectedPhase}
-        phaseStats={phaseStats}
-      />
+    <div className="h-full overflow-y-auto">
+      <section className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
+        <TabMethodology />
+      </section>
+      <section className="h-full min-h-[400px]">
+        <PhaseExplainer
+          selectedPhase={selectedPhase}
+          onSelectPhase={setSelectedPhase}
+          phaseStats={phaseStats}
+        />
+      </section>
     </div>
   );
 }

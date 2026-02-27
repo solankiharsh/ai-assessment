@@ -34,7 +34,7 @@ The app uses Next.js API routes that read from the backend output directory (def
 
 - **Dark-first**: True dark (`#0c0c0e`), not gray; minimal color; risk/amber highlights.
 - **3-zone layout**: Left = case navigator (collapsible). Center = tabbed workspace. Right = risk, confidence, hypotheses, timeline, confidence threshold (collapsible).
-- **Tabs**: Overview, Entities, Graph, Risk Analysis, Source Audit, Execution Trace. Compact tab bar; URL sync for `tab` and `entity` query params.
+- **Tabs**: Brief, Timeline, Risk Analysis, Network, Entities, Evidence. Brief is the executive decision view; Timeline shows temporal facts and contradictions; Evidence merges Source Audit and Execution Trace. Compact tab bar; URL sync for `tab` and `entity` query params. Designed for C-level decision makers: critical info above the fold, details in collapsible sections.
 - **States**: Loading skeletons, error + retry, empty, partial data. Polling can be added for `status: "running"` cases.
 - **Cmd+K**: Command palette to jump to entity (filters by name/type).
 - **Focus mode**: Hides left/right panels; Escape restores.
@@ -42,14 +42,22 @@ The app uses Next.js API routes that read from the backend output directory (def
 - **Graph**: React Flow with custom nodes, legend (entity type filter), edge confidence threshold from global slider.
 - **No mock data in UI**: All content comes from API; use backend CLI to generate `outputs/` then refresh.
 
+## Data types (API response)
+
+The case detail API returns an `Investigation` object. In addition to entities, connections, risk flags, and search history, the frontend consumes:
+
+- **TemporalFact** — `id`, `claim`, `entity_id`, `date_range`, `as_of_date`, `source_urls`, `confidence`, `category`. Used by the Timeline tab.
+- **TemporalContradiction** — `id`, `fact_a_id`, `fact_b_id`, `description`, `severity`, `confidence`. Shown as "Timeline anomalies" in the Risk tab.
+- **RunMetadata** — `run_id`, `subject`, `started_at`, `completed_at`, `duration_seconds`, `total_cost_usd`, `iterations`, `phases_executed`, `entities_found`, `connections_found`, `risk_flags_count`, `sources_accessed`, `sources_failed`, `termination_reason`, `error_count`. Used for header duration and Brief scope.
+
 ## Project structure
 
 ```
 src/
   app/           # Routes, layout, API routes
   components/    # RiskMeter, EntityCard, Graph, CommandPalette, etc.
-  components/layout/  # ConsoleLayout, LeftPanel, CenterPanel, RightPanel
-  components/tabs/   # TabOverview, TabEntities, TabGraph, TabRisk, TabSources, TabTrace
+  components/layout/  # ConsoleLayout, LeftPanel, CenterPanel
+  components/tabs/   # TabOverview (Brief), TabTimeline, TabRisk, TabGraph, TabEntities, TabEvidence
   lib/           # types, api client, utils, output-dir helpers
   store/         # Zustand UI store
 ```

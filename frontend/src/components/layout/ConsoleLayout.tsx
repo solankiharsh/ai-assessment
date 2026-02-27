@@ -5,8 +5,7 @@ import { useUIStore } from "@/store/useUIStore";
 import { cn } from "@/lib/utils";
 import { LeftPanel } from "./LeftPanel";
 import { CenterPanel } from "./CenterPanel";
-import { RightPanel } from "./RightPanel";
-import { PanelLeftOpen, PanelRightOpen } from "lucide-react";
+import { PanelLeftOpen } from "lucide-react";
 import type { Investigation } from "@/lib/types";
 
 interface ConsoleLayoutProps {
@@ -21,16 +20,12 @@ export function ConsoleLayout({
   children,
 }: ConsoleLayoutProps) {
   const leftOpen = useUIStore((s) => s.leftPanelOpen);
-  const rightOpen = useUIStore((s) => s.rightPanelOpen);
   const focusMode = useUIStore((s) => s.focusMode);
   const setLeftOpen = useUIStore((s) => s.setLeftPanelOpen);
-  const setRightOpen = useUIStore((s) => s.setRightPanelOpen);
   const exitFocusMode = useUIStore((s) => s.exitFocusMode);
   const toggleLeftPanel = useUIStore((s) => s.toggleLeftPanel);
-  const toggleRightPanel = useUIStore((s) => s.toggleRightPanel);
 
   const showLeft = leftOpen && !focusMode;
-  const showRight = rightOpen && !focusMode;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -47,16 +42,11 @@ export function ConsoleLayout({
       if (e.key === "[" && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
         toggleLeftPanel();
-        return;
-      }
-      if (e.key === "]" && !e.metaKey && !e.ctrlKey && !e.altKey) {
-        e.preventDefault();
-        toggleRightPanel();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [exitFocusMode, toggleLeftPanel, toggleRightPanel]);
+  }, [exitFocusMode, toggleLeftPanel]);
 
   return (
     <div className="flex h-full w-full overflow-hidden bg-[var(--background)]">
@@ -94,22 +84,6 @@ export function ConsoleLayout({
       >
         <CenterPanel>{children}</CenterPanel>
       </div>
-      {showRight && (
-        <div className="flex w-[320px] shrink-0 flex-col border-l border-[var(--border)]">
-          <RightPanel caseId={caseId} caseData={caseData} />
-        </div>
-      )}
-      {!showRight && !focusMode && (
-        <button
-          type="button"
-          onClick={() => setRightOpen(true)}
-          className="flex w-10 shrink-0 flex-col items-center justify-center gap-1 border-l border-[var(--border)] bg-[var(--bg-secondary)] py-4 text-[var(--muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--foreground)]"
-          aria-label="Open right panel"
-        >
-          <PanelRightOpen className="h-5 w-5" />
-          <span className="text-[10px]">]</span>
-        </button>
-      )}
     </div>
   );
 }
