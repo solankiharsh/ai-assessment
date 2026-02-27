@@ -19,19 +19,19 @@ export function InvestigationProgressBar({
 
   return (
     <div className={cn("space-y-1", className)}>
-      <div className="flex justify-between text-xs text-zinc-500">
+      <div className="flex justify-between text-xs text-[var(--muted)]">
         <span>
           {phase.replace(/_/g, " ")} · {iteration}/{maxIterations}
         </span>
         <span className="capitalize">{status}</span>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded bg-zinc-800">
+      <div className="h-1.5 w-full overflow-hidden rounded bg-[var(--bg-elevated)]">
         <div
           className={cn(
             "h-full transition-all duration-300",
-            status === "complete" && "bg-emerald-500",
-            status === "failed" && "bg-red-500",
-            status === "running" && "bg-amber-500"
+            status === "complete" && "bg-[var(--risk-low)]",
+            status === "failed" && "bg-[var(--risk-critical)]",
+            status === "running" && "bg-[var(--accent)]"
           )}
           style={{ width: `${Math.min(100, pct)}%` }}
         />

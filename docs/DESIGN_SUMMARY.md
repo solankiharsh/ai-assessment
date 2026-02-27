@@ -28,6 +28,18 @@ Risk is not a single classifier. A **Risk Proponent** and **Risk Skeptic** argue
 
 ---
 
+## Real run example: Timothy Overturf
+
+A full run on **Timothy Overturf** (Sisu Capital) illustrates the three innovations with real pipeline output:
+
+- **Temporal intelligence**: 17 temporal facts with date ranges; 5 contradictions detected (e.g. Hansueli Overturf suspended 2017–2019 vs. advice 2017–2021 → critical, confidence 0.90). See `state.temporal_facts` and `state.temporal_contradictions` in `{slug}_state.json`.
+- **Adversarial risk debate**: Proponent/skeptic/judge entries in `state.risk_debate_transcript`; risk flags with severity and evidence. Run with sufficient iterations to trigger the adversarial phase.
+- **Identity graph**: Degree centrality in `state.graph_insights` (e.g. Timothy Overturf: 36 links, Sisu Capital LLC: 20, Hansueli Overturf: 11). The frontend Network tab shows "Most connected" and the Risk tab can display the table.
+
+The frontend Brief tab surfaces the decision view; Timeline tab shows the chronological facts and anomaly callouts; Risk tab includes timeline anomalies, debate transcript, and graph insights sections.
+
+---
+
 ## Evaluation (personas + depth-weighted scoring)
 
 Three test personas (easy, medium, hard) provide ground-truth expected facts, entities, connections, and risk patterns. **Depth-weighted recall** scores facts by depth 1–5 (surface → deeply hidden); the aggregate `weighted_score` and `depth_breakdown` (e.g. `depth_4_recall`) measure how well the agent finds non-obvious facts. The hard persona (Timothy Overturf / Sisu Capital) includes SEC, DFPI, and fiduciary-breach–style expectations. See `src/evaluation/eval_set.py`, `src/evaluation/metrics.py`, and `make evaluate` / `python -m src.main evaluate --persona hard`.

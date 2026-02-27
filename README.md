@@ -31,6 +31,16 @@ Autonomous intelligence-gathering agent for due diligence investigations. Built 
 
 - Three personas with expected facts, entities, and connections; **depth-weighted scoring** (facts at depth 1–5, weighted recall); metrics (fact recall, entity recall, connection recall, `weighted_score`, `depth_breakdown`); outputs under `outputs/evaluations/`.
 
+### Key innovations (examples from Timothy Overturf run)
+
+Three capabilities differentiate the agent; the following use real output from a run on **Timothy Overturf** (Sisu Capital):
+
+1. **Temporal intelligence** — Facts are anchored to date ranges; the pipeline detects contradictions across the timeline. Example: *Hansueli Overturf suspended 2017–2019, yet provided advice 2017–2021* → **CONTRADICTION** flagged, severity: critical, confidence: 0.90. See `src/agents/temporal_analyzer.py` and `TemporalFact` / `TemporalContradiction` in `src/models.py`.
+
+2. **Adversarial risk debate** — Risk is not a single classifier. A **Risk Proponent** and **Risk Skeptic** argue from the same evidence; the **Risk Analyzer** (judge) produces severity and confidence. The debate transcript is stored in state and shown in the UI for auditability. See `src/agents/risk_analyzer.py` and `src/agents/risk_debate.py`.
+
+3. **Identity graph reasoning** — After the report, the pipeline runs graph insights (e.g. degree centrality) over the entity network. Example from the same run: **Timothy Overturf: 36 connections**, **Sisu Capital, LLC: 20 connections**, **Hansueli Overturf: 11 connections**. The UI "Network" tab shows "Most connected" and the Risk tab can show graph insight tables. See `src/graph.py` (graph_insights) and Neo4j in [ADR 003](docs/decisions/003-neo4j-graph-database.md).
+
 ### Risk score interpretation
 
 The UI and report present a numeric risk score derived from risk flags (count and severity). Interpretation:
@@ -69,6 +79,8 @@ flowchart TB
     subgraph workers [Workers]
         Web[Web Research]
         Fact[Fact Extraction]
+        Temporal[Temporal Analysis]
+        EntityRes[Entity Resolution]
         Risk[Risk Analysis]
         Conn[Connection Mapping]
         Verify[Source Verification]
@@ -80,6 +92,10 @@ flowchart TB
     Director -->|search_web| Web
     Web --> Fact
     Fact --> Director
+    Director -->|temporal_analysis| Temporal
+    Temporal --> Director
+    Director -->|entity_resolution| EntityRes
+    EntityRes --> Director
     Director -->|analyze_risks| Risk
     Risk --> Director
     Director -->|map_connections| Conn

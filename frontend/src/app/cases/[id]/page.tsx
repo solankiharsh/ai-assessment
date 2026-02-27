@@ -8,22 +8,30 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { useUIStore, TABS } from "@/store/useUIStore";
 import { CommandPalette } from "@/components/CommandPalette";
-import { InvestigationProgressBar } from "@/components/InvestigationProgressBar";
+import { PhaseStepper } from "@/components/PhaseStepper";
 import { TabOverview } from "@/components/tabs/TabOverview";
 import { TabEntities } from "@/components/tabs/TabEntities";
 import { TabGraph } from "@/components/tabs/TabGraph";
 import { TabRisk } from "@/components/tabs/TabRisk";
-import { TabSources } from "@/components/tabs/TabSources";
-import { TabTrace, type LiveProgressEvent } from "@/components/tabs/TabTrace";
-import { SearchTimeline } from "@/components/SearchTimeline";
-import { Maximize2, Download, Loader2, AlertCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { TabTimeline } from "@/components/tabs/TabTimeline";
+import { TabEvidence, type LiveProgressEvent } from "@/components/tabs/TabEvidence";
+import { InvestigationLogs } from "@/components/InvestigationLogs";
+import {
+  Maximize2,
+  Download,
+  Loader2,
+  AlertCircle,
+  ChevronRight,
+} from "lucide-react";
+import { cn, formatDurationSeconds } from "@/lib/utils";
 
 export default function CasePage() {
   const params = useParams();
   const searchParams = useSearchParams();
   const id = typeof params.id === "string" ? params.id : "";
-  const tabFromUrl = searchParams.get("tab") as typeof TABS[number]["id"] | null;
+  const tabFromUrl = searchParams.get("tab") as
+    | (typeof TABS)[number]["id"]
+    | null;
   const entityFromUrl = searchParams.get("entity");
 
   const activeTab = useUIStore((s) => s.activeTab);
@@ -32,13 +40,22 @@ export default function CasePage() {
   const setFocusMode = useUIStore((s) => s.setFocusMode);
 
   const [cmdOpen, setCmdOpen] = useState(false);
-  const [liveProgressEvents, setLiveProgressEvents] = useState<LiveProgressEvent[]>([]);
+  const [liveProgressEvents, setLiveProgressEvents] = useState<
+    LiveProgressEvent[]
+  >([]);
 
-  const { data: inv, isLoading, error, refetch, isRefetching } = useQuery({
+  const {
+    data: inv,
+    isLoading,
+    error,
+    refetch,
+    isRefetching,
+  } = useQuery({
     queryKey: ["case", id],
     queryFn: () => api.getCase(id),
     enabled: !!id,
-    refetchInterval: (query) => (query.state.status === "error" ? 3000 : false),
+    refetchInterval: (query) =>
+      query.state.status === "error" ? 3000 : false,
   });
 
   useEffect(() => {
@@ -55,13 +72,15 @@ export default function CasePage() {
     if (inv?.status === "complete") setLiveProgressEvents([]);
   }, [inv?.status]);
 
-  // When status is running, open SSE stream for live progress and append to liveProgressEvents; on done, refetch.
+  // SSE streaming for live progress
   useEffect(() => {
     if (!id || inv?.status !== "running") return;
     let cancelled = false;
     setLiveProgressEvents([]);
     const ac = new AbortController();
-    fetch(`/api/investigate/${encodeURIComponent(id)}/stream`, { signal: ac.signal })
+    fetch(`/api/investigate/${encodeURIComponent(id)}/stream`, {
+      signal: ac.signal,
+    })
       .then((res) => {
         if (!res.body || cancelled) return;
         const reader = res.body.getReader();
@@ -80,14 +99,16 @@ export default function CasePage() {
               const m = line.startsWith("data: ") ? line.slice(6) : null;
               if (!m) continue;
               try {
-                const data = JSON.parse(m) as LiveProgressEvent & { event?: string };
+                const data = JSON.parse(m) as LiveProgressEvent & {
+                  event?: string;
+                };
                 if (data.event === "done") {
                   refetch();
                   return;
                 }
                 setLiveProgressEvents((prev) => [...prev, data]);
               } catch {
-                // ignore parse errors
+                // ignore
               }
             }
             return read();
@@ -132,7 +153,7 @@ export default function CasePage() {
 
   if (!id) {
     return (
-      <div className="flex h-full items-center justify-center text-zinc-500">
+      <div className="flex h-full items-center justify-center text-[var(--muted)]">
         Invalid case ID.
       </div>
     );
@@ -140,9 +161,9 @@ export default function CasePage() {
 
   if (isLoading) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-4 text-zinc-500">
-        <Loader2 className="h-8 w-8 animate-spin" />
-        <p>Loading investigation…</p>
+      <div className="flex h-full flex-col items-center justify-center gap-3 text-[var(--muted)]">
+        <Loader2 className="h-6 w-6 animate-spin" />
+        <p className="text-sm">Loading investigation...</p>
       </div>
     );
   }
@@ -150,63 +171,70 @@ export default function CasePage() {
   if (error || !inv) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-        <AlertCircle className="h-10 w-10 text-amber-500" />
-        <p className="text-amber-500">Case not found or pipeline still running.</p>
-        <p className="text-sm text-zinc-500">
-          {isRefetching ? "Checking again…" : "Refreshing automatically every few seconds."}
-        </p>
-        <button
-          type="button"
-          onClick={() => refetch()}
-          className="rounded border border-amber-500/50 px-4 py-2 text-sm hover:bg-amber-500/10"
-        >
-          Retry now
-        </button>
-        <Link href="/cases" className="text-sm text-zinc-400 hover:underline">
-          Back to cases
-        </Link>
+        <AlertCircle className="h-8 w-8 text-[var(--risk-medium)]" />
+        <div>
+          <p className="text-sm font-medium text-[var(--foreground)]">
+            Case not found or still running
+          </p>
+          <p className="mt-1 text-sm text-[var(--muted)]">
+            {isRefetching
+              ? "Checking again..."
+              : "Refreshing automatically"}
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => refetch()}
+            className="rounded-md border border-[var(--border)] px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--bg-hover)]"
+          >
+            Retry
+          </button>
+          <Link
+            href="/cases"
+            className="text-sm text-[var(--muted)] hover:text-[var(--text-secondary)]"
+          >
+            Back to cases
+          </Link>
+        </div>
       </div>
     );
   }
 
   const tabContent = {
-    overview: <TabOverview investigation={inv} />,
-    entities: <TabEntities investigation={inv} />,
-    graph: <TabGraph caseId={id} investigation={inv} />,
+    brief: <TabOverview investigation={inv} />,
+    timeline: <TabTimeline investigation={inv} />,
     risk: <TabRisk investigation={inv} />,
-    sources: <TabSources investigation={inv} />,
-    trace: <TabTrace investigation={inv} liveEvents={liveProgressEvents} />,
+    network: <TabGraph caseId={id} investigation={inv} />,
+    entities: <TabEntities investigation={inv} />,
+    evidence: (
+      <TabEvidence investigation={inv} liveEvents={liveProgressEvents} />
+    ),
   };
 
   return (
     <>
       <div className="flex h-full flex-col overflow-hidden">
-        <header className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-4 py-2">
-          <div className="flex items-center gap-3">
+        {/* Top bar: breadcrumb + actions */}
+        <header className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-4 py-2.5">
+          <div className="flex items-center gap-1.5 text-sm">
             <Link
               href="/cases"
-              className="text-sm text-zinc-500 hover:text-zinc-300"
+              className="text-[var(--muted)] hover:text-[var(--text-secondary)]"
             >
-              Cases
+              Investigations
             </Link>
-            <span className="text-zinc-600">/</span>
-            <h1 className="text-sm font-semibold text-zinc-100">
+            <ChevronRight className="h-3.5 w-3.5 text-[var(--border-strong)]" />
+            <span className="font-medium text-[var(--foreground)]">
               {inv.target}
-            </h1>
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => setCmdOpen(true)}
-              className="rounded border border-[var(--border)] px-2 py-1 text-xs text-zinc-400 hover:bg-zinc-800"
-            >
-              <span className="font-mono">⌘K</span> Jump to entity
-            </button>
-            <button
-              type="button"
               onClick={() => setFocusMode(true)}
-              className="rounded border border-[var(--border)] p-1 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300"
-              title="Focus mode"
+              className="rounded-md p-1.5 text-[var(--muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--foreground)]"
+              title="Focus mode (Esc to exit)"
             >
               <Maximize2 className="h-4 w-4" />
             </button>
@@ -214,21 +242,80 @@ export default function CasePage() {
               type="button"
               onClick={exportReport}
               disabled={!inv.final_report}
-              className="flex items-center gap-1.5 rounded border border-[var(--border)] px-2 py-1 text-xs text-zinc-400 hover:bg-zinc-800 disabled:opacity-50"
+              className="flex items-center gap-1.5 rounded-md border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-hover)] disabled:opacity-40"
             >
               <Download className="h-3.5 w-3.5" />
-              Export report
+              Export
             </button>
           </div>
         </header>
 
-        <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-[var(--border)] px-4 py-1">
-          <InvestigationProgressBar
-            iteration={inv.iteration}
-            maxIterations={inv.max_iterations}
-            phase={inv.current_phase}
+        {/* Phase stepper + stat counters */}
+        <div className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-4 py-2">
+          <PhaseStepper
+            currentPhase={inv.current_phase}
             status={inv.status}
           />
+          <div className="hidden items-center gap-4 text-xs md:flex">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[var(--muted)]">Entities</span>
+              <span className="font-mono font-medium text-[var(--foreground)]">
+                {inv.entities?.length ?? 0}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[var(--muted)]">Connections</span>
+              <span className="font-mono font-medium text-[var(--foreground)]">
+                {inv.connections?.length ?? 0}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[var(--muted)]">Risk</span>
+              {inv.report_risk_level && (inv.risk_flags?.length ?? 0) === 0 ? (
+                <span
+                  className={cn(
+                    "font-mono text-[10px] font-semibold uppercase rounded px-1.5 py-0.5",
+                    inv.report_risk_level === "critical" && "bg-[var(--risk-critical)]/20 text-[var(--risk-critical)]",
+                    inv.report_risk_level === "high" && "bg-[var(--risk-high)]/20 text-[var(--risk-high)]",
+                    inv.report_risk_level === "medium" && "bg-[var(--risk-medium)]/20 text-[var(--risk-medium)]",
+                    inv.report_risk_level === "low" && "bg-[var(--risk-low)]/20 text-[var(--risk-low)]",
+                    (!inv.report_risk_level || inv.report_risk_level === "clear") && "text-[var(--foreground)]"
+                  )}
+                >
+                  {inv.report_risk_level}
+                </span>
+              ) : (
+                <span
+                  className={cn(
+                    "font-mono font-medium",
+                    (inv.risk_flags?.length ?? 0) > 0
+                      ? "text-[var(--risk-high)]"
+                      : "text-[var(--foreground)]"
+                  )}
+                >
+                  {inv.risk_flags?.length ?? 0}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[var(--muted)]">Confidence</span>
+              <span className="font-mono font-medium text-[var(--foreground)]">
+                {Math.round(inv.overall_confidence * 100)}%
+              </span>
+            </div>
+            {inv.run_metadata?.duration_seconds != null && inv.run_metadata.duration_seconds > 0 && (
+              <div className="flex items-center gap-1.5">
+                <span className="text-[var(--muted)]">Duration</span>
+                <span className="font-mono font-medium text-[var(--foreground)]">
+                  {formatDurationSeconds(inv.run_metadata.duration_seconds)}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Tab navigation */}
+        <div className="flex shrink-0 items-center gap-1 border-b border-[var(--border)] px-4 py-1">
           <nav className="flex gap-0.5">
             {TABS.map((t) => (
               <button
@@ -236,44 +323,39 @@ export default function CasePage() {
                 type="button"
                 onClick={() => setActiveTab(t.id)}
                 className={cn(
-                  "rounded px-2.5 py-1.5 text-xs font-medium transition-colors",
+                  "rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
                   activeTab === t.id
-                    ? "bg-amber-500/20 text-amber-400"
-                    : "text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300"
+                    ? "bg-[var(--bg-card)] text-[var(--foreground)]"
+                    : "text-[var(--muted)] hover:text-[var(--text-secondary)]"
                 )}
               >
                 {t.label}
               </button>
             ))}
           </nav>
-          {activeTab !== "graph" && (inv.entities?.length ?? 0) > 0 && (
-            <button
-              type="button"
-              onClick={() => setActiveTab("graph")}
-              className="ml-auto rounded border border-[var(--accent)]/50 bg-[var(--accent)]/10 px-2 py-1 text-xs text-[var(--accent)] hover:bg-[var(--accent)]/20"
-            >
-              View connection graph →
-            </button>
-          )}
         </div>
 
+        {/* Tab content */}
         <main className="min-h-0 flex-1 overflow-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
               className="h-full"
             >
               {tabContent[activeTab]}
             </motion.div>
           </AnimatePresence>
         </main>
-        <SearchTimeline
+
+        {/* Investigation logs (phase-by-phase progress) */}
+        <InvestigationLogs
           searchHistory={inv.search_history ?? []}
-          maxBars={20}
+          subjectName={inv.target}
+          maxEntries={40}
         />
       </div>
 

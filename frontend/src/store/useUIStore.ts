@@ -4,12 +4,12 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type TabId =
-  | "overview"
-  | "entities"
-  | "graph"
+  | "brief"
+  | "timeline"
   | "risk"
-  | "sources"
-  | "trace";
+  | "network"
+  | "entities"
+  | "evidence";
 
 interface UIState {
   leftPanelOpen: boolean;
@@ -35,7 +35,7 @@ export const useUIStore = create<UIState>()(
       leftPanelOpen: true,
       rightPanelOpen: true,
       focusMode: false,
-      activeTab: "overview",
+      activeTab: "brief",
       selectedEntityId: null,
       confidenceThreshold: 0.3,
       setLeftPanelOpen: (v) => set({ leftPanelOpen: v }),
@@ -55,10 +55,10 @@ export const useUIStore = create<UIState>()(
 );
 
 export const TABS: { id: TabId; label: string }[] = [
-  { id: "overview", label: "Overview" },
-  { id: "entities", label: "Entities" },
-  { id: "graph", label: "Graph" },
+  { id: "brief", label: "Brief" },
+  { id: "timeline", label: "Timeline" },
   { id: "risk", label: "Risk Analysis" },
-  { id: "sources", label: "Source Audit" },
-  { id: "trace", label: "Execution Trace" },
+  { id: "network", label: "Network" },
+  { id: "entities", label: "Entities" },
+  { id: "evidence", label: "Evidence" },
 ];

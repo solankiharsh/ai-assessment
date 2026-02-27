@@ -35,22 +35,22 @@ export function TabTrace({
   return (
     <div className="flex h-full flex-col p-4">
       {liveEvents.length > 0 && (
-        <div className="mb-4 rounded border border-amber-500/30 bg-amber-500/5 p-3">
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-amber-400">
+        <div className="mb-4 rounded border border-[var(--accent)]/30 bg-[var(--accent)]/5 p-3">
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--accent)]">
             Live progress
           </h3>
           <ul className="space-y-1.5 text-xs">
             {liveEvents.map((e, i) => (
-              <li key={`${e.ts ?? i}-${e.event}-${e.query ?? e.node}`} className="text-zinc-300">
+              <li key={`${e.ts ?? i}-${e.event}-${e.query ?? e.node}`} className="text-[var(--foreground)]">
                 {e.event === "search" && e.query != null && (
                   <>
-                    <span className="text-zinc-500">Query ({e.phase ?? "—"}):</span> {e.query}
+                    <span className="text-[var(--muted)]">Query ({e.phase ?? "—"}):</span> {e.query}
                   </>
                 )}
                 {e.event === "node" && e.node != null && (
                   <>
-                    <span className="text-zinc-500">Phase:</span> {e.phase ?? "—"} ·{" "}
-                    <span className="text-zinc-500">Node:</span> {e.node}
+                    <span className="text-[var(--muted)]">Phase:</span> {e.phase ?? "—"} ·{" "}
+                    <span className="text-[var(--muted)]">Node:</span> {e.node}
                     {e.iteration != null && (
                       <> · Iteration {e.iteration}</>
                     )}
@@ -72,8 +72,8 @@ export function TabTrace({
             className={cn(
               "rounded border px-2 py-1 text-xs",
               providerFilter === null
-                ? "border-amber-500/60 bg-amber-500/20 text-amber-400"
-                : "border-zinc-600 text-zinc-400 hover:bg-zinc-800"
+                ? "border-[var(--accent)]/60 bg-[var(--accent)]/20 text-[var(--accent)]"
+                : "border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-hover)]"
             )}
           >
             All
@@ -86,27 +86,27 @@ export function TabTrace({
               className={cn(
                 "rounded border px-2 py-1 text-xs",
                 providerFilter === p
-                  ? "border-amber-500/60 bg-amber-500/20 text-amber-400"
-                  : "border-zinc-600 text-zinc-400 hover:bg-zinc-800"
+                  ? "border-[var(--accent)]/60 bg-[var(--accent)]/20 text-[var(--accent)]"
+                  : "border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-hover)]"
               )}
             >
               {p}
             </button>
           ))}
         </div>
-        <label className="flex items-center gap-2 text-xs text-zinc-500">
+        <label className="flex items-center gap-2 text-xs text-[var(--muted)]">
           <input
             type="checkbox"
             checked={mono}
             onChange={(e) => setMono(e.target.checked)}
-            className="rounded border-zinc-600"
+            className="rounded border-[var(--border-strong)]"
           />
           Monospace
         </label>
       </div>
 
       {filtered.length === 0 ? (
-        <div className="flex flex-1 items-center justify-center text-sm text-zinc-500">
+        <div className="flex flex-1 items-center justify-center text-sm text-[var(--muted)]">
           No execution trace. Run with --debug for iteration snapshots.
         </div>
       ) : (
@@ -114,23 +114,23 @@ export function TabTrace({
           {filtered.map((r: SearchRecord, i: number) => (
             <li
               key={`${r.iteration}-${r.timestamp}-${i}`}
-              className="rounded border border-[var(--border)] bg-zinc-900/50 p-3"
+              className="rounded border border-[var(--border)] bg-[var(--bg-card)] p-3"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="font-medium text-zinc-300">
+                <span className="font-medium text-[var(--foreground)]">
                   Step {r.iteration} · {r.phase}
                 </span>
-                <span className="text-zinc-500">
+                <span className="text-[var(--muted)]">
                   {formatRelativeTime(r.timestamp)}
                 </span>
               </div>
-              <div className="mt-1 text-zinc-400">
-                <span className="text-zinc-500">Action:</span> Search ({r.provider})
+              <div className="mt-1 text-[var(--text-secondary)]">
+                <span className="text-[var(--muted)]">Action:</span> Search ({r.provider})
               </div>
               <div className="mt-0.5">
-                <span className="text-zinc-500">Query:</span> {r.query}
+                <span className="text-[var(--muted)]">Query:</span> {r.query}
               </div>
-              <div className="mt-1 text-xs text-zinc-500">
+              <div className="mt-1 text-xs text-[var(--muted)]">
                 Outcome: {r.num_results} results.
                 {r.was_useful !== undefined && (
                   <span> Useful: {r.was_useful ? "yes" : "no"}</span>
