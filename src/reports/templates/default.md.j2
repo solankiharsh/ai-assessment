@@ -1,0 +1,133 @@
+# Due Diligence Report: {{ subject.full_name }}
+
+**Role:** {{ subject.current_role or 'Unknown' }} @ {{ subject.current_organization or 'Unknown' }}
+**Generated:** {{ now() if now is defined else 'N/A' }}
+**Confidence:** {{ "%.2f"|format(overall_confidence) }}
+
+---
+
+## 1. Executive Summary
+
+{{ llm_narrative[:2000] if llm_narrative else '(No LLM narrative available)' }}
+
+---
+
+## 2. Subject Profile
+
+- **Full Name:** {{ subject.full_name }}
+{% if subject.aliases %}
+- **Aliases:** {{ subject.aliases | join(', ') }}
+{% endif %}
+{% if subject.current_role %}
+- **Current Role:** {{ subject.current_role }}
+{% endif %}
+{% if subject.current_organization %}
+- **Organization:** {{ subject.current_organization }}
+{% endif %}
+{% if subject.summary %}
+- **Summary:** {{ subject.summary }}
+{% endif %}
+
+---
+
+## 3. Entity Map
+
+| Type | Name | Confidence |
+|------|------|------------|
+{% for e in entities[:30] %}
+| {{ e.entity_type.value }} | {{ e.name }} | {{ "%.2f"|format(e.confidence) }} |
+{% endfor %}
+
+**Total entities:** {{ entities | length }}
+
+---
+
+## 4. Timeline
+
+{% if temporal_facts %}
+{% for tf in temporal_facts %}
+- **[{{ tf.category }}]** {{ tf.claim }} ({{ tf.date_range[0] or '?' }} to {{ tf.date_range[1] or 'present' }}) [conf: {{ "%.2f"|format(tf.confidence) }}]
+{% endfor %}
+{% else %}
+(No temporal facts extracted)
+{% endif %}
+
+{% if temporal_contradictions %}
+### Temporal Contradictions
+
+{% for tc in temporal_contradictions %}
+- **[{{ tc.severity.value }}]** {{ tc.description }} (conf: {{ "%.2f"|format(tc.confidence) }})
+{% endfor %}
+{% endif %}
+
+---
+
+## 5. Risk Assessment
+
+{% if risk_flags %}
+| Severity | Category | Title | Confidence |
+|----------|----------|-------|------------|
+{% for rf in risk_flags %}
+| {{ rf.severity.value }} | {{ rf.category.value }} | {{ rf.title }} | {{ "%.2f"|format(rf.confidence) }} |
+{% endfor %}
+{% else %}
+No risk flags identified.
+{% endif %}
+
+{% if risk_debate_transcript %}
+### Risk Debate Transcript
+
+{% for entry in risk_debate_transcript %}
+**{{ entry.role | upper }}:**
+{{ entry.argument[:500] }}
+
+{% endfor %}
+{% endif %}
+
+---
+
+## 6. Key Connections
+
+{% if connections %}
+{% for c in connections[:20] %}
+- {{ c.source_entity_id }} --[{{ c.relationship_type.value }}]--> {{ c.target_entity_id }} ({{ c.description[:80] }}) [conf: {{ "%.2f"|format(c.confidence) }}]
+{% endfor %}
+{% else %}
+No connections mapped.
+{% endif %}
+
+---
+
+## 7. Source Audit
+
+- **Searches conducted:** {{ search_history | length }}
+- **Iterations:** {{ iteration }}
+- **Estimated cost:** ${{ "%.4f"|format(estimated_cost_usd) }}
+
+{% if inaccessible_urls %}
+### Sources Identified But Not Retrievable
+
+{% for entry in inaccessible_urls %}
+- {{ entry.url }} ({{ entry.reason }})
+{% endfor %}
+{% endif %}
+
+---
+
+## 8. Appendix
+
+{% if graph_insights %}
+### Graph Insights
+
+{% for insight in graph_insights %}
+- **{{ insight.type }}**: {{ insight.data | length if insight.data is iterable else 'N/A' }} results
+{% endfor %}
+{% endif %}
+
+{% if error_log %}
+### Errors
+
+{% for err in error_log %}
+- {{ err }}
+{% endfor %}
+{% endif %}
