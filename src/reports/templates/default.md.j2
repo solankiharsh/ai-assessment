@@ -77,9 +77,8 @@ No risk flags identified.
 {% if risk_debate_transcript %}
 ### Risk Debate Transcript
 
-{% for entry in risk_debate_transcript %}
-**{{ entry.role | upper }}:**
-{{ entry.argument[:500] }}
+{% for entry in risk_debate_transcript[-6:] %}
+**{{ entry.role | upper }}:** {{ entry.argument | trim }}
 
 {% endfor %}
 {% endif %}
@@ -90,7 +89,7 @@ No risk flags identified.
 
 {% if connections %}
 {% for c in connections[:20] %}
-- {{ c.source_entity_id }} --[{{ c.relationship_type.value }}]--> {{ c.target_entity_id }} ({{ c.description[:80] }}) [conf: {{ "%.2f"|format(c.confidence) }}]
+- {{ c.source_entity_id }} --[{{ c.relationship_type.value }}]--> {{ c.target_entity_id }} ({{ c.description[:120] }}) [conf: {{ "%.2f"|format(c.confidence) }}]
 {% endfor %}
 {% else %}
 No connections mapped.
@@ -116,18 +115,30 @@ No connections mapped.
 
 ## 8. Appendix
 
+### Investigation Metrics
+- **Total Entities:** {{ entities | length }}
+- **Total Connections:** {{ connections | length }}
+- **Total Search Queries:** {{ search_history | length }}
+- **Iteration Count:** {{ iteration }}
+
 {% if graph_insights %}
 ### Graph Insights
-
 {% for insight in graph_insights %}
-- **{{ insight.type }}**: {{ insight.data | length if insight.data is iterable else 'N/A' }} results
+- **{{ insight.type | replace('_', ' ') | title }}**: {{ insight.data | length if insight.data is iterable else 'N/A' }} results
+{% endfor %}
+{% endif %}
+
+{% if search_history %}
+### Source Manifest
+{% for record in search_history[:10] %}
+- [{{ record.timestamp.strftime('%H:%M:%S') if record.timestamp and record.timestamp.strftime else 'N/A' }}] **{{ record.provider | title }}**: {{ record.query }}
 {% endfor %}
 {% endif %}
 
 {% if error_log %}
-### Errors
-
+### System Notices
 {% for err in error_log %}
 - {{ err }}
 {% endfor %}
 {% endif %}
+
