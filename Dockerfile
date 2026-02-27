@@ -34,12 +34,6 @@ RUN npm ci
 # Copy source code
 COPY frontend ./
 
-# Diagnostic: check what was actually copied
-RUN ls -la && ls -R src/lib || echo "ls -R failed"
-
-# Verify the critical file for shadcn resolution
-RUN ls -la src/lib/utils.ts || (echo "CRITICAL: utils.ts missing in frontend/src/lib!" && exit 1)
-
 # Build
 ENV NODE_OPTIONS="--max-old-space-size=4096" \
     NEXT_TELEMETRY_DISABLED=1
