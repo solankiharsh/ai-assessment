@@ -64,10 +64,20 @@ class TemplateRenderer:
 
     def _build_context(self, state: Any, llm_narrative: str) -> dict[str, Any]:
         """Build template context from ResearchState."""
+        # Pre-process connections to show names instead of IDs
+        entity_map = {e.id: e.name for e in state.entities}
+        resolved_connections = []
+        for c in state.connections:
+            # Create a dict if it hasn't been one, or modify copy
+            c_dict = c.model_dump() if hasattr(c, "model_dump") else dict(c)
+            c_dict["source_name"] = entity_map.get(c_dict.get("source_entity_id"), "Unknown Entity")
+            c_dict["target_name"] = entity_map.get(c_dict.get("target_entity_id"), "Unknown Entity")
+            resolved_connections.append(c_dict)
+
         return {
             "subject": state.subject,
             "entities": state.entities,
-            "connections": state.connections,
+            "connections": resolved_connections,
             "risk_flags": state.risk_flags,
             "temporal_facts": getattr(state, "temporal_facts", []),
             "temporal_contradictions": getattr(state, "temporal_contradictions", []),

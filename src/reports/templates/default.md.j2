@@ -89,7 +89,7 @@ No risk flags identified.
 
 {% if connections %}
 {% for c in connections[:20] %}
-- {{ c.source_entity_id }} --[{{ c.relationship_type.value }}]--> {{ c.target_entity_id }} ({{ c.description[:120] }}) [conf: {{ "%.2f"|format(c.confidence) }}]
+- **{{ c.source_name }}** --[{{ c.relationship_type.value if hasattr(c.relationship_type, 'value') else c.relationship_type }}]--> **{{ c.target_name }}** ({{ c.description[:120] }}) [conf: {{ "%.2f"|format(c.confidence) }}]
 {% endfor %}
 {% else %}
 No connections mapped.

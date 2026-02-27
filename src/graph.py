@@ -185,9 +185,10 @@ class ResearchGraph:
             "progress": round(progress, 3),
         })
 
-    def _emit_log(self, node: str, message: str) -> None:
-        """Emit a human-readable log SSE event."""
-        self._emit_progress({"event": "log", "node": node, "message": message})
+    def _emit_log(self, state: ResearchState, message: str) -> None:
+        """Emit a human-readable log SSE event and append to state for persistence."""
+        state.logs.append(message)
+        self._emit_progress({"event": "log", "node": "unknown", "message": message})
 
     async def _director_node(self, state_dict: dict) -> dict:
         state = ResearchState(**state_dict)
@@ -247,7 +248,7 @@ class ResearchGraph:
         phase_str = out.get("current_phase", "")
         if isinstance(phase_str, dict):
             phase_str = phase_str.get("value", "")
-        self._emit_log("director", f"Director planned: {decision.next_action.value} (phase: {phase_str}, iter {out.get('iteration')})")
+        self._emit_log(state, f"Director planned: {decision.next_action.value} (phase: {phase_str}, iter {state.iteration})")
         self._emit_progress(
             {"event": "node", "node": "director", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -271,7 +272,7 @@ class ResearchGraph:
             return state.model_dump()
         def on_search(q: str, ph: str) -> None:
             self._emit_progress({"event": "search", "query": q, "phase": ph})
-            self._emit_log("web_research", f"Searching ({ph}): {q}")
+            self._emit_log(state, f"Searching ({ph}): {q}")
 
         state = await self.web_researcher.execute_searches(
             state=state, queries=queries, phase=state.current_phase, on_search=on_search
@@ -280,7 +281,7 @@ class ResearchGraph:
         self._write_stage_out("web_research", out)
         if self._on_progress:
             self._on_progress("web_research", out)
-        self._emit_log("web_research", f"Web research complete — {len(queries)} queries, iter {out.get('iteration')}")
+        self._emit_log(state, f"Web research complete — {len(queries)} queries, iter {state.iteration}")
         self._emit_progress(
             {"event": "node", "node": "web_research", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -304,7 +305,7 @@ class ResearchGraph:
             self._on_progress("fact_extraction", out)
         entity_count = len(out.get("entities") or [])
         self._emit_progress({"event": "entities_update", "count": entity_count})
-        self._emit_log("fact_extraction", f"Extracted facts — {entity_count} entities so far (iter {out.get('iteration')})")
+        self._emit_log(state, f"Extracted facts — {entity_count} entities so far (iter {state.iteration})")
         self._emit_progress(
             {"event": "node", "node": "fact_extraction", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -329,7 +330,7 @@ class ResearchGraph:
             self._on_progress("risk_analysis", out)
         risk_count = len(out.get("risk_flags") or [])
         self._emit_progress({"event": "risks_update", "count": risk_count})
-        self._emit_log("risk_analysis", f"Risk analysis complete — {risk_count} flags (iter {out.get('iteration')})")
+        self._emit_log(state, f"Risk analysis complete — {risk_count} flags (iter {state.iteration})")
         self._emit_progress(
             {"event": "node", "node": "risk_analysis", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -352,7 +353,7 @@ class ResearchGraph:
         if self._on_progress:
             self._on_progress("connection_mapping", out)
         conn_count = len(out.get("connections") or [])
-        self._emit_log("connection_mapping", f"Mapped {conn_count} connections (iter {out.get('iteration')})")
+        self._emit_log(state, f"Mapped {conn_count} connections (iter {state.iteration})")
         self._emit_progress(
             {"event": "node", "node": "connection_mapping", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -374,7 +375,7 @@ class ResearchGraph:
         self._write_stage_out("source_verification", out)
         if self._on_progress:
             self._on_progress("source_verification", out)
-        self._emit_log("source_verification", f"Sources verified (iter {out.get('iteration')})")
+        self._emit_log(state, f"Sources verified (iter {state.iteration})")
         self._emit_progress(
             {"event": "node", "node": "source_verification", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -465,7 +466,7 @@ class ResearchGraph:
             self._on_progress("entity_resolution", out)
         entity_count = len(out.get("entities") or [])
         self._emit_progress({"event": "entities_update", "count": entity_count})
-        self._emit_log("entity_resolution", f"Entity resolution done — {entity_count} entities")
+        self._emit_log(state, f"Entity resolution done — {entity_count} entities")
         self._emit_progress(
             {
                 "event": "node", "node": "entity_resolution",
@@ -491,7 +492,7 @@ class ResearchGraph:
         if self._on_progress:
             self._on_progress("temporal_analysis", out)
         facts_count = len(out.get("temporal_facts") or [])
-        self._emit_log("temporal_analysis", f"Temporal analysis complete — {facts_count} facts")
+        self._emit_log(state, f"Temporal analysis complete — {facts_count} facts")
         self._emit_progress(
             {
                 "event": "node", "node": "temporal_analysis",
@@ -512,13 +513,13 @@ class ResearchGraph:
             entity_count=len(state.entities),
             risk_flags=len(state.risk_flags),
         )
-        self._emit_log("generate_report", "Generating final report…")
+        self._emit_log(state, "Generating final report…")
         state = await self.report_generator.generate_report(state)
         out = state.model_dump()
         self._write_stage_out("generate_report", out)
         if self._on_progress:
             self._on_progress("generate_report", out)
-        self._emit_log("generate_report", "Report generated successfully")
+        self._emit_log(state, "Report generated successfully")
         self._emit_progress(
             {"event": "node", "node": "generate_report", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
