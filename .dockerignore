@@ -25,8 +25,8 @@ frontend/node_modules
 frontend/.next
 frontend/out
 
-# Outputs and logs (ephemeral at runtime)
-outputs
+# Outputs and logs (bundling demo data for deployment)
+!outputs/
 *.log
 
 # Docs and dev artifacts (optional: remove to shrink image)
