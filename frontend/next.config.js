@@ -1,11 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    turbo: {
-      resolveAlias: {
-        // Map the @ alias for Turbopack resolution
-        "@/*": "./src/*",
-      },
+  turbopack: {
+    resolveAlias: {
+      "@": "./src",
     },
   },
 };
