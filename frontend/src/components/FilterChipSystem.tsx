@@ -26,8 +26,8 @@ export function FilterChipSystem<T extends string>({
         className={cn(
           "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors",
           value === null
-            ? "border-amber-500/60 bg-amber-500/20 text-amber-400"
-            : "border-zinc-600 bg-zinc-800/50 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300"
+            ? "border-[var(--accent)]/60 bg-[var(--accent)]/20 text-[var(--accent)]"
+            : "border-[var(--border-strong)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--muted)] hover:text-[var(--foreground)]"
         )}
       >
         All
@@ -40,8 +40,8 @@ export function FilterChipSystem<T extends string>({
           className={cn(
             "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors",
             value === opt.value
-              ? "border-amber-500/60 bg-amber-500/20 text-amber-400"
-              : "border-zinc-600 bg-zinc-800/50 text-zinc-400 hover:border-zinc-500 hover:text-zinc-300"
+              ? "border-[var(--accent)]/60 bg-[var(--accent)]/20 text-[var(--accent)]"
+              : "border-[var(--border-strong)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--muted)] hover:text-[var(--foreground)]"
           )}
         >
           {opt.label}

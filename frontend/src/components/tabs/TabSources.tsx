@@ -4,16 +4,7 @@ import { useMemo, useState } from "react";
 import type { Investigation, SearchRecord } from "@/lib/types";
 import { SourceCredibilityBar } from "../SourceCredibilityBar";
 import { ConflictIndicator } from "../ConflictIndicator";
-import { formatRelativeTime } from "@/lib/utils";
-
-function domainFromUrl(url: string): string {
-  try {
-    const u = new URL(url);
-    return u.hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-}
+import { formatRelativeTime, domainFromUrl } from "@/lib/utils";
 
 export function TabSources({ investigation: inv }: { investigation: Investigation }) {
   const [domainFilter, setDomainFilter] = useState<string | null>(null);
@@ -98,8 +89,8 @@ export function TabSources({ investigation: inv }: { investigation: Investigatio
             onClick={() => setDomainFilter(null)}
             className={`rounded border px-2 py-1 text-xs ${
               domainFilter === null
-                ? "border-amber-500/60 bg-amber-500/20 text-amber-400"
-                : "border-zinc-600 text-zinc-400 hover:bg-zinc-800"
+                ? "border-[var(--accent)]/60 bg-[var(--accent)]/20 text-[var(--accent)]"
+                : "border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-hover)]"
             }`}
           >
             All
@@ -111,8 +102,8 @@ export function TabSources({ investigation: inv }: { investigation: Investigatio
               onClick={() => setDomainFilter(d)}
               className={`rounded border px-2 py-1 text-xs ${
                 domainFilter === d
-                  ? "border-amber-500/60 bg-amber-500/20 text-amber-400"
-                  : "border-zinc-600 text-zinc-400 hover:bg-zinc-800"
+                  ? "border-[var(--accent)]/60 bg-[var(--accent)]/20 text-[var(--accent)]"
+                  : "border-[var(--border-strong)] text-[var(--text-secondary)] hover:bg-[var(--bg-hover)]"
               }`}
             >
               {d}
@@ -122,22 +113,22 @@ export function TabSources({ investigation: inv }: { investigation: Investigatio
       </section>
 
       <section>
-        <h2 className="mb-2 text-xs font-medium uppercase tracking-wider text-zinc-500">
+        <h2 className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
           Search history
         </h2>
         <ul className="space-y-2">
           {records.slice(0, 50).map((r: SearchRecord, i: number) => (
             <li
               key={`${r.timestamp}-${r.query}-${i}`}
-              className="rounded border border-[var(--border)] bg-zinc-900/50 p-3"
+              className="rounded border border-[var(--border)] bg-[var(--bg-card)] p-3"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="text-sm text-zinc-300">{r.query}</span>
-                <span className="text-xs text-zinc-500">
+                <span className="text-sm text-[var(--foreground)]">{r.query}</span>
+                <span className="text-xs text-[var(--muted)]">
                   {formatRelativeTime(r.timestamp)}
                 </span>
               </div>
-              <div className="mt-1 flex items-center gap-3 text-xs text-zinc-500">
+              <div className="mt-1 flex items-center gap-3 text-xs text-[var(--muted)]">
                 <span>{r.provider}</span>
                 <span>{r.phase}</span>
                 <span>Iteration {r.iteration}</span>
@@ -154,14 +145,14 @@ export function TabSources({ investigation: inv }: { investigation: Investigatio
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-mono-console text-[11px] text-amber-400 hover:underline"
+                        className="text-[11px] text-[var(--accent)] hover:underline"
                       >
-                        {url}
+                        {domainFromUrl(url)}
                       </a>
                     </li>
                   ))}
                   {r.result_urls.length > 5 && (
-                    <li className="text-[10px] text-zinc-500">
+                    <li className="text-[10px] text-[var(--muted)]">
                       +{r.result_urls.length - 5} more
                     </li>
                   )}
