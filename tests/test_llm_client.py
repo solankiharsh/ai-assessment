@@ -104,3 +104,68 @@ def test_cost_tracking_per_tier() -> None:
     before = client.total_cost
     client._track_cost(ModelProvider.GEMINI, "c" * 400, "d" * 400)
     assert client.total_cost > before
+
+
+def test_get_model_fallback_when_provider_missing() -> None:
+    """When requested provider is not in _models, get_model returns another configured model (failover)."""
+    client = LLMClient(budget_usd=0)
+    fallback_model = object()
+    client._models.clear()
+    client._models[ModelProvider.OPENAI] = fallback_model  # type: ignore[assignment]
+    # Request CLAUDE which is not configured; should return OPENAI
+    result = client.get_model(ModelProvider.CLAUDE)
+    assert result is fallback_model
+
+
+# ── New fallback routing tests ───────────────────────────────────────────────
+
+def test_fallback_provider_deep_claude_to_openai() -> None:
+    """DEEP tier: primary=Claude → fallback=OpenAI when OpenAI is configured."""
+    client = LLMClient(budget_usd=0)
+    client._models.clear()
+    client._fast_models.clear()
+    client._models[ModelProvider.CLAUDE] = object()  # type: ignore[assignment]
+    client._models[ModelProvider.OPENAI] = object()  # type: ignore[assignment]
+    fallback = client._fallback_provider_for_tier(ModelTier.DEEP, ModelProvider.CLAUDE)
+    assert fallback == ModelProvider.OPENAI
+
+
+def test_fallback_provider_deep_no_fallback_when_only_claude() -> None:
+    """DEEP tier: if only Claude is configured, _fallback_provider_for_tier returns None."""
+    client = LLMClient(budget_usd=0)
+    client._models.clear()
+    client._fast_models.clear()
+    client._models[ModelProvider.CLAUDE] = object()  # type: ignore[assignment]
+    fallback = client._fallback_provider_for_tier(ModelTier.DEEP, ModelProvider.CLAUDE)
+    assert fallback is None
+
+
+def test_fallback_provider_fast_openai_to_gemini() -> None:
+    """FAST tier: primary=OpenAI → fallback=Gemini when Gemini is configured."""
+    client = LLMClient(budget_usd=0)
+    client._models.clear()
+    client._fast_models.clear()
+    client._fast_models[ModelProvider.OPENAI] = object()  # type: ignore[assignment]
+    client._fast_models[ModelProvider.GEMINI] = object()  # type: ignore[assignment]
+    fallback = client._fallback_provider_for_tier(ModelTier.FAST, ModelProvider.OPENAI)
+    assert fallback == ModelProvider.GEMINI
+
+
+def test_resolve_tier_fast_prefers_openai_first() -> None:
+    """After the ordering change, FAST tier prefers OpenAI (GPT-4.1-mini) before Gemini."""
+    client = LLMClient(budget_usd=0)
+    client._models.clear()
+    client._fast_models.clear()
+    client._fast_models[ModelProvider.OPENAI] = object()  # type: ignore[assignment]
+    client._fast_models[ModelProvider.GEMINI] = object()  # type: ignore[assignment]
+    assert client.resolve_tier(ModelTier.FAST) == ModelProvider.OPENAI
+
+
+def test_fallback_provider_fast_no_fallback_when_only_openai() -> None:
+    """FAST tier: if only OpenAI fast model is configured, _fallback_provider_for_tier returns None."""
+    client = LLMClient(budget_usd=0)
+    client._models.clear()
+    client._fast_models.clear()
+    client._fast_models[ModelProvider.OPENAI] = object()  # type: ignore[assignment]
+    fallback = client._fallback_provider_for_tier(ModelTier.FAST, ModelProvider.OPENAI)
+    assert fallback is None

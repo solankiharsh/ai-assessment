@@ -1,0 +1,12 @@
+# Grafana dashboard provisioning (apiVersion 1)
+apiVersion: 1
+providers:
+  - name: "Deep Research Agent"
+    orgId: 1
+    folder: "Deep Research"
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards
+      foldersFromFilesStructure: false

@@ -34,6 +34,7 @@ from tenacity import (
 )
 
 from src.config import get_settings
+from src.observability import metrics as obs_metrics
 
 logger = structlog.get_logger()
 T = TypeVar("T", bound=BaseModel)
@@ -290,12 +291,36 @@ class LLMClient:
                 if p in self._models:
                     return p
         else:
-            for p in (ModelProvider.GEMINI, ModelProvider.OPENAI, ModelProvider.CLAUDE):
+            for p in (ModelProvider.OPENAI, ModelProvider.GEMINI, ModelProvider.CLAUDE):
                 if p in self._fast_models:
                     return p
         if self._models:
             return next(iter(self._models))
         raise PermanentError(f"No LLM models available. Requested tier: {tier}")
+
+    def _fallback_provider_for_tier(self, tier: ModelTier, primary: ModelProvider) -> Optional[ModelProvider]:
+        """Return the designated fallback provider for a tier when primary fails.
+
+        Fallback routing:
+          DEEP  → Claude (primary) → OpenAI (GPT-4.1)
+          FAST  → OpenAI (GPT-4.1-mini, primary) → Gemini (Gemini 2.5 Flash)
+        """
+        self._ensure_models()
+        if tier == ModelTier.DEEP:
+            order = (ModelProvider.CLAUDE, ModelProvider.OPENAI, ModelProvider.GEMINI)
+            model_dict = self._models
+        else:
+            order = (ModelProvider.OPENAI, ModelProvider.GEMINI, ModelProvider.CLAUDE)
+            model_dict = self._fast_models
+        # Return the next configured provider after primary in the order
+        found_primary = False
+        for p in order:
+            if p == primary:
+                found_primary = True
+                continue
+            if found_primary and p in model_dict:
+                return p
+        return None
 
     def get_model_by_tier(self, tier: ModelTier) -> BaseChatModel:
         """Get the LangChain model for the given tier (uses fast or deep model)."""
@@ -311,6 +336,11 @@ class LLMClient:
             if self._models:
                 fallback = next(iter(self._models))
                 logger.warning("model_fallback", requested=provider, using=fallback)
+                obs_metrics.record_llm_fallback(
+                    primary=provider.value,
+                    fallback=fallback.value,
+                    task="unknown",
+                )
                 return self._models[fallback]
             raise PermanentError(f"No LLM models available. Requested: {provider}")
         return self._models[provider]
@@ -389,20 +419,108 @@ class LLMClient:
         user_prompt: str,
         temperature: Optional[float] = None,
         json_mode: bool = False,
+        task: str = "",
     ) -> str:
         """Generate using the model for the given tier (DEEP or FAST).
+
+        Attempts the primary provider first, then switches to the designated
+        fallback provider on TransientError (rate limit, 429, timeout):
+          DEEP  tier: Claude → OpenAI (GPT-4.1)
+          FAST  tier: OpenAI (GPT-4.1-mini) → Gemini (Gemini 2.5 Flash)
 
         Args:
             json_mode: When True, request JSON-object response format from the
                 model (OpenAI / LiteLLM).  Eliminates markdown fences and
                 trailing-comma issues at the source.  Silently ignored for
                 providers that do not support the feature.
+            task: Task name for metrics (e.g. from ModelTask.value).
         """
-        provider = self.resolve_tier(tier)
+        primary_provider = self.resolve_tier(tier)
         combined = system_prompt + user_prompt
-        self._check_budget(provider, len(combined))
+        self._check_budget(primary_provider, len(combined))
 
-        model = self.get_model_by_tier(tier)
+        try:
+            return await self._generate_for_provider(
+                provider=primary_provider,
+                tier=tier,
+                system_prompt=system_prompt,
+                user_prompt=user_prompt,
+                combined=combined,
+                temperature=temperature,
+                json_mode=json_mode,
+                task=task,
+                is_fallback=False,
+            )
+        except TransientError as primary_err:
+            # Primary provider failed with a transient error — try designated fallback
+            fallback_provider = self._fallback_provider_for_tier(tier, primary_provider)
+            if fallback_provider is None:
+                raise  # No configured fallback — propagate original error
+
+            primary_model = self.get_model_by_tier(tier)
+            primary_model_name = _model_name_from(primary_model)
+
+            # Determine fallback model name for logging
+            if tier == ModelTier.FAST and fallback_provider in self._fast_models:
+                fb_model = self._fast_models[fallback_provider]
+            elif fallback_provider in self._models:
+                fb_model = self._models[fallback_provider]
+            else:
+                raise
+            fallback_model_name = _model_name_from(fb_model)
+
+            err_str = str(primary_err)
+            err_code = "429" if "429" in err_str else ("timeout" if "timeout" in err_str.lower() else "transient")
+            logger.warning(
+                "llm_fallback_triggered",
+                tier=tier.value,
+                primary_provider=primary_provider.value,
+                primary_model=primary_model_name,
+                fallback_provider=fallback_provider.value,
+                fallback_model=fallback_model_name,
+                error_code=err_code,
+                error=err_str[:120],
+                task=task or "unknown",
+            )
+            obs_metrics.record_llm_fallback(
+                primary=primary_provider.value,
+                fallback=fallback_provider.value,
+                task=task or "unknown",
+            )
+            self._check_budget(fallback_provider, len(combined))
+            return await self._generate_for_provider(
+                provider=fallback_provider,
+                tier=tier,
+                system_prompt=system_prompt,
+                user_prompt=user_prompt,
+                combined=combined,
+                temperature=temperature,
+                json_mode=json_mode,
+                task=task,
+                is_fallback=True,
+            )
+
+    async def _generate_for_provider(
+        self,
+        provider: ModelProvider,
+        tier: ModelTier,
+        system_prompt: str,
+        user_prompt: str,
+        combined: str,
+        temperature: Optional[float],
+        json_mode: bool,
+        task: str,
+        is_fallback: bool = False,
+    ) -> str:
+        """Internal: run a single LLM call for a specific provider+tier, with json_mode and metrics."""
+        if tier == ModelTier.FAST and provider in self._fast_models:
+            model = self._fast_models[provider]
+        elif provider in self._models:
+            model = self._models[provider]
+        else:
+            model = self.get_model(provider)
+
+        model_name = _model_name_from(model)
         messages = [
             SystemMessage(content=system_prompt),
             HumanMessage(content=user_prompt),
@@ -412,53 +530,65 @@ class LLMClient:
         if temperature is not None:
             bindings["temperature"] = temperature
         if json_mode and not reasoning:
-            # response_format=json_object is not supported by reasoning/thinking models
-            # (o1, o3, o4-mini, gemini-2.5-*, deepseek-r1, etc.)
             bindings["response_format"] = {"type": "json_object"}
         if reasoning:
-            # Thinking models spend tokens internally; give them room for both
-            # reasoning and actual output.
             bindings["max_tokens"] = _REASONING_MODEL_MAX_TOKENS
-        # (No per-call log for reasoning model json_mode skip — fact extractor
-        # logs it once per extraction pass to avoid flooding.)
         if bindings and hasattr(model, "bind"):
             try:
                 model = model.bind(**bindings)
             except Exception:
-                # Provider doesn't support one of the bindings; fall back gracefully.
                 if temperature is not None and hasattr(model, "bind"):
                     try:
                         model = model.bind(temperature=temperature)
                     except Exception:
                         pass
 
-        try:
-            response = await model.ainvoke(messages)
-        except Exception as e:
-            # json_mode with a reasoning/long-output model can hit the completion
-            # token limit, causing OpenAI to raise an error instead of returning
-            # partial content.  Retry without the response_format constraint so
-            # our downstream _parse_json + json-repair can handle the raw output.
-            if json_mode and _is_length_limit_error(e):
-                logger.warning(
-                    "json_mode_length_limit_fallback",
-                    tier=tier.value,
-                    error=str(e)[:120],
-                )
-                plain_model = self.get_model_by_tier(tier)
-                if temperature is not None and hasattr(plain_model, "bind"):
-                    plain_model = plain_model.bind(temperature=temperature)
-                try:
-                    response = await plain_model.ainvoke(messages)
-                except Exception as e2:
-                    self._wrap_transient(e2)
+        async with obs_metrics.track_llm_call(
+            model=model_name,
+            task=task or "unknown",
+            provider=provider.value,
+        ):
+            try:
+                response = await model.ainvoke(messages)
+            except Exception as e:
+                if json_mode and _is_length_limit_error(e):
+                    logger.warning(
+                        "json_mode_length_limit_fallback",
+                        tier=tier.value,
+                        provider=provider.value,
+                        error=str(e)[:120],
+                    )
+                    if tier == ModelTier.FAST and provider in self._fast_models:
+                        plain_model = self._fast_models[provider]
+                    else:
+                        plain_model = self._models.get(provider, model)
+                    if temperature is not None and hasattr(plain_model, "bind"):
+                        plain_model = plain_model.bind(temperature=temperature)
+                    try:
+                        response = await plain_model.ainvoke(messages)
+                    except Exception as e2:
+                        self._wrap_transient(e2)
+                        raise
+                else:
+                    self._wrap_transient(e)
                     raise
-            else:
-                self._wrap_transient(e)
-                raise
 
         content = response.content if hasattr(response, "content") else str(response)
         self._track_cost(provider, combined, content)
+        input_tokens = len(combined) // 4
+        output_tokens = len(str(content)) // 4
+        cost = _estimate_cost(provider, len(combined), len(str(content)))
+        obs_metrics.record_llm_tokens(
+            model=model_name,
+            task=task or "unknown",
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+        )
+        obs_metrics.record_llm_cost(
+            model=model_name,
+            task=task or "unknown",
+            cost_usd=cost,
+        )
         return content
 
     def _resolve_task_tier(self, task: ModelTask) -> ModelTier:
@@ -489,14 +619,16 @@ class LLMClient:
         temperature: Optional[float] = None,
         json_mode: bool = False,
     ) -> str:
-        """Generate using the model for a specific task role, with fallback to tier-based resolution."""
+        """Generate using the model for a specific task role, with provider fallback on transient errors."""
         tier = self._resolve_task_tier(task)
+        # generate_for_tier now includes automatic provider fallback on TransientError
         return await self.generate_for_tier(
             tier=tier,
             system_prompt=system_prompt,
             user_prompt=user_prompt,
             temperature=temperature,
             json_mode=json_mode,
+            task=task.value,
         )
 
     async def generate_structured(

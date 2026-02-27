@@ -114,12 +114,17 @@ class AgentConfig(BaseSettings):
 
 
 class ObservabilityConfig(BaseSettings):
-    """LangSmith and logging."""
+    """LangSmith, Prometheus metrics, and optional OTLP."""
 
     langsmith_api_key: str = Field(default="", alias="LANGCHAIN_API_KEY")
     langsmith_project: str = Field(default="deep-research-agent", alias="LANGCHAIN_PROJECT")
     tracing_enabled: bool = Field(default=False, alias="LANGCHAIN_TRACING_V2")
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")
+    # Prometheus: agent exposes /metrics on this port when enabled
+    metrics_enabled: bool = Field(default=False, alias="PROMETHEUS_METRICS_ENABLED")
+    metrics_port: int = Field(default=8000, alias="PROMETHEUS_METRICS_PORT")
+    pushgateway_url: str = Field(default="", alias="PROMETHEUS_PUSHGATEWAY_URL")
+    otlp_endpoint: str = Field(default="", alias="OTEL_EXPORTER_OTLP_ENDPOINT")
 
 
 class YAMLConfigLoader:

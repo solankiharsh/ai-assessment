@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { Shield, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 function getCaseIdFromPath(pathname: string | null): string | null {
   if (!pathname || !pathname.startsWith("/cases/")) return null;
@@ -24,17 +26,16 @@ function StatPill({
   variant?: "danger" | "default";
 }) {
   return (
-    <div className="flex items-center gap-1.5 rounded-md border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1">
-      <span
-        className={cn(
-          "font-mono text-sm font-semibold",
-          variant === "danger" ? "text-[var(--risk-high)]" : "text-[var(--foreground)]"
-        )}
-      >
-        {value}
-      </span>
-      <span className="text-xs text-[var(--muted)]">{label}</span>
-    </div>
+    <Badge
+      variant="secondary"
+      className={cn(
+        "gap-1.5 font-mono text-xs font-semibold",
+        variant === "danger" && "border-destructive/50 text-destructive"
+      )}
+    >
+      <span>{value}</span>
+      <span className="font-normal text-muted-foreground">{label}</span>
+    </Badge>
   );
 }
 
@@ -62,20 +63,20 @@ export function HeaderBar() {
   ];
 
   return (
-    <header className="flex h-12 shrink-0 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-secondary)] px-4">
+    <header className="flex h-12 shrink-0 items-center justify-between border-b border-border bg-card px-4">
       <div className="flex items-center gap-3">
         <Link href="/cases" className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-[var(--border)] bg-[var(--bg-card)]">
-            <Shield className="h-4 w-4 text-[var(--accent)]" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-border bg-muted/50">
+            <Shield className="h-4 w-4 text-primary" />
           </div>
           <div className="hidden sm:block">
-            <span className="text-sm font-semibold text-[var(--foreground)]">
+            <span className="text-sm font-semibold text-foreground">
               Deep Research
             </span>
           </div>
         </Link>
 
-        <div className="mx-2 h-5 w-px bg-[var(--border)]" />
+        <div className="mx-2 h-5 w-px bg-border" />
 
         <nav className="flex items-center gap-1" role="tablist">
           {navItems.map((item) => (
@@ -87,8 +88,8 @@ export function HeaderBar() {
               className={cn(
                 "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                 item.active
-                  ? "bg-[var(--bg-card)] text-[var(--foreground)]"
-                  : "text-[var(--muted)] hover:text-[var(--text-secondary)]"
+                  ? "bg-muted text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
               )}
             >
               {item.label}
@@ -110,9 +111,11 @@ export function HeaderBar() {
           </div>
         )}
 
-        <button
+        <Button
           type="button"
-          className="flex items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--bg-card)] px-3 py-1.5 text-sm text-[var(--muted)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--text-secondary)]"
+          variant="outline"
+          size="sm"
+          className="gap-2 text-muted-foreground"
           onClick={() => {
             window.dispatchEvent(
               new KeyboardEvent("keydown", { key: "k", metaKey: true })
@@ -121,10 +124,10 @@ export function HeaderBar() {
         >
           <Search className="h-3.5 w-3.5" />
           <span className="hidden sm:inline">Search</span>
-          <kbd className="rounded border border-[var(--border)] bg-[var(--background)] px-1.5 py-0.5 font-mono text-[10px] text-[var(--muted)]">
+          <kbd className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
             ⌘K
           </kbd>
-        </button>
+        </Button>
       </div>
     </header>
   );

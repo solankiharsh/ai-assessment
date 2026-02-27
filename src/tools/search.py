@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import socket
 import traceback
 from typing import Any, Optional
 from urllib.parse import urlparse
@@ -26,6 +27,7 @@ from tenacity import (
 
 from src.config import get_settings
 from src.models import SearchPhase, SearchRecord
+from src.observability import metrics as obs_metrics
 
 try:
     from playwright.async_api import async_playwright
@@ -512,7 +514,34 @@ class TieredFetcher:
     """
     Four-tier URL fetcher: httpx (rotated) -> Playwright -> domain alternates (e.g. EDGAR) -> Wayback.
     Returns FetchResult; on final failure content is None and inaccessible_reason is set.
+
+    Failure taxonomy:
+      Class 1 – Bot-blocked (403/429): domain is live but guards against bots. Escalate tiers.
+      Class 2 – Dead domain (DNS failure): subdomain/domain retired. Skip tiers, go to archive recovery.
+      Class 3 – Content removed (404): domain alive but page gone. Log + attempt archive recovery.
     """
+
+    # ─── DNS pre-check cache (process-lifetime; domain strings are small) ───
+    _dns_cache: dict[str, bool] = {}
+
+    @staticmethod
+    def _domain_resolves(url: str) -> bool:
+        """Return True if the URL's hostname has valid DNS. Results are cached."""
+        try:
+            domain = urlparse(url).hostname or ""
+        except Exception:
+            return True  # can't parse – let normal fetch decide
+        if not domain:
+            return True
+        if domain in TieredFetcher._dns_cache:
+            return TieredFetcher._dns_cache[domain]
+        try:
+            socket.getaddrinfo(domain, None, socket.AF_INET, socket.SOCK_STREAM)
+            TieredFetcher._dns_cache[domain] = True
+            return True
+        except socket.gaierror:
+            TieredFetcher._dns_cache[domain] = False
+            return False
 
     def __init__(self) -> None:
         self._tier1 = WebFetcher()
@@ -717,36 +746,288 @@ class TieredFetcher:
                 inaccessible_reason=f"crawl4ai_error: {str(e)[:150]}",
             )
 
+    # ─── Archive / recovery helpers ─────────────────────────────────────────
+
+    async def _try_wayback_machine(self, url: str) -> FetchResult:
+        """
+        Check Wayback Machine availability API and, if a snapshot exists,
+        fetch it via Tier 1. Returns FetchResult with content on success.
+        """
+        try:
+            async with httpx.AsyncClient(
+                timeout=10, headers={"User-Agent": _USER_AGENTS[0]}
+            ) as client:
+                avail = await client.get(
+                    _WAYBACK_AVAILABLE, params={"url": url}
+                )
+                avail.raise_for_status()
+                data = avail.json()
+        except Exception as e:
+            logger.debug("wayback_availability_check_failed", url=url, error=str(e))
+            return FetchResult(content=None, status="error", inaccessible_reason=f"wayback_check_error: {str(e)[:120]}")
+
+        if not isinstance(data, dict):
+            return FetchResult(content=None, status="200", inaccessible_reason="wayback_invalid_response")
+        closest = (data.get("archived_snapshots") or {}).get("closest")
+        if not isinstance(closest, dict):
+            return FetchResult(content=None, status="200", inaccessible_reason="wayback_no_snapshot")
+        # Require status 200 from the snapshot
+        if closest.get("status") != "200":
+            return FetchResult(content=None, status="200", inaccessible_reason="wayback_snapshot_not_200")
+        snapshot_url = closest.get("url", "")
+        if not snapshot_url.startswith("http"):
+            return FetchResult(content=None, status="200", inaccessible_reason="wayback_bad_snapshot_url")
+        r = await self._tier1.fetch(snapshot_url)
+        if r.content is not None:
+            return FetchResult(
+                content=r.content,
+                status="200",
+                inaccessible_reason=None,
+            )
+        return FetchResult(content=None, status=r.status or "error", inaccessible_reason="wayback_fetch_failed")
+
+    async def _search_for_relocated_content(self, url: str) -> Optional[FetchResult]:
+        """
+        Extract key terms from a dead URL's path slug and search for the same
+        content on live domains. Useful when a page moved but content is still
+        available elsewhere.
+        """
+        try:
+            parsed = urlparse(url)
+            path = parsed.path or ""
+            slug = path.rstrip("/").split("/")[-1]
+            # Strip common extensions
+            for ext in (".html", ".htm", ".asp", ".aspx", ".php"):
+                if slug.lower().endswith(ext):
+                    slug = slug[: -len(ext)]
+                    break
+            terms = slug.replace("-", " ").replace("_", " ").strip()
+            if len(terms.split()) < 3:
+                return None  # slug too short to give useful search signal
+
+            # Include the org name hinted by the hostname
+            domain = parsed.hostname or ""
+            # e.g. apps.americanbar.org -> "americanbar"
+            parts = domain.split(".")
+            org_hint = parts[-2] if len(parts) >= 2 else parts[0] if parts else ""
+
+            query = f'"{terms}" {org_hint}'.strip()
+            logger.debug("searching_for_relocated_content", query=query, original_url=url)
+
+            # Perform a lightweight search using Tavily (no raw content needed)
+            searcher = TavilySearchTool()
+            try:
+                resp = await searcher.search(query, max_results=3, include_raw_content=False, search_depth="basic")
+            finally:
+                await searcher.close()
+
+            if not resp.results:
+                return None
+
+            # Attempt to fetch the top result
+            top = resp.results[0]
+            fetched = await self._tier1.fetch(top.url)
+            if fetched.content:
+                fetched.inaccessible_reason = None
+                return fetched
+        except Exception as e:
+            logger.debug("search_for_relocated_content_error", url=url, error=str(e))
+        return None
+
+    async def _recover_dead_url(
+        self, url: str, domain: str
+    ) -> FetchResult:
+        """
+        Recovery pipeline for Class 2 (dead domain) and Class 3 (404) failures.
+        Tries: Wayback Machine -> content-relocation search.
+        """
+        obs_metrics.record_dead_domain(domain=domain, recovery_method="attempt")
+
+        # Strategy 1: Wayback Machine
+        wb = await self._try_wayback_machine(url)
+        if wb.content is not None:
+            logger.info("dead_url_recovered_via_wayback", url=url, domain=domain)
+            obs_metrics.record_dead_domain(domain=domain, recovery_method="wayback")
+            return wb
+
+        # Strategy 2: Search for the content on a live domain using URL slug
+        relocated = await self._search_for_relocated_content(url)
+        if relocated and relocated.content:
+            logger.info("dead_url_content_found_elsewhere", original_url=url, domain=domain)
+            obs_metrics.record_dead_domain(domain=domain, recovery_method="relocated")
+            return relocated
+
+        # All recovery failed
+        obs_metrics.record_dead_domain(domain=domain, recovery_method="unrecoverable")
+        return FetchResult(
+            content=None,
+            status="dead",
+            inaccessible_reason=(
+                f"Domain {domain} no longer resolves (DNS failure). "
+                "Wayback Machine and content-relocation recovery both failed."
+            ),
+        )
+
+    # ─── Main fetch entry points ─────────────────────────────────────────────
+
     async def fetch(self, url: str) -> FetchResult:
-        """Run tiers in order; return first success or final FetchResult with inaccessible_reason."""
+        """Run tiered fetch with DNS pre-check + failure taxonomy. Returns FetchResult."""
         async with self._rate_limiter.acquire(url):
             return await self._fetch_inner(url)
 
     async def _fetch_inner(self, url: str) -> FetchResult:
-        """Inner fetch logic (called within rate limiter)."""
+        """Inner fetch logic (called within rate limiter). Three-class failure taxonomy."""
+        import time as _time
+        domain = (urlparse(url).netloc or "unknown")[:64]
+        hostname = (urlparse(url).hostname or "")[:64]
+
+        # ── Class 2: Dead domain (DNS failure) ─────────────────────────────
+        # Skip tiers 1-3 entirely — no point sending HTTP to a dead domain.
+        if not self._domain_resolves(url):
+            logger.warning(
+                "domain_dns_failed",
+                domain=hostname,
+                url=url,
+                action="skipping_to_archive_recovery",
+            )
+            return await self._recover_dead_url(url, hostname)
+
+        # ── Tier 1: httpx with rotated headers ─────────────────────────────
+        t0 = _time.perf_counter()
         r = await self._tier1.fetch(url)
+        obs_metrics.record_fetch(
+            domain=domain,
+            tier=1,
+            status_code=r.status or ("ok" if r.content else "fail"),
+            duration=_time.perf_counter() - t0,
+        )
         if r.content is not None:
             return r
+
+        # ── Class 1: Bot-blocked (403/429) → escalate through browser tiers ─
+        if r.status in ("403", "429"):
+            obs_metrics.record_tier_escalation(domain=domain, from_tier=1, to_tier=2)
+
+            t0 = _time.perf_counter()
+            r2 = await self._tier2_playwright(url)
+            obs_metrics.record_fetch(
+                domain=domain,
+                tier=2,
+                status_code=r2.status or ("ok" if r2.content else "fail"),
+                duration=_time.perf_counter() - t0,
+            )
+            if r2.content is not None:
+                return r2
+            obs_metrics.record_tier_escalation(domain=domain, from_tier=2, to_tier=3)
+
+            t0 = _time.perf_counter()
+            r2_5 = await self._tier2_5_crawl4ai(url)
+            obs_metrics.record_fetch(
+                domain=domain,
+                tier=3,
+                status_code=r2_5.status or ("ok" if r2_5.content else "fail"),
+                duration=_time.perf_counter() - t0,
+            )
+            if r2_5.content is not None:
+                return r2_5
+            obs_metrics.record_tier_escalation(domain=domain, from_tier=3, to_tier=4)
+
+            t0 = _time.perf_counter()
+            r3 = await self._tier3_edgar(url)
+            obs_metrics.record_fetch(
+                domain=domain,
+                tier=4,
+                status_code=r3.status or ("ok" if r3.content else "fail"),
+                duration=_time.perf_counter() - t0,
+            )
+            if r3.content is not None:
+                return r3
+            obs_metrics.record_tier_escalation(domain=domain, from_tier=4, to_tier=5)
+
+            t0 = _time.perf_counter()
+            r4 = await self._tier4_wayback(url)
+            obs_metrics.record_fetch(
+                domain=domain,
+                tier=5,
+                status_code=r4.status or ("ok" if r4.content else "fail"),
+                duration=_time.perf_counter() - t0,
+            )
+            if r4.content is not None:
+                return r4
+            # Return most informative failure reason
+            for candidate in (r4, r3, r2_5, r2, r):
+                if candidate.inaccessible_reason:
+                    return candidate
+            return r
+
+        # ── Class 3: Content removed (404) → archive recovery ───────────────
+        if r.status == "404":
+            logger.info(
+                "content_removed",
+                url=url,
+                domain=hostname,
+                note="Page returned 404; attempting archive recovery.",
+            )
+            recovered = await self._recover_dead_url(url, hostname)
+            if recovered.content:
+                recovered.inaccessible_reason = (
+                    f"Original URL returned 404 (content removed). "
+                    f"Recovered via archive/relocation."
+                )
+            return recovered
+
+        # ── Any other non-200 (e.g. 500, 503) → existing tier cascade ───────
+        obs_metrics.record_tier_escalation(domain=domain, from_tier=1, to_tier=2)
+
+        t0 = _time.perf_counter()
         r2 = await self._tier2_playwright(url)
+        obs_metrics.record_fetch(
+            domain=domain,
+            tier=2,
+            status_code=r2.status or ("ok" if r2.content else "fail"),
+            duration=_time.perf_counter() - t0,
+        )
         if r2.content is not None:
             return r2
+        obs_metrics.record_tier_escalation(domain=domain, from_tier=2, to_tier=3)
+
+        t0 = _time.perf_counter()
         r2_5 = await self._tier2_5_crawl4ai(url)
+        obs_metrics.record_fetch(
+            domain=domain,
+            tier=3,
+            status_code=r2_5.status or ("ok" if r2_5.content else "fail"),
+            duration=_time.perf_counter() - t0,
+        )
         if r2_5.content is not None:
             return r2_5
+        obs_metrics.record_tier_escalation(domain=domain, from_tier=3, to_tier=4)
+
+        t0 = _time.perf_counter()
         r3 = await self._tier3_edgar(url)
+        obs_metrics.record_fetch(
+            domain=domain,
+            tier=4,
+            status_code=r3.status or ("ok" if r3.content else "fail"),
+            duration=_time.perf_counter() - t0,
+        )
         if r3.content is not None:
             return r3
+        obs_metrics.record_tier_escalation(domain=domain, from_tier=4, to_tier=5)
+
+        t0 = _time.perf_counter()
         r4 = await self._tier4_wayback(url)
+        obs_metrics.record_fetch(
+            domain=domain,
+            tier=5,
+            status_code=r4.status or ("ok" if r4.content else "fail"),
+            duration=_time.perf_counter() - t0,
+        )
         if r4.content is not None:
             return r4
-        if r4.inaccessible_reason:
-            return r4
-        if r3.inaccessible_reason:
-            return r3
-        if r2_5.inaccessible_reason:
-            return r2_5
-        if r2.inaccessible_reason:
-            return r2
+        for candidate in (r4, r3, r2_5, r2, r):
+            if candidate.inaccessible_reason:
+                return candidate
         return r
 
     async def close(self) -> None:
@@ -784,7 +1065,10 @@ class SearchOrchestrator:
         if use_both:
             return await self._parallel_search(query, phase, iteration)
 
-        response = await self.tavily.search(query)
+        phase_str = phase.value if hasattr(phase, "value") else str(phase)
+        async with obs_metrics.track_search(provider="tavily", phase=phase_str) as tracker:
+            response = await self.tavily.search(query)
+            tracker.set_results(len(response.results))
         if response.results:
             record = SearchRecord(
                 query=query,
@@ -798,7 +1082,9 @@ class SearchOrchestrator:
             return response, record
 
         logger.info("search_fallback_to_brave", query=query)
-        response = await self.brave.search(query)
+        async with obs_metrics.track_search(provider="brave", phase=phase_str) as tracker:
+            response = await self.brave.search(query)
+            tracker.set_results(len(response.results))
         record = SearchRecord(
             query=query,
             provider="brave",
@@ -818,9 +1104,25 @@ class SearchOrchestrator:
         iteration: int,
     ) -> tuple[SearchResponse, SearchRecord]:
         """Run both providers in parallel and merge results."""
-        tavily_task = self.tavily.search(query)
-        brave_task = self.brave.search(query)
-        tavily_resp, brave_resp = await asyncio.gather(tavily_task, brave_task, return_exceptions=True)
+        phase_str = phase.value if hasattr(phase, "value") else str(phase)
+
+        async with obs_metrics.track_search(provider="tavily", phase=phase_str) as t_tracker:
+            async with obs_metrics.track_search(provider="brave", phase=phase_str) as b_tracker:
+                tavily_task = self.tavily.search(query)
+                brave_task = self.brave.search(query)
+                tavily_resp, brave_resp = await asyncio.gather(
+                    tavily_task, brave_task, return_exceptions=True
+                )
+                t_tracker.set_results(
+                    len(tavily_resp.results)
+                    if not isinstance(tavily_resp, Exception) and hasattr(tavily_resp, "results")
+                    else 0
+                )
+                b_tracker.set_results(
+                    len(brave_resp.results)
+                    if not isinstance(brave_resp, Exception) and hasattr(brave_resp, "results")
+                    else 0
+                )
 
         merged_results: list[NormalizedResult] = []
         seen_urls: set[str] = set()

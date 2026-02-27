@@ -21,3 +21,5 @@ Use **LangGraph** (StateGraph) as the orchestration layer instead of a linear La
 
 - **Pros**: Clear topology, native cycles and conditionals, good fit for LangSmith tracing and debugging.
 - **Cons**: State is fully serialized/deserialized at each node boundary; for very large state we could later move to delta updates and reducers if needed.
+- **State size strategy**: When state grows large (e.g. 50+ entities, 100+ search records), we can summarise `search_history` by phase for Director context, cap or prune low-confidence entities beyond a threshold, and optionally introduce reducer-based delta updates so nodes only receive and return state deltas instead of full serialization.
+- **State size strategy**: When state grows large (e.g. 50+ entities, 100+ search records), we can summarise `search_history` by phase for Director context, cap or prune low-confidence entities beyond a threshold, and optionally introduce reducer-based delta updates so nodes only receive and return state deltas instead of full serialization.

@@ -65,6 +65,7 @@ class RelationshipType(str, Enum):
     ADVISOR_TO = "ADVISOR_TO"
     DONOR_TO = "DONOR_TO"
     PREVIOUSLY_AT = "PREVIOUSLY_AT"
+    LOCATED_AT = "LOCATED_AT"
 
 
 class RiskSeverity(str, Enum):

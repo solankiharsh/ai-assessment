@@ -1,0 +1,17 @@
+# Prometheus config for Deep Research Agent (ADR 011).
+# Agent exposes /metrics on port 8000 when PROMETHEUS_METRICS_ENABLED=true.
+# When running agent on host: use host.docker.internal:8000 so Docker can scrape.
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "deep-research-agent"
+    static_configs:
+      - targets: ["host.docker.internal:8000"]
+    scrape_interval: 5s
+
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]

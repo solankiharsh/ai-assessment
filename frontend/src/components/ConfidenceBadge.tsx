@@ -35,7 +35,7 @@ export function ConfidenceBadge({
         {pct}%
       </span>
       {label && (
-        <span className="text-xs text-[var(--muted)]">{label}</span>
+        <span className="text-xs text-foreground/80">{label}</span>
       )}
     </div>
   );

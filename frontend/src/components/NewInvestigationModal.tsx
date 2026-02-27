@@ -5,6 +5,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { X, Loader2, ChevronDown, ChevronUp, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface NewInvestigationModalProps {
   open: boolean;
@@ -62,103 +65,94 @@ export function NewInvestigationModal({ open, onClose }: NewInvestigationModalPr
       className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 pt-[12vh] backdrop-blur-sm"
       onClick={onClose}
     >
-      <div
-        className="w-full max-w-lg rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] shadow-2xl"
+      <Card
+        className="w-full max-w-lg shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4">
+        <CardHeader className="flex flex-row items-start justify-between space-y-0">
           <div>
-            <h2 className="text-base font-semibold text-[var(--foreground)]">
+            <h2 className="text-base font-semibold text-foreground">
               New Investigation
             </h2>
-            <p className="mt-0.5 text-sm text-[var(--muted)]">
+            <p className="mt-0.5 text-sm text-muted-foreground">
               Run a deep research pipeline on a subject
             </p>
           </div>
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="icon-sm"
             onClick={onClose}
-            className="rounded-md p-1.5 text-[var(--muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--foreground)]"
+            className="text-muted-foreground hover:text-foreground"
           >
             <X className="h-4 w-4" />
-          </button>
-        </div>
-
-        <div className="space-y-4 px-5 py-5">
+          </Button>
+        </CardHeader>
+        <CardContent className="space-y-4">
           <div>
             <label
               htmlFor="subject-name"
-              className="mb-1.5 block text-sm font-medium text-[var(--text-secondary)]"
+              className="mb-1.5 block text-sm font-medium text-muted-foreground"
             >
               Subject name
             </label>
-            <input
+            <Input
               id="subject-name"
               type="text"
               placeholder="e.g. Jensen Huang"
               value={subjectName}
               onChange={(e) => setSubjectName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && !showAdvanced && handleSubmit()}
-              className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] transition-colors focus:border-[var(--accent)] focus:outline-none"
               autoFocus
             />
           </div>
 
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="sm"
             onClick={() => setShowAdvanced((v) => !v)}
-            className="flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--text-secondary)]"
+            className="text-muted-foreground hover:text-foreground"
           >
             {showAdvanced ? (
               <ChevronUp className="h-3.5 w-3.5" />
             ) : (
               <ChevronDown className="h-3.5 w-3.5" />
             )}
-            Advanced options
-          </button>
+            <span className="ml-1.5">Advanced options</span>
+          </Button>
 
           {showAdvanced && (
-            <div className="space-y-3 rounded-md border border-[var(--border)] bg-[var(--background)] p-4">
+            <div className="space-y-3 rounded-md border border-border bg-muted/30 p-4">
               <div>
-                <label
-                  htmlFor="role"
-                  className="mb-1 block text-sm text-[var(--text-secondary)]"
-                >
+                <label htmlFor="role" className="mb-1 block text-sm text-muted-foreground">
                   Role
                 </label>
-                <input
+                <Input
                   id="role"
                   type="text"
                   placeholder="CEO, CFO, Board Member..."
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full rounded-md border border-[var(--border)] bg-[var(--bg-secondary)] px-3 py-2 text-sm text-[var(--foreground)] transition-colors focus:border-[var(--accent)] focus:outline-none"
                 />
               </div>
               <div>
-                <label
-                  htmlFor="org"
-                  className="mb-1 block text-sm text-[var(--text-secondary)]"
-                >
+                <label htmlFor="org" className="mb-1 block text-sm text-muted-foreground">
                   Organization
                 </label>
-                <input
+                <Input
                   id="org"
                   type="text"
                   placeholder="Company or institution name"
                   value={org}
                   onChange={(e) => setOrg(e.target.value)}
-                  className="w-full rounded-md border border-[var(--border)] bg-[var(--bg-secondary)] px-3 py-2 text-sm text-[var(--foreground)] transition-colors focus:border-[var(--accent)] focus:outline-none"
                 />
               </div>
               <div>
-                <label
-                  htmlFor="max-iter"
-                  className="mb-1 block text-sm text-[var(--text-secondary)]"
-                >
+                <label htmlFor="max-iter" className="mb-1 block text-sm text-muted-foreground">
                   Max iterations
                 </label>
-                <input
+                <Input
                   id="max-iter"
                   type="number"
                   min={1}
@@ -173,36 +167,26 @@ export function NewInvestigationModal({ open, onClose }: NewInvestigationModalPr
                         : Math.min(50, Math.max(1, parseInt(v, 10) || 1))
                     );
                   }}
-                  className="w-full rounded-md border border-[var(--border)] bg-[var(--bg-secondary)] px-3 py-2 text-sm text-[var(--foreground)] transition-colors focus:border-[var(--accent)] focus:outline-none"
                 />
               </div>
             </div>
           )}
 
           {mutation.isError && (
-            <p className="text-sm text-[var(--risk-critical)]">
+            <p className="text-sm text-destructive">
               {(mutation.error as Error)?.message ?? "Failed to start investigation"}
             </p>
           )}
-        </div>
-
-        <div className="flex items-center justify-end gap-3 border-t border-[var(--border)] px-5 py-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-md px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)]"
-          >
+        </CardContent>
+        <CardFooter className="flex justify-end gap-3 border-t border-border">
+          <Button type="button" variant="ghost" onClick={onClose}>
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={handleSubmit}
             disabled={!subjectName.trim() || mutation.isPending}
-            className={cn(
-              "flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors",
-              "bg-[var(--accent)] text-white hover:bg-[var(--accent)]/90",
-              "disabled:cursor-not-allowed disabled:opacity-50"
-            )}
+            className="gap-2"
           >
             {mutation.isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -210,9 +194,9 @@ export function NewInvestigationModal({ open, onClose }: NewInvestigationModalPr
               <Search className="h-4 w-4" />
             )}
             Begin investigation
-          </button>
-        </div>
-      </div>
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
