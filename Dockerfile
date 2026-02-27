@@ -24,14 +24,22 @@ RUN pip install --no-cache-dir -e .
 # Playwright Chromium for tiered fetch (Tier 2). Skip if not needed to save image size.
 RUN playwright install chromium --with-deps || true
 
-# Frontend: copy full tree first so path aliases resolve correctly in Docker
+# Frontend: install and build with robust layering
 WORKDIR /app/frontend
+
+# Copy package files first for better caching
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+
+# Copy source code
 COPY frontend/ ./
 
-# Install deps and build in separate steps so Railway logs show which step failed
-RUN npm ci
-# Increase Node memory for Next.js build (helps avoid OOM on free tier)
-ENV NODE_OPTIONS="--max-old-space-size=4096"
+# Verify the critical file for shadcn resolution
+RUN ls -la src/lib/utils.ts || (echo "CRITICAL: utils.ts missing in frontend/src/lib!" && exit 1)
+
+# Build
+ENV NODE_OPTIONS="--max-old-space-size=4096" \
+    NEXT_TELEMETRY_DISABLED=1
 RUN npx next build
 
 # Runtime env: Next.js and spawn backend from /app
