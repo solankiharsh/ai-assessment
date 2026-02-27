@@ -27,7 +27,7 @@ RUN playwright install chromium --with-deps || true
 # Frontend: copy full tree first so path aliases resolve correctly in Docker
 WORKDIR /app/frontend
 COPY frontend/ ./
-RUN npm ci && npx next build --webpack
+RUN npm ci && npx next build
 
 # Runtime env: Next.js and spawn backend from /app
 ENV REPO_ROOT=/app \
