@@ -1,6 +1,7 @@
-# Local Neo4j for Deep Research Agent development and demo.
+# Local Neo4j, Prometheus, and Grafana for Deep Research Agent (ADR 011).
 # Usage: make docker-up  (then set NEO4J_URI=bolt://localhost:7687 in .env)
-# With Colima: run  docker context use colima  first, then make docker-up
+# Observability: docker compose up -d neo4j prometheus grafana
+# Then run agent with PROMETHEUS_METRICS_ENABLED=true; Grafana at http://localhost:3001
 
 services:
   neo4j:
@@ -19,5 +20,37 @@ services:
       timeout: 5s
       retries: 5
 
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: deep-research-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=30d"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: deep-research-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=research
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
 volumes:
   neo4j_data:
+  prometheus_data:
+  grafana_data:

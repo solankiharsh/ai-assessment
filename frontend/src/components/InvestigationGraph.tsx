@@ -1,321 +1,257 @@
+/**
+ * InvestigationGraph — React Flow graph matching deriv-ai-research-agent's visual style:
+ *   - Solid colored circles with icons (color-coded by entity type)
+ *   - Target entity as a larger red circle with amber ring
+ *   - Edges colored by confidence (green=high, yellow=medium, red=low)
+ *   - Left legend panel (Node Types + Edge Confidence)
+ *   - Right stats panel (target name, counts)
+ *   - Force-directed layout (no dagre dependency)
+ */
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, memo } from "react";
 import {
   ReactFlow,
   Background,
   Controls,
   MiniMap,
+  Handle,
+  Position,
   useNodesState,
   useEdgesState,
-  useViewport,
   type Node,
   type NodeTypes,
   type Edge,
-  Panel,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { GraphLegend } from "./GraphLegend";
 import type { EntityType } from "@/lib/types";
-import { cn } from "@/lib/utils";
-import { useUIStore } from "@/store/useUIStore";
 
-/** Resolve CSS variable values at runtime for inline styles (canvas rendering). */
-function resolveCssVar(varExpr: string): string {
-  if (typeof window === "undefined") return "#64748b";
-  return getComputedStyle(document.documentElement)
-    .getPropertyValue(varExpr.replace(/^var\(--/, "--").replace(/\)$/, ""))
-    .trim() || "#64748b";
-}
-
-/** Fixed color palette for entity types (used for canvas-level rendering in ReactFlow). */
-const ENTITY_HEX: Record<EntityType, string> = {
-  person: "#60A5FA",
-  organization: "#A78BFA",
-  location: "#22D3EE",
-  event: "#FBBF24",
-  document: "#94A3B8",
-  financial_instrument: "#34D399",
+/* ── Entity color palette (matches deriv's colors) ─────────────── */
+const ENTITY_COLORS: Record<string, string> = {
+  person: "#3b82f6",   // blue-500
+  organization: "#f59e0b",   // amber-500
+  event: "#22c55e",   // green-500
+  document: "#a78bfa",   // violet-400
+  location: "#f43f5e",   // rose-500
+  financial_instrument: "#06b6d4",   // cyan-500
 };
 
-/** Default max nodes before we auto-prune for readability. */
-const DEFAULT_MAX_NODES = 60;
+const ENTITY_LABELS: Record<string, string> = {
+  person: "Person",
+  organization: "Organization",
+  event: "Event",
+  document: "Filing",
+  location: "Location",
+  financial_instrument: "Financial",
+};
 
-function CustomNode({
-  data,
-  selected,
-}: {
-  data: {
-    label?: string;
-    type?: EntityType;
-    confidence?: number;
-    hasRisk?: boolean;
-    degree?: number;
-  };
-  selected?: boolean;
-}) {
-  const type = data.type ?? "person";
-  const color = ENTITY_HEX[type] ?? ENTITY_HEX.person;
-  const hasRisk = data.hasRisk ?? false;
-  const zoom = useViewport().zoom;
-  const showType = zoom >= 0.7;
-  const degree = data.degree ?? 0;
-  // Scale node size by connectivity
-  const scale = Math.min(1.4, 1 + degree * 0.03);
+function getConfidenceColor(conf: number): string {
+  if (conf >= 0.7) return "#22c55e";  // green high
+  if (conf >= 0.4) return "#f59e0b";  // amber medium
+  return "#ef4444";                    // red low
+}
+
+/* ── Tiny SVG icons per entity type ────────────────────────────── */
+const ENTITY_ICONS: Record<string, React.ReactNode> = {
+  person: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  ),
+  organization: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+      <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+      <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+    </svg>
+  ),
+  event: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+      <rect x="3" y="4" width="18" height="18" rx="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  ),
+  document: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+    </svg>
+  ),
+  location: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  ),
+  financial_instrument: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+      <line x1="12" y1="1" x2="12" y2="23" />
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+    </svg>
+  ),
+};
+
+const TARGET_ICON = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+    <circle cx="12" cy="12" r="10" />
+    <circle cx="12" cy="12" r="6" />
+    <circle cx="12" cy="12" r="2" />
+  </svg>
+);
+
+/* ── Custom node components ─────────────────────────────────────── */
+interface NodeData extends Record<string, unknown> {
+  label: string;
+  color: string;
+  isTarget: boolean;
+  entityType: string;
+  hasRisk: boolean;
+}
+
+const SIZE = 40;
+const TARGET_SIZE = 56;
+
+function EntityNodeComponent({ data }: { data: NodeData }) {
+  const size = data.isTarget ? TARGET_SIZE : SIZE;
+  const color = data.isTarget ? "#ef4444" : data.color;
+  const icon = data.isTarget ? TARGET_ICON : ENTITY_ICONS[data.entityType];
 
   return (
-    <div
-      className={cn(
-        "flex flex-col items-center justify-center border-2 px-3 py-1.5 text-xs",
-        "text-[var(--foreground)]",
-        selected && "ring-2 ring-[var(--accent)]"
-      )}
-      style={{
-        backgroundColor: `${color}18`,
-        borderColor: color,
-        boxShadow: hasRisk
-          ? `0 0 14px ${color}88`
-          : `0 1px 4px rgba(0,0,0,0.3)`,
-        borderRadius:
-          type === "person" ? "9999px" : type === "location" ? "4px" : "8px",
-        minWidth: `${Math.round(72 * scale)}px`,
-        minHeight: `${Math.round(44 * scale)}px`,
-        transform: `scale(${scale})`,
-      }}
-    >
+    <div className="group relative cursor-pointer" style={{ width: size, height: size }}>
+      <Handle type="target" position={Position.Top} className="opacity-0" />
+      <Handle type="source" position={Position.Bottom} className="opacity-0" />
+      <Handle type="target" position={Position.Left} className="opacity-0" />
+      <Handle type="source" position={Position.Right} className="opacity-0" />
+
+      {/* Solid filled circle */}
       <div
-        className="font-medium truncate text-center"
-        style={{ maxWidth: `${Math.round(100 * scale)}px`, fontSize: "11px" }}
+        className="flex items-center justify-center rounded-full text-white/90 transition-transform duration-200 group-hover:scale-110"
+        style={{
+          width: size,
+          height: size,
+          backgroundColor: color,
+          boxShadow: data.isTarget
+            ? `0 0 0 3px #f59e0b, 0 0 16px ${color}80`
+            : data.hasRisk
+              ? `0 0 14px ${color}80`
+              : `0 0 8px ${color}40`,
+        }}
       >
-        {data.label ?? "?"}
-      </div>
-      {showType && (
-        <div
-          className="text-[9px] capitalize mt-0.5"
-          style={{ color, opacity: 0.85 }}
-        >
-          {type.replace(/_/g, " ")}
+        <div style={{ filter: "drop-shadow(0 1px 1px rgba(0,0,0,0.5))" }}>
+          {icon}
         </div>
-      )}
+      </div>
+
+      {/* Label below circle */}
+      <p
+        className="pointer-events-none absolute left-1/2 -translate-x-1/2 max-w-[96px] truncate text-center text-[10px] font-medium text-neutral-200 leading-tight whitespace-nowrap"
+        style={{ top: size + 4 }}
+      >
+        {data.label}
+      </p>
+
+      {/* Hover tooltip */}
+      <div
+        className="pointer-events-none absolute left-1/2 z-50 hidden -translate-x-1/2 whitespace-nowrap rounded-lg border border-orange-500/20 bg-neutral-950/95 px-3 py-2 text-xs backdrop-blur-sm group-hover:block shadow-xl"
+        style={{ top: size + 22 }}
+      >
+        <p className="font-semibold text-white">{data.label}</p>
+        <p className="capitalize text-orange-400/80">{data.isTarget ? "Target" : data.entityType}</p>
+        {data.hasRisk && <p className="text-red-400">⚠ Risk flagged</p>}
+      </div>
     </div>
   );
 }
 
-const nodeTypes: NodeTypes = { custom: CustomNode };
+const EntityNode = memo(EntityNodeComponent);
+const nodeTypes: NodeTypes = { entityNode: EntityNode };
 
-/**
- * Deterministic force-directed layout using a seeded PRNG.
- * This prevents the infinite re-render loop that Math.random() caused.
- */
-function seededRandom(seed: number): () => number {
+/* ── Force layout (seeded, deterministic) ───────────────────────── */
+function seededRandom(seed: number) {
   let s = seed;
-  return () => {
-    s = (s * 16807 + 0) % 2147483647;
-    return s / 2147483647;
-  };
+  return () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
 }
 
 function runForceLayout(
   nodeIds: string[],
   edges: { source: string; target: string }[],
-  width: number,
-  height: number,
-  iterations = 150
+  width: number, height: number, iters = 160
 ): Map<string, { x: number; y: number }> {
-  const rand = seededRandom(
-    nodeIds.reduce((h, id) => h + id.charCodeAt(0) + id.length, 42)
-  );
-  const positions = new Map<string, { x: number; y: number }>();
-  nodeIds.forEach((id) => {
-    positions.set(id, {
-      x: width * (0.1 + 0.8 * rand()),
-      y: height * (0.1 + 0.8 * rand()),
-    });
-  });
-  const repel = 12000;
-  const attract = 0.035;
-  const damp = 0.82;
-  const centerGravity = 0.01;
-  const cx = width / 2;
-  const cy = height / 2;
+  const rand = seededRandom(nodeIds.reduce((h, id) => h + id.charCodeAt(0), 42));
+  const pos = new Map(nodeIds.map((id) => [id, { x: width * (0.1 + 0.8 * rand()), y: height * (0.1 + 0.8 * rand()) }]));
 
-  for (let iter = 0; iter < iterations; iter++) {
-    const forces = new Map<string, { fx: number; fy: number }>();
-    nodeIds.forEach((id) => forces.set(id, { fx: 0, fy: 0 }));
+  for (let i = 0; i < iters; i++) {
+    const forces = new Map(nodeIds.map((id) => [id, { fx: 0, fy: 0 }]));
 
     // Repulsion
-    for (let i = 0; i < nodeIds.length; i++) {
-      for (let j = i + 1; j < nodeIds.length; j++) {
-        const a = nodeIds[i];
-        const b = nodeIds[j];
-        const pa = positions.get(a)!;
-        const pb = positions.get(b)!;
-        const dx = pb.x - pa.x;
-        const dy = pb.y - pa.y;
+    for (let a = 0; a < nodeIds.length; a++) {
+      for (let b = a + 1; b < nodeIds.length; b++) {
+        const pa = pos.get(nodeIds[a])!;
+        const pb = pos.get(nodeIds[b])!;
+        const dx = pb.x - pa.x, dy = pb.y - pa.y;
         const d = Math.sqrt(dx * dx + dy * dy) || 0.01;
-        const f = repel / (d * d);
-        const fx = (dx / d) * f;
-        const fy = (dy / d) * f;
-        forces.get(a)!.fx -= fx;
-        forces.get(a)!.fy -= fy;
-        forces.get(b)!.fx += fx;
-        forces.get(b)!.fy += fy;
+        const f = 14000 / (d * d);
+        forces.get(nodeIds[a])!.fx -= (dx / d) * f;
+        forces.get(nodeIds[a])!.fy -= (dy / d) * f;
+        forces.get(nodeIds[b])!.fx += (dx / d) * f;
+        forces.get(nodeIds[b])!.fy += (dy / d) * f;
       }
     }
-
-    // Attraction along edges
+    // Attraction
     edges.forEach(({ source, target }) => {
-      if (!positions.has(source) || !positions.has(target)) return;
-      const pa = positions.get(source)!;
-      const pb = positions.get(target)!;
-      const dx = pb.x - pa.x;
-      const dy = pb.y - pa.y;
+      if (!pos.has(source) || !pos.has(target)) return;
+      const pa = pos.get(source)!, pb = pos.get(target)!;
+      const dx = pb.x - pa.x, dy = pb.y - pa.y;
       const d = Math.sqrt(dx * dx + dy * dy) || 0.01;
-      const f = d * attract;
-      const fx = (dx / d) * f;
-      const fy = (dy / d) * f;
-      forces.get(source)!.fx += fx;
-      forces.get(source)!.fy += fy;
-      forces.get(target)!.fx -= fx;
-      forces.get(target)!.fy -= fy;
+      const f = d * 0.04;
+      forces.get(source)!.fx += (dx / d) * f;
+      forces.get(source)!.fy += (dy / d) * f;
+      forces.get(target)!.fx -= (dx / d) * f;
+      forces.get(target)!.fy -= (dy / d) * f;
     });
-
-    // Center gravity
+    // Center gravity + apply
+    const cx = width / 2, cy = height / 2;
     nodeIds.forEach((id) => {
-      const pos = positions.get(id)!;
-      const force = forces.get(id)!;
-      force.fx += (cx - pos.x) * centerGravity;
-      force.fy += (cy - pos.y) * centerGravity;
-    });
-
-    // Apply forces
-    nodeIds.forEach((id) => {
-      const pos = positions.get(id)!;
-      const force = forces.get(id)!;
-      pos.x = pos.x + force.fx * damp;
-      pos.y = pos.y + force.fy * damp;
-      pos.x = Math.max(40, Math.min(width - 40, pos.x));
-      pos.y = Math.max(40, Math.min(height - 40, pos.y));
+      const p = pos.get(id)!;
+      const f = forces.get(id)!;
+      f.fx += (cx - p.x) * 0.012;
+      f.fy += (cy - p.y) * 0.012;
+      p.x = Math.max(60, Math.min(width - 60, p.x + f.fx * 0.82));
+      p.y = Math.max(60, Math.min(height - 60, p.y + f.fy * 0.82));
     });
   }
-
-  return positions;
+  return pos;
 }
 
-type GraphNode = {
-  id: string;
-  label: string;
-  type: EntityType;
-  data?: Record<string, unknown>;
-};
-type GraphEdge = {
-  id: string;
-  source: string;
-  target: string;
-  label?: string;
-  confidence?: number;
-};
-
-/**
- * Select the top-N most connected nodes for display.
- * Always includes: the subject entity, risk-flagged entities, and their 1-hop neighbors.
- */
-function selectTopNodes(
-  allNodes: GraphNode[],
-  allEdges: GraphEdge[],
-  riskEntityIds: Set<string>,
-  maxNodes: number,
-  filterType: EntityType | null,
-  confidenceThreshold: number
-): Set<string> {
-  // Compute degree per node
-  const degree = new Map<string, number>();
-  allNodes.forEach((n) => degree.set(n.id, 0));
-  allEdges.forEach((e) => {
-    if ((e.confidence ?? 1) < confidenceThreshold) return;
-    degree.set(e.source, (degree.get(e.source) ?? 0) + 1);
-    degree.set(e.target, (degree.get(e.target) ?? 0) + 1);
-  });
-
-  // Apply type filter
-  const candidates = filterType
-    ? allNodes.filter((n) => n.type === filterType)
-    : allNodes;
-
-  // Apply confidence filter
-  const confFiltered = candidates.filter(
-    (n) =>
-      ((n.data as { confidence?: number })?.confidence ?? 1) >=
-      confidenceThreshold
-  );
-
-  // Priority: risk entities first, then by degree
-  const sorted = [...confFiltered].sort((a, b) => {
-    const aRisk = riskEntityIds.has(a.id) ? 1 : 0;
-    const bRisk = riskEntityIds.has(b.id) ? 1 : 0;
-    if (aRisk !== bRisk) return bRisk - aRisk;
-    return (degree.get(b.id) ?? 0) - (degree.get(a.id) ?? 0);
-  });
-
-  const selected = new Set<string>();
-  // Always include risk-flagged entities
-  sorted.forEach((n) => {
-    if (riskEntityIds.has(n.id)) selected.add(n.id);
-  });
-
-  // Fill up to maxNodes with highest-degree nodes
-  for (const n of sorted) {
-    if (selected.size >= maxNodes) break;
-    selected.add(n.id);
-  }
-
-  // Add 1-hop neighbors of risk entities (up to limit)
-  const neighborBudget = Math.max(0, maxNodes - selected.size);
-  if (neighborBudget > 0) {
-    const neighbors: string[] = [];
-    allEdges.forEach((e) => {
-      if ((e.confidence ?? 1) < confidenceThreshold) return;
-      if (riskEntityIds.has(e.source) && !selected.has(e.target))
-        neighbors.push(e.target);
-      if (riskEntityIds.has(e.target) && !selected.has(e.source))
-        neighbors.push(e.source);
-    });
-    neighbors.slice(0, neighborBudget).forEach((id) => selected.add(id));
-  }
-
-  return selected;
-}
-
-interface InvestigationGraphProps {
+/* ── Main component ─────────────────────────────────────────────── */
+interface Props {
   caseId: string;
   onNodeSelect?: (entityId: string) => void;
   riskEntityIds?: Set<string>;
 }
 
-export function InvestigationGraph({
-  caseId,
-  onNodeSelect,
-  riskEntityIds = new Set(),
-}: InvestigationGraphProps) {
-  const confidenceThreshold = useUIStore((s) => s.confidenceThreshold);
-  const [entityTypeFilter, setEntityTypeFilter] = useState<EntityType | null>(
-    null
-  );
-  const [focusedNodeId, setFocusedNodeId] = useState<string | null>(null);
-  const [maxNodes, setMaxNodes] = useState(DEFAULT_MAX_NODES);
+type RawNode = { id: string; label: string; type: EntityType; data?: Record<string, unknown> };
+type RawEdge = { id: string; source: string; target: string; label?: string; confidence?: number };
+
+export function InvestigationGraph({ caseId, onNodeSelect, riskEntityIds = new Set() }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [focusedNodeId, setFocusedNodeId] = useState<string | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const MAX_NODES = 80;
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["graph", caseId],
     queryFn: () => api.getGraph(caseId),
   });
 
-  const rawNodes: GraphNode[] = data?.nodes ?? [];
-  const rawEdges: GraphEdge[] = data?.edges ?? [];
+  const rawNodes: RawNode[] = data?.nodes ?? [];
+  const rawEdges: RawEdge[] = data?.edges ?? [];
 
-  // Compute degree map once
+  // Determine target node (highest degree)
   const degreeMap = useMemo(() => {
     const d = new Map<string, number>();
     rawNodes.forEach((n) => d.set(n.id, 0));
@@ -326,287 +262,270 @@ export function InvestigationGraph({
     return d;
   }, [rawNodes, rawEdges]);
 
-  // Select visible node IDs (pruned to top-N)
+  const targetNodeId = useMemo(() => {
+    let best = rawNodes[0]?.id ?? null;
+    let bestDeg = 0;
+    rawNodes.forEach((n) => {
+      const d = degreeMap.get(n.id) ?? 0;
+      if (n.type === "person" && d > bestDeg) { best = n.id; bestDeg = d; }
+    });
+    return best;
+  }, [rawNodes, degreeMap]);
+
+  // Visible node selection
   const visibleNodeIds = useMemo(() => {
     if (!rawNodes.length) return new Set<string>();
-
-    // If focused on a node, show its 2-hop neighborhood
-    if (focusedNodeId) {
-      const oneHop = new Set<string>([focusedNodeId]);
-      rawEdges.forEach((e) => {
-        if ((e.confidence ?? 1) < confidenceThreshold) return;
-        if (e.source === focusedNodeId) oneHop.add(e.target);
-        if (e.target === focusedNodeId) oneHop.add(e.source);
-      });
-      // Also add 2nd-hop neighbors for context
-      const twoHop = new Set(oneHop);
-      rawEdges.forEach((e) => {
-        if ((e.confidence ?? 1) < confidenceThreshold) return;
-        if (oneHop.has(e.source) && !twoHop.has(e.target) && twoHop.size < 40)
-          twoHop.add(e.target);
-        if (oneHop.has(e.target) && !twoHop.has(e.source) && twoHop.size < 40)
-          twoHop.add(e.source);
-      });
-      return twoHop;
-    }
-
-    // If searching, filter by name
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
-      const matched = new Set(
-        rawNodes.filter((n) => n.label.toLowerCase().includes(q)).map((n) => n.id)
-      );
-      // Add their 1-hop neighbors
+      const matched = new Set(rawNodes.filter((n) => n.label.toLowerCase().includes(q)).map((n) => n.id));
       rawEdges.forEach((e) => {
         if (matched.has(e.source)) matched.add(e.target);
         if (matched.has(e.target)) matched.add(e.source);
       });
       return matched;
     }
+    if (focusedNodeId) {
+      const oneHop = new Set<string>([focusedNodeId]);
+      rawEdges.forEach((e) => {
+        if (e.source === focusedNodeId) oneHop.add(e.target);
+        if (e.target === focusedNodeId) oneHop.add(e.source);
+      });
+      return oneHop;
+    }
+    // Top N by degree — always include target + risk nodes
+    const sorted = [...rawNodes].sort((a, b) => {
+      const ar = riskEntityIds.has(a.id) ? 1000 : 0;
+      const br = riskEntityIds.has(b.id) ? 1000 : 0;
+      return (br + (degreeMap.get(b.id) ?? 0)) - (ar + (degreeMap.get(a.id) ?? 0));
+    });
+    const s = new Set<string>();
+    if (targetNodeId) s.add(targetNodeId);
+    for (const n of sorted) {
+      if (s.size >= MAX_NODES) break;
+      s.add(n.id);
+    }
+    return s;
+  }, [rawNodes, rawEdges, riskEntityIds, degreeMap, focusedNodeId, searchQuery, targetNodeId]);
 
-    return selectTopNodes(
-      rawNodes,
-      rawEdges,
-      riskEntityIds,
-      maxNodes,
-      entityTypeFilter,
-      confidenceThreshold
-    );
-  }, [
-    rawNodes,
-    rawEdges,
-    riskEntityIds,
-    maxNodes,
-    entityTypeFilter,
-    confidenceThreshold,
-    focusedNodeId,
-    searchQuery,
-  ]);
+  const visibleEdges = useMemo(() =>
+    rawEdges.filter((e) => visibleNodeIds.has(e.source) && visibleNodeIds.has(e.target)),
+    [rawEdges, visibleNodeIds]);
 
-  const visibleEdges = useMemo(() => {
-    return rawEdges.filter(
-      (e) =>
-        visibleNodeIds.has(e.source) &&
-        visibleNodeIds.has(e.target) &&
-        (e.confidence ?? 1) >= confidenceThreshold
-    );
-  }, [rawEdges, visibleNodeIds, confidenceThreshold]);
+  const layoutSize = Math.max(700, Math.sqrt(visibleNodeIds.size) * 200);
 
-  // Stable fingerprint to prevent re-layout when nothing changed
-  const layoutFingerprint = useMemo(() => {
-    const ids = [...visibleNodeIds].sort().join(",");
-    const edgeIds = visibleEdges.map((e) => e.id).sort().join(",");
-    return `${ids}|${edgeIds}`;
-  }, [visibleNodeIds, visibleEdges]);
-
-  const layoutSize = Math.max(600, Math.sqrt(visibleNodeIds.size) * 220);
+  const fingerprint = useMemo(() =>
+    [...visibleNodeIds].sort().join(",") + "|" + visibleEdges.map((e) => e.id).sort().join(","),
+    [visibleNodeIds, visibleEdges]);
 
   const positions = useMemo(() => {
     const ids = [...visibleNodeIds];
-    if (ids.length === 0) return new Map<string, { x: number; y: number }>();
-    return runForceLayout(
-      ids,
-      visibleEdges.map((e) => ({ source: e.source, target: e.target })),
-      layoutSize,
-      layoutSize,
-      Math.min(200, 80 + ids.length * 2)
-    );
+    if (!ids.length) return new Map<string, { x: number; y: number }>();
+    return runForceLayout(ids, visibleEdges.map((e) => ({ source: e.source, target: e.target })), layoutSize, layoutSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [layoutFingerprint, layoutSize]);
+  }, [fingerprint, layoutSize]);
 
-  // Build ReactFlow nodes and edges (memoized, stable)
-  const flowNodes: Node[] = useMemo(() => {
-    if (!rawNodes.length) return [];
-    const span = Math.max(400, Math.sqrt(visibleNodeIds.size) * 220);
-    return rawNodes
+  const flowNodes: Node[] = useMemo(() =>
+    rawNodes
       .filter((n) => visibleNodeIds.has(n.id))
       .map((n) => {
-        const pos = positions.get(n.id) ?? {
-          x: Math.random() * span,
-          y: Math.random() * span,
-        };
+        const pos = positions.get(n.id) ?? { x: Math.random() * layoutSize, y: Math.random() * layoutSize };
+        const isTarget = n.id === targetNodeId;
         return {
           id: n.id,
-          type: "custom" as const,
+          type: "entityNode" as const,
           position: pos,
           data: {
             label: n.label,
-            type: n.type,
-            confidence: (n.data as { confidence?: number })?.confidence,
+            color: ENTITY_COLORS[n.type] ?? "#64748b",
+            isTarget,
+            entityType: n.type,
             hasRisk: riskEntityIds.has(n.id),
-            degree: degreeMap.get(n.id) ?? 0,
           },
         };
-      });
-  }, [rawNodes, visibleNodeIds, positions, riskEntityIds, degreeMap]);
+      }),
+    [rawNodes, visibleNodeIds, positions, riskEntityIds, targetNodeId, layoutSize]);
 
-  const flowEdges: Edge[] = useMemo(() => {
-    return visibleEdges.map((e) => {
-      const conf = e.confidence ?? 1;
-      const label = e.label
-        ? e.label.replace(/_/g, " ").toLowerCase()
-        : undefined;
+  const flowEdges: Edge[] = useMemo(() =>
+    visibleEdges.map((e) => {
+      const conf = e.confidence ?? 0.8;
+      const color = getConfidenceColor(conf);
       return {
         id: e.id,
         source: e.source,
         target: e.target,
-        type: "smoothstep" as const,
-        label: label,
-        labelStyle: {
-          fontSize: 9,
-          fill: "var(--text-secondary)",
-          fontWeight: 500,
-        },
-        labelShowBg: true,
-        labelBgStyle: {
-          fill: "var(--bg-card)",
-          fillOpacity: 0.9,
-        },
-        labelBgBorderRadius: 3,
-        labelBgPadding: [3, 5] as [number, number],
-        animated: conf < 0.5,
+        type: "default" as const,
+        animated: conf >= 0.9,
+        label: e.label?.replace(/_/g, " ").toLowerCase().slice(0, 25),
+        labelStyle: { fill: "#a3a3a3", fontSize: 9, fontWeight: 500 },
+        labelBgStyle: { fill: "#0a0a0a", fillOpacity: 0.9 },
+        labelBgPadding: [4, 2] as [number, number],
         style: {
-          stroke: conf >= 0.7 ? "var(--text-secondary)" : "var(--muted)",
-          strokeWidth: conf >= 0.7 ? 1.5 : 1,
-          strokeDasharray: conf < 0.5 ? "5 5" : undefined,
+          stroke: color,
+          strokeWidth: Math.max(1.5, conf * 2.5),
+          strokeDasharray: conf < 0.4 ? "5 5" : undefined,
         },
       };
-    });
-  }, [visibleEdges]);
+    }),
+    [visibleEdges]);
 
-  // Use useNodesState for drag support. Initialize once, sync via fingerprint.
+  const prevFingerprint = useRef(fingerprint);
   const [nodes, setNodes, onNodesChange] = useNodesState(flowNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(flowEdges);
-  const prevFingerprintRef = useRef(layoutFingerprint);
 
-  // Sync only when the data fingerprint actually changes — prevents infinite loop
   useEffect(() => {
-    if (prevFingerprintRef.current !== layoutFingerprint) {
-      prevFingerprintRef.current = layoutFingerprint;
+    if (prevFingerprint.current !== fingerprint) {
+      prevFingerprint.current = fingerprint;
       setNodes(flowNodes);
       setEdges(flowEdges);
     }
-  }, [layoutFingerprint, flowNodes, flowEdges, setNodes, setEdges]);
+  }, [fingerprint, flowNodes, flowEdges, setNodes, setEdges]);
 
   const onNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
+      if (selectedNodeId === node.id) {
+        setSelectedNodeId(null);
+        setNodes((ns) => ns.map((n) => ({ ...n, style: { ...n.style, opacity: 1 } })));
+        setEdges((es) => es.map((e) => ({ ...e, style: { ...e.style, opacity: 1 } })));
+        return;
+      }
+      setSelectedNodeId(node.id);
       setFocusedNodeId(node.id);
       onNodeSelect?.(node.id);
+      const connected = new Set<string>([node.id]);
+      edges.forEach((e) => {
+        if (e.source === node.id) connected.add(e.target);
+        if (e.target === node.id) connected.add(e.source);
+      });
+      setNodes((ns) => ns.map((n) => ({ ...n, style: { ...n.style, opacity: connected.has(n.id) ? 1 : 0.15 } })));
+      setEdges((es) => es.map((e) => ({ ...e, style: { ...e.style, opacity: e.source === node.id || e.target === node.id ? 1 : 0.1 } })));
     },
-    [onNodeSelect]
+    [selectedNodeId, edges, setNodes, setEdges, onNodeSelect]
   );
 
-  const showFullGraph = useCallback(() => {
-    setFocusedNodeId(null);
-    setSearchQuery("");
-  }, []);
+  const onPaneClick = useCallback(() => {
+    if (selectedNodeId) {
+      setSelectedNodeId(null);
+      setFocusedNodeId(null);
+      setNodes((ns) => ns.map((n) => ({ ...n, style: { ...n.style, opacity: 1 } })));
+      setEdges((es) => es.map((e) => ({ ...e, style: { ...e.style, opacity: 1 } })));
+    }
+  }, [selectedNodeId, setNodes, setEdges]);
 
-  if (isLoading) {
-    return (
-      <div className="flex h-full items-center justify-center text-[var(--muted)]">
-        Loading graph...
-      </div>
-    );
-  }
-  if (error) {
-    return (
-      <div className="flex h-full items-center justify-center text-[var(--risk-high)]">
-        Failed to load graph.
-      </div>
-    );
-  }
-  if (!data?.nodes?.length) {
-    return (
-      <div className="flex h-full items-center justify-center text-[var(--muted)]">
-        No entities to display. Run an investigation to build the graph.
-      </div>
-    );
-  }
+  if (isLoading) return (
+    <div className="flex h-full items-center justify-center text-neutral-500">Loading graph…</div>
+  );
+  if (error) return (
+    <div className="flex h-full items-center justify-center text-red-400">Failed to load graph.</div>
+  );
+  if (!rawNodes.length) return (
+    <div className="flex h-full items-center justify-center text-neutral-500">
+      No entities to display. Run an investigation to build the graph.
+    </div>
+  );
 
+  const targetNode = rawNodes.find((n) => n.id === targetNodeId);
   const totalNodes = rawNodes.length;
   const shownNodes = visibleNodeIds.size;
-  const isPruned = shownNodes < totalNodes && !focusedNodeId && !searchQuery.trim();
 
   return (
-    <div className="h-full w-full">
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onNodeClick={onNodeClick}
-        nodeTypes={nodeTypes}
-        fitView
-        fitViewOptions={{ padding: 0.15 }}
-        minZoom={0.1}
-        maxZoom={2.5}
-        className="react-flow-dark"
-      >
-        <Background color="var(--muted)" gap={16} size={1} />
-        <Controls className="!bottom-2 !left-2 !bg-[var(--bg-card)] !border-[var(--border)]" />
-        <MiniMap
-          className="!bg-[var(--bg-card)] !border-[var(--border)]"
-          nodeColor={(n) => ENTITY_HEX[(n.data?.type as EntityType) ?? "person"] ?? "#64748b"}
-          maskColor="rgba(11, 15, 25, 0.7)"
+    <div className="relative h-full w-full overflow-hidden rounded-lg border border-white/10">
+      {/* Top search bar */}
+      <div className="absolute inset-x-0 top-0 z-10 flex items-center gap-2 border-b border-white/10 bg-neutral-950/90 px-3 py-2 backdrop-blur-sm">
+        <svg className="h-3.5 w-3.5 shrink-0 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+        </svg>
+        <input
+          type="text"
+          placeholder="Search entities…"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="flex-1 bg-transparent text-xs text-white placeholder:text-neutral-600 focus:outline-none"
         />
+        <span className="text-[10px] text-neutral-600 shrink-0">{shownNodes}/{totalNodes}</span>
+        {(focusedNodeId || searchQuery) && (
+          <button
+            onClick={() => {
+              setFocusedNodeId(null); setSearchQuery(""); setSelectedNodeId(null);
+              setNodes((ns) => ns.map((n) => ({ ...n, style: { ...n.style, opacity: 1 } })));
+              setEdges((es) => es.map((e) => ({ ...e, style: { ...e.style, opacity: 1 } })));
+            }}
+            className="text-[10px] text-orange-400 hover:text-orange-300 shrink-0"
+          >
+            Reset
+          </button>
+        )}
+      </div>
 
-        {/* Top-left: search + controls */}
-        <Panel position="top-left" className="flex flex-col gap-2 max-w-[240px]">
-          <input
-            type="text"
-            placeholder="Search entities..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="rounded border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 text-xs text-[var(--foreground)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none"
-          />
-          <div className="flex items-center gap-2 text-[10px] text-[var(--muted)]">
-            <span>
-              {shownNodes}/{totalNodes} entities
-            </span>
-            {isPruned && (
-              <span>
-                (top {maxNodes})
-              </span>
-            )}
+      {/* Legend — top-left */}
+      <div className="absolute left-3 top-12 z-10 rounded-lg border border-white/10 bg-neutral-950/90 p-2.5 text-[10px] backdrop-blur-sm sm:text-xs">
+        <p className="mb-1.5 font-semibold text-neutral-200">Node Types</p>
+        {Object.entries(ENTITY_LABELS).map(([type, label]) => (
+          <div key={type} className="flex items-center gap-1.5 py-0.5">
+            <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: ENTITY_COLORS[type] }} />
+            <span className="text-neutral-400">{label}</span>
           </div>
-          {isPruned && (
-            <div className="flex gap-1">
-              {[30, 60, 100, totalNodes].map((n) => (
-                <button
-                  key={n}
-                  type="button"
-                  onClick={() => setMaxNodes(n)}
-                  className={cn(
-                    "rounded border px-1.5 py-0.5 text-[10px]",
-                    maxNodes === n
-                      ? "border-[var(--accent)] bg-[var(--accent)]/20 text-[var(--accent)]"
-                      : "border-[var(--border)] text-[var(--muted)] hover:bg-[var(--bg-hover)]"
-                  )}
-                >
-                  {n === totalNodes ? "All" : n}
-                </button>
-              ))}
-            </div>
-          )}
-        </Panel>
+        ))}
+        <div className="flex items-center gap-1.5 py-0.5">
+          <div className="h-2.5 w-2.5 rounded-full bg-red-500 ring-1 ring-amber-400" />
+          <span className="text-neutral-400">Target</span>
+        </div>
+        <div className="mt-2 border-t border-white/10 pt-2">
+          <p className="mb-1 font-semibold text-neutral-200">Edge Confidence</p>
+          <div className="flex items-center gap-1.5 py-0.5">
+            <div className="h-0.5 w-4 rounded bg-emerald-500" />
+            <span className="text-neutral-400">High</span>
+          </div>
+          <div className="flex items-center gap-1.5 py-0.5">
+            <div className="h-0.5 w-4 rounded bg-yellow-500" />
+            <span className="text-neutral-400">Medium</span>
+          </div>
+          <div className="flex items-center gap-1.5 py-0.5">
+            <div className="h-0.5 w-4 rounded bg-red-500" />
+            <span className="text-neutral-400">Low</span>
+          </div>
+        </div>
+      </div>
 
-        {/* Top-right: legend + reset */}
-        <Panel position="top-right" className="flex flex-col gap-2">
-          {(focusedNodeId || searchQuery.trim()) && (
-            <button
-              type="button"
-              onClick={showFullGraph}
-              className="rounded border border-[var(--border)] bg-[var(--bg-card)] px-2 py-1.5 text-xs font-medium text-[var(--foreground)] shadow hover:bg-[var(--bg-hover)]"
-            >
-              Show full graph
-            </button>
-          )}
-          <GraphLegend
-            onFilter={(t) => setEntityTypeFilter(t ?? null)}
-            activeType={entityTypeFilter}
+      {/* Stats — top-right */}
+      {targetNode && (
+        <div className="absolute right-3 top-12 z-10 rounded-lg border border-orange-500/20 bg-neutral-950/90 px-3 py-2 text-[10px] backdrop-blur-sm sm:text-xs">
+          <p className="font-semibold text-orange-400">{targetNode.label}</p>
+          <p className="text-neutral-400">{totalNodes} nodes</p>
+          <p className="text-neutral-400">{rawEdges.length} connections</p>
+        </div>
+      )}
+
+      {/* ReactFlow canvas */}
+      <div className="h-full w-full pt-9">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onNodeClick={onNodeClick}
+          onPaneClick={onPaneClick}
+          nodeTypes={nodeTypes}
+          fitView
+          fitViewOptions={{ padding: 0.25 }}
+          minZoom={0.1}
+          maxZoom={2.5}
+          proOptions={{ hideAttribution: true }}
+        >
+          <Background color="#1a1a1a" gap={20} size={1} />
+          <Controls showInteractive={false} className="!bottom-3 !left-3" />
+          <MiniMap
+            nodeColor={(n) => {
+              if (n.data?.isTarget) return "#ef4444";
+              return (n.data?.color as string) || "#64748b";
+            }}
+            nodeStrokeWidth={0}
+            nodeBorderRadius={50}
+            maskColor="rgba(10,10,10,0.7)"
+            className="hidden !rounded-lg !border !border-white/10 sm:block"
+            style={{ backgroundColor: "#141414" }}
           />
-        </Panel>
-      </ReactFlow>
+        </ReactFlow>
+      </div>
     </div>
   );
 }

@@ -4,7 +4,6 @@ import type { Investigation, RiskFlag } from "@/lib/types";
 import { RiskMeter } from "../RiskMeter";
 import { ConfidenceBadge } from "../ConfidenceBadge";
 import { ExpandableReasoningBlock } from "../ExpandableReasoningBlock";
-import { useUIStore } from "@/store/useUIStore";
 import { domainFromUrl } from "@/lib/utils";
 
 const SEVERITY_ORDER = ["critical", "high", "medium", "low", "info"] as const;
@@ -28,10 +27,12 @@ function topRiskFlagsBySeverity(flags: RiskFlag[], limit: number): RiskFlag[] {
 
 export function TabOverview({
   investigation: inv,
+  onViewAllRisk,
 }: {
   investigation: Investigation;
+  onViewAllRisk?: () => void;
 }) {
-  const setActiveTab = useUIStore((s) => s.setActiveTab);
+
   const riskScore = inv.risk_score ?? Math.min(100, (inv.risk_flags?.length ?? 0) * 12);
   const riskLevel =
     inv.report_risk_level ??
@@ -44,10 +45,11 @@ export function TabOverview({
 
   return (
     <div className="space-y-6 p-5">
-      {/* Decision card — full width, top */}
-      <section className="rounded-xl border-2 border-[var(--border)] bg-[var(--bg-card)] p-5">
+      {/* Decision card — risk verdict first, then summary, then metrics in a clear grid */}
+      <section className="rounded-xl border border-border bg-card p-6 shadow-sm">
+        {/* 1. Risk verdict — primary focus */}
         <div
-          className="mb-3 inline-block rounded-lg px-4 py-2 text-sm font-bold uppercase tracking-wide"
+          className="inline-block rounded-lg px-4 py-2 text-sm font-bold uppercase tracking-wide"
           style={{
             backgroundColor: `${riskColor}20`,
             color: riskColor,
@@ -59,18 +61,29 @@ export function TabOverview({
               ? "LOW RISK"
               : "MEDIUM RISK"}
         </div>
-        <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+
+        {/* 2. One-line summary — secondary */}
+        <p className="mt-3 text-sm leading-relaxed text-foreground/90">
           {inv.subject?.summary ||
             `Investigation of ${inv.target}. ${inv.entities?.length ?? 0} entities, ${inv.connections?.length ?? 0} connections, ${flags.length} risk flags.`}
         </p>
-        <div className="mt-4 flex flex-wrap items-center gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-32">
+
+        {/* 3. Metrics row — risk score (label above meter) and confidence (label + badge) */}
+        <div className="mt-6 flex flex-wrap items-start gap-8 border-t border-border pt-5">
+          <div className="flex flex-col gap-2">
+            <span className="text-xs font-medium uppercase tracking-wider text-foreground/80">
+              Risk score
+            </span>
+            <div className="flex items-end gap-3">
               <RiskMeter value={riskScore} showBands />
             </div>
-            <span className="text-xs text-[var(--muted)]">Risk score</span>
           </div>
-          <ConfidenceBadge value={inv.overall_confidence} label="Confidence" />
+          <div className="flex flex-col gap-2">
+            <span className="text-xs font-medium uppercase tracking-wider text-foreground/80">
+              Confidence
+            </span>
+            <ConfidenceBadge value={inv.overall_confidence} />
+          </div>
         </div>
       </section>
 
@@ -81,33 +94,35 @@ export function TabOverview({
         content={
           <div className="space-y-3 text-sm">
             <div>
-              <span className="text-[var(--muted)]">Name:</span>{" "}
-              {inv.subject?.full_name ?? inv.target}
+              <span className="text-neutral-400 font-medium">Name:</span>{" "}
+              <span className="text-neutral-100">{inv.subject?.full_name ?? inv.target}</span>
             </div>
             {(inv.subject?.current_role ?? inv.subject?.current_organization) && (
               <div>
-                <span className="text-[var(--muted)]">Role / org:</span>{" "}
-                {[inv.subject.current_role, inv.subject.current_organization]
-                  .filter(Boolean)
-                  .join(" · ")}
+                <span className="text-neutral-400 font-medium">Role / org:</span>{" "}
+                <span className="text-neutral-100">
+                  {[inv.subject.current_role, inv.subject.current_organization]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </span>
               </div>
             )}
             {(inv.subject?.aliases?.length ?? 0) > 0 && (
               <div>
-                <span className="text-[var(--muted)]">Aliases:</span>{" "}
-                {inv.subject!.aliases!.join(", ")}
+                <span className="text-neutral-400 font-medium">Aliases:</span>{" "}
+                <span className="text-neutral-100">{inv.subject!.aliases!.join(", ")}</span>
               </div>
             )}
             {(inv.subject?.professional_history?.length ?? 0) > 0 && (
               <div>
-                <span className="text-[var(--muted)]">Professional history:</span>
-                <ul className="mt-1 list-inside list-disc space-y-0.5 text-[var(--text-secondary)]">
+                <span className="text-neutral-400 font-medium">Professional history:</span>
+                <ul className="mt-1 list-inside list-disc space-y-0.5 text-neutral-300">
                   {inv.subject!.professional_history!.slice(0, 5).map((entry: Record<string, string>, i: number) => (
                     <li key={i}>
                       {typeof entry === "object"
                         ? Object.entries(entry)
-                            .map(([k, v]) => `${k}: ${v}`)
-                            .join(" — ")
+                          .map(([k, v]) => `${k}: ${v}`)
+                          .join(" — ")
                         : String(entry)}
                     </li>
                   ))}
@@ -116,8 +131,8 @@ export function TabOverview({
             )}
             {(inv.subject?.known_associations?.length ?? 0) > 0 && (
               <div>
-                <span className="text-[var(--muted)]">Known associations:</span>{" "}
-                {inv.subject!.known_associations!.slice(0, 8).join(", ")}
+                <span className="text-neutral-400 font-medium">Known associations:</span>{" "}
+                <span className="text-neutral-100">{inv.subject!.known_associations!.slice(0, 12).join(", ")}</span>
               </div>
             )}
           </div>
@@ -127,7 +142,7 @@ export function TabOverview({
       {/* Key findings — top 5 by severity, with citations */}
       {(topFindings.length > 0 || hasReportFindings) && (
         <section>
-          <h3 className="mb-3 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+          <h3 className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-400">
             Key findings
           </h3>
           <ul className="space-y-2">
@@ -136,7 +151,7 @@ export function TabOverview({
               return (
                 <li
                   key={r.id}
-                  className="flex items-start gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-3"
+                  className="flex items-start gap-3 rounded-lg border border-white/5 bg-white/[0.02] p-3"
                 >
                   <div
                     className="mt-0.5 h-2 w-2 shrink-0 rounded-full"
@@ -144,7 +159,7 @@ export function TabOverview({
                   />
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-sm font-medium text-[var(--foreground)]">
+                      <span className="text-sm font-medium text-white">
                         {r.title}
                       </span>
                       <span
@@ -155,74 +170,15 @@ export function TabOverview({
                       </span>
                     </div>
                     {r.description && (
-                      <p className="mt-0.5 text-xs text-[var(--muted)]">
+                      <p className="mt-0.5 text-xs text-neutral-400">
                         {r.description}
-                      </p>
-                    )}
-                    {r.evidence?.length > 0 && (
-                      <p className="mt-1.5 text-[11px] text-[var(--muted)]">
-                        Sources:{" "}
-                        {r.evidence.slice(0, 3).map((url, i) => (
-                          <span key={url}>
-                            {i > 0 && ", "}
-                            <a
-                              href={url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[var(--accent)] hover:underline"
-                            >
-                              {domainFromUrl(url)}
-                            </a>
-                          </span>
-                        ))}
-                        {r.evidence.length > 3 && ` +${r.evidence.length - 3}`}
                       </p>
                     )}
                   </div>
                 </li>
               );
             })}
-            {hasReportFindings &&
-              inv.report_risk_findings!.slice(0, 5).map((r, i) => {
-                const color = SEVERITY_COLORS[r.severity] ?? SEVERITY_COLORS.medium;
-                return (
-                  <li
-                    key={`report-${i}`}
-                    className="flex items-start gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-3"
-                  >
-                    <div
-                      className="mt-0.5 h-2 w-2 shrink-0 rounded-full"
-                      style={{ backgroundColor: color }}
-                    />
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-sm font-medium text-[var(--foreground)]">
-                          {r.title}
-                        </span>
-                        <span
-                          className="rounded px-1.5 py-0.5 text-[10px] font-medium uppercase"
-                          style={{ backgroundColor: `${color}20`, color }}
-                        >
-                          {r.severity}
-                        </span>
-                      </div>
-                      <p className="mt-0.5 text-xs text-[var(--muted)]">
-                        {r.description}
-                      </p>
-                    </div>
-                  </li>
-                );
-              })}
           </ul>
-          {flags.length > 5 && (
-            <button
-              type="button"
-              onClick={() => setActiveTab("risk")}
-              className="mt-2 text-xs font-medium text-[var(--accent)] hover:underline"
-            >
-              View all {flags.length} findings →
-            </button>
-          )}
         </section>
       )}
 
@@ -231,42 +187,18 @@ export function TabOverview({
         title="Investigation scope"
         defaultOpen={false}
         content={
-          <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
             <div>
-              <span className="text-[var(--muted)]">Entities</span>
-              <div className="font-mono font-medium">{inv.entities?.length ?? 0}</div>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block mb-0.5">Entities</span>
+              <div className="font-mono font-medium text-neutral-200">{inv.entities?.length ?? 0}</div>
             </div>
             <div>
-              <span className="text-[var(--muted)]">Connections</span>
-              <div className="font-mono font-medium">{inv.connections?.length ?? 0}</div>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block mb-0.5">Connections</span>
+              <div className="font-mono font-medium text-neutral-200">{inv.connections?.length ?? 0}</div>
             </div>
             <div>
-              <span className="text-[var(--muted)]">Sources (queries)</span>
-              <div className="font-mono font-medium">{inv.search_history?.length ?? 0}</div>
-            </div>
-            <div>
-              <span className="text-[var(--muted)]">Iterations</span>
-              <div className="font-mono font-medium">
-                {inv.iteration}/{inv.max_iterations}
-              </div>
-            </div>
-            <div>
-              <span className="text-[var(--muted)]">Cost</span>
-              <div className="font-mono font-medium">
-                ${(inv.estimated_cost_usd ?? inv.run_metadata?.total_cost_usd ?? 0).toFixed(2)}
-              </div>
-            </div>
-            <div>
-              <span className="text-[var(--muted)]">Duration</span>
-              <div className="font-mono font-medium">
-                {inv.run_metadata?.duration_seconds != null && inv.run_metadata.duration_seconds > 0
-                  ? `${Math.floor(inv.run_metadata.duration_seconds / 60)}m ${Math.round(inv.run_metadata.duration_seconds % 60)}s`
-                  : "—"}
-              </div>
-            </div>
-            <div className="col-span-2 sm:col-span-3">
-              <span className="text-[var(--muted)]">Phase</span> {inv.current_phase} · LLM calls:{" "}
-              {inv.total_llm_calls} · Search calls: {inv.total_search_calls}
+              <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 block mb-0.5">Sources</span>
+              <div className="font-mono font-medium text-neutral-200">{inv.search_history?.length ?? 0}</div>
             </div>
           </div>
         }

@@ -31,7 +31,8 @@ from src.agents.web_researcher import WebResearchAgent
 from src.config import get_settings
 from src.graph_db.neo4j_client import Neo4jClient
 from src.llm_client import LLMClient
-from src.models import AgentAction, ResearchState, SubjectProfile
+from src.models import AgentAction, ResearchState, SearchPhase, SubjectProfile
+from src.observability import metrics as obs_metrics
 from src.run_metadata import RunMetadata
 from src.tools.search import SearchOrchestrator
 
@@ -139,6 +140,22 @@ class ResearchGraph:
             json.dumps(state_out, indent=2, default=str), encoding="utf-8"
         )
 
+    # Approximate total node steps per iteration cycle for progress calculation
+    _NODES_PER_CYCLE = 7
+
+    _NODE_LABELS: dict[str, str] = {
+        "director": "Director · Planning",
+        "web_research": "Web Research",
+        "fact_extraction": "Fact Extraction",
+        "risk_analysis": "Risk Analysis",
+        "connection_mapping": "Connection Mapping",
+        "source_verification": "Source Verification",
+        "entity_resolution": "Entity Resolution",
+        "temporal_analysis": "Temporal Analysis",
+        "generate_report": "Report Generation",
+        "update_graph_db": "Graph DB Sync",
+    }
+
     def _emit_progress(self, event: dict) -> None:
         """Append one progress event (JSON line) to the progress file for SSE streaming."""
         if not self._progress_path:
@@ -150,10 +167,42 @@ class ResearchGraph:
         except OSError as e:
             logger.debug("progress_file_write_error", path=str(self._progress_path), error=str(e))
 
+    def _emit_node_start(self, node: str, state_dict: dict) -> None:
+        """Emit a node_start SSE event before a node executes."""
+        iteration = state_dict.get("iteration", 0)
+        max_iter = state_dict.get("max_iterations", 1) or 1
+        phase = state_dict.get("current_phase", "")
+        if isinstance(phase, dict):
+            phase = phase.get("value", "")
+        # Approximate progress: cap at 0.95 so complete event drives to 1.0
+        progress = min((iteration * self._NODES_PER_CYCLE) / (max_iter * self._NODES_PER_CYCLE + 1), 0.95)
+        self._emit_progress({
+            "event": "node_start",
+            "node": node,
+            "label": self._NODE_LABELS.get(node, node.replace("_", " ").title()),
+            "phase": phase,
+            "iteration": iteration,
+            "progress": round(progress, 3),
+        })
+
+    def _emit_log(self, node: str, message: str) -> None:
+        """Emit a human-readable log SSE event."""
+        self._emit_progress({"event": "log", "node": node, "message": message})
+
     async def _director_node(self, state_dict: dict) -> dict:
         state = ResearchState(**state_dict)
         state.iteration += 1
+        prev_phase = state.current_phase
         self._write_stage_in("director", state_dict)
+        self._emit_node_start("director", {**state_dict, "iteration": state.iteration})
+        logger.info(
+            "node_stage_start",
+            node="director",
+            phase=state.current_phase.value,
+            iteration=state.iteration,
+            entity_count=len(state.entities),
+            risk_flags=len(state.risk_flags),
+        )
         logger.info(
             "director_iteration",
             iteration=state.iteration,
@@ -163,6 +212,16 @@ class ResearchGraph:
         decision = await self.director.plan_next_step(state)
         state.last_decision = decision
         state.current_phase = decision.current_phase
+        # Log phase transition if phase changed
+        new_phase = decision.current_phase
+        if new_phase != prev_phase:
+            logger.info(
+                "phase_transition",
+                from_phase=prev_phase.value,
+                to_phase=new_phase.value,
+                phase=new_phase.value,
+                iteration=state.iteration,
+            )
         # Track phases executed for run metadata
         phase = decision.current_phase
         phase_val = phase.value if hasattr(phase, "value") else str(phase)
@@ -185,6 +244,10 @@ class ResearchGraph:
         out = state.model_dump()
         if self._on_progress:
             self._on_progress("director", out)
+        phase_str = out.get("current_phase", "")
+        if isinstance(phase_str, dict):
+            phase_str = phase_str.get("value", "")
+        self._emit_log("director", f"Director planned: {decision.next_action.value} (phase: {phase_str}, iter {out.get('iteration')})")
         self._emit_progress(
             {"event": "node", "node": "director", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -193,13 +256,22 @@ class ResearchGraph:
 
     async def _web_research_node(self, state_dict: dict) -> dict:
         self._write_stage_in("web_research", state_dict)
+        self._emit_node_start("web_research", state_dict)
         state = ResearchState(**state_dict)
+        logger.info(
+            "node_stage_start",
+            node="web_research",
+            phase=state.current_phase.value,
+            iteration=state.iteration,
+            entity_count=len(state.entities),
+        )
         queries = state.last_decision.search_queries if state.last_decision else []
         if not queries:
             logger.warning("web_research_no_queries")
             return state.model_dump()
         def on_search(q: str, ph: str) -> None:
             self._emit_progress({"event": "search", "query": q, "phase": ph})
+            self._emit_log("web_research", f"Searching ({ph}): {q}")
 
         state = await self.web_researcher.execute_searches(
             state=state, queries=queries, phase=state.current_phase, on_search=on_search
@@ -208,6 +280,7 @@ class ResearchGraph:
         self._write_stage_out("web_research", out)
         if self._on_progress:
             self._on_progress("web_research", out)
+        self._emit_log("web_research", f"Web research complete — {len(queries)} queries, iter {out.get('iteration')}")
         self._emit_progress(
             {"event": "node", "node": "web_research", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -215,12 +288,23 @@ class ResearchGraph:
 
     async def _fact_extraction_node(self, state_dict: dict) -> dict:
         self._write_stage_in("fact_extraction", state_dict)
+        self._emit_node_start("fact_extraction", state_dict)
         state = ResearchState(**state_dict)
+        logger.info(
+            "node_stage_start",
+            node="fact_extraction",
+            phase=state.current_phase.value,
+            iteration=state.iteration,
+            entity_count=len(state.entities),
+        )
         state = await self.fact_extractor.extract_facts(state)
         out = state.model_dump()
         self._write_stage_out("fact_extraction", out)
         if self._on_progress:
             self._on_progress("fact_extraction", out)
+        entity_count = len(out.get("entities") or [])
+        self._emit_progress({"event": "entities_update", "count": entity_count})
+        self._emit_log("fact_extraction", f"Extracted facts — {entity_count} entities so far (iter {out.get('iteration')})")
         self._emit_progress(
             {"event": "node", "node": "fact_extraction", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -228,12 +312,24 @@ class ResearchGraph:
 
     async def _risk_analysis_node(self, state_dict: dict) -> dict:
         self._write_stage_in("risk_analysis", state_dict)
+        self._emit_node_start("risk_analysis", state_dict)
         state = ResearchState(**state_dict)
+        logger.info(
+            "node_stage_start",
+            node="risk_analysis",
+            phase=state.current_phase.value,
+            iteration=state.iteration,
+            entity_count=len(state.entities),
+            risk_flags=len(state.risk_flags),
+        )
         state = await self.risk_analyzer.analyze_risks(state)
         out = state.model_dump()
         self._write_stage_out("risk_analysis", out)
         if self._on_progress:
             self._on_progress("risk_analysis", out)
+        risk_count = len(out.get("risk_flags") or [])
+        self._emit_progress({"event": "risks_update", "count": risk_count})
+        self._emit_log("risk_analysis", f"Risk analysis complete — {risk_count} flags (iter {out.get('iteration')})")
         self._emit_progress(
             {"event": "node", "node": "risk_analysis", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -241,12 +337,22 @@ class ResearchGraph:
 
     async def _connection_mapping_node(self, state_dict: dict) -> dict:
         self._write_stage_in("connection_mapping", state_dict)
+        self._emit_node_start("connection_mapping", state_dict)
         state = ResearchState(**state_dict)
+        logger.info(
+            "node_stage_start",
+            node="connection_mapping",
+            phase=state.current_phase.value,
+            iteration=state.iteration,
+            entity_count=len(state.entities),
+        )
         state = await self.connection_mapper.map_connections(state)
         out = state.model_dump()
         self._write_stage_out("connection_mapping", out)
         if self._on_progress:
             self._on_progress("connection_mapping", out)
+        conn_count = len(out.get("connections") or [])
+        self._emit_log("connection_mapping", f"Mapped {conn_count} connections (iter {out.get('iteration')})")
         self._emit_progress(
             {"event": "node", "node": "connection_mapping", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -254,12 +360,21 @@ class ResearchGraph:
 
     async def _source_verification_node(self, state_dict: dict) -> dict:
         self._write_stage_in("source_verification", state_dict)
+        self._emit_node_start("source_verification", state_dict)
         state = ResearchState(**state_dict)
+        logger.info(
+            "node_stage_start",
+            node="source_verification",
+            phase=state.current_phase.value,
+            iteration=state.iteration,
+            entity_count=len(state.entities),
+        )
         state = await self.source_verifier.verify_sources(state)
         out = state.model_dump()
         self._write_stage_out("source_verification", out)
         if self._on_progress:
             self._on_progress("source_verification", out)
+        self._emit_log("source_verification", f"Sources verified (iter {out.get('iteration')})")
         self._emit_progress(
             {"event": "node", "node": "source_verification", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -267,6 +382,7 @@ class ResearchGraph:
 
     async def _update_graph_db_node(self, state_dict: dict) -> dict:
         self._write_stage_in("update_graph_db", state_dict)
+        self._emit_node_start("update_graph_db", state_dict)
         state = ResearchState(**state_dict)
         settings = get_settings()
         if settings.agent.enable_graph_db:
@@ -312,6 +428,16 @@ class ResearchGraph:
         self._write_stage_out("update_graph_db", out)
         if self._on_progress:
             self._on_progress("update_graph_db", out)
+        # Emit final complete event with investigation summary
+        self._emit_progress({
+            "event": "complete",
+            "subject": out.get("subject", {}).get("full_name", "") if isinstance(out.get("subject"), dict) else "",
+            "iterations": out.get("iteration", 0),
+            "entities": len(out.get("entities") or []),
+            "risk_flags": len(out.get("risk_flags") or []),
+            "cost_usd": out.get("estimated_cost_usd", 0.0),
+            "progress": 1.0,
+        })
         self._emit_progress(
             {"event": "node", "node": "update_graph_db", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -319,7 +445,15 @@ class ResearchGraph:
 
     async def _entity_resolution_node(self, state_dict: dict) -> dict:
         self._write_stage_in("entity_resolution", state_dict)
+        self._emit_node_start("entity_resolution", state_dict)
         state = ResearchState(**state_dict)
+        logger.info(
+            "node_stage_start",
+            node="entity_resolution",
+            phase=state.current_phase.value,
+            iteration=state.iteration,
+            entity_count=len(state.entities),
+        )
         # Only run entity resolution when entity count > 15
         if len(state.entities) > 15:
             state = await self.entity_resolver.resolve(state)
@@ -329,6 +463,9 @@ class ResearchGraph:
         self._write_stage_out("entity_resolution", out)
         if self._on_progress:
             self._on_progress("entity_resolution", out)
+        entity_count = len(out.get("entities") or [])
+        self._emit_progress({"event": "entities_update", "count": entity_count})
+        self._emit_log("entity_resolution", f"Entity resolution done — {entity_count} entities")
         self._emit_progress(
             {
                 "event": "node", "node": "entity_resolution",
@@ -339,12 +476,22 @@ class ResearchGraph:
 
     async def _temporal_analysis_node(self, state_dict: dict) -> dict:
         self._write_stage_in("temporal_analysis", state_dict)
+        self._emit_node_start("temporal_analysis", state_dict)
         state = ResearchState(**state_dict)
+        logger.info(
+            "node_stage_start",
+            node="temporal_analysis",
+            phase=state.current_phase.value,
+            iteration=state.iteration,
+            entity_count=len(state.entities),
+        )
         state = await self.temporal_analyzer.analyze_timeline(state)
         out = state.model_dump()
         self._write_stage_out("temporal_analysis", out)
         if self._on_progress:
             self._on_progress("temporal_analysis", out)
+        facts_count = len(out.get("temporal_facts") or [])
+        self._emit_log("temporal_analysis", f"Temporal analysis complete — {facts_count} facts")
         self._emit_progress(
             {
                 "event": "node", "node": "temporal_analysis",
@@ -355,12 +502,23 @@ class ResearchGraph:
 
     async def _generate_report_node(self, state_dict: dict) -> dict:
         self._write_stage_in("generate_report", state_dict)
+        self._emit_node_start("generate_report", state_dict)
         state = ResearchState(**state_dict)
+        logger.info(
+            "node_stage_start",
+            node="generate_report",
+            phase=state.current_phase.value,
+            iteration=state.iteration,
+            entity_count=len(state.entities),
+            risk_flags=len(state.risk_flags),
+        )
+        self._emit_log("generate_report", "Generating final report…")
         state = await self.report_generator.generate_report(state)
         out = state.model_dump()
         self._write_stage_out("generate_report", out)
         if self._on_progress:
             self._on_progress("generate_report", out)
+        self._emit_log("generate_report", "Report generated successfully")
         self._emit_progress(
             {"event": "node", "node": "generate_report", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -413,6 +571,7 @@ class ResearchGraph:
 
         logger.info("investigation_started", subject=subject_name, max_iterations=max_iter)
         start_time = time.time()
+        obs_metrics.investigation_started(investigation_id=slug or "unknown", persona="default")
 
         try:
             final_state_dict = await self.graph.ainvoke(
@@ -446,6 +605,17 @@ class ResearchGraph:
 
         final_state.estimated_cost_usd = self.llm_client.total_cost
         duration = round(time.time() - start_time, 1)
+        status = "failed" if any("Investigation failed" in (e or "") for e in final_state.error_log) else ("error" if final_state.error_log else "complete")
+        obs_metrics.investigation_completed(
+            investigation_id=slug or "unknown",
+            persona="default",
+            status=status,
+            cost_usd=final_state.estimated_cost_usd,
+            entity_count=len(final_state.entities),
+            risk_flags=self._count_risks_by_severity(final_state),
+            confidence=getattr(final_state, "overall_confidence", 0.0) or 0.0,
+            duration_seconds=duration,
+        )
         logger.info(
             "investigation_complete",
             subject=subject_name,
@@ -496,6 +666,15 @@ class ResearchGraph:
             logger.warning("run_metadata_save_error", error=str(e))
 
         return final_state
+
+    @staticmethod
+    def _count_risks_by_severity(state: ResearchState) -> dict[str, int]:
+        """Return severity -> count for risk flags (for metrics)."""
+        counts: dict[str, int] = {}
+        for flag in state.risk_flags:
+            sev = flag.severity.value if hasattr(flag.severity, "value") else str(flag.severity)
+            counts[sev] = counts.get(sev, 0) + 1
+        return counts
 
     async def resume(self, thread_id: str) -> ResearchState:
         """Resume a checkpointed investigation by thread_id."""

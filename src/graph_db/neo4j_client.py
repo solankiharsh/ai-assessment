@@ -14,6 +14,7 @@ from neo4j import AsyncDriver, AsyncGraphDatabase
 
 from src.config import get_settings
 from src.models import EntityType, ResearchState
+from src.observability import metrics as obs_metrics
 
 logger = structlog.get_logger()
 
@@ -49,6 +50,7 @@ VALID_REL_TYPES = frozenset(
         "ADVISOR_TO",
         "DONOR_TO",
         "PREVIOUSLY_AT",
+        "LOCATED_AT",
         "FLAGGED_FOR",
     }
 )
@@ -128,93 +130,106 @@ class Neo4jClient:
         node_count = 0
         rel_count = 0
 
-        async with self._driver.session(database=self._database) as session:
-            for entity in state.entities:
-                label = _safe_label(self._entity_type_to_label(entity.entity_type))
-                props = {
-                    "entity_id": entity.id,
-                    "name": entity.name,
-                    "entity_type": entity.entity_type.value,
-                    "confidence": entity.confidence,
-                    "description": entity.description,
-                    "aliases": entity.aliases,
-                    "source_urls": entity.source_urls,
-                    **{k: str(v) for k, v in entity.attributes.items()},
-                }
-                # Label is allowlisted; use parameterized props only
-                cypher = f"MERGE (n:{label} {{entity_id: $entity_id}}) SET n += $props"
-                await session.run(cypher, entity_id=entity.id, props=props)
-                node_count += 1
+        with obs_metrics.track_graph_query("persist_state"):
+            async with self._driver.session(database=self._database) as session:
+                for entity in state.entities:
+                    label = _safe_label(self._entity_type_to_label(entity.entity_type))
+                    props = {
+                        "entity_id": entity.id,
+                        "name": entity.name,
+                        "entity_type": entity.entity_type.value,
+                        "confidence": entity.confidence,
+                        "description": entity.description,
+                        "aliases": entity.aliases,
+                        "source_urls": entity.source_urls,
+                        **{k: str(v) for k, v in entity.attributes.items()},
+                    }
+                    # Label is allowlisted; use parameterized props only
+                    cypher = f"MERGE (n:{label} {{entity_id: $entity_id}}) SET n += $props"
+                    await session.run(cypher, entity_id=entity.id, props=props)
+                    node_count += 1
 
-            for conn in state.connections:
-                src = state.get_entity_by_id(conn.source_entity_id)
-                tgt = state.get_entity_by_id(conn.target_entity_id)
-                if not src or not tgt:
-                    continue
-                src_label = _safe_label(self._entity_type_to_label(src.entity_type))
-                tgt_label = _safe_label(self._entity_type_to_label(tgt.entity_type))
-                rel_type = _safe_rel_type(conn.relationship_type.value)
-                cypher = (
-                    f"MATCH (a:{src_label} {{entity_id: $src_id}})"
-                    f" MATCH (b:{tgt_label} {{entity_id: $tgt_id}})"
-                    f" MERGE (a)-[r:{rel_type}]->(b)"
-                    " SET r.description = $desc, r.confidence = $conf, r.source_urls = $urls"
-                )
-                await session.run(
-                    cypher,
-                    src_id=conn.source_entity_id,
-                    tgt_id=conn.target_entity_id,
-                    desc=conn.description,
-                    conf=conn.confidence,
-                    urls=conn.source_urls,
-                )
-                # Edge provenance: add temporal and source metadata
-                provenance_cypher = (
-                    f"MATCH (a:{src_label} {{entity_id: $src_id}})"
-                    f"-[r:{rel_type}]->"
-                    f"(b:{tgt_label} {{entity_id: $tgt_id}})"
-                    " SET r.extraction_timestamp = $ts,"
-                    " r.source_url_primary = $primary_url,"
-                    " r.start_date = $start_date,"
-                    " r.end_date = $end_date"
-                )
-                from datetime import datetime, timezone
-                await session.run(
-                    provenance_cypher,
-                    src_id=conn.source_entity_id,
-                    tgt_id=conn.target_entity_id,
-                    ts=datetime.now(timezone.utc).isoformat(),
-                    primary_url=conn.source_urls[0] if conn.source_urls else "",
-                    start_date=conn.start_date or "",
-                    end_date=conn.end_date or "",
-                )
-                rel_count += 1
+                for conn in state.connections:
+                    src = state.get_entity_by_id(conn.source_entity_id)
+                    tgt = state.get_entity_by_id(conn.target_entity_id)
+                    if not src or not tgt:
+                        continue
+                    src_label = _safe_label(self._entity_type_to_label(src.entity_type))
+                    tgt_label = _safe_label(self._entity_type_to_label(tgt.entity_type))
+                    rel_type = _safe_rel_type(conn.relationship_type.value)
+                    cypher = (
+                        f"MATCH (a:{src_label} {{entity_id: $src_id}})"
+                        f" MATCH (b:{tgt_label} {{entity_id: $tgt_id}})"
+                        f" MERGE (a)-[r:{rel_type}]->(b)"
+                        " SET r.description = $desc, r.confidence = $conf, r.source_urls = $urls"
+                    )
+                    await session.run(
+                        cypher,
+                        src_id=conn.source_entity_id,
+                        tgt_id=conn.target_entity_id,
+                        desc=conn.description,
+                        conf=conn.confidence,
+                        urls=conn.source_urls,
+                    )
+                    # Edge provenance: add temporal and source metadata
+                    provenance_cypher = (
+                        f"MATCH (a:{src_label} {{entity_id: $src_id}})"
+                        f"-[r:{rel_type}]->"
+                        f"(b:{tgt_label} {{entity_id: $tgt_id}})"
+                        " SET r.extraction_timestamp = $ts,"
+                        " r.source_url_primary = $primary_url,"
+                        " r.start_date = $start_date,"
+                        " r.end_date = $end_date"
+                    )
+                    from datetime import datetime, timezone
+                    await session.run(
+                        provenance_cypher,
+                        src_id=conn.source_entity_id,
+                        tgt_id=conn.target_entity_id,
+                        ts=datetime.now(timezone.utc).isoformat(),
+                        primary_url=conn.source_urls[0] if conn.source_urls else "",
+                        start_date=conn.start_date or "",
+                        end_date=conn.end_date or "",
+                    )
+                    rel_count += 1
 
-            for flag in state.risk_flags:
-                await session.run(
-                    "MERGE (r:RiskFlag {flag_id: $flag_id}) SET r.category = $category, "
-                    "r.severity = $severity, r.title = $title, r.description = $description, "
-                    "r.confidence = $confidence, r.evidence = $evidence",
-                    flag_id=flag.id,
-                    category=flag.category.value,
-                    severity=flag.severity.value,
-                    title=flag.title,
-                    description=flag.description,
-                    confidence=flag.confidence,
-                    evidence=flag.evidence,
-                )
-                node_count += 1
-                for eid in flag.entity_ids:
-                    entity = state.get_entity_by_id(eid)
-                    if entity:
-                        label = _safe_label(self._entity_type_to_label(entity.entity_type))
-                        link_cypher = (
-                            "MATCH (r:RiskFlag {flag_id: $flag_id})"
-                            f" MATCH (e:{label} {{entity_id: $entity_id}})"
-                            " MERGE (r)-[:FLAGGED_FOR]->(e)"
-                        )
-                        await session.run(link_cypher, flag_id=flag.id, entity_id=eid)
-                        rel_count += 1
+                for flag in state.risk_flags:
+                    await session.run(
+                        "MERGE (r:RiskFlag {flag_id: $flag_id}) SET r.category = $category, "
+                        "r.severity = $severity, r.title = $title, r.description = $description, "
+                        "r.confidence = $confidence, r.evidence = $evidence",
+                        flag_id=flag.id,
+                        category=flag.category.value,
+                        severity=flag.severity.value,
+                        title=flag.title,
+                        description=flag.description,
+                        confidence=flag.confidence,
+                        evidence=flag.evidence,
+                    )
+                    node_count += 1
+                    for eid in flag.entity_ids:
+                        entity = state.get_entity_by_id(eid)
+                        if entity:
+                            label = _safe_label(self._entity_type_to_label(entity.entity_type))
+                            link_cypher = (
+                                "MATCH (r:RiskFlag {flag_id: $flag_id})"
+                                f" MATCH (e:{label} {{entity_id: $entity_id}})"
+                                " MERGE (r)-[:FLAGGED_FOR]->(e)"
+                            )
+                            await session.run(link_cypher, flag_id=flag.id, entity_id=eid)
+                            rel_count += 1
+
+        node_counts_by_label: dict[str, int] = {}
+        for entity in state.entities:
+            label = _safe_label(self._entity_type_to_label(entity.entity_type))
+            node_counts_by_label[label] = node_counts_by_label.get(label, 0) + 1
+        for _ in state.risk_flags:
+            node_counts_by_label["RiskFlag"] = node_counts_by_label.get("RiskFlag", 0) + 1
+        edge_counts_by_type: dict[str, int] = {}
+        for conn in state.connections:
+            rel = _safe_rel_type(conn.relationship_type.value)
+            edge_counts_by_type[rel] = edge_counts_by_type.get(rel, 0) + 1
+        obs_metrics.record_graph_stats(node_counts_by_label, edge_counts_by_type)
 
         logger.info(
             "neo4j_persist_complete",
@@ -255,47 +270,50 @@ class Neo4jClient:
             return []
         if max_hops < 1 or max_hops > 10:
             max_hops = 5
-        cypher = (
-            "MATCH (a {name: $name_a}), (b {name: $name_b}),"
-            f" path = shortestPath((a)-[*..{max_hops}]-(b))"
-            " RETURN [n IN nodes(path) | n.name] AS entity_chain,"
-            " [r IN relationships(path) | type(r)] AS relationship_chain,"
-            " length(path) AS hops"
-        )
-        async with self._driver.session(database=self._database) as session:
-            result = await session.run(cypher, name_a=entity_a, name_b=entity_b)
-            return [record.data() async for record in result]
+        with obs_metrics.track_graph_query("shortest_path"):
+            cypher = (
+                "MATCH (a {name: $name_a}), (b {name: $name_b}),"
+                f" path = shortestPath((a)-[*..{max_hops}]-(b))"
+                " RETURN [n IN nodes(path) | n.name] AS entity_chain,"
+                " [r IN relationships(path) | type(r)] AS relationship_chain,"
+                " length(path) AS hops"
+            )
+            async with self._driver.session(database=self._database) as session:
+                result = await session.run(cypher, name_a=entity_a, name_b=entity_b)
+                return [record.data() async for record in result]
 
     async def detect_shell_companies(self) -> list[dict[str, Any]]:
         """Find organizations sharing addresses or registered agents."""
         if not self.is_connected:
             return []
-        cypher = (
-            "MATCH (o1:Organization), (o2:Organization)"
-            " WHERE o1.entity_id < o2.entity_id"
-            " AND (o1.address IS NOT NULL AND o1.address = o2.address"
-            "  OR o1.registered_agent IS NOT NULL AND o1.registered_agent = o2.registered_agent)"
-            " RETURN o1.name AS org_a, o2.name AS org_b,"
-            " CASE WHEN o1.address = o2.address THEN 'shared_address'"
-            "      ELSE 'shared_agent' END AS link_type"
-            " LIMIT 50"
-        )
-        async with self._driver.session(database=self._database) as session:
-            result = await session.run(cypher)
-            return [record.data() async for record in result]
+        with obs_metrics.track_graph_query("shell_companies"):
+            cypher = (
+                "MATCH (o1:Organization), (o2:Organization)"
+                " WHERE o1.entity_id < o2.entity_id"
+                " AND (o1.address IS NOT NULL AND o1.address = o2.address"
+                "  OR o1.registered_agent IS NOT NULL AND o1.registered_agent = o2.registered_agent)"
+                " RETURN o1.name AS org_a, o2.name AS org_b,"
+                " CASE WHEN o1.address = o2.address THEN 'shared_address'"
+                "      ELSE 'shared_agent' END AS link_type"
+                " LIMIT 50"
+            )
+            async with self._driver.session(database=self._database) as session:
+                result = await session.run(cypher)
+                return [record.data() async for record in result]
 
     async def degree_centrality(self, top_n: int = 10) -> list[dict[str, Any]]:
         """Most-connected nodes by relationship count."""
         if not self.is_connected:
             return []
-        cypher = (
-            "MATCH (n)-[r]-()"
-            " RETURN n.name AS name, n.entity_type AS type, count(r) AS degree"
-            " ORDER BY degree DESC LIMIT $top_n"
-        )
-        async with self._driver.session(database=self._database) as session:
-            result = await session.run(cypher, top_n=top_n)
-            return [record.data() async for record in result]
+        with obs_metrics.track_graph_query("degree_centrality"):
+            cypher = (
+                "MATCH (n)-[r]-()"
+                " RETURN n.name AS name, n.entity_type AS type, count(r) AS degree"
+                " ORDER BY degree DESC LIMIT $top_n"
+            )
+            async with self._driver.session(database=self._database) as session:
+                result = await session.run(cypher, top_n=top_n)
+                return [record.data() async for record in result]
 
     async def multi_path_connections(self, entity_name: str, max_hops: int = 3) -> list[dict[str, Any]]:
         """Find entities connected through 2+ independent paths."""
