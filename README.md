@@ -25,7 +25,7 @@ Autonomous intelligence-gathering agent for due diligence investigations. Built 
 
 - **Pydantic Settings** from `.env`: LLM API keys (Anthropic, OpenAI, Google), Tavily/Brave search, Neo4j, agent tuning (max iterations, confidence threshold, diminishing-returns params, cost budget, fuzzy threshold).
 - **`scripts/check_env.py`** — Validates all API keys from `.env` (run before `make run` or long investigations).
-- **Docker Compose** for local Neo4j (`make docker-up`).
+- **Docker Compose** for local Neo4j (`make docker-up`). Optional **Prometheus + Grafana** for observability (see [Observability](#observability) and [ADR 011](docs/decisions/011-observability-stack.md)).
 
 ### Evaluation
 
@@ -54,7 +54,7 @@ The UI and report present a numeric risk score derived from risk flags (count an
 ### API and usage
 
 - **CLI** — `python -m src.main investigate "Subject Name" --role ... --org ...` (see Usage below).
-- **Frontend API** (Next.js):
+- **Frontend API** (Next.js): See [frontend spec](docs/frontend-console-prompt.md) for the full contract; the backend is API-first so wrapping in FastAPI is on the order of a couple of hours. Endpoints:
   - **POST** `/api/investigate` — Start an investigation (subject, role, org); runs pipeline and writes outputs to `outputs/`.
   - **GET** `/api/cases` — List investigation cases (reads from `outputs/`).
   - **GET** `/api/cases/[id]` — Get a single case (state, report, entities).
@@ -173,6 +173,14 @@ Outputs are written to `outputs/` (or `--output`): `{name}_report.md`, `{name}_s
 
 **Console & UI** — CLI plus Rich TUI (`--live`). A Next.js investigative console is in `frontend/`: run `make dev` (or `make frontend`) to start it at http://localhost:3000; it reads `outputs/` via API routes. See [Frontend console prompt](docs/frontend-console-prompt.md) for the API contract and [frontend/README.md](frontend/README.md) for run instructions.
 
+### Observability
+
+When enabled, the agent exposes **Prometheus metrics** on a configurable port and can be monitored via **Grafana**. See [docs/observability-guide.md](docs/observability-guide.md) and [ADR 011](docs/decisions/011-observability-stack.md).
+
+- **Enable metrics**: Set `PROMETHEUS_METRICS_ENABLED=true` and optionally `PROMETHEUS_METRICS_PORT=8000` in `.env`. The CLI starts a non-blocking `/metrics` server when you run an investigation.
+- **Start stack**: `docker compose up -d neo4j prometheus grafana`. Grafana at http://localhost:3001 (admin / research). Dashboard: http://localhost:3001/d/deep-research-monitor.
+- **Run investigation**: `python -m src.main investigate "Subject Name" --role ... --org ...`. Prometheus scrapes the agent at `host.docker.internal:8000` while the run is active.
+
 ## Project Structure
 
 ```
@@ -182,11 +190,13 @@ src/
   models.py         # State, entities, connections, risk flags
   graph.py          # LangGraph state machine
   llm_client.py     # Multi-model client (budget, retry)
+  observability/    # Prometheus metrics (metrics.py)
   agents/           # Director, web researcher, fact extractor, risk, connections, verifier, report
   tools/search.py   # Tavily + Brave + WebFetcher
   graph_db/         # Neo4j client (allowlisted labels)
   prompts/          # Agent templates
   evaluation/       # Personas + metrics
+monitoring/         # Prometheus + Grafana config and dashboards
 tests/
   test_models.py
   test_search.py

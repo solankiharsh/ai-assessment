@@ -92,7 +92,7 @@ The UI Risk tab shows this transcript in a collapsible "Risk debate transcript" 
 
 **Why debate over a single classifier?** A single LLM asked "is this risky?" anchors heavily on the first signal it sees and tends toward either false bravado or excessive caution depending on prompt tone. The debate structure forces both sides to be articulated, making the judgment auditable and the confidence score meaningful. In a production setting, a compliance officer reviewing the report can read the debate transcript and apply their own judgment — the system assists rather than decides.
 
-See `src/agents/risk_analyzer.py` and [ADR 004](decisions/004-adversarial-risk-debate.md).
+See `src/agents/risk_analyzer.py` and [ADR 005](decisions/005-tradingagents-patterns-adoption.md).
 
 ---
 
@@ -129,14 +129,17 @@ Neo4j isn't a dump of entities. The graph enables **structural queries** that re
 - Temporal overlap analysis → "these 3 companies had the same registered agent during the same 2-year window"
 - Degree centrality → identifies the most connected nodes that might be key facilitators
 
+Example — entities sharing an address with the subject (allowlisted labels):
+
 ```cypher
-// Find entities connected to subject through 2+ independent paths
-MATCH path1 = (s:Person {name: "Timothy Overturf"})-[*1..3]-(target)
-MATCH path2 = (s)-[*1..3]-(target)
-WHERE path1 <> path2
-RETURN target, count(DISTINCT path1) as connection_strength
-ORDER BY connection_strength DESC
+// "Who shares an address with any entity connected to our subject?"
+MATCH (s:Person {name: "Timothy Overturf"})-[*1..2]-(org:Organization)
+MATCH (org)-[:LOCATED_AT]->(addr:Location)<-[:LOCATED_AT]-(other)
+WHERE other <> s AND other <> org
+RETURN other.name, addr.name, org.name
 ```
+
+Running the hard persona and loading Neo4j before the demo yields the live graph reasoning story. For the exact Cypher, alternative shortest-path query, and example result, see [Discovery stories — Graph reasoning query](discovery-stories.md#graph-reasoning-query-demo).
 
 The graph stores **source provenance on every edge** — each relationship links back to the URL, extraction confidence, and timestamp that created it. This makes the entire investigation auditable and allows downstream consumers to filter by confidence threshold.
 
@@ -352,7 +355,7 @@ If this were a real product with a team behind it:
 
 **Month 2 — Scale**
 - Redis-backed state for concurrent investigations
-- Queue-based architecture (investigation requests → worker pool)
+- Queue-based architecture (investigation requests → worker pool). Concrete capacity: 4 async workers → ~25 investigations/hour; 100/day ≈ $342/day ($10K/mo), 1000/day scales via more workers or batch windows — see cost-economics.md.
 - Batch mode: investigate 50 names from a CSV, parallelize across workers
 - Cost analytics dashboard: spend per investigation, per model, per phase
 

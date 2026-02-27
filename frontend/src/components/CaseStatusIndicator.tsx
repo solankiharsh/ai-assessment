@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 type Status = "running" | "complete" | "failed" | undefined;
 
 const styles: Record<NonNullable<Status>, string> = {
-  running: "bg-[var(--accent)]/15 text-[var(--accent)] border-[var(--accent)]/30",
+  running: "bg-primary/15 text-primary border-primary/30",
   complete: "bg-[var(--risk-low)]/15 text-[var(--risk-low)] border-[var(--risk-low)]/30",
-  failed: "bg-[var(--risk-critical)]/15 text-[var(--risk-critical)] border-[var(--risk-critical)]/30",
+  failed: "bg-destructive/15 text-destructive border-destructive/30",
 };
 
 const labels: Record<NonNullable<Status>, string> = {

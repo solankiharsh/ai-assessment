@@ -49,7 +49,7 @@ export default function PhasesPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <section className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
+      <section className="border-b border-border bg-card">
         <TabMethodology />
       </section>
       <section className="h-full min-h-[400px]">

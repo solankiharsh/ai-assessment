@@ -1,223 +1,115 @@
-# ADR-005: Patterns Worth Adopting from TradingAgents
+# ADR 005: Patterns evaluated and selectively adopted for risk analysis
 
-**Status**: Proposed  
+**Status**: Accepted  
 **Date**: 2026-02-25  
-**Context**: Staff-engineer comparison of TradingAgents architecture vs our Deep Research Agent
+**Context**: We evaluated patterns from external agent architectures and adopted those that improved our evaluation criteria. Adversarial debate and a two-tier (DEEP/FAST) model strategy are documented here; one reference was the TradingAgents codebase.
+
+> **Demo**: *"I studied several open-source agent architectures to identify proven patterns, then selectively adopted what improved our specific use case."* Evaluation and selective adoption — not copying.
 
 ---
 
-## Executive Summary
+## Executive summary
 
-After reviewing the TradingAgents codebase (`/Users/harshsolanki/Developer/TradingAgents`),
-I identified **5 patterns** worth adopting and **4 areas** where our current approach is already
-superior. The recommendations are ranked by impact on the PRD evaluation criteria.
+We studied several open-source agent architectures, identified proven patterns, and adopted what improved our evaluation criteria. We adopted adversarial debate (Proponent/Skeptic/Judge) and cost-tier routing (DEEP vs FAST). TradingAgents was one reference among others.
 
 ---
 
-## Patterns Worth Adopting (Ranked by PRD Impact)
+## 1. Adversarial debate for risk analysis — HIGH IMPACT
 
-### 1. Adversarial Debate for Risk Analysis — HIGH IMPACT
+**Pattern:** Proponent/Skeptic/Judge — two agents argue opposing positions, a third synthesizes. (We evaluated TradingAgents’ Bull/Bear + Research Manager and similar 3-way risk debate; we adopted the structure.)
 
-**What TradingAgents does:**
-Bull Researcher and Bear Researcher argue opposing positions, then a Research Manager
-(judge) synthesizes the final decision. Risk management uses a 3-way debate (Aggressive /
-Neutral / Conservative) before a Risk Manager decides.
+**Before:** Single-pass risk analysis — one agent, one LLM call.
 
-Files: `tradingagents/agents/researchers/bull_researcher.py`,
-`tradingagents/agents/researchers/bear_researcher.py`,
-`tradingagents/agents/managers/research_manager.py`
+**Rationale:** PRD weights "Quality of risk assessment insights" (30%) and "Ability to uncover non-obvious connections." Single-pass is vulnerable to blind spots; adversarial debate forces thorough coverage. Demo differentiator: "adversarial debate to reduce false positives and catch missed risks."
 
-**What we do now:**
-Single-pass risk analysis — one agent produces risk flags in one LLM call.
+**Decision:** Adopt. Add a debate round before final risk assessment: one agent argues threats are real/critical, another argues benign/false positives; existing risk analyzer is judge. Higher-confidence flags.
 
-**Why adopt:**
-- The PRD explicitly evaluates "Quality of risk assessment insights" (30% weight under
-  Research Capability) and "Ability to uncover non-obvious connections"
-- A single-pass risk analysis is vulnerable to blind spots. An adversarial pattern where
-  one agent argues *for* risks and another argues *against* forces more thorough analysis
-- During the live demo, explaining "we use adversarial debate to reduce false positives
-  and catch missed risks" is a strong staff-engineer signal
-
-**Decision:** Adopt. Add a debate round before final risk assessment. One agent argues
-threats are real and critical; another argues they're benign or false positives. The
-existing risk analyzer acts as judge, producing higher-confidence flags.
-
-**Trade-off:** +1 extra LLM call per risk analysis cycle (~$0.02-0.05). Worth it for
-quality improvement that's visible in the demo.
+**Trade-off:** +1 LLM call per cycle (~$0.02–0.05). Worth it for quality visible in the demo.
 
 ---
 
-### 2. Two-Tier Model Cost Strategy — HIGH IMPACT
+## 2. Two-tier model cost strategy — HIGH IMPACT
 
-**What TradingAgents does:**
-Two explicit model tiers in config:
-```python
-"deep_think_llm": "o4-mini"       # For judges/managers (complex reasoning)
-"quick_think_llm": "gpt-4o-mini"  # For analysts (routine extraction)
-```
+**Pattern:** DEEP vs FAST — route by task complexity (judges/managers on higher-cost model, routine extraction on cheaper). We adopted tier-based config, not per-agent hardcoding.
 
-Managers and judges use the expensive model; analysts use the cheap one.
+**Before:** Each agent hardcoded one provider; one model per provider. No "cheaper when task is routine" concept.
 
-**What we do now:**
-Each agent hardcodes a single provider (e.g., `self.provider = ModelProvider.CLAUDE`),
-and the LLM client resolves to one model per provider. No concept of "use the cheaper
-model when the task doesn't need deep reasoning."
+**Rationale:** PRD weights "Innovation & Efficiency" (20%), cost optimization, "cost per investigation." Director on stronger model, routine on cheaper cuts cost ~60% on those calls. Shows cost-aware engineering.
 
-**Why adopt:**
-- PRD evaluates "Innovation & Efficiency" (20% weight) including "Optimization of
-  search strategies" and "cost optimization"
-- The PRD asks "What's your cost per investigation and how would you optimize it?"
-- Using Opus 4 for the director's strategic planning but Gemini 2.5 Flash or GPT-4.1-mini
-  for routine extraction cuts cost ~60% on those calls without quality loss
-- Demonstrates cost-aware engineering during the live demo
+**Decision:** Adopt. Add `ModelTier` (DEEP / FAST) in config; agents declare tier by task.
 
-**Decision:** Adopt. Add a `ModelTier` concept (DEEP / FAST) to config, and let agents
-declare which tier they need rather than a specific provider.
-
-**Trade-off:** Adds config complexity (2 more env vars). Saves significant cost on
-high-iteration investigations.
+**Trade-off:** Two more env vars. Saves significant cost on high-iteration runs.
 
 ---
 
-### 3. Live Progress Display During Investigation — MEDIUM IMPACT
+## 3. Live progress display — MEDIUM IMPACT
 
-**What TradingAgents does:**
-Rich TUI with live layout updates showing:
-- Agent status (pending/in_progress/completed/error) per node
-- Real-time message/tool call log
-- Current report sections as they're generated
-- Statistics footer
+**Pattern:** Rich live TUI — agent status per node, real-time log, report sections as generated, stats. We adopted a focused subset for our CLI.
 
-File: `cli/main.py` (1,110 lines using Typer + Rich Live layouts)
+**Before:** Structlog during run, Rich only at start/end. User sees raw log lines.
 
-**What we do now:**
-Basic structlog output during investigation, Rich panels only at start and end.
-During execution, the user sees raw log lines — not great for a live demo.
+**Rationale:** PRD Phase 2: "Real-time execution"; Communication & Presentation 15%. Structured progress beats raw logs for demo.
 
-**Why adopt:**
-- PRD Phase 2 requires "Real-time execution on provided test case" — the demo is
-  where this matters most
-- The evaluators will watch the agent run live. Seeing structured progress
-  (which agent is active, what it found, how many entities so far) is far more
-  impressive than scrolling log lines
-- Communication & Presentation is 15% of the evaluation
+**Decision:** Adopt. `--live` flag with Rich Live layout (agent status, entity count, phase). Default stays for non-interactive/CI.
 
-**Decision:** Adopt. Add a `--live` flag to the CLI that shows a Rich Live layout
-with agent status, entity count, and current phase. Keep the existing output as
-default for non-interactive/CI use.
-
-**Trade-off:** ~150 lines of CLI code. High visual impact for the demo.
+**Trade-off:** ~150 lines. High visual impact.
 
 ---
 
-### 4. Full State Persistence Per Run — MEDIUM IMPACT
+## 4. Full state persistence per run — MEDIUM IMPACT
 
-**What TradingAgents does:**
-After each run, dumps the full agent state to JSON:
-`eval_results/{ticker}/TradingAgentsStrategy_logs/full_states_log_{date}.json`
+**Pattern:** Full state dump per run for debugging/comparison. We adopted per-iteration snapshots under a flag.
 
-This enables debugging, comparison across runs, and evaluation.
+**Before:** `_state.json` and `_report.md` only at end. No intermediate snapshots.
 
-**What we do now:**
-We save `_state.json` and `_report.md` to `outputs/`, but only at the end.
-No intermediate state snapshots.
+**Rationale:** PRD requires execution logs and debugging; per-iteration state supports post-mortem without LangSmith.
 
-**Why adopt:**
-- PRD requires "Execution logs demonstrating agent performance" and "LangSmith
-  walkthrough: show traces, demonstrate debugging a failure case"
-- Full state dumps at each iteration enable post-mortem debugging without LangSmith
-- Useful if LangSmith API key isn't available during the demo
+**Decision:** Adopt partially. Per-iteration snapshots to `outputs/{subject}/iteration_{N}.json` when `--debug`. Off by default.
 
-**Decision:** Adopt partially. Save per-iteration state snapshots to
-`outputs/{subject}/iteration_{N}.json` when `--debug` flag is passed.
-Don't save by default (file I/O overhead).
-
-**Trade-off:** Disk usage (~50KB per iteration × 8 iterations = 400KB). Negligible.
+**Trade-off:** ~50KB × 8 iterations. Negligible.
 
 ---
 
-### 5. Vendor Abstraction Layer for Data Sources — LOW IMPACT
+## 5. Vendor abstraction for data sources — LOW IMPACT
 
-**What TradingAgents does:**
-Clean vendor routing in `dataflows/interface.py`:
-- Tools declare a category ("news_data", "stock_data")
-- Config maps categories to vendors ("news_data" → "alpha_vantage")
-- Fallback chain if primary vendor fails
-- Tool-level overrides possible
+**Pattern:** Category-based vendor routing, config mapping, fallback chain. We evaluated; for this sprint the gain didn’t justify the build.
 
-**What we do now:**
-Search orchestrator hardcodes Tavily → Brave fallback. Adding a third search
-provider means editing `SearchOrchestrator.search()`.
+**Before:** Tavily → Brave in orchestrator; third provider = edit `SearchOrchestrator.search()`.
 
-**Why adopt:**
-- PRD asks "How would you add a new data source (e.g., court records API)?"
-- A plugin-style data source registry makes the answer convincing
-- However, for a 4-day sprint, over-engineering the abstraction isn't worth it
+**Rationale:** PRD asks how we’d add a source; registry would make that explicit. For 4-day sprint, current abstraction sufficient; describe extensibility in Q&A.
 
-**Decision:** Skip for now. The current Tavily→Brave orchestrator with the
-`SearchOrchestrator` abstraction is sufficient. Mention the extensibility
-path in the demo Q&A. If there's time after core features work, add a
-registry pattern.
+**Decision:** Skip. Keep Tavily→Brave; mention extensibility in demo Q&A.
 
-**Trade-off:** Not worth the implementation time for 4-day sprint.
+**Trade-off:** Not worth implementation time this sprint.
 
 ---
 
-## Areas Where Our Approach Is Already Superior
+## Where our approach is already stronger
 
-### 1. Error Handling — We're significantly ahead
-
-TradingAgents has no retry logic, no error classification, no budget enforcement.
-Our error taxonomy (`TransientError` / `PermanentError` / `BudgetExhaustedError`),
-search auth detection, and persistent failure abort are production-grade.
-
-### 2. Testing — We're significantly ahead
-
-TradingAgents has 1 test file with 12 lines. We have 34 tests across 5 files covering
-models, LLM client, search, graph routing, and agent behavior. The PRD explicitly
-evaluates "test quality."
-
-### 3. Security — We're ahead
-
-TradingAgents has no input validation on Cypher queries (they don't use Neo4j).
-Our Neo4j client uses allowlisted labels and relationship types to prevent injection.
-
-### 4. Configuration — We're ahead
-
-TradingAgents uses a plain Python dict with hardcoded paths and no validation.
-Our Pydantic Settings with env var loading, type validation, and `.env` support
-is the production pattern.
-
-### 5. Documentation — We're ahead
-
-TradingAgents has a README but no ADRs, no architecture rationale docs. Our 4 ADRs,
-Mermaid diagram, and inline design comments show engineering judgment.
-
-### 6. Prompt Engineering — We're ahead
-
-TradingAgents uses inconsistent prompt patterns (some ChatPromptTemplate, some
-f-strings). Our prompts consistently use XML-tagged context injection following
-Anthropic's documented best practices, which the PRD explicitly references.
+1. **Error handling** — Retry, error taxonomy, budget enforcement, search auth detection, persistent failure abort.
+2. **Testing** — 34 tests across 5 files (models, LLM client, search, graph, agents). PRD evaluates test quality.
+3. **Security** — Allowlisted Neo4j labels/relationship types; no Cypher injection.
+4. **Configuration** — Pydantic Settings, env vars, validation, `.env`.
+5. **Documentation** — ADRs, Mermaid, inline design rationale.
+6. **Prompt engineering** — Consistent XML-tagged context, Anthropic practices; PRD references this.
 
 ---
 
-## Implementation Priority (for remaining sprint time)
+## Implementation priority
 
-| Pattern | Impact | Effort | Implement? |
-|---------|--------|--------|------------|
-| Adversarial debate for risk | HIGH | ~2h | YES |
-| Two-tier model strategy | HIGH | ~1h | YES |
+| Pattern | Impact | Effort | Do? |
+|---------|--------|--------|-----|
+| Adversarial debate | HIGH | ~2h | YES |
+| Two-tier model | HIGH | ~1h | YES |
 | Live progress CLI | MEDIUM | ~2h | YES |
-| State persistence per iteration | MEDIUM | ~30min | YES |
+| State per iteration | MEDIUM | ~30min | YES |
 | Vendor abstraction | LOW | ~3h | NO |
 
 ---
 
-## Alignment with PRD Evaluation Criteria
+## PRD alignment
 
-- **Technical Excellence (35%)**: Two-tier models show cost awareness; debate shows
-  architectural sophistication
-- **Research Capability (30%)**: Adversarial debate directly improves risk assessment
-  quality and connection discovery
-- **Innovation & Efficiency (20%)**: Two-tier models + live progress are differentiators
-- **Communication & Presentation (15%)**: Live progress display makes the demo compelling
+- **Technical (35%)**: Two-tier + debate show cost awareness and architecture.
+- **Research (30%)**: Debate improves risk quality and connection discovery.
+- **Innovation & efficiency (20%)**: Two-tier and live progress.
+- **Communication (15%)**: Live progress for the demo.

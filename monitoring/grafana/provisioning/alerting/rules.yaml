@@ -1,0 +1,5 @@
+# Grafana alerting rules reference (provisioning path).
+# Prometheus alert rules from ADR 011 are in monitoring/alerting/prometheus-rules.yaml
+# and can be loaded by Prometheus or Grafana's alerting.
+
+groups: []

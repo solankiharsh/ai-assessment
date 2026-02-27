@@ -1,0 +1,38 @@
+# Git and IDE
+.git
+.gitignore
+.cursor
+.idea
+.vscode
+
+# Local env (secrets come from Railway)
+.env
+.env.local
+.env.*.local
+
+# Python
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+.mypy_cache
+*.egg-info
+
+# Frontend (reinstalled in image)
+frontend/node_modules
+frontend/.next
+frontend/out
+
+# Outputs and logs (ephemeral at runtime)
+outputs
+*.log
+
+# Docs and dev artifacts (optional: remove to shrink image)
+# docs
+# monitoring
+# tests
+
+# OS
+.DS_Store

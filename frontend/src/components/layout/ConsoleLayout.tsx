@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { LeftPanel } from "./LeftPanel";
 import { CenterPanel } from "./CenterPanel";
 import { PanelLeftOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { Investigation } from "@/lib/types";
 
 interface ConsoleLayoutProps {
@@ -52,37 +53,41 @@ export function ConsoleLayout({
   }, [exitFocusMode, toggleLeftPanel]);
 
   return (
-    <div className="flex h-full w-full overflow-hidden bg-[var(--background)]">
+    <div className="flex h-full w-full overflow-hidden bg-background">
       {focusMode && (
-        <button
+        <Button
           type="button"
+          variant="secondary"
+          size="sm"
           onClick={exitFocusMode}
-          className="fixed right-4 top-14 z-50 flex items-center gap-2 rounded border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--foreground)] shadow-lg hover:bg-[var(--bg-hover)]"
+          className="fixed right-4 top-14 z-50 gap-2 shadow-lg"
           aria-label="Exit focus mode"
         >
           Exit focus
-        </button>
+        </Button>
       )}
       {!showLeft && !focusMode && (
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           onClick={() => setLeftOpen(true)}
-          className="flex w-10 shrink-0 flex-col items-center justify-center gap-1 border-r border-[var(--border)] bg-[var(--bg-secondary)] py-4 text-[var(--muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--foreground)]"
+          className="flex w-10 shrink-0 flex-col gap-1 border-r border-border py-4 text-muted-foreground hover:bg-muted hover:text-foreground"
           aria-label="Open left panel"
         >
           <PanelLeftOpen className="h-5 w-5" />
           <span className="text-[10px]">[</span>
-        </button>
+        </Button>
       )}
       {showLeft && (
-        <div className="flex shrink-0 border-r border-[var(--border)]">
+        <div className="flex shrink-0 border-r border-border">
           <LeftPanel caseId={caseId} caseData={caseData} />
         </div>
       )}
       <div
         className={cn(
           "flex min-w-0 flex-1 flex-col overflow-hidden",
-          showLeft && "border-r border-[var(--border)]"
+          showLeft && "border-r border-border"
         )}
       >
         <CenterPanel>{children}</CenterPanel>
