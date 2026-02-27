@@ -1,0 +1,33 @@
+# Prometheus alert rules for Deep Research Agent (ADR 011).
+# Load via Prometheus: add to prometheus.yml under rule_files, or use Grafana alerting.
+
+groups:
+  - name: deep_research_alerts
+    rules:
+      - alert: HighLLMErrorRate
+        expr: |
+          sum(rate(llm_call_errors_total[5m])) 
+          / sum(rate(llm_call_duration_seconds_count[5m])) > 0.15
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "LLM error rate above 15%"
+
+      - alert: ProviderDown
+        expr: rate(llm_call_errors_total[5m]) > 3
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "LLM provider error rate high — possible outage"
+
+      - alert: SearchExhaustion
+        expr: |
+          sum(rate(search_results_total[10m])) == 0 
+          and sum(rate(search_queries_total[10m])) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Searches returning zero results — possible API issue or exhausted topic"

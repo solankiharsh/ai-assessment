@@ -49,7 +49,7 @@ export function TabTimeline({ investigation: inv }: { investigation: Investigati
   if (facts.length === 0) {
     return (
       <div className="flex flex-1 items-center justify-center p-8 text-center">
-        <p className="text-sm text-[var(--muted)]">
+        <p className="text-sm text-muted-foreground">
           Timeline analysis not available for this investigation.
         </p>
       </div>
@@ -57,31 +57,33 @@ export function TabTimeline({ investigation: inv }: { investigation: Investigati
   }
 
   return (
-    <div className="space-y-4 p-4">
-      <h2 className="text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
-        Temporal intelligence — chronological facts
-      </h2>
-      <div className="relative space-y-4">
+    <div className="space-y-6 p-5">
+      <header>
+        <h2 className="text-sm font-semibold text-foreground">
+          Temporal intelligence
+        </h2>
+        <p className="mt-0.5 text-xs text-muted-foreground">
+          Chronological facts with date ranges and source links. Anomalies are shown below conflicting facts.
+        </p>
+      </header>
+
+      <div className="relative space-y-5">
         {sortedFacts.map((fact) => {
           const linkedContradictions = contradictions.filter(
             (c) => c.fact_a_id === fact.id || c.fact_b_id === fact.id
           );
           return (
             <div key={fact.id} className="space-y-2">
-              <div
-                className={cn(
-                  "rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-4"
-                )}
-              >
-                <div className="mb-1 flex flex-wrap items-center gap-2">
-                  <span className="rounded bg-[var(--bg-hover)] px-1.5 py-0.5 text-[10px] font-medium uppercase text-[var(--muted)]">
+              <article className="rounded-xl border border-border bg-card p-4 shadow-sm">
+                <div className="mb-2 flex flex-wrap items-center gap-2">
+                  <span className="rounded bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
                     {fact.category || "event"}
                   </span>
                   <ConfidenceBadge value={fact.confidence} size="small" />
                 </div>
-                <p className="text-sm text-[var(--foreground)]">{fact.claim}</p>
+                <p className="text-sm font-medium text-foreground">{fact.claim}</p>
                 {(fact.date_range?.[0] ?? fact.date_range?.[1] ?? fact.as_of_date) && (
-                  <p className="mt-1 text-xs text-[var(--muted)]">
+                  <p className="mt-1.5 text-xs text-foreground/80">
                     {fact.date_range?.[0] && fact.date_range?.[1]
                       ? `${fact.date_range[0]} — ${fact.date_range[1]}`
                       : fact.date_range?.[0] ?? fact.as_of_date ?? ""}
@@ -95,45 +97,40 @@ export function TabTimeline({ investigation: inv }: { investigation: Investigati
                           href={url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[var(--accent)] hover:underline"
+                          className="text-primary hover:underline"
                         >
                           {domainFromUrl(url)}
                         </a>
                       </li>
                     ))}
                     {fact.source_urls.length > 5 && (
-                      <li className="text-[var(--muted)]">+{fact.source_urls.length - 5} more</li>
+                      <li className="text-muted-foreground">+{fact.source_urls.length - 5} more</li>
                     )}
                   </ul>
                 )}
-              </div>
+              </article>
               {linkedContradictions.map((c) => {
                 const style = SEVERITY_STYLES[c.severity] ?? SEVERITY_STYLES.medium;
                 return (
                   <div
                     key={c.id}
                     className={cn(
-                      "rounded-lg border-l-4 border-[var(--risk-critical)] bg-[var(--risk-critical)]/5 p-4",
+                      "rounded-xl border-l-4 bg-card p-4 shadow-sm",
                       style.border,
                       style.bg
                     )}
                   >
                     <div className="mb-1 flex items-center gap-2">
-                      <span className="text-[10px] font-semibold uppercase text-[var(--risk-critical)]">
+                      <span className="text-[10px] font-semibold uppercase text-destructive">
                         Anomaly detected
                       </span>
-                      <span
-                        className={cn(
-                          "rounded px-1.5 py-0.5 text-[10px] font-medium uppercase",
-                          style.text
-                        )}
-                      >
+                      <span className={cn("rounded px-1.5 py-0.5 text-[10px] font-medium uppercase", style.text)}>
                         {c.severity}
                       </span>
                       <ConfidenceBadge value={c.confidence} size="small" />
                     </div>
-                    <p className="text-sm text-[var(--foreground)]">{c.description}</p>
-                    <p className="mt-1 text-[10px] text-[var(--muted)]">
+                    <p className="text-sm text-foreground">{c.description}</p>
+                    <p className="mt-1 text-[10px] text-muted-foreground">
                       Facts: {c.fact_a_id} / {c.fact_b_id}
                     </p>
                   </div>

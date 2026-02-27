@@ -1,0 +1,206 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "links": [],
+  "panels": [
+    {
+      "title": "Active Investigations",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
+      "targets": [{ "expr": "active_investigations", "legendFormat": "Active", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "value": null, "color": "green" },
+              { "value": 3, "color": "yellow" },
+              { "value": 5, "color": "red" }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "title": "Investigation Cost (USD)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
+      "targets": [{ "expr": "sum(increase(llm_call_cost_usd_total[1h]))", "legendFormat": "Total Cost", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "value": null, "color": "green" },
+              { "value": 5, "color": "yellow" },
+              { "value": 10, "color": "red" }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "title": "Entities Discovered",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+      "targets": [{ "expr": "investigation_entities_found", "legendFormat": "Entities", "refId": "A" }],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "value": null, "color": "blue" },
+              { "value": 20, "color": "green" },
+              { "value": 50, "color": "purple" }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "title": "Risk Flags by Severity",
+      "type": "piechart",
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 0 },
+      "targets": [{ "expr": "investigation_risk_flags", "legendFormat": "{{ severity }}", "refId": "A" }],
+      "options": { "legend": { "displayMode": "table", "placement": "right" } }
+    },
+    {
+      "title": "LLM Call Latency by Model (p95)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "targets": [{
+        "expr": "histogram_quantile(0.95, sum by (le, model, task) (rate(llm_call_duration_seconds_bucket[5m])))",
+        "legendFormat": "{{ model }} / {{ task }}",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": { "drawStyle": "line", "fillOpacity": 10 }
+        }
+      }
+    },
+    {
+      "title": "Cost Breakdown by Model",
+      "type": "barchart",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 12 },
+      "targets": [{ "expr": "sum by (model) (increase(llm_call_cost_usd_total[1h]))", "legendFormat": "{{ model }}", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "currencyUSD" } }
+    },
+    {
+      "title": "Cost Breakdown by Task",
+      "type": "barchart",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 12 },
+      "targets": [{ "expr": "sum by (task) (increase(llm_call_cost_usd_total[1h]))", "legendFormat": "{{ task }}", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "currencyUSD" } }
+    },
+    {
+      "title": "Search Queries vs Results",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 20 },
+      "targets": [
+        { "expr": "rate(search_queries_total[1m])", "legendFormat": "Queries ({{ provider }})", "refId": "A" },
+        { "expr": "rate(search_results_total[1m])", "legendFormat": "Results ({{ provider }})", "refId": "B" }
+      ]
+    },
+    {
+      "title": "Fetch Success Rate by Domain",
+      "type": "bargauge",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 20 },
+      "targets": [{
+        "expr": "sum by (domain) (rate(fetch_requests_total{status=~\"2..\"}[5m])) / sum by (domain) (rate(fetch_requests_total[5m])) * 100",
+        "legendFormat": "{{ domain }}",
+        "refId": "A"
+      }],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "value": null, "color": "red" },
+              { "value": 50, "color": "yellow" },
+              { "value": 80, "color": "green" }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "title": "Tier Escalation",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 28 },
+      "targets": [{
+        "expr": "sum by (domain, from_tier, to_tier) (increase(fetch_tier_escalation_total[5m]))",
+        "legendFormat": "{{ domain }}: {{ from_tier }} → {{ to_tier }}",
+        "refId": "A"
+      }]
+    },
+    {
+      "title": "Phase Duration (p50)",
+      "type": "barchart",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 28 },
+      "targets": [{
+        "expr": "histogram_quantile(0.5, sum by (le, phase) (rate(phase_duration_seconds_bucket[10m])))",
+        "legendFormat": "{{ phase }}",
+        "refId": "A"
+      }],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    },
+    {
+      "title": "LLM Fallback Events",
+      "type": "table",
+      "gridPos": { "h": 6, "w": 18, "x": 0, "y": 36 },
+      "targets": [{
+        "expr": "llm_call_fallback_total",
+        "legendFormat": "{{ primary_model }} → {{ fallback_model }} ({{ task }})",
+        "instant": true,
+        "refId": "A"
+      }]
+    },
+    {
+      "title": "Error Rate by Type",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 18, "x": 0, "y": 42 },
+      "targets": [{
+        "expr": "rate(llm_call_errors_total[5m])",
+        "legendFormat": "{{ model }} / {{ error_type }}",
+        "refId": "A"
+      }],
+      "fieldConfig": { "defaults": { "custom": { "drawStyle": "bars", "fillOpacity": 80 } } }
+    },
+    {
+      "title": "Token Consumption Rate",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 18, "x": 0, "y": 50 },
+      "targets": [
+        { "expr": "rate(llm_call_tokens_total{direction=\"input\"}[5m])", "legendFormat": "Input: {{ model }}", "refId": "A" },
+        { "expr": "rate(llm_call_tokens_total{direction=\"output\"}[5m])", "legendFormat": "Output: {{ model }}", "refId": "B" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "short" } }
+    },
+    {
+      "title": "Neo4j Query Performance (p95)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 18, "x": 0, "y": 58 },
+      "targets": [{
+        "expr": "histogram_quantile(0.95, sum by (le, query_name) (rate(graph_query_duration_seconds_bucket[5m])))",
+        "legendFormat": "{{ query_name }}",
+        "refId": "A"
+      }],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": ["deep-research", "investigation", "llm"],
+  "templating": { "list": [] },
+  "time": { "from": "now-30m", "to": "now" },
+  "title": "Deep Research Agent — Investigation Monitor",
+  "uid": "deep-research-monitor"
+}

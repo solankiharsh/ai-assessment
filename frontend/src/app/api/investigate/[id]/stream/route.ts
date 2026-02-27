@@ -6,14 +6,35 @@ import path from "path";
 import { getOutputDir } from "@/lib/output-dir";
 
 const RUNNING_FILENAME = "_running.json";
-const POLL_MS = 1000;
+const POLL_MS = 800;
 const DONE_AFTER_MISSING_RUNNING_COUNT = 2;
+
+/** SSE event types emitted by the backend _emit_progress. */
+const NAMED_EVENTS = new Set([
+  "node_start",
+  "log",
+  "facts_update",
+  "entities_update",
+  "risks_update",
+  "complete",
+  "search",
+  "node",
+]);
+
+/**
+ * Format a named SSE event — matches the format used by deriv-ai-research-agent.
+ * If the JSON payload has a recognised `event` field we promote it to the SSE event field.
+ */
+function sseEvent(eventType: string, data: string): string {
+  return `event: ${eventType}\ndata: ${data}\n\n`;
+}
 
 /**
  * GET /api/investigate/[id]/stream
- * Server-Sent Events stream of progress (phase, search queries) while an investigation is running.
- * Reads outputs/{id}_progress.jsonl and streams each new line as SSE.
- * Polls until the file stops growing and _running.json is gone or state file exists, then sends "done".
+ * Server-Sent Events stream of progress (phase, node, search queries, counters) while
+ * an investigation is running.  Reads outputs/{id}_progress.jsonl, streams each new line
+ * as a named SSE event (node_start / log / facts_update / entities_update / risks_update /
+ * complete / node / search), and sends a plain `done` event when the run finishes.
  */
 export async function GET(
   _request: Request,
@@ -37,19 +58,34 @@ export async function GET(
       let doneMissingRunningCount = 0;
       let closed = false;
 
-      function send(data: string) {
+      function send(raw: string) {
         if (closed) return;
         try {
-          controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+          // raw is already a full SSE block (event+data lines)
+          controller.enqueue(encoder.encode(raw));
         } catch {
           closed = true;
+        }
+      }
+
+      function sendLine(jsonLine: string) {
+        try {
+          const parsed = JSON.parse(jsonLine) as Record<string, unknown>;
+          const eventType =
+            typeof parsed.event === "string" && NAMED_EVENTS.has(parsed.event)
+              ? parsed.event
+              : "message";
+          send(sseEvent(eventType, jsonLine));
+        } catch {
+          // Malformed line — send as generic data
+          send(`data: ${jsonLine}\n\n`);
         }
       }
 
       function finish() {
         if (closed) return;
         closed = true;
-        send(JSON.stringify({ event: "done" }));
+        send(sseEvent("done", JSON.stringify({ event: "done" })));
         controller.close();
       }
 
@@ -82,7 +118,7 @@ export async function GET(
               const newChunk = content.slice(lastSize);
               const newLines = newChunk.split("\n").filter((line) => line.trim());
               for (const line of newLines) {
-                send(line);
+                sendLine(line);
               }
               lastSize = currentSize;
               sameSizeCount = 0;
@@ -106,6 +142,7 @@ export async function GET(
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache, no-transform",
       Connection: "keep-alive",
+      "X-Accel-Buffering": "no",
     },
   });
 }

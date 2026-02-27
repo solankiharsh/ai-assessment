@@ -48,7 +48,7 @@ export function RiskMeter({
         />
       </div>
       {showBands && (
-        <div className="flex justify-between text-[10px] text-[var(--muted)]">
+        <div className="flex justify-between text-[10px] text-foreground/70">
           <span>0</span>
           <span>25</span>
           <span>50</span>

@@ -25,27 +25,164 @@ from rich.console import Console
 from rich.layout import Layout
 from rich.live import Live
 from rich.panel import Panel
+from rich.rule import Rule
 from rich.table import Table
 from rich.text import Text
+from rich.theme import Theme
 
 from src.config import get_settings
 from src.evaluation.eval_set import ALL_PERSONAS, get_persona
 from src.evaluation.metrics import evaluate
 from src.graph import ResearchGraph
 from src.models import ResearchState
+from src.observability import metrics as obs_metrics
+
+# ── Phase visual config ──────────────────────────────────────────────────────
+_PHASE_CONFIG: dict[str, dict] = {
+    "baseline":       {"color": "bold blue",    "emoji": "🔍", "label": "BASELINE"},
+    "breadth":        {"color": "bold cyan",    "emoji": "🌐", "label": "BREADTH"},
+    "depth":          {"color": "bold yellow",  "emoji": "🔬", "label": "DEPTH"},
+    "adversarial":    {"color": "bold red",     "emoji": "⚔️ ", "label": "ADVERSARIAL"},
+    "triangulation":  {"color": "bold magenta", "emoji": "🔺", "label": "TRIANGULATION"},
+    "synthesis":      {"color": "bold green",   "emoji": "📋", "label": "SYNTHESIS"},
+}
+
+_CUSTOM_THEME = Theme({
+    "phase.baseline":      "bold blue",
+    "phase.breadth":       "bold cyan",
+    "phase.depth":         "bold yellow",
+    "phase.adversarial":   "bold red",
+    "phase.triangulation": "bold magenta",
+    "phase.synthesis":     "bold green",
+    "log.info":            "dim white",
+    "log.warning":         "bold yellow",
+    "log.error":           "bold red",
+    "log.debug":           "dim grey74",
+    "log.key":             "bright_white",
+    "log.val":             "grey74",
+    "fallback.banner":     "bold yellow on dark_orange3",
+    "node.header":         "bold bright_black",
+})
+
+console = Console(theme=_CUSTOM_THEME, highlight=False)
+_current_phase: list[str] = [""]   # mutable singleton to track phase transitions
+
+
+# ── Node display names ───────────────────────────────────────────────────────
+_NODE_LABELS: dict[str, str] = {
+    "director":           "Director · Planning",
+    "web_research":       "Web Research",
+    "fact_extraction":    "Fact Extraction",
+    "risk_analysis":      "Risk Analysis",
+    "connection_mapping": "Connection Mapping",
+    "source_verification":"Source Verification",
+    "entity_resolution":  "Entity Resolution",
+    "temporal_analysis":  "Temporal Analysis",
+    "generate_report":    "Report Generation",
+    "update_graph_db":    "Graph DB Sync",
+}
+
+
+class _RichStructlogRenderer:
+    """Custom structlog processor that renders log lines via Rich."""
+
+    _SKIP_KEYS = frozenset({"event", "level", "_record"})
+
+    def __call__(self, logger_: object, method: str, event_dict: dict) -> str:  # noqa: ARG002
+        event = event_dict.get("event", "")
+        level = event_dict.get("level", "info").lower()
+
+        # ── Phase transition banner ──────────────────────────────────────────
+        phase_raw = event_dict.get("phase", "") or ""
+        phase_val = phase_raw.get("value", "") if isinstance(phase_raw, dict) else str(phase_raw)
+        phase_val = phase_val.lower().strip()
+        if phase_val and phase_val in _PHASE_CONFIG and phase_val != _current_phase[0]:
+            _current_phase[0] = phase_val
+            cfg = _PHASE_CONFIG[phase_val]
+            console.print()
+            console.print(Rule(
+                f"{cfg['emoji']}  {cfg['label']}  PHASE",
+                style=cfg["color"],
+                characters="━",
+            ))
+
+        # ── Model fallback highlight ─────────────────────────────────────────
+        if event == "llm_fallback_triggered":
+            primary_m  = event_dict.get("primary_model", event_dict.get("primary_provider", "?"))
+            fallback_m = event_dict.get("fallback_model", event_dict.get("fallback_provider", "?"))
+            err_code   = event_dict.get("error_code", "transient")
+            task_name  = event_dict.get("task", "")
+            console.print()
+            console.print(
+                f"  [bold yellow]╔══ MODEL FALLBACK ══╗[/bold yellow]  "
+                f"[dim]{primary_m}[/dim] [bold yellow]→[/bold yellow] [bold green]{fallback_m}[/bold green]  "
+                f"[bold red]\[{err_code}][/bold red]  "
+                + (f"[dim]task={task_name}[/dim]" if task_name else "")
+            )
+            console.print()
+            raise structlog.DropEvent()
+
+        # ── Pipeline node stage header ───────────────────────────────────────
+        if event in ("node_stage_start",):
+            node  = event_dict.get("node", "?")
+            label = _NODE_LABELS.get(node, node.replace("_", " ").title())
+            itr   = event_dict.get("iteration", "")
+            ents  = event_dict.get("entity_count", "")
+            flags = event_dict.get("risk_flags", "")
+            detail_parts = []
+            if itr != "":    detail_parts.append(f"iter {itr}")
+            if ents != "":   detail_parts.append(f"entities {ents}")
+            if flags != "": detail_parts.append(f"flags {flags}")
+            detail = "  ·  ".join(detail_parts)
+            console.print(
+                f"  [bold bright_black]▶[/bold bright_black] "
+                f"[bold white]{label}[/bold white]  "
+                f"[dim]{detail}[/dim]"
+            )
+            raise structlog.DropEvent()
+
+        # ── Regular log line ─────────────────────────────────────────────────
+        extras = {
+            k: v for k, v in event_dict.items()
+            if k not in self._SKIP_KEYS
+        }
+        kv_parts = []
+        for k, v in extras.items():
+            vs = str(v)
+            if len(vs) > 120:
+                vs = vs[:117] + "…"
+            kv_parts.append(f"[dim]{k}[/dim]=[grey74]{vs}[/grey74]")
+        kv_str = "  ".join(kv_parts)
+
+        if level == "warning":
+            prefix = "[bold yellow]⚠[/bold yellow]"
+            ev_fmt = f"[bold yellow]{event}[/bold yellow]"
+        elif level in ("error", "critical"):
+            prefix = "[bold red]✗[/bold red]"
+            ev_fmt = f"[bold red]{event}[/bold red]"
+        elif level == "debug":
+            prefix = "[dim grey74]·[/dim grey74]"
+            ev_fmt = f"[dim grey74]{event}[/dim grey74]"
+        else:
+            prefix = "[dim]·[/dim]"
+            ev_fmt = f"[bold bright_white]{event}[/bold bright_white]"
+
+        console.print(f"  {prefix} {ev_fmt}  {kv_str}")
+        raise structlog.DropEvent()
+
 
 structlog.configure(
     processors=[
         structlog.stdlib.add_log_level,
-        structlog.dev.ConsoleRenderer(colors=True),
+        _RichStructlogRenderer(),
     ],
     wrapper_class=structlog.stdlib.BoundLogger,
     context_class=dict,
     logger_factory=structlog.PrintLoggerFactory(),
 )
 
-console = Console()
 logger = structlog.get_logger()
+
 
 
 def _live_layout_and_callback(
@@ -97,6 +234,8 @@ async def run_investigation(
 ) -> None:
     """Run a complete investigation and save results."""
     settings = get_settings()
+    if settings.observability.metrics_enabled:
+        obs_metrics.start_server(port=settings.observability.metrics_port)
     budget = budget_usd if budget_usd is not None else settings.agent.cost_budget_usd
     console.print(
         Panel(

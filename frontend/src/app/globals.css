@@ -1,157 +1,271 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  /* Navy-dark layered surface system */
-  --background: #0B0F19;
-  --bg-secondary: #111827;
-  --bg-card: #1a2235;
-  --bg-hover: #1e2a42;
-  --bg-elevated: #243152;
-
-  /* Text hierarchy — off-white, not pure white */
-  --foreground: #E8ECF4;
-  --text-secondary: #8B95A9;
-  --muted: #5B6578;
-
-  /* Borders & dividers */
-  --border: #1E293B;
-  --border-strong: #334155;
-
-  /* Accent — institutional blue */
-  --accent: #3B82F6;
-  --accent-muted: #1E3A5F;
-  --purple: #A78BFA;
-  --cyan: #22D3EE;
-
-  /* Risk severity — traffic-light system */
-  --risk-critical: #EF4444;
-  --risk-high: #F97316;
-  --risk-medium: #EAB308;
-  --risk-low: #22C55E;
-  --risk-info: #6B7280;
-
-  /* Entity type colors */
-  --entity-person: #60A5FA;
-  --entity-org: #A78BFA;
-  --entity-location: #22D3EE;
-  --entity-event: #FBBF24;
-  --entity-document: #94A3B8;
-  --entity-financial: #34D399;
-
-  /* Panel */
-  --panel: var(--bg-secondary);
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ── Always-dark theme (matches deriv-ai-research-agent) ── */
+:root {
+  --radius: 0.625rem;
+
+  /* Surfaces */
+  --background: oklch(0.08 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.13 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.13 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+
+  /* Orange-500 accent (deriv brand) */
+  --primary: oklch(0.705 0.191 47.604);
+  --primary-foreground: oklch(0.985 0 0);
+
+  --secondary: oklch(0.18 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  /* NOTE: --muted must be a VISIBLE grey for text — not a background color.
+     Components use text-[var(--muted)] for labels; too dark = invisible on dark bg */
+  --muted: oklch(0.55 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+  /* --accent = orange-500 for link/interactive elements */
+  --accent: oklch(0.705 0.191 47.604);
+  --accent-foreground: oklch(0.985 0 0);
+
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.705 0.191 47.604);
+
+  /* Charts */
+  --chart-1: oklch(0.705 0.191 47.604);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+
+  /* Sidebar */
+  --sidebar: oklch(0.10 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.705 0.191 47.604);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.18 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.705 0.191 47.604);
+
+  /* Legacy var aliases — existing components use var(--muted), var(--accent), var(--text-secondary) */
+  /* Note: --muted and --accent already set above to correct values */
+  --text-secondary: oklch(0.65 0 0);
+  --bg-secondary: oklch(0.13 0 0);
+  --bg-card: oklch(0.13 0 0);
+  --bg-hover: oklch(0.20 0 0);
+  --bg-elevated: oklch(0.16 0 0);
+  --border-strong: oklch(1 0 0 / 15%);
+  --foreground-muted: oklch(0.55 0 0);
+
+
+  /* Risk severity */
+  --risk-critical: oklch(0.577 0.245 27.325);
+  --risk-high: oklch(0.704 0.191 22.216);
+  --risk-medium: oklch(0.769 0.188 70.08);
+  --risk-low: oklch(0.696 0.17 162.48);
+  --risk-info: oklch(0.65 0 0);
+
+  /* Entity type colors */
+  --entity-person: oklch(0.696 0.17 252);
+  --entity-org: oklch(0.645 0.246 303.9);
+  --entity-location: oklch(0.696 0.17 195);
+  --entity-event: oklch(0.769 0.188 70.08);
+  --entity-document: oklch(0.65 0 0);
+  --entity-financial: oklch(0.696 0.17 162.48);
 }
 
-/* Monospace for data values, IDs, timestamps */
+/* dark class maps to same vars — keep for compatibility with components using .dark */
+.dark {
+  --background: oklch(0.08 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.13 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.13 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.705 0.191 47.604);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.18 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.18 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.705 0.191 47.604);
+  --chart-1: oklch(0.705 0.191 47.604);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.10 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.705 0.191 47.604);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.18 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.705 0.191 47.604);
+  --text-secondary: var(--muted-foreground);
+  --border-strong: oklch(1 0 0 / 15%);
+  --bg-secondary: oklch(0.13 0 0);
+  --bg-card: oklch(0.13 0 0);
+  --bg-hover: oklch(0.20 0 0);
+  --bg-elevated: oklch(0.16 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Monospace for data values */
 .font-mono-console {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 12px;
 }
 
-/* Subtle fade-in transition */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
 
-@keyframes slideIn {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
-
-@keyframes slideInLeft {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
   animation: fadeIn 0.2s ease-out forwards;
 }
 
-.animate-slide-in {
-  animation: slideIn 0.25s ease-out forwards;
-}
-
-.animate-slide-in-left {
-  animation: slideInLeft 0.25s ease-out forwards;
-}
-
-/* Scrollbar styling */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--border-strong);
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--muted);
+  background: oklch(1 0 0 / 25%);
 }
 
-/* React Flow overrides */
-.react-flow__background {
-  background: var(--background) !important;
-}
-.react-flow__node {
-  font-size: 12px;
-}
-.react-flow__edge-path {
-  stroke: var(--muted);
-}
-.react-flow__controls button {
-  background: var(--bg-card) !important;
-  border-color: var(--border) !important;
-  fill: var(--text-secondary) !important;
-}
-.react-flow__controls button:hover {
-  background: var(--bg-hover) !important;
-}
-.react-flow__minimap {
-  background: var(--bg-card) !important;
-  border-color: var(--border) !important;
+/* React Flow — dark theme overrides */
+.react-flow__controls {
+  background: #141414 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+  overflow: hidden;
 }
 
-/* Input base styles */
+.react-flow__controls-button {
+  background: #1e1e1e !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  fill: #d4d4d4 !important;
+  color: #d4d4d4 !important;
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.react-flow__controls-button:hover {
+  background: #2a2a2a !important;
+}
+
+.react-flow__controls-button svg {
+  fill: #d4d4d4 !important;
+}
+
+.react-flow__minimap-node {
+  rx: 50%;
+  ry: 50%;
+}
+
+/* Input dark overrides */
 input[type="text"],
 input[type="number"],
 input[type="search"],
 textarea {
   color: var(--foreground);
-  caret-color: var(--accent);
+  caret-color: var(--primary);
 }
+
 input::placeholder,
 textarea::placeholder {
-  color: var(--muted);
+  color: var(--muted-foreground);
 }
 
-/* Range slider */
 input[type="range"] {
-  accent-color: var(--accent);
-}
-
-/* Focus ring */
-*:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  accent-color: var(--primary);
 }

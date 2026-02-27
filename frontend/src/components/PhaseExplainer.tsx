@@ -96,11 +96,11 @@ export function PhaseExplainer({
 
   return (
     <div className="flex h-full gap-0 overflow-hidden">
-      <aside className="flex w-56 shrink-0 flex-col border-r border-[var(--border)] bg-[var(--bg-secondary)] p-3">
-        <h2 className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+      <aside className="flex w-56 shrink-0 flex-col border-r border-border bg-card p-3">
+        <h2 className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
           Investigation phases
         </h2>
-        <p className="mb-3 text-[10px] text-[var(--muted)]">
+        <p className="mb-3 text-[10px] text-muted-foreground">
           LangGraph orchestration (ADR-001). Director drives phase transitions.
         </p>
         <nav className="flex flex-col gap-1">
@@ -112,8 +112,8 @@ export function PhaseExplainer({
               className={cn(
                 "flex items-center justify-between rounded-md px-3 py-2 text-left text-sm transition-colors",
                 (selectedPhase ?? "baseline") === p.id
-                  ? "bg-[var(--bg-card)] text-[var(--foreground)] shadow-sm"
-                  : "text-[var(--muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--foreground)]"
+                  ? "bg-muted text-foreground shadow-sm"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
               <span>{p.label}</span>
@@ -140,43 +140,43 @@ export function PhaseExplainer({
           <h1 className="text-lg font-semibold" style={{ color: display.color }}>
             {display.label}
           </h1>
-          <p className="mt-2 text-sm text-[var(--foreground)]">
+          <p className="mt-2 text-sm text-foreground">
             {display.description}
           </p>
         </div>
         <section className="mb-4">
-          <h3 className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+          <h3 className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Director action
           </h3>
-          <p className="text-sm text-[var(--foreground)]">
+          <p className="text-sm text-foreground">
             {display.directorAction}
           </p>
         </section>
         <section className="mb-4">
-          <h3 className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+          <h3 className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Agents involved (ADR-002 multi-model)
           </h3>
-          <ul className="list-inside list-disc text-sm text-[var(--foreground)]">
+          <ul className="list-inside list-disc text-sm text-foreground">
             {display.agents.map((a, i) => (
               <li key={i}>{a}</li>
             ))}
           </ul>
         </section>
         <section className="mb-4">
-          <h3 className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+          <h3 className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Example queries
           </h3>
-          <ul className="list-inside list-disc text-sm text-[var(--foreground)]">
+          <ul className="list-inside list-disc text-sm text-foreground">
             {display.exampleQueries.map((q, i) => (
               <li key={i}>{q}</li>
             ))}
           </ul>
         </section>
-        <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-4">
-          <h3 className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+        <section className="rounded-lg border border-border bg-card p-4">
+          <h3 className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Flow (Director → Workers)
           </h3>
-          <pre className="font-mono text-xs text-[var(--foreground)]">
+          <pre className="font-mono text-xs text-foreground">
             {`Director (plan) → search_web | extract_facts | analyze_risks | map_connections | verify_sources
          → state update → Director (next action or generate_report)`}
           </pre>

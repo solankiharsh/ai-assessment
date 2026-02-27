@@ -6,11 +6,13 @@ import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { useUIStore } from "@/store/useUIStore";
-import { cn } from "@/lib/utils";
-import { formatRelativeTime } from "@/lib/utils";
+import { cn, formatRelativeTime } from "@/lib/utils";
 import { PanelLeftClose, Plus, Search } from "lucide-react";
 import { CaseStatusIndicator } from "../CaseStatusIndicator";
 import { NewInvestigationModal } from "../NewInvestigationModal";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import type { CaseSummary } from "@/lib/types";
 
 type FilterTab = "all" | "high_risk" | "complete";
@@ -22,7 +24,7 @@ function RiskDot({ riskScore }: { riskScore?: number }) {
     <span
       className={cn(
         "h-2 w-2 shrink-0 rounded-full",
-        high && "bg-[var(--risk-critical)]",
+        high && "bg-destructive",
         medium && "bg-[var(--risk-medium)]",
         !high && !medium && "bg-[var(--risk-low)]"
       )}
@@ -76,42 +78,46 @@ export function LeftPanel({ caseId }: LeftPanelProps) {
 
   return (
     <>
-      <div className="flex h-full w-[264px] flex-col bg-[var(--bg-secondary)]">
+      <div className="flex h-full w-[264px] flex-col bg-card">
         {/* Header */}
-        <div className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-3 py-2.5">
-          <span className="text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+        <div className="flex shrink-0 items-center justify-between border-b border-border px-3 py-2.5">
+          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Cases
           </span>
           <div className="flex items-center gap-1">
-            <button
+            <Button
               type="button"
+              variant="default"
+              size="xs"
               onClick={() => setModalOpen(true)}
-              className="flex items-center gap-1 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-2 py-1 text-xs font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent)]/20"
+              className="gap-1"
             >
               <Plus className="h-3 w-3" />
               New
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant="ghost"
+              size="icon-xs"
               onClick={() => setLeftOpen(false)}
-              className="rounded-md p-1 text-[var(--muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--foreground)]"
+              className="text-muted-foreground hover:text-foreground"
               aria-label="Collapse panel"
             >
               <PanelLeftClose className="h-4 w-4" />
-            </button>
+            </Button>
           </div>
         </div>
 
         {/* Search */}
-        <div className="border-b border-[var(--border)] px-3 py-2">
+        <div className="border-b border-border px-3 py-2">
           <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[var(--muted)]" />
-            <input
+            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+            <Input
               type="text"
               placeholder="Filter cases..."
               value={searchQ}
               onChange={(e) => setSearchQ(e.target.value)}
-              className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] py-1.5 pl-8 pr-2 text-sm transition-colors focus:border-[var(--accent)] focus:outline-none"
+              className="h-8 pl-8 text-sm"
             />
           </div>
 
@@ -124,89 +130,91 @@ export function LeftPanel({ caseId }: LeftPanelProps) {
                 { id: "complete" as const, label: `Done (${completeCount})` },
               ] as const
             ).map((tab) => (
-              <button
+              <Button
                 key={tab.id}
                 type="button"
+                variant={filter === tab.id ? "secondary" : "ghost"}
+                size="xs"
                 onClick={() => setFilter(tab.id)}
                 className={cn(
-                  "flex-1 rounded-md px-2 py-1 text-[11px] font-medium transition-colors",
-                  filter === tab.id
-                    ? "bg-[var(--bg-card)] text-[var(--foreground)]"
-                    : "text-[var(--muted)] hover:text-[var(--text-secondary)]"
+                  "flex-1 text-[11px]",
+                  filter !== tab.id && "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {tab.label}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
 
         {/* Case list */}
-        <div className="flex-1 overflow-y-auto">
-          {isLoading && (
-            <div className="px-3 py-6 text-center text-sm text-[var(--muted)]">
-              Loading...
-            </div>
-          )}
-          {error && (
-            <div className="px-3 py-6 text-center text-sm text-[var(--risk-high)]">
-              Failed to load cases
-            </div>
-          )}
-          {!isLoading && !error && filtered.length === 0 && (
-            <div className="px-3 py-6 text-center text-sm text-[var(--muted)]">
-              {cases.length === 0
-                ? "No investigations yet"
-                : "No cases match filters"}
-            </div>
-          )}
-          <ul className="py-1">
-            {filtered.map((c: CaseSummary) => (
-              <li key={c.id}>
-                <Link
-                  href={`/cases/${c.id}`}
-                  className={cn(
-                    "flex items-start gap-2.5 border-l-2 px-3 py-2.5 text-sm transition-colors",
-                    caseId === c.id
-                      ? "border-[var(--accent)] bg-[var(--bg-hover)] text-[var(--foreground)]"
-                      : "border-transparent hover:bg-[var(--bg-card)]"
-                  )}
-                >
-                  <RiskDot riskScore={c.risk_score} />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="truncate font-medium">{c.subject_name}</span>
-                      <CaseStatusIndicator status={c.status} small />
+        <ScrollArea className="flex-1">
+          <div className="px-0 py-1">
+            {isLoading && (
+              <div className="px-3 py-6 text-center text-sm text-muted-foreground">
+                Loading...
+              </div>
+            )}
+            {error && (
+              <div className="px-3 py-6 text-center text-sm text-destructive">
+                Failed to load cases
+              </div>
+            )}
+            {!isLoading && !error && filtered.length === 0 && (
+              <div className="px-3 py-6 text-center text-sm text-muted-foreground">
+                {cases.length === 0
+                  ? "No investigations yet"
+                  : "No cases match filters"}
+              </div>
+            )}
+            <ul className="py-1">
+              {filtered.map((c: CaseSummary) => (
+                <li key={c.id}>
+                  <Link
+                    href={`/cases/${c.id}`}
+                    className={cn(
+                      "flex items-start gap-2.5 border-l-2 px-3 py-2.5 text-sm transition-colors",
+                      caseId === c.id
+                        ? "border-primary bg-muted/50 text-foreground"
+                        : "border-transparent hover:bg-muted/30"
+                    )}
+                  >
+                    <RiskDot riskScore={c.risk_score} />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="truncate font-medium">{c.subject_name}</span>
+                        <CaseStatusIndicator status={c.status} small />
+                      </div>
+                      <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
+                        <span>{formatRelativeTime(c.updated_at)}</span>
+                        {c.risk_score != null && (
+                          <span
+                            className={cn(
+                              "font-mono",
+                              c.risk_score > 50 ? "text-destructive" : "text-muted-foreground"
+                            )}
+                          >
+                            {c.risk_score}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="mt-0.5 flex items-center gap-2 text-xs text-[var(--muted)]">
-                      <span>{formatRelativeTime(c.updated_at)}</span>
-                      {c.risk_score != null && (
-                        <span
-                          className={cn(
-                            "font-mono",
-                            c.risk_score > 50 ? "text-[var(--risk-high)]" : "text-[var(--text-secondary)]"
-                          )}
-                        >
-                          {c.risk_score}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </ScrollArea>
 
         {/* Footer */}
-        <div className="border-t border-[var(--border)] p-2">
+        <div className="border-t border-border p-2">
           <Link
             href="/cases"
             className={cn(
               "flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors",
               pathname === "/cases"
-                ? "bg-[var(--bg-card)] text-[var(--foreground)]"
-                : "text-[var(--muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--foreground)]"
+                ? "bg-muted text-foreground"
+                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
             )}
           >
             All investigations
