@@ -1,0 +1,23 @@
+# Local Neo4j for Deep Research Agent development and demo.
+# Usage: make docker-up  (then set NEO4J_URI=bolt://localhost:7687 in .env)
+# With Colima: run  docker context use colima  first, then make docker-up
+
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: deep-research-neo4j
+    ports:
+      - "7474:7474"  # HTTP
+      - "7687:7687"  # Bolt
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:-changeme}
+    volumes:
+      - neo4j_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7474"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  neo4j_data:
