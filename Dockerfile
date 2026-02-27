@@ -45,7 +45,7 @@ ENV REPO_ROOT=/app \
     OUTPUT_DIR=/app/outputs \
     NODE_ENV=production
 
-# Railway sets PORT; Next.js uses it automatically
+# Railway domain is currently set to 3000; force Next.js to match and bind to 0.0.0.0
 EXPOSE 3000
 WORKDIR /app/frontend
-CMD ["npm", "run", "start"]
+CMD ["npx", "next", "start", "-H", "0.0.0.0", "-p", "3000"]
