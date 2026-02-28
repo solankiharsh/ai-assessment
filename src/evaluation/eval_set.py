@@ -307,15 +307,102 @@ PERSONA_HARD = TestPersona(
 
 
 # ═══════════════════════════════════════════════════════════
+# Persona: Easy — Sam Altman (OpenAI)
+# ═══════════════════════════════════════════════════════════
+
+PERSONA_EASY_SAM = TestPersona(
+    name="Sam Altman",
+    current_role="CEO",
+    current_org="OpenAI",
+    difficulty="easy",
+    description="High-profile tech CEO, abundant public information",
+    expected_facts=[
+        ExpectedFact("Co-founded Loopt, sold to Green Dot", "corporate", "moderate", "Tech news"),
+        ExpectedFact("President of Y Combinator (2014–2019)", "corporate", "surface", "YC, Wikipedia"),
+        ExpectedFact("CEO of OpenAI", "corporate", "surface", "OpenAI website"),
+        ExpectedFact("Studied at Stanford University (dropped out)", "biographical", "surface", "Wikipedia"),
+        ExpectedFact("Led OpenAI through ChatGPT release and partnership with Microsoft", "corporate", "surface", "News"),
+        ExpectedFact("Worldcoin / Tools for Humanity involvement", "corporate", "moderate", "News"),
+        ExpectedFact("Testified before US Congress on AI regulation", "legal", "surface", "Congress, news"),
+    ],
+    expected_entities=[
+        "OpenAI",
+        "Y Combinator",
+        "Stanford University",
+        "Microsoft",
+        "Loopt",
+        "Worldcoin",
+    ],
+    expected_risk_flags=[],
+    expected_connections=[
+        ("Sam Altman", "OpenAI", "CEO"),
+        ("Sam Altman", "Y Combinator", "PRESIDENT"),
+    ],
+)
+
+
+# ═══════════════════════════════════════════════════════════
+# Persona: Medium — Adam Neumann (WeWork)
+# ═══════════════════════════════════════════════════════════
+
+PERSONA_MEDIUM_ADAM = TestPersona(
+    name="Adam Neumann",
+    current_role="Co-founder, former CEO",
+    current_org="WeWork",
+    difficulty="medium",
+    description="High-visibility executive with corporate governance and fall from grace narrative",
+    expected_facts=[
+        ExpectedFact("Co-founded WeWork with Miguel McKelvey", "corporate", "surface", "WeWork, news"),
+        ExpectedFact("WeWork attempted IPO in 2019, valuation collapsed", "financial", "surface", "SEC, news"),
+        ExpectedFact("Stepped down as WeWork CEO in 2019", "corporate", "surface", "News"),
+        ExpectedFact("SoftBank was major investor in WeWork", "financial", "surface", "News"),
+        ExpectedFact("Israeli-American, served in Israeli Navy", "biographical", "moderate", "Wikipedia, interviews"),
+        ExpectedFact("Founded Flow (real estate) and received investment from a16z", "corporate", "moderate", "News"),
+        ExpectedFact("WeWork filed for bankruptcy in 2023", "corporate", "surface", "News"),
+        ExpectedFact("Controversy over self-dealing and governance at WeWork", "legal", "deep", "SEC, news"),
+    ],
+    expected_entities=[
+        "WeWork",
+        "SoftBank",
+        "Flow",
+        "Miguel McKelvey",
+        "Andreessen Horowitz",
+    ],
+    expected_risk_flags=["governance", "IPO", "valuation"],
+    expected_connections=[
+        ("Adam Neumann", "WeWork", "CO_FOUNDED"),
+        ("Adam Neumann", "WeWork", "CEO"),
+        ("SoftBank", "WeWork", "INVESTED_IN"),
+    ],
+)
+
+
+# ═══════════════════════════════════════════════════════════
 # Evaluation Set Registry
 # ═══════════════════════════════════════════════════════════
 
-ALL_PERSONAS = [PERSONA_EASY, PERSONA_MEDIUM, PERSONA_HARD]
+ALL_PERSONAS = [
+    PERSONA_EASY,
+    PERSONA_EASY_SAM,
+    PERSONA_MEDIUM,
+    PERSONA_MEDIUM_ADAM,
+    PERSONA_HARD,
+]
+
+# Difficulty shortcut -> first persona at that difficulty (for --persona easy/medium/hard)
+PERSONA_BY_DIFFICULTY = {
+    "easy": PERSONA_EASY,
+    "medium": PERSONA_MEDIUM,
+    "hard": PERSONA_HARD,
+}
 
 
 def get_persona(name: str) -> TestPersona | None:
-    """Look up a test persona by name."""
+    """Look up a test persona by name or by difficulty (easy / medium / hard)."""
+    key = name.strip().lower()
+    if key in PERSONA_BY_DIFFICULTY:
+        return PERSONA_BY_DIFFICULTY[key]
     for p in ALL_PERSONAS:
-        if p.name.lower() == name.lower():
+        if p.name.lower() == key:
             return p
     return None

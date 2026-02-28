@@ -92,15 +92,15 @@ clean:
 COLIMA_SOCK := $(HOME)/.colima/default/docker.sock
 docker-up:
 	@if [ -S "$(COLIMA_SOCK)" ]; then \
-		colima ssh -- "cd '$(CURDIR)' && docker compose up -d"; \
+		colima ssh -- sh -c "cd '$(CURDIR)' && docker compose up -d"; \
 	else \
 		docker compose up -d; \
 	fi
-	@echo "Neo4j available at bolt://localhost:7687 (user: neo4j, password: from .env NEO4J_PASSWORD)"
+	@echo "Neo4j: bolt://localhost:7687  |  Grafana: http://localhost:3001 (admin/research)  |  Prometheus: http://localhost:9090"
 
 docker-down:
 	@if [ -S "$(COLIMA_SOCK)" ]; then \
-		colima ssh -- "cd '$(CURDIR)' && docker compose down"; \
+		colima ssh -- sh -c "cd '$(CURDIR)' && docker compose down"; \
 	else \
 		docker compose down; \
 	fi
