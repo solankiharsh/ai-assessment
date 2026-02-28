@@ -34,6 +34,7 @@ interface StateFile {
   total_search_calls: number;
   estimated_cost_usd: number;
   error_log: string[];
+  logs?: string[];
   final_report?: string;
   temporal_facts?: import("@/lib/types").TemporalFact[];
   temporal_contradictions?: import("@/lib/types").TemporalContradiction[];
@@ -245,6 +246,7 @@ export async function GET(
       total_search_calls: state.total_search_calls ?? 0,
       estimated_cost_usd: state.estimated_cost_usd ?? 0,
       error_log: state.error_log ?? [],
+      logs: state.logs ?? [],
       final_report: finalReport,
       entities_summary: entities.map((e) => ({
         name: e.name,

@@ -35,6 +35,8 @@ export type LiveProgressEvent = {
   cost_usd?: number;
 };
 
+const INITIAL_URLS = 5;
+
 export function TabEvidence({
   investigation: inv,
   liveEvents = [],
@@ -44,6 +46,7 @@ export function TabEvidence({
 }) {
   const [domainFilter, setDomainFilter] = useState<string | null>(null);
   const [providerFilter, setProviderFilter] = useState<string | null>(null);
+  const [expandedSources, setExpandedSources] = useState<Set<number>>(new Set());
 
   const allUrls = useMemo(() => {
     const set = new Set<string>();
@@ -111,7 +114,7 @@ export function TabEvidence({
           <h2 className="text-sm font-semibold text-foreground">
             Source audit
           </h2>
-          <p className="mt-0.5 text-xs text-muted-foreground">
+          <p className="mt-0.5 text-xs text-neutral-400">
             Search queries and result URLs by phase and provider. Filter by domain to inspect coverage.
           </p>
         </header>
@@ -177,7 +180,7 @@ export function TabEvidence({
               </div>
               {r.result_urls?.length > 0 && (
                 <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px]">
-                  {r.result_urls.slice(0, 5).map((url) => (
+                  {(expandedSources.has(i) ? r.result_urls : r.result_urls.slice(0, INITIAL_URLS)).map((url) => (
                     <li key={url}>
                       <a
                         href={url}
@@ -189,8 +192,21 @@ export function TabEvidence({
                       </a>
                     </li>
                   ))}
-                  {r.result_urls.length > 5 && (
-                    <li className="text-muted-foreground">+{r.result_urls.length - 5} more</li>
+                  {r.result_urls.length > INITIAL_URLS && (
+                    <li>
+                      <button
+                        type="button"
+                        onClick={() => setExpandedSources((prev) => {
+                          const next = new Set(prev);
+                          if (next.has(i)) next.delete(i);
+                          else next.add(i);
+                          return next;
+                        })}
+                        className="text-primary hover:underline focus:outline-none focus:ring-1 focus:ring-primary rounded"
+                      >
+                        {expandedSources.has(i) ? "Show less" : `+${r.result_urls.length - INITIAL_URLS} more`}
+                      </button>
+                    </li>
                   )}
                 </ul>
               )}
@@ -215,14 +231,14 @@ export function TabEvidence({
                     <li key={`${e.ts ?? i}-${e.event}-${e.query ?? e.node}`}>
                       {e.event === "search" && e.query != null && (
                         <>
-                          <span className="text-muted-foreground">Query ({e.phase ?? "—"}):</span>{" "}
+                          <span className="text-neutral-400">Query ({e.phase ?? "—"}):</span>{" "}
                           {e.query}
                         </>
                       )}
                       {e.event === "node" && e.node != null && (
                         <>
-                          <span className="text-muted-foreground">Phase:</span> {e.phase ?? "—"} ·{" "}
-                          <span className="text-muted-foreground">Node:</span> {e.node}
+                          <span className="text-neutral-400">Phase:</span> {e.phase ?? "—"} ·{" "}
+                          <span className="text-neutral-400">Node:</span> {e.node}
                           {e.iteration != null && <> · Iteration {e.iteration}</>}
                         </>
                       )}

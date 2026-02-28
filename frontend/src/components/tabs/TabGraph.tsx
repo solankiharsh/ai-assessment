@@ -30,16 +30,16 @@ export function TabGraph({
   return (
     <div className="relative flex h-full min-h-[400px] flex-col">
       <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] px-3 py-1.5">
-        <span className="text-xs font-medium text-[var(--muted)]">
+        <span className="text-xs font-medium text-neutral-300">
           Identity Network — zoom, pan, click node for details
         </span>
         {topConnected && (
-          <span className="text-[11px] text-[var(--text-secondary)]">
+          <span className="text-[11px] text-neutral-300">
             Most connected: {topConnected.name} ({topConnected.degree} links)
           </span>
         )}
         <span
-          className="rounded border border-[var(--border)] bg-[var(--bg-card)] px-2 py-0.5 text-[10px] text-[var(--muted)]"
+          className="rounded border border-[var(--border)] bg-[var(--bg-card)] px-2 py-0.5 text-[10px] text-neutral-400"
           title="Neo4j status when backend exposes it (ADR-003)"
         >
           Graph: State-derived
