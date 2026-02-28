@@ -37,31 +37,35 @@ from src.graph import ResearchGraph
 from src.models import ResearchState
 from src.observability import metrics as obs_metrics
 
-# ── Phase visual config ──────────────────────────────────────────────────────
+# ── Design: Intelligence Console — orange primary, amber/red risk ─────────────
+# Matches frontend design system: true dark, orange-tinted primary, risk severity colors
 _PHASE_CONFIG: dict[str, dict] = {
-    "baseline":       {"color": "bold blue",    "emoji": "🔍", "label": "BASELINE"},
-    "breadth":        {"color": "bold cyan",    "emoji": "🌐", "label": "BREADTH"},
-    "depth":          {"color": "bold yellow",  "emoji": "🔬", "label": "DEPTH"},
-    "adversarial":    {"color": "bold red",     "emoji": "⚔️ ", "label": "ADVERSARIAL"},
-    "triangulation":  {"color": "bold magenta", "emoji": "🔺", "label": "TRIANGULATION"},
-    "synthesis":      {"color": "bold green",   "emoji": "📋", "label": "SYNTHESIS"},
+    "baseline":       {"color": "bold #94a3b8",  "emoji": "🔍", "label": "BASELINE"},
+    "breadth":        {"color": "bold #64748b", "emoji": "🌐", "label": "BREADTH"},
+    "depth":          {"color": "bold #e87900", "emoji": "🔬", "label": "DEPTH"},
+    "adversarial":    {"color": "bold #f59e0b", "emoji": "⚔️ ", "label": "ADVERSARIAL"},
+    "triangulation":  {"color": "bold #d97706", "emoji": "🔺", "label": "TRIANGULATION"},
+    "synthesis":      {"color": "bold #ea580c", "emoji": "📋", "label": "SYNTHESIS"},
 }
 
 _CUSTOM_THEME = Theme({
-    "phase.baseline":      "bold blue",
-    "phase.breadth":       "bold cyan",
-    "phase.depth":         "bold yellow",
-    "phase.adversarial":   "bold red",
-    "phase.triangulation": "bold magenta",
-    "phase.synthesis":     "bold green",
+    "phase.baseline":      "bold #94a3b8",
+    "phase.breadth":       "bold #64748b",
+    "phase.depth":         "bold #e87900",
+    "phase.adversarial":   "bold #f59e0b",
+    "phase.triangulation": "bold #d97706",
+    "phase.synthesis":     "bold #ea580c",
     "log.info":            "dim white",
-    "log.warning":         "bold yellow",
-    "log.error":           "bold red",
-    "log.debug":           "dim grey74",
-    "log.key":             "bright_white",
-    "log.val":             "grey74",
-    "fallback.banner":     "bold yellow on dark_orange3",
-    "node.header":         "bold bright_black",
+    "log.warning":         "bold #f59e0b",
+    "log.error":           "bold #dc2626",
+    "log.debug":           "dim #64748b",
+    "log.key":             "#94a3b8",
+    "log.val":             "#64748b",
+    "primary":             "#ea580c",
+    "risk.high":           "#dc2626",
+    "risk.medium":        "#f59e0b",
+    "fallback.banner":     "bold yellow on #ea580c",
+    "node.header":         "bold #64748b",
 })
 
 console = Console(theme=_CUSTOM_THEME, highlight=False)
@@ -114,10 +118,10 @@ class _RichStructlogRenderer:
             task_name  = event_dict.get("task", "")
             console.print()
             console.print(
-                f"  [bold yellow]╔══ MODEL FALLBACK ══╗[/bold yellow]  "
-                f"[dim]{primary_m}[/dim] [bold yellow]→[/bold yellow] [bold green]{fallback_m}[/bold green]  "
-                f"[bold red]\[{err_code}][/bold red]  "
-                + (f"[dim]task={task_name}[/dim]" if task_name else "")
+                f"  [bold #f59e0b]╔══ MODEL FALLBACK ══╗[/bold #f59e0b]  "
+                f"[#64748b]{primary_m}[/#64748b] [bold #ea580c]→[/bold #ea580c] [bold #0ea5e9]{fallback_m}[/bold #0ea5e9]  "
+                f"[bold #dc2626][{err_code}][/bold #dc2626]  "
+                + (f"[#64748b]task={task_name}[/#64748b]" if task_name else "")
             )
             console.print()
             raise structlog.DropEvent()
@@ -135,37 +139,61 @@ class _RichStructlogRenderer:
             if flags != "": detail_parts.append(f"flags {flags}")
             detail = "  ·  ".join(detail_parts)
             console.print(
-                f"  [bold bright_black]▶[/bold bright_black] "
-                f"[bold white]{label}[/bold white]  "
-                f"[dim]{detail}[/dim]"
+                f"  [bold #ea580c]▶[/bold #ea580c] "
+                f"[bold #e2e8f0]{label}[/bold #e2e8f0]  "
+                f"[#94a3b8]{detail}[/#94a3b8]"
             )
             raise structlog.DropEvent()
 
-        # ── Regular log line ─────────────────────────────────────────────────
+        # ── Regular log line (event-specific + risk/primary accents) ──────────
         extras = {
             k: v for k, v in event_dict.items()
             if k not in self._SKIP_KEYS
         }
+        # Keys that get primary/risk accent instead of muted
+        accent_keys = {"batch", "new_entities", "new_connections", "new_facts", "running_totals", "risk_flags", "entity_count", "iteration"}
         kv_parts = []
         for k, v in extras.items():
             vs = str(v)
             if len(vs) > 120:
                 vs = vs[:117] + "…"
-            kv_parts.append(f"[dim]{k}[/dim]=[grey74]{vs}[/grey74]")
+            if k in accent_keys:
+                kv_parts.append(f"[#94a3b8]{k}[/#94a3b8]=[#ea580c]{vs}[/#ea580c]")
+            elif k in ("sources", "queries") or "error" in k.lower():
+                kv_parts.append(f"[#64748b]{k}[/#64748b]=[#94a3b8]{vs}[/#94a3b8]")
+            else:
+                kv_parts.append(f"[#64748b]{k}[/#64748b]=[#94a3b8]{vs}[/#94a3b8]")
         kv_str = "  ".join(kv_parts)
 
         if level == "warning":
-            prefix = "[bold yellow]⚠[/bold yellow]"
-            ev_fmt = f"[bold yellow]{event}[/bold yellow]"
+            prefix = "[bold #f59e0b]⚠[/bold #f59e0b]"
+            ev_fmt = f"[bold #f59e0b]{event}[/bold #f59e0b]"
         elif level in ("error", "critical"):
-            prefix = "[bold red]✗[/bold red]"
-            ev_fmt = f"[bold red]{event}[/bold red]"
+            prefix = "[bold #dc2626]✗[/bold #dc2626]"
+            ev_fmt = f"[bold #dc2626]{event}[/bold #dc2626]"
         elif level == "debug":
-            prefix = "[dim grey74]·[/dim grey74]"
-            ev_fmt = f"[dim grey74]{event}[/dim grey74]"
+            # Event-specific colors for high-density "intelligence" feel
+            prefix = "[#64748b]·[/#64748b]"
+            if "fact_extraction" in event:
+                ev_fmt = f"[#0ea5e9]{event}[/#0ea5e9]"
+            elif "risk" in event or "adversarial" in event.lower():
+                ev_fmt = f"[#f59e0b]{event}[/#f59e0b]"
+            elif "phase" in event or "director" in event or "iteration" in event:
+                ev_fmt = f"[#ea580c]{event}[/#ea580c]"
+            elif "entity" in event or "connection" in event:
+                ev_fmt = f"[#94a3b8]{event}[/#94a3b8]"
+            else:
+                ev_fmt = f"[#64748b]{event}[/#64748b]"
         else:
-            prefix = "[dim]·[/dim]"
-            ev_fmt = f"[bold bright_white]{event}[/bold bright_white]"
+            prefix = "[#ea580c]▪[/#ea580c]"
+            if "fact_extraction" in event:
+                ev_fmt = f"[bold #0ea5e9]{event}[/bold #0ea5e9]"
+            elif "risk" in event or "adversarial" in event:
+                ev_fmt = f"[bold #f59e0b]{event}[/bold #f59e0b]"
+            elif "phase" in event or "iteration" in event or "director" in event:
+                ev_fmt = f"[bold #ea580c]{event}[/bold #ea580c]"
+            else:
+                ev_fmt = f"[bold #e2e8f0]{event}[/bold #e2e8f0]"
 
         console.print(f"  {prefix} {ev_fmt}  {kv_str}")
         raise structlog.DropEvent()
@@ -239,13 +267,13 @@ async def run_investigation(
     budget = budget_usd if budget_usd is not None else settings.agent.cost_budget_usd
     console.print(
         Panel(
-            f"[bold blue]Deep Research Agent[/bold blue]\n"
-            f"Subject: [bold]{subject_name}[/bold]\n"
-            f"Role: {current_role or 'Unknown'} @ {current_org or 'Unknown'}\n"
-            f"Max Iterations: {max_iterations or 'default'}\n"
-            f"Cost budget: ${budget:.2f}" + (" (no limit)" if budget <= 0 else ""),
-            title="Investigation Starting",
-            border_style="blue",
+            f"[bold #ea580c]Deep Research AI Agent[/bold #ea580c]  —  Building an AI Investigator\n"
+            f"Subject: [bold #e2e8f0]{subject_name}[/bold #e2e8f0]\n"
+            f"Role: [#94a3b8]{current_role or 'Unknown'}[/#94a3b8] @ [#94a3b8]{current_org or 'Unknown'}[/#94a3b8]\n"
+            f"Max Iterations: [#64748b]{max_iterations or 'default'}[/#64748b]  ·  "
+            f"Cost budget: [bold #f59e0b]${budget:.2f}[/bold #f59e0b]" + (" (no limit)" if budget <= 0 else ""),
+            title="[#ea580c] Intelligence Console — Investigation[/#ea580c]",
+            border_style="#ea580c",
         )
     )
 
@@ -380,23 +408,23 @@ async def run_evaluation(persona_name: str | None = None, run_all: bool = False)
 
 
 def _display_results(state: ResearchState, elapsed: float) -> None:
-    """Rich-formatted results display."""
-    table = Table(title="Investigation Summary", border_style="blue")
-    table.add_column("Metric", style="bold")
-    table.add_column("Value", justify="right")
+    """Rich-formatted results display — Intelligence Console styling."""
+    table = Table(title="Investigation Summary", border_style="#ea580c", title_style="bold #ea580c")
+    table.add_column("Metric", style="bold #94a3b8")
+    table.add_column("Value", justify="right", style="#e2e8f0")
     table.add_row("Duration", f"{elapsed:.1f}s")
     table.add_row("Iterations", str(state.iteration))
     table.add_row("Searches", str(len(state.search_history)))
     table.add_row("LLM Calls", str(state.total_llm_calls))
-    table.add_row("Entities Found", str(len(state.entities)))
-    table.add_row("Connections", str(len(state.connections)))
-    table.add_row("Risk Flags", str(len(state.risk_flags)))
-    table.add_row("Confidence", f"{state.overall_confidence:.2f}")
+    table.add_row("Entities Found", f"[#ea580c]{len(state.entities)}[/#ea580c]")
+    table.add_row("Connections", f"[#94a3b8]{len(state.connections)}[/#94a3b8]")
+    table.add_row("Risk Flags", f"[#f59e0b]{len(state.risk_flags)}[/#f59e0b]" if state.risk_flags else "0")
+    table.add_row("Confidence", f"[#ea580c]{state.overall_confidence:.2f}[/#ea580c]")
     table.add_row("Est. Cost", f"${state.estimated_cost_usd:.4f}")
     console.print(table)
 
     if state.entities:
-        et = Table(title="Top Entities", border_style="green")
+        et = Table(title="Top Entities", border_style="#64748b", title_style="#94a3b8")
         et.add_column("Type")
         et.add_column("Name")
         et.add_column("Conf", justify="right")
@@ -405,12 +433,12 @@ def _display_results(state: ResearchState, elapsed: float) -> None:
         console.print(et)
 
     if state.risk_flags:
-        rt = Table(title="Risk Flags", border_style="red")
-        rt.add_column("Severity")
-        rt.add_column("Category")
-        rt.add_column("Title")
+        rt = Table(title="Risk Flags", border_style="#dc2626", title_style="bold #f59e0b")
+        rt.add_column("Severity", style="#dc2626")
+        rt.add_column("Category", style="#94a3b8")
+        rt.add_column("Title", style="#e2e8f0")
         for rf in state.risk_flags:
-            rt.add_row(rf.severity.value, rf.category.value, rf.title)
+            rt.add_row(f"[#f59e0b]{rf.severity.value}[/#f59e0b]", rf.category.value, rf.title)
         console.print(rt)
 
     # Run metadata table
@@ -418,7 +446,7 @@ def _display_results(state: ResearchState, elapsed: float) -> None:
     if meta_path.exists():
         try:
             meta = json.loads(meta_path.read_text())
-            mt = Table(title="Run Metadata", border_style="cyan")
+            mt = Table(title="Run Metadata", border_style="#64748b", title_style="#94a3b8")
             mt.add_column("Field", style="bold")
             mt.add_column("Value", justify="right")
             mt.add_row("Run ID", str(meta.get("run_id", "")))
@@ -433,7 +461,7 @@ def _display_results(state: ResearchState, elapsed: float) -> None:
 
     if state.final_report:
         preview = state.final_report[:2000] + ("..." if len(state.final_report) > 2000 else "")
-        console.print(Panel(preview, title="Report Preview", border_style="green"))
+        console.print(Panel(preview, title="[#ea580c] Report Preview[/#ea580c]", border_style="#ea580c"))
 
 
 def main() -> None:

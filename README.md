@@ -181,6 +181,15 @@ When enabled, the agent exposes **Prometheus metrics** on a configurable port an
 - **Start stack**: `docker compose up -d neo4j prometheus grafana`. Grafana at http://localhost:3001 (admin / research). Dashboard: http://localhost:3001/d/deep-research-monitor.
 - **Run investigation**: `python -m src.main investigate "Subject Name" --role ... --org ...`. Prometheus scrapes the agent at `host.docker.internal:8000` while the run is active.
 
+#### LangSmith tracing
+
+LangGraph runs are traced to [LangSmith](https://smith.langchain.com) when tracing is enabled, so you can visualize, debug, and analyze each investigation (waterfall view, token usage, cost, and step-level details).
+
+- **Enable tracing**: Set `LANGCHAIN_TRACING_V2=true`, `LANGCHAIN_API_KEY` (your LangSmith API key), and `LANGCHAIN_PROJECT=deep-research-agent` in `.env`. Runs then appear under the **Tracing** tab for the project.
+- Each trace shows the full LangGraph execution (director → entity_resolution → temporal_analysis → generate_report → update_graph_db, etc.) with latency and token/cost per step. The **generate_report** step (e.g. ChatOpenAI / Claude) is typically the main contributor to duration and cost.
+
+![LangSmith tracing for deep-research-agent](docs/images/langsmith-tracing.png)
+
 ## Project Structure
 
 ```
