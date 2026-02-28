@@ -72,6 +72,9 @@ class TemplateRenderer:
             c_dict = c.model_dump() if hasattr(c, "model_dump") else dict(c)
             c_dict["source_name"] = entity_map.get(c_dict.get("source_entity_id"), "Unknown Entity")
             c_dict["target_name"] = entity_map.get(c_dict.get("target_entity_id"), "Unknown Entity")
+            # Normalize relationship_type for template (Jinja2 has no hasattr)
+            rt = c_dict.get("relationship_type")
+            c_dict["relationship_type_str"] = rt.value if hasattr(rt, "value") else (rt if isinstance(rt, str) else str(rt))
             resolved_connections.append(c_dict)
 
         return {

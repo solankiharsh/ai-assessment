@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import type { Investigation, TemporalFact, TemporalContradiction } from "@/lib/types";
 import { ConfidenceBadge } from "../ConfidenceBadge";
 import { domainFromUrl } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+
+const INITIAL_SOURCE_URLS = 5;
 
 const SEVERITY_STYLES: Record<string, { border: string; bg: string; text: string }> = {
   critical: {
@@ -42,15 +45,19 @@ function sortFactsByDate(facts: TemporalFact[]): TemporalFact[] {
 }
 
 export function TabTimeline({ investigation: inv }: { investigation: Investigation }) {
+  const [expandedSourceUrls, setExpandedSourceUrls] = useState<Set<string>>(new Set());
   const facts = inv.temporal_facts ?? [];
   const contradictions = inv.temporal_contradictions ?? [];
   const sortedFacts = sortFactsByDate(facts);
 
   if (facts.length === 0) {
     return (
-      <div className="flex flex-1 items-center justify-center p-8 text-center">
-        <p className="text-sm text-muted-foreground">
+      <div className="flex flex-1 flex-col items-center justify-center gap-2 p-8 text-center">
+        <p className="text-sm text-neutral-400">
           Timeline analysis not available for this investigation.
+        </p>
+        <p className="max-w-md text-xs text-neutral-500">
+          Timeline is filled when the run reaches the Temporal Analysis step and the model extracts dated facts. If you don’t see data, the run may have ended earlier, or no date-extractable claims were found.
         </p>
       </div>
     );
@@ -62,7 +69,7 @@ export function TabTimeline({ investigation: inv }: { investigation: Investigati
         <h2 className="text-sm font-semibold text-foreground">
           Temporal intelligence
         </h2>
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="mt-0.5 text-xs text-neutral-400">
           Chronological facts with date ranges and source links. Anomalies are shown below conflicting facts.
         </p>
       </header>
@@ -76,7 +83,7 @@ export function TabTimeline({ investigation: inv }: { investigation: Investigati
             <div key={fact.id} className="space-y-2">
               <article className="rounded-xl border border-border bg-card p-4 shadow-sm">
                 <div className="mb-2 flex flex-wrap items-center gap-2">
-                  <span className="rounded bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                  <span className="rounded bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-neutral-400">
                     {fact.category || "event"}
                   </span>
                   <ConfidenceBadge value={fact.confidence} size="small" />
@@ -91,7 +98,7 @@ export function TabTimeline({ investigation: inv }: { investigation: Investigati
                 )}
                 {fact.source_urls?.length > 0 && (
                   <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px]">
-                    {fact.source_urls.slice(0, 5).map((url) => (
+                    {(expandedSourceUrls.has(fact.id) ? fact.source_urls : fact.source_urls.slice(0, INITIAL_SOURCE_URLS)).map((url) => (
                       <li key={url}>
                         <a
                           href={url}
@@ -103,8 +110,21 @@ export function TabTimeline({ investigation: inv }: { investigation: Investigati
                         </a>
                       </li>
                     ))}
-                    {fact.source_urls.length > 5 && (
-                      <li className="text-muted-foreground">+{fact.source_urls.length - 5} more</li>
+                    {fact.source_urls.length > INITIAL_SOURCE_URLS && (
+                      <li>
+                        <button
+                          type="button"
+                          onClick={() => setExpandedSourceUrls((prev) => {
+                            const next = new Set(prev);
+                            if (next.has(fact.id)) next.delete(fact.id);
+                            else next.add(fact.id);
+                            return next;
+                          })}
+                          className="text-primary hover:underline focus:outline-none focus:ring-1 focus:ring-primary rounded"
+                        >
+                          {expandedSourceUrls.has(fact.id) ? "Show less" : `+${fact.source_urls.length - INITIAL_SOURCE_URLS} more`}
+                        </button>
+                      </li>
                     )}
                   </ul>
                 )}
@@ -130,7 +150,7 @@ export function TabTimeline({ investigation: inv }: { investigation: Investigati
                       <ConfidenceBadge value={c.confidence} size="small" />
                     </div>
                     <p className="text-sm text-foreground">{c.description}</p>
-                    <p className="mt-1 text-[10px] text-muted-foreground">
+                    <p className="mt-1 text-[10px] text-neutral-400">
                       Facts: {c.fact_a_id} / {c.fact_b_id}
                     </p>
                   </div>

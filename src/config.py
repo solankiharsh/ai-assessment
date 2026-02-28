@@ -82,6 +82,8 @@ class SearchConfig(BaseSettings):
     request_timeout: int = 30  # seconds
     # Tiered fetch: Playwright fallback timeout (ms)
     playwright_timeout: int = Field(default=30000, alias="PLAYWRIGHT_FETCH_TIMEOUT")
+    # Optional: launch Chromium with --disable-http2 to try to avoid ERR_HTTP2_PROTOCOL_ERROR on some sites
+    playwright_disable_http2: bool = Field(default=False, alias="PLAYWRIGHT_DISABLE_HTTP2")
     sec_contact_email: str = Field(
         default="research@example.com",
         alias="SEC_CONTACT_EMAIL",

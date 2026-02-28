@@ -652,7 +652,10 @@ class TieredFetcher:
             return FetchResult(content=None, status="skip", inaccessible_reason="playwright_skip_gated_domain")
         try:
             async with async_playwright() as p:
-                browser = await p.chromium.launch(headless=True)
+                launch_opts: dict = {"headless": True}
+                if get_settings().search.playwright_disable_http2:
+                    launch_opts["args"] = ["--disable-http2"]
+                browser = await p.chromium.launch(**launch_opts)
                 try:
                     if _is_pdf_url(url):
                         ctx_opts = {"user_agent": _sec_user_agent()} if _is_sec_gov_url(url) else {}

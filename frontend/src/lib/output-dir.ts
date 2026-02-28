@@ -3,11 +3,19 @@
 import path from "path";
 import fs from "fs";
 
-/** Resolve backend output directory: env OUTPUT_DIR or repo root outputs/ relative to cwd (frontend). */
+/** Resolve backend output directory: env OUTPUT_DIR or repo outputs/ (relative to cwd). */
 export function getOutputDir(): string {
   const env = process.env.OUTPUT_DIR;
   if (env) return path.isAbsolute(env) ? env : path.resolve(process.cwd(), env);
-  return path.resolve(process.cwd(), "..", "outputs");
+  // When running from frontend/: ../outputs. When running from repo root: outputs
+  const fromFrontend = path.resolve(process.cwd(), "..", "outputs");
+  const fromRoot = path.resolve(process.cwd(), "outputs");
+  try {
+    if (fs.existsSync(fromRoot)) return fromRoot;
+  } catch {
+    // ignore
+  }
+  return fromFrontend;
 }
 
 export function readJson<T>(filePath: string): T | null {

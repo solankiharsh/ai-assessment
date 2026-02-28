@@ -406,8 +406,11 @@ class ResearchGraph:
                             entity = state.get_entity_by_id(eid)
                             if entity:
                                 risk_entity_names.add(entity.name)
+                    subject_name = (state.subject.full_name or "").strip()
                     for name in list(risk_entity_names)[:5]:
-                        paths = await self.neo4j.shortest_path(state.subject.full_name, name)
+                        if not name or name == subject_name:
+                            continue
+                        paths = await self.neo4j.shortest_path(subject_name, name)
                         if paths:
                             state.graph_insights.append({
                                 "type": "shortest_path",

@@ -38,22 +38,25 @@ export function ExecutionLog({
               {emptyMessage}
             </p>
           ) : (
-            logs.map((log, i) => (
-              <div
-                key={i}
-                className={`break-words rounded-md px-2 py-1.5 ${
-                  log.includes("FAILED") || log.includes("error") || log.includes("Error")
-                    ? "bg-destructive/10 text-destructive"
-                    : log.includes("CONTINUE") || log.includes("WARNING")
-                      ? "bg-amber-500/10 text-amber-400"
-                      : log.includes("complete") || log.includes("✓") || log.includes("done")
-                        ? "text-emerald-400/90"
-                        : "text-foreground/85"
-                }`}
-              >
-                {log}
-              </div>
-            ))
+            logs.map((log, i) => {
+              const isError = log.includes("  ✗ ") || log.includes("FAILED") || /error=/i.test(log);
+              const isWarning = log.includes("  ⚠ ") || log.includes("WARNING");
+              const isPhase = /^━━━/.test(log) || /PHASE\s*$/.test(log);
+              const className = isError
+                ? "bg-destructive/10 text-destructive"
+                : isWarning
+                  ? "bg-amber-500/10 text-amber-400"
+                  : isPhase
+                    ? "font-semibold text-primary/90"
+                    : log.includes("complete") || log.includes("done")
+                      ? "text-emerald-400/90"
+                      : "text-foreground/85";
+              return (
+                <div key={i} className={`break-words rounded-md px-2 py-1.5 ${className}`}>
+                  {log}
+                </div>
+              );
+            })
           )}
           <div ref={bottomRef} />
         </div>

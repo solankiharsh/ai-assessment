@@ -2,6 +2,8 @@
 
 Autonomous intelligence-gathering agent for due diligence investigations. Built for the **Deriv AI — AI Engineer Technical Assessment**.
 
+![Intelligence Console — Investigation dashboard with Risk Meter, confidence, and visualizations](docs/images/intelligence-console-dashboard.png)
+
 ## Features & Functionality
 
 ### Core capabilities
@@ -65,7 +67,7 @@ The UI and report present a numeric risk score derived from risk flags (count an
 - **Input** — Subject name and query parameters are validated and sanitized; no raw user input is passed to shell or SQL.
 - **Secrets** — API keys and credentials live in `.env`; no secrets are logged (PII/tokens redacted in structlog).
 - **SEC.gov** — All requests to `sec.gov` use a compliant User-Agent with contact email (`SEC_CONTACT_EMAIL`); see [ADR 006](docs/decisions/006-sec-gov-fetching-strategy.md).
-- **Fetch** — Tiered URL fetch validates targets; private IP ranges and blocked hostnames are rejected (SSRF mitigation). Optional crawl4ai tier, when enabled, follows the same allowlist.
+- **Fetch** — Tiered URL fetch validates targets; private IP ranges and blocked hostnames are rejected (SSRF mitigation). Optional crawl4ai tier, when enabled, follows the same allowlist. For log messages (dead URLs, Wayback recovery, `web_fetch_error`, `tier2_playwright_error`) and optional HTTP/2 handling, see [FETCH_LOGS_AND_RECOVERY.md](docs/FETCH_LOGS_AND_RECOVERY.md).
 
 ## Architecture
 
@@ -189,6 +191,21 @@ LangGraph runs are traced to [LangSmith](https://smith.langchain.com) when traci
 - Each trace shows the full LangGraph execution (director → entity_resolution → temporal_analysis → generate_report → update_graph_db, etc.) with latency and token/cost per step. The **generate_report** step (e.g. ChatOpenAI / Claude) is typically the main contributor to duration and cost.
 
 ![LangSmith tracing for deep-research-agent](docs/images/langsmith-tracing.png)
+
+#### Push prompts to LangSmith
+
+To sync the agent’s prompt templates (Research Director, Fact Extractor, Risk Analyzer, etc.) to LangSmith so you can edit and version them in the UI:
+
+```bash
+# Set LANGCHAIN_API_KEY in .env, then:
+uv run python scripts/push_prompts_to_langsmith.py
+# Or dry-run first:
+uv run python scripts/push_prompts_to_langsmith.py --dry-run
+```
+
+Prompts are created in your LangSmith workspace with plain names (e.g. `research-director`, `fact-extractor`). Use `--prefix your-handle` to push under `your-handle/name` (the prefix must be your LangSmith tenant/org handle).
+
+![LangSmith Prompts — agent templates in Personal workspace](docs/images/langsmith-prompts.png)
 
 ## Project Structure
 
