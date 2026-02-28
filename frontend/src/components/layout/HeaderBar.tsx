@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
-import { Shield, Search } from "lucide-react";
+import { Shield, Search, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -111,6 +111,16 @@ export function HeaderBar() {
           </div>
         )}
 
+        <a
+          href="https://github.com/solankiharsh/ai-assessment"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50"
+          title="View source on GitHub"
+        >
+          <Github className="h-4 w-4" />
+          <span className="hidden sm:inline">GitHub</span>
+        </a>
         <Button
           type="button"
           variant="outline"
