@@ -1,0 +1,17 @@
+{
+  "run_id": "sam_altman",
+  "subject": "Sam Altman",
+  "started_at": "2026-02-27 18:50:02.729312+00:00",
+  "completed_at": "2026-02-27 18:50:33.427185+00:00",
+  "duration_seconds": 30.7,
+  "total_cost_usd": 0.025043999999999997,
+  "iterations": 1,
+  "phases_executed": [],
+  "entities_found": 0,
+  "connections_found": 0,
+  "risk_flags_count": 0,
+  "sources_accessed": 0,
+  "sources_failed": 0,
+  "termination_reason": "terminated_by_director",
+  "error_count": 0
+}

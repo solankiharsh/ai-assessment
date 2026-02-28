@@ -18,7 +18,8 @@ COPY pyproject.toml ./
 COPY src ./src
 COPY config ./config
 COPY scripts ./scripts
-COPY outputs ./outputs
+# Persisted demo investigations (Timothy Overturf, Jensen Huang, Adam Neumann, Sam Altman) for deployed UI
+COPY outputs_captured ./outputs
 
 RUN pip install --no-cache-dir -e .
 

@@ -1,0 +1,1810 @@
+[
+  {
+    "name": "Jensen Huang",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "full_name": "Jensen Huang",
+      "aliases": [
+        "Jensen Huang",
+        "Jen-Hsun Huang"
+      ],
+      "date_of_birth": "1963-02-17",
+      "place_of_birth": "Taipei, Taiwan",
+      "citizenship": "United States",
+      "education": [
+        {
+          "degree": "BSEE",
+          "institution": "Oregon State University"
+        },
+        {
+          "degree": "MSEE",
+          "institution": "Stanford University"
+        }
+      ],
+      "occupations": [
+        "businessman",
+        "electrical engineer",
+        "philanthropist"
+      ],
+      "known_for": "Co-founding Nvidia",
+      "title": "Founder and CEO",
+      "title_dates": "1993\u2013present",
+      "spouse": "Lori Huang",
+      "marriage_year": 1985,
+      "children_count": 2,
+      "relatives": [
+        "Lisa Su (cousin)"
+      ],
+      "awards": [
+        "2021 Robert N. Noyce Award",
+        "IEEE Founder\u2019s Medal",
+        "Dr. Morris Chang Exemplary Leadership Award"
+      ],
+      "net_worth_estimate": {
+        "amount_usd": 164100000000,
+        "date": "January 2026",
+        "source": "Forbes"
+      },
+      "country_of_origin": "Taiwan",
+      "year_came_to_US": 1973,
+      "roles": [
+        {
+          "title": "Co-Founder",
+          "organization": "NVIDIA",
+          "start_date": 1993,
+          "end_date": null
+        },
+        {
+          "title": "President",
+          "organization": "NVIDIA",
+          "start_date": 1993,
+          "end_date": null
+        },
+        {
+          "title": "Chief Executive Officer",
+          "organization": "NVIDIA",
+          "start_date": 1993,
+          "end_date": null
+        },
+        {
+          "title": "Board Member",
+          "organization": "NVIDIA",
+          "start_date": 1993,
+          "end_date": null
+        }
+      ],
+      "notable_achievements": [
+        "Invented the first graphics processing unit (GPU) in 1999",
+        "Led NVIDIA to become the first company to top $5 trillion in market cap in October 2025"
+      ],
+      "early_life": {
+        "moved_to": [
+          "Thailand",
+          "United States"
+        ],
+        "early_job": "cleaning dormitory toilets at age 9",
+        "sports_achievement": "3rd place in junior doubles at U.S. Open Table Tennis Championship at age 15"
+      },
+      "philanthropy": [
+        {
+          "donation": 50000000,
+          "recipient": "Jen-Hsun and Lori Huang Collaborative Innovation Complex at Oregon State University"
+        },
+        {
+          "donation": 30000000,
+          "recipient": "Jen-Hsun Huang Engineering Center at Stanford University"
+        },
+        {
+          "donation": 2000000,
+          "recipient": "Jen-Hsun Huang Hall at Oneida Baptist Institute"
+        }
+      ],
+      "birth_year": 1963,
+      "birth_place": "Taipei, Taiwan",
+      "immigration_status": "immigrant to the US",
+      "organization": "NVIDIA",
+      "role_start_date": "inception of NVIDIA",
+      "philanthropy_foundation": "Jen-Hsun & Lori Huang Foundation",
+      "birthplace": "Taiwan",
+      "previous_employment": [
+        "LSI Logic",
+        "Advanced Micro Devices"
+      ],
+      "honors": [
+        "Elected to the National Academy of Engineering"
+      ],
+      "education_background": {
+        "early_education": "Elementary school in Oneida, Kentucky",
+        "language": "Learned English from mother before moving to US"
+      },
+      "family": {
+        "father": {
+          "role": "Worker at Carrier air conditioner manufacturer",
+          "participated_in": "worker-training program in the US"
+        },
+        "mother": {
+          "role": "Taught Jensen and brother English words daily before US move"
+        },
+        "siblings": "Brother (name not specified)"
+      },
+      "birth_date": "1963-02-17",
+      "nationality": "Taiwanese-born American",
+      "parents": {
+        "father": "Huang Hsing-tai",
+        "mother": "Lo Tsai-hsiu"
+      },
+      "father_occupation": "chemical engineer",
+      "mother_occupation": "grade school teacher",
+      "occupation": "entrepreneur",
+      "notable_for": "Leading Nvidia to become a key player in AI chip design and parallel processing GPUs",
+      "organization_affiliations": [
+        {
+          "name": "NVIDIA Corporation",
+          "role": "cofounder",
+          "founded_year": 1993,
+          "industry": "semiconductor",
+          "products": [
+            "graphics processing units (GPUs)"
+          ],
+          "notability": "leading provider of GPUs and key player in AI boom"
+        }
+      ],
+      "tenure_start": 1993,
+      "previous_positions": [
+        {
+          "title": "Employee",
+          "organization": "LSI Logic Corp.",
+          "start_year": 1985,
+          "end_year": 1993
+        },
+        {
+          "title": "Employee",
+          "organization": "Advanced Micro Devices, Inc.",
+          "start_year": 1984,
+          "end_year": 1985
+        }
+      ],
+      "notable_contributions": "leadership in the development of graphics processing units and their application to scientific computing and artificial intelligence",
+      "career_start": {
+        "industry": "Chip manufacturing and semiconductor companies"
+      },
+      "company_founded": {
+        "name": "NVIDIA",
+        "year": 1993,
+        "age_at_founding": 30,
+        "cofounders": "two friends",
+        "initial_meeting_place": "Denny's restaurant"
+      },
+      "notable_awards": [
+        "Robert N. Noyce Award from the Semiconductor Industry Association",
+        "IEEE Founder's Medal",
+        "Dr. Morris Chang Exemplary Leadership Award"
+      ],
+      "location": "Santa Clara, CA",
+      "start_date": "1993",
+      "linkedin_url": "https://www.linkedin.com/in/jenhsunhuang",
+      "previous_employers": [
+        "LSI Logic",
+        "Advanced Micro Devices"
+      ],
+      "career": [
+        {
+          "role": "Employee",
+          "organization": "AMD",
+          "description": "Gained experience in chip design and technology development"
+        },
+        {
+          "role": "Employee",
+          "organization": "LSI Logic",
+          "description": "Gained experience in chip design and technology development"
+        },
+        {
+          "role": "Co-founder and CEO",
+          "organization": "NVIDIA",
+          "tenure_years": 30,
+          "description": "CEO of NVIDIA, leading AI revolution with GPUs and AI applications"
+        }
+      ],
+      "net_worth": 166300000000,
+      "rank": "ninth-richest person in the world",
+      "philanthropist": true,
+      "notable_traits": [
+        "fan of leather jackets",
+        "strong determination and perseverance"
+      ],
+      "role": "Director",
+      "dates": {
+        "founded_NVIDIA": 1993,
+        "tenure": "1993-present"
+      },
+      "board_position": "Nominated Director for 2024 Annual Meeting",
+      "meeting_date": "June 26, 2024",
+      "direct_reports_count_2024-10": 36,
+      "direct_reports_count_2024-03": 55,
+      "management_style": "Prefers many direct reports to reduce layers and improve information flow",
+      "notable_quotes": [
+        "The more direct reports the CEO has, the less layers are in the company.",
+        "It allows us to keep information fluid, allows us to make sure that everyone is empowered by information."
+      ],
+      "meeting_style": "Does not schedule one-on-one meetings with direct reports unless requested",
+      "tenure_start_date": "April 1993",
+      "tenure_years": 32.8,
+      "total_compensation_usd": 49870000,
+      "compensation_breakdown": {
+        "base_salary": 1486000,
+        "stock_awards": 38810000,
+        "non_equity_compensation": 6000000,
+        "other_compensation": 3570000
+      },
+      "ownership_percentage": 3.77,
+      "ownership_value_eur": 131350000000,
+      "age": 63,
+      "appointed_date": "April 1993",
+      "salary_percentage": 2.98,
+      "ownership_value_cad": 223450000000,
+      "year": 2024,
+      "notable_events": [
+        "Signed a permanent marker autograph on a woman's chest at a tech expo in Taipei in June 2024",
+        "Hand-delivered an early Nvidia supercomputer to OpenAI in 2016"
+      ],
+      "board_member": true,
+      "profession": [
+        "Entrepreneur",
+        "Electrical Engineer"
+      ],
+      "investment_portfolio": [
+        "Nvidia"
+      ],
+      "philosophy": "zero billion dollar markets",
+      "notable_donations": [
+        {
+          "recipient": "OpenAI",
+          "item": "Nvidia supercomputer with eight GPUs",
+          "year": 2016
+        }
+      ],
+      "equity_stake_percent": 3.5,
+      "equity_stake_value_usd": 94000000000,
+      "net_worth_usd": 123000000000,
+      "shares_owned": 860000000,
+      "base_salary_usd_fy2025": 1500000,
+      "base_salary_increase_percent": 50,
+      "target_cash_bonus_usd_fy2025": 3000000,
+      "target_cash_bonus_increase_percent": 50,
+      "equity_award_usd_fy2025": 27500000,
+      "equity_award_increase_percent": 25,
+      "net_worth_source": "Bloomberg Billionaires Index",
+      "compensation_alignment_year": 2025,
+      "net_worth_currency": "USD",
+      "net_worth_date": "2026-02-23",
+      "primary_source_of_wealth": "Nvidia stock",
+      "residence_country": "United States",
+      "base_salary_2025": 1500000,
+      "base_salary_increase_percentage": 49,
+      "variable_cash_2025": "increased by $1 million (50%) from 2024",
+      "stock_awards_2025": 38800000,
+      "total_compensation_2025": 49900000,
+      "security_costs_2025": "increased",
+      "compensation_role": "personally reviews all employee compensation",
+      "employee_count_reviewed": 42000,
+      "compensation_policy": "increases company\u2019s spend on operating expenses every year to take care of employees",
+      "ownership_date": "March 2025",
+      "compensation_fy2025": 49800000,
+      "cofounder_date": 1993,
+      "largest_individual_shareholder": true,
+      "family_relation": {
+        "relation": "distant cousin",
+        "person": "Lisa Su"
+      },
+      "real_estate_locations": [
+        "California",
+        "Hawaii"
+      ],
+      "total_compensation_fy_2025": 49866251,
+      "salary_fy_2025": 1486199,
+      "bonus_fy_2025": 0,
+      "value_of_stock_awards_fy_2025": 38811306,
+      "value_of_option_awards_fy_2025": 0,
+      "non_equity_incentive_plan_compensation_fy_2025": 6000000,
+      "change_in_pension_value_and_deferred_compensation_earnings_fy_2025": 0,
+      "all_other_compensation_fy_2025": 3568746,
+      "compensation_fiscal_2025": 49866251,
+      "compensation_increase_percent": 45,
+      "fiscal_year_end": "2025-01-26",
+      "cofounder": true,
+      "ownership": "approximately 3% of Nvidia",
+      "childhood_residence": "Thailand",
+      "residence": "Los Altos, California",
+      "marital_status": "Married",
+      "source_of_wealth": "Semiconductors, Self Made",
+      "self_made_score": 8,
+      "philanthropy_score": 1,
+      "notable_facts": [
+        "Sent to a boarding school in rural Kentucky for troubled youth shortly after arriving in the U.S.",
+        "Worked as a waiter at Denny's to overcome shyness"
+      ],
+      "award": "2026 IEEE Medal of Honor",
+      "award_date": "2026-01-06",
+      "award_reason": "Shaping accelerated computing, the foundation of modern artificial intelligence",
+      "other_awards": [
+        "Financial Times recognition",
+        "TIME Magazine recognition",
+        "Queen Elizabeth Prize for Engineering"
+      ],
+      "award_dates": {
+        "Queen Elizabeth Prize for Engineering": "2025-11-06"
+      },
+      "notable_dates": {
+        "2026": "Recipient of IEEE Medal of Honor",
+        "October 2025": "NVIDIA surpassed USD 5 trillion market capitalization"
+      },
+      "honorary_degrees": [
+        "National Chiao Tung University",
+        "National Taiwan University",
+        "Oregon State University"
+      ],
+      "notable_recognition": [
+        "Named world's best CEO by Fortune, The Economist, and Brand Finance",
+        "Listed in Time magazine's 100 most influential people",
+        "Elected to the National Academy of Engineering"
+      ],
+      "childhood": {
+        "lived_in": [
+          "Taipei, Taiwan",
+          "Thailand",
+          "Tacoma, Washington",
+          "Oregon"
+        ],
+        "high_school": "Aloha High School",
+        "graduation_age": 16,
+        "sports": "nationally ranked table-tennis player"
+      },
+      "early_career": [
+        "LSI Logic",
+        "Advanced Micro Devices"
+      ],
+      "co_founders": [
+        "Chris Malachowsky",
+        "Curtis Priem"
+      ],
+      "notable_projects": [
+        "Development of GPU (graphics processing unit)",
+        "NVIDIA RIVA 128",
+        "CUDA supercomputing software",
+        "AlexNet neural network",
+        "AI supercomputers for ChatGPT",
+        "Omniverse platform"
+      ],
+      "notable_recognitions": [
+        "No. 1 on Harvard Business Review\u2019s list of the world\u2019s 100 best-performing CEOs over the lifetime of their tenure (2019)",
+        "Fortune\u2019s Businessperson of the Year (2017)"
+      ],
+      "board_membership": "Member of the board of directors at NVIDIA",
+      "founding_year_of_NVIDIA": 1993,
+      "titles_roles": [
+        "Founder",
+        "President",
+        "Chief Executive Officer",
+        "Member of the Board of Directors"
+      ],
+      "honors_awards": [
+        "Elected to the National Academy of Engineering",
+        "Semiconductor Industry Association\u2019s Robert N. Noyce Award",
+        "IEEE Founder\u2019s Medal",
+        "Dr. Morris Chang Exemplary Leadership Award",
+        "Honorary doctorate degrees from National Chiao Tung University, National Taiwan University, and Oregon State University"
+      ]
+    },
+    "sources": [
+      "https://goldhouse.org/people/jensen-huang-2/",
+      "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000104/nvda-20240514.htm",
+      "https://local.caltech.edu/news/nvidia-founder-and-ceo-jensen-huang-to-give-caltechs-130th-commencement-address",
+      "https://www.ilctr.org/about-immigrants/immigrant-entrepreneurs/hall-of-fame/jensen-huang/",
+      "https://www.cnbc.com/2025/05/01/nvidia-ceo-jensen-huang-gets-first-salary-raise-in-a-decade.html",
+      "https://kitrum.com/blog/the-inspiring-story-jensen-huang-ceo-at-nvidia/",
+      "https://en.wikipedia.org/wiki/Jensen_Huang",
+      "https://www.twk.co.kr/news/articleView.html?idxno=1388",
+      "https://www.nvidia.com/en-us/about-nvidia/board-of-directors/jensen-huang/",
+      "https://blogs.nvidia.com/blog/nvidia-founder-and-ceo-jensen-huang-and-chief-scientist-bill-dally-awarded-prestigious-queen-elizabeth-prize-for-engineering/",
+      "https://www.fool.com/investing/how-to-invest/famous-investors/jensen-huang/",
+      "https://www.timesofai.com/news/ieee-medal-of-honor-2026-jensen-huang/",
+      "https://s201.q4cdn.com/141608511/files/doc_financials/2024/ar/NVIDIA-2024-Annual-Report.pdf",
+      "https://www.linkedin.com/posts/inside-ownership-index_with-a-35-equity-stake-valued-at-94-billion-activity-7343685241598812161-5_9X",
+      "https://www.forbes.com/profile/jensen-huang/",
+      "https://fortune.com/2025/07/28/nvidia-ceo-jensen-huang-billionaires-stock-compensation-ai-talent-war-meta-openai/",
+      "https://www.prnewswire.com/il/news-releases/nvidia-ceo-jensen-huang-awarded-2026-ieee-medal-of-honor-technologys-most-prestigious-recognition-302649743.html",
+      "https://www.crn.com/news/channel-news/2024/the-25-most-influential-executives-of-2024",
+      "https://www.theregister.com/2025/05/08/big_bucks_huang_gets_fiscal_payday/",
+      "https://andsimple.co/cases/jensen-huang-ai-nvidia-philanthropy/",
+      "https://quartr.com/insights/edge/the-story-of-jensen-huang-and-nvidia",
+      "https://www.semiconductors.org/nvidia-founder-and-ceo-jensen-huang-to-receive-semiconductor-industrys-top-honor/",
+      "https://engineering.stanford.edu/about/history/heroes/2018-heroes/jensen-huang",
+      "https://www.businessinsider.com/nvidia-org-chart-leaders-report-to-ceo-jensen-huang-2025-10",
+      "https://www.indmoney.com/blog/us-stocks/nvidia-ceo-jensen-huang-net-worth",
+      "https://simplywall.st/stocks/ca/semiconductors/neoe-znvd/nvidia-shares/management",
+      "https://www.linkedin.com/in/jenhsunhuang",
+      "https://aflcio.org/paywatch/NVDA",
+      "https://www.hpcwire.com/off-the-wire/nvidia-ceo-jensen-huang-awarded-2026-ieee-medal-of-honor/",
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management",
+      "https://corporate-awards.ieee.org/recipient/jensen-huang/",
+      "https://www.businessinsider.com/jensen-huang-net-worth",
+      "https://time.com/collections/time100-ai-2024/7012761/jensen-huang-2/",
+      "https://www.carnegie.org/awards/honoree/jensen-huang/",
+      "https://www.britannica.com/money/Jensen-Huang",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "Nvidia",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Technology Company",
+      "jurisdiction": "United States",
+      "status": "Active",
+      "key_people": [
+        "Jensen Huang (Founder, President, CEO, Board Member)"
+      ],
+      "industry": "Semiconductor and accelerated computing platforms",
+      "founded_year": 1993,
+      "headquarters": "Santa Clara, California",
+      "2023_revenue": "60.9 billion USD",
+      "worldwide_employment": 29600,
+      "rank_2024_fortune_500": 65,
+      "notable_technology_uses": [
+        "Movies: Iron Man, Avatar, Harry Potter series",
+        "Applications: portable media players, workstations, video games, video editing, virtual reality, artificial intelligence, self-driving cars"
+      ],
+      "notable_achievements": [
+        "Invented the first GPU in 1999",
+        "First company to top $5 trillion in market cap in October 2025"
+      ],
+      "name": "NVIDIA",
+      "notable_info": "member of the trillion-dollar club",
+      "CEO": "Jensen Huang",
+      "notable_inventions": [
+        "GPU (Graphics Processing Unit) in 1999"
+      ],
+      "industry_impact": [
+        "sparked growth of PC gaming market",
+        "redefined computer graphics",
+        "ignited era of modern AI",
+        "driving platform shift of accelerated computing and generative AI"
+      ],
+      "notable_products": [
+        "3D graphics GPUs",
+        "AI computing platforms"
+      ],
+      "co-founder": "Jensen Huang",
+      "manufacturing_partner": "TSMC",
+      "founding_year": 1993,
+      "founder_and_CEO": "Jensen Huang",
+      "founders": [
+        "Jensen Huang",
+        "Chris Malachowsky",
+        "Curtis Priem"
+      ],
+      "employee_count": "42000",
+      "recognitions": [
+        "Best Places to Work by Glassdoor",
+        "100 Best Companies to Work For by Fortune magazine",
+        "TIME100 Most Influential Company",
+        "Most Innovative Company of 2024 by Fast Company"
+      ],
+      "linkedin_url": "https://www.linkedin.com/company/nvidia",
+      "industry_focus": "Accelerated computing, AI infrastructure, GPUs",
+      "workforce_growth": "Massive growth in recent years due to AI boom",
+      "culture": "Hardcore, mission-driven culture shaped by Jensen Huang",
+      "holdings": [
+        "CoreWeave"
+      ],
+      "role_in_AI": "Leading AI chipmaker since 2011",
+      "stock_price_projection_usd": 200,
+      "stock_price_projection_date": "June 18, 2025",
+      "shares_up_percent_year_to_date": 5,
+      "market_valuation": 5000000000000,
+      "market_valuation_date": "2025",
+      "market_value": "4 trillion USD",
+      "compensation_policy": "high compensation packages creating billionaires on management team",
+      "market_valuation_trillion_usd": 4,
+      "valuation_date": "July 2025",
+      "financials_fiscal_2025": {
+        "revenue": 130500000000,
+        "operating_income": 81500000000,
+        "net_profit": 72880000000,
+        "stock_repurchases": 53800000000,
+        "dividends_paid": 2400000000
+      },
+      "products": [
+        "Blackwell chip",
+        "GeForce RTX 50 Series GPUs",
+        "Nvidia NIMs",
+        "AI Blueprints",
+        "Nemotron family of models"
+      ],
+      "public_since": 1999,
+      "market_cap": "over $4 trillion in 2025",
+      "notable_events": [
+        "Invented the world\u2019s first graphics processing unit (GPU) in 1999",
+        "First company to surpass USD 5 trillion market capitalization in October 2025"
+      ],
+      "founder": "Jensen Huang",
+      "founded": 1993,
+      "board_members": [
+        "Jensen Huang"
+      ]
+    },
+    "sources": [
+      "https://goldhouse.org/people/jensen-huang-2/",
+      "https://local.caltech.edu/news/nvidia-founder-and-ceo-jensen-huang-to-give-caltechs-130th-commencement-address",
+      "https://www.ilctr.org/about-immigrants/immigrant-entrepreneurs/hall-of-fame/jensen-huang/",
+      "https://www.cnbc.com/2025/05/01/nvidia-ceo-jensen-huang-gets-first-salary-raise-in-a-decade.html",
+      "https://kitrum.com/blog/the-inspiring-story-jensen-huang-ceo-at-nvidia/",
+      "https://en.wikipedia.org/wiki/Jensen_Huang",
+      "https://www.twk.co.kr/news/articleView.html?idxno=1388",
+      "https://www.nvidia.com/en-us/about-nvidia/board-of-directors/jensen-huang/",
+      "https://blogs.nvidia.com/blog/nvidia-founder-and-ceo-jensen-huang-and-chief-scientist-bill-dally-awarded-prestigious-queen-elizabeth-prize-for-engineering/",
+      "https://www.fool.com/investing/how-to-invest/famous-investors/jensen-huang/",
+      "https://www.timesofai.com/news/ieee-medal-of-honor-2026-jensen-huang/",
+      "https://www.linkedin.com/posts/inside-ownership-index_with-a-35-equity-stake-valued-at-94-billion-activity-7343685241598812161-5_9X",
+      "https://www.forbes.com/profile/jensen-huang/",
+      "https://fortune.com/2025/07/28/nvidia-ceo-jensen-huang-billionaires-stock-compensation-ai-talent-war-meta-openai/",
+      "https://www.prnewswire.com/il/news-releases/nvidia-ceo-jensen-huang-awarded-2026-ieee-medal-of-honor-technologys-most-prestigious-recognition-302649743.html",
+      "https://www.crn.com/news/channel-news/2024/the-25-most-influential-executives-of-2024",
+      "https://www.theregister.com/2025/05/08/big_bucks_huang_gets_fiscal_payday/",
+      "https://andsimple.co/cases/jensen-huang-ai-nvidia-philanthropy/",
+      "https://quartr.com/insights/edge/the-story-of-jensen-huang-and-nvidia",
+      "https://www.semiconductors.org/nvidia-founder-and-ceo-jensen-huang-to-receive-semiconductor-industrys-top-honor/",
+      "https://www.businessinsider.com/nvidia-org-chart-leaders-report-to-ceo-jensen-huang-2025-10",
+      "https://www.indmoney.com/blog/us-stocks/nvidia-ceo-jensen-huang-net-worth",
+      "https://www.linkedin.com/in/jenhsunhuang",
+      "http://nvidianews.nvidia.com/bios/jensen-huang",
+      "https://www.hpcwire.com/off-the-wire/nvidia-ceo-jensen-huang-awarded-2026-ieee-medal-of-honor/",
+      "https://corporate-awards.ieee.org/recipient/jensen-huang/",
+      "https://www.businessinsider.com/jensen-huang-net-worth",
+      "https://time.com/collections/time100-ai-2024/7012761/jensen-huang-2/",
+      "https://www.carnegie.org/awards/honoree/jensen-huang/",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "Oregon State University",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "University",
+      "location": "United States",
+      "jurisdiction": "United States",
+      "status": "Active",
+      "notable_alumni": [
+        "Jensen Huang"
+      ],
+      "name": "Oregon State University",
+      "honorary_degrees_awarded_to": [
+        "Jensen Huang"
+      ],
+      "notable_donations": [
+        {
+          "donor": "Jensen Huang",
+          "amount": 50000000,
+          "purpose": "namesake research center",
+          "year": 2022
+        }
+      ],
+      "alumni": [
+        "Jensen Huang (BSEE)"
+      ]
+    },
+    "sources": [
+      "https://goldhouse.org/people/jensen-huang-2/",
+      "http://nvidianews.nvidia.com/bios/jensen-huang",
+      "https://www.ilctr.org/about-immigrants/immigrant-entrepreneurs/hall-of-fame/jensen-huang/",
+      "https://corporate-awards.ieee.org/recipient/jensen-huang/",
+      "https://www.forbes.com/profile/jensen-huang/",
+      "https://www.carnegie.org/awards/honoree/jensen-huang/",
+      "https://www.nvidia.com/en-us/about-nvidia/board-of-directors/jensen-huang/",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "Stanford University",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "University",
+      "location": "United States",
+      "jurisdiction": "United States",
+      "status": "Active",
+      "notable_faculty_or_alumni": [
+        "Jensen Huang"
+      ],
+      "departments": [
+        "School of Engineering"
+      ],
+      "name": "Stanford University",
+      "notable_alumni": [
+        "Jensen Huang"
+      ],
+      "notable_donations": [
+        {
+          "donor": "Jensen Huang",
+          "amount": 30000000,
+          "purpose": "engineering center"
+        }
+      ],
+      "alumni": [
+        "Jensen Huang (MSEE)"
+      ]
+    },
+    "sources": [
+      "https://www.ilctr.org/about-immigrants/immigrant-entrepreneurs/hall-of-fame/jensen-huang/",
+      "https://engineering.stanford.edu/about/history/heroes/2018-heroes/jensen-huang",
+      "https://www.forbes.com/profile/jensen-huang/",
+      "https://www.carnegie.org/awards/honoree/jensen-huang/",
+      "https://www.nvidia.com/en-us/about-nvidia/board-of-directors/jensen-huang/",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "Jen-Hsun & Lori Huang Foundation",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "name": "Jen-Hsun & Lori Huang Foundation",
+      "type": "private family philanthropic foundation",
+      "jurisdiction": "Palo Alto, California, USA",
+      "founded": 2007,
+      "founders": [
+        "Jensen Huang",
+        "Lori Huang"
+      ],
+      "focus_areas": [
+        "higher education",
+        "public health",
+        "STEM initiatives",
+        "community organisations"
+      ],
+      "geographic_focus": [
+        "West Coast",
+        "San Francisco Bay Area"
+      ],
+      "profile": "low profile"
+    },
+    "sources": [
+      "https://andsimple.co/cases/jensen-huang-ai-nvidia-philanthropy/"
+    ]
+  },
+  {
+    "name": "National Chiao Tung University",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "University",
+      "jurisdiction": "Taiwan",
+      "status": "Active",
+      "honorary_degree_recipients": [
+        "Jensen Huang"
+      ],
+      "honorary_degrees_awarded_to": [
+        "Jensen Huang"
+      ],
+      "name": "National Chiao Tung University"
+    },
+    "sources": [
+      "https://corporate-awards.ieee.org/recipient/jensen-huang/",
+      "http://nvidianews.nvidia.com/bios/jensen-huang",
+      "https://goldhouse.org/people/jensen-huang-2/",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "National Taiwan University",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "University",
+      "jurisdiction": "Taiwan",
+      "status": "Active",
+      "honorary_degree_recipients": [
+        "Jensen Huang"
+      ],
+      "honorary_degrees_awarded_to": [
+        "Jensen Huang"
+      ],
+      "name": "National Taiwan University"
+    },
+    "sources": [
+      "https://corporate-awards.ieee.org/recipient/jensen-huang/",
+      "http://nvidianews.nvidia.com/bios/jensen-huang",
+      "https://goldhouse.org/people/jensen-huang-2/",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "TSMC",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Semiconductor manufacturer",
+      "jurisdiction": "Taiwan",
+      "relationship": "Manufactures NVIDIA's most cutting-edge chips"
+    },
+    "sources": [
+      "https://quartr.com/insights/edge/the-story-of-jensen-huang-and-nvidia"
+    ]
+  },
+  {
+    "name": "Carrier",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Air conditioner manufacturer",
+      "relationship": "Employer of Jensen Huang's father during US worker-training program"
+    },
+    "sources": [
+      "https://quartr.com/insights/edge/the-story-of-jensen-huang-and-nvidia"
+    ]
+  },
+  {
+    "name": "NVIDIA Corporation",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "name": "NVIDIA Corporation",
+      "type": "Corporation",
+      "jurisdiction": "Germany (implied by market data)",
+      "status": "Active",
+      "key_people": [
+        "Jensen Huang",
+        "Colette Kress",
+        "Debora Shoquist",
+        "Timothy Teter",
+        "Ajay Puri",
+        "Chris Malachowsky",
+        "Donald Robertson",
+        "William Dally",
+        "Toshiya Hari",
+        "Mylene Mangalindan",
+        "Alison Wagonfeld",
+        "Tommy Lee"
+      ],
+      "founded_year": 1993,
+      "products": [
+        "HGX B100 NVLINK Switch",
+        "GB200 Superchip Compute Node",
+        "Quantum X800 Switch",
+        "ConnectX-8 SuperNIC",
+        "Spectrum X800 Switch",
+        "BlueField-3 SuperNIC",
+        "TensorRT-LLM",
+        "NVIDIA Inference Microservices (NIM)",
+        "CUDA"
+      ],
+      "industry": "Semiconductors",
+      "developer_ecosystem": {
+        "developers": 5000000,
+        "companies": 40000,
+        "generative_ai_companies": 1600,
+        "cuda_downloads": 48000000
+      },
+      "board_of_directors_count": 12,
+      "annual_meeting_date": "June 26, 2024",
+      "annual_meeting_location": "Virtual at www.virtualshareholdermeeting.com/NVDA2024",
+      "independent_auditor": "PricewaterhouseCoopers LLP",
+      "fiscal_year_for_auditor": "2025",
+      "market_cap_eur": 3700000000000,
+      "management_average_tenure_years": 17.1,
+      "board_average_tenure_years": 15,
+      "board_average_age": 66,
+      "management_average_age": 60,
+      "ticker": "NEOE:ZNVD",
+      "market_cap_cad": 6400000000000,
+      "recent_board_resignation": {
+        "person": "Persis Drell",
+        "effective_date": "January 20, 2026"
+      }
+    },
+    "sources": [
+      "https://simplywall.st/stocks/ca/semiconductors/neoe-znvd/nvidia-shares/management",
+      "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000104/nvda-20240514.htm",
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management",
+      "https://s201.q4cdn.com/141608511/files/doc_financials/2024/ar/NVIDIA-2024-Annual-Report.pdf",
+      "https://www.britannica.com/money/Jensen-Huang"
+    ]
+  },
+  {
+    "name": "Huang Hsing-tai",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "full_name": "Huang Hsing-tai",
+      "occupation": "chemical engineer",
+      "relation": "father of Jensen Huang"
+    },
+    "sources": [
+      "https://www.britannica.com/money/Jensen-Huang"
+    ]
+  },
+  {
+    "name": "Lo Tsai-hsiu",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "full_name": "Lo Tsai-hsiu",
+      "occupation": "grade school teacher",
+      "relation": "mother of Jensen Huang"
+    },
+    "sources": [
+      "https://www.britannica.com/money/Jensen-Huang"
+    ]
+  },
+  {
+    "name": "Oneida Baptist Institute",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "name": "Oneida Baptist Institute",
+      "type": "Reform academy",
+      "location": "Kentucky",
+      "status": "active",
+      "notes": "all-boys school, mistaken for prestigious boarding school"
+    },
+    "sources": [
+      "https://www.carnegie.org/awards/honoree/jensen-huang/",
+      "https://www.britannica.com/money/Jensen-Huang"
+    ]
+  },
+  {
+    "name": "Aloha High School",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "name": "Aloha High School",
+      "type": "high school",
+      "location": "Oregon",
+      "status": "active",
+      "notable_alumnus": "Jensen Huang"
+    },
+    "sources": [
+      "https://local.caltech.edu/news/nvidia-founder-and-ceo-jensen-huang-to-give-caltechs-130th-commencement-address",
+      "https://www.britannica.com/money/Jensen-Huang"
+    ]
+  },
+  {
+    "name": "LSI Logic Corp.",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "name": "LSI Logic Corp.",
+      "type": "Computer chip manufacturer",
+      "status": "Not specified"
+    },
+    "sources": [
+      "https://www.nvidia.com/en-us/about-nvidia/board-of-directors/jensen-huang/"
+    ]
+  },
+  {
+    "name": "Advanced Micro Devices, Inc.",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "name": "Advanced Micro Devices",
+      "type": "Technology Company",
+      "status": "Active or Former Employer",
+      "aliases": [
+        "AMD"
+      ],
+      "jurisdiction": "United States",
+      "abbreviation": "AMD"
+    },
+    "sources": [
+      "https://goldhouse.org/people/jensen-huang-2/",
+      "https://www.nvidia.com/en-us/about-nvidia/board-of-directors/jensen-huang/",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "Chris Malachowsky",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "Co-founder",
+      "organization": "Nvidia",
+      "start_date": "1993",
+      "full_name": "Chris Malachowsky",
+      "title": "Co-Founder",
+      "tenure_years": 33.1,
+      "total_compensation_usd": 320000,
+      "ownership_percentage": null,
+      "ownership_value_eur": null,
+      "ownership_value_cad": null,
+      "founding_year": 1993
+    },
+    "sources": [
+      "https://simplywall.st/stocks/ca/semiconductors/neoe-znvd/nvidia-shares/management",
+      "https://www.linkedin.com/in/jenhsunhuang",
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management",
+      "https://kitrum.com/blog/the-inspiring-story-jensen-huang-ceo-at-nvidia/",
+      "https://www.indmoney.com/blog/us-stocks/nvidia-ceo-jensen-huang-net-worth"
+    ]
+  },
+  {
+    "name": "Curtis Priem",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "Co-founder",
+      "organization": "Nvidia",
+      "start_date": "1993",
+      "full_name": "Curtis Priem",
+      "founding_year": 1993
+    },
+    "sources": [
+      "https://kitrum.com/blog/the-inspiring-story-jensen-huang-ceo-at-nvidia/",
+      "https://www.linkedin.com/in/jenhsunhuang",
+      "https://www.indmoney.com/blog/us-stocks/nvidia-ceo-jensen-huang-net-worth"
+    ]
+  },
+  {
+    "name": "LSI Logic",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "Technology Company",
+      "jurisdiction": "United States",
+      "status": "Active or Former Employer",
+      "name": "LSI Logic",
+      "industry": "Semiconductors"
+    },
+    "sources": [
+      "https://goldhouse.org/people/jensen-huang-2/",
+      "https://kitrum.com/blog/the-inspiring-story-jensen-huang-ceo-at-nvidia/",
+      "https://www.businessinsider.com/jensen-huang-net-worth",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "National Academy of Engineering",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Professional Academy",
+      "jurisdiction": "United States",
+      "status": "Active",
+      "name": "National Academy of Engineering"
+    },
+    "sources": [
+      "https://goldhouse.org/people/jensen-huang-2/",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "Semiconductor Industry Association",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Industry Association",
+      "jurisdiction": "United States",
+      "status": "Active",
+      "awards": [
+        "Robert N. Noyce Award"
+      ],
+      "role": "Voice of the semiconductor industry",
+      "membership_coverage": "Represents 98% of U.S. semiconductor industry by revenue and nearly two-thirds of non-U.S. chip firms",
+      "economic_impact": "Semiconductor industry sales totaled $208 billion in 2020; employs over a quarter million workers in the U.S.",
+      "key_people": [
+        {
+          "name": "John Neuffer",
+          "title": "President and CEO"
+        },
+        {
+          "name": "Dan Rosso",
+          "title": "Media Contact"
+        }
+      ],
+      "address": "1101 K Street NW Suite 450, Washington, DC 20005",
+      "name": "Semiconductor Industry Association"
+    },
+    "sources": [
+      "https://goldhouse.org/people/jensen-huang-2/",
+      "https://www.semiconductors.org/nvidia-founder-and-ceo-jensen-huang-to-receive-semiconductor-industrys-top-honor/",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "AMD",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "name": "AMD",
+      "type": "semiconductor company",
+      "industry": "Semiconductors",
+      "status": "Active",
+      "current_ceo": "Lisa Su"
+    },
+    "sources": [
+      "https://kitrum.com/blog/the-inspiring-story-jensen-huang-ceo-at-nvidia/",
+      "https://www.businessinsider.com/jensen-huang-net-worth"
+    ]
+  },
+  {
+    "name": "Andy Bechtolsheim",
+    "type": "person",
+    "confidence": 0.8,
+    "attributes": {
+      "full_name": "Andy Bechtolsheim",
+      "role": "Industry luminary",
+      "organization": "Not specified"
+    },
+    "sources": [
+      "https://kitrum.com/blog/the-inspiring-story-jensen-huang-ceo-at-nvidia/"
+    ]
+  },
+  {
+    "name": "PricewaterhouseCoopers LLP",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Independent Registered Public Accounting Firm",
+      "engaged_by": "NVIDIA Corporation",
+      "fiscal_year": "2025"
+    },
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000104/nvda-20240514.htm"
+    ]
+  },
+  {
+    "name": "Ian Buck",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "Executive reporting to CEO",
+      "notable_for": "Architect behind Nvidia's CUDA software"
+    },
+    "sources": [
+      "https://www.businessinsider.com/nvidia-org-chart-leaders-report-to-ceo-jensen-huang-2025-10"
+    ]
+  },
+  {
+    "name": "Michael Kagan",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Chief Technology Officer",
+      "organization": "Nvidia",
+      "reports_to": "Jensen Huang"
+    },
+    "sources": [
+      "https://www.businessinsider.com/nvidia-org-chart-leaders-report-to-ceo-jensen-huang-2025-10"
+    ]
+  },
+  {
+    "name": "Bill Dally",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Chief Scientist",
+      "organization": "NVIDIA",
+      "reports_to": "Jensen Huang",
+      "awards": [
+        "Queen Elizabeth Prize for Engineering (2025)"
+      ],
+      "award_dates": {
+        "Queen Elizabeth Prize for Engineering": "2025-11-06"
+      }
+    },
+    "sources": [
+      "https://www.businessinsider.com/nvidia-org-chart-leaders-report-to-ceo-jensen-huang-2025-10",
+      "https://blogs.nvidia.com/blog/nvidia-founder-and-ceo-jensen-huang-and-chief-scientist-bill-dally-awarded-prestigious-queen-elizabeth-prize-for-engineering/"
+    ]
+  },
+  {
+    "name": "Alexis Bjorlin",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Vice President and General Manager",
+      "organization": "Nvidia",
+      "division": "DGX Cloud",
+      "reports_to": "Jensen Huang"
+    },
+    "sources": [
+      "https://www.businessinsider.com/nvidia-org-chart-leaders-report-to-ceo-jensen-huang-2025-10"
+    ]
+  },
+  {
+    "name": "Amit Krig",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Senior Vice President",
+      "organization": "Nvidia",
+      "division": "Software and NIC product line",
+      "reports_to": "Jensen Huang"
+    },
+    "sources": [
+      "https://www.businessinsider.com/nvidia-org-chart-leaders-report-to-ceo-jensen-huang-2025-10"
+    ]
+  },
+  {
+    "name": "Andrew Bell",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Senior Vice President of Engineering",
+      "organization": "Nvidia",
+      "reports_to": "Jensen Huang"
+    },
+    "sources": [
+      "https://www.businessinsider.com/nvidia-org-chart-leaders-report-to-ceo-jensen-huang-2025-10"
+    ]
+  },
+  {
+    "name": "Arjun Prabhu",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Vice President",
+      "organization": "Nvidia",
+      "division": "GPU ASIC Engineering",
+      "reports_to": "Jensen Huang"
+    },
+    "sources": [
+      "https://www.businessinsider.com/nvidia-org-chart-leaders-report-to-ceo-jensen-huang-2025-10"
+    ]
+  },
+  {
+    "name": "Colette Kress",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Executive Vice President & CFO",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 12.4,
+      "total_compensation_usd": 21360000,
+      "ownership_percentage": 0.02,
+      "ownership_value_eur": 752400000,
+      "ownership_value_cad": 1300000000,
+      "related_to": "NVIDIA",
+      "relationship": "employment"
+    },
+    "sources": [
+      "https://simplywall.st/stocks/ca/semiconductors/neoe-znvd/nvidia-shares/management",
+      "https://www.forbes.com/profile/jensen-huang/",
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Debora Shoquist",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Executive Vice President of Operations",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 17.1,
+      "total_compensation_usd": 19220000,
+      "ownership_percentage": 0.0078,
+      "ownership_value_eur": 293100000,
+      "ownership_value_cad": 498700000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/ca/semiconductors/neoe-znvd/nvidia-shares/management",
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Timothy Teter",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Executive Vice President",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 9.1,
+      "total_compensation_usd": 19200000,
+      "ownership_percentage": 0.012,
+      "ownership_value_eur": 464100000,
+      "ownership_value_cad": 789500000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/ca/semiconductors/neoe-znvd/nvidia-shares/management",
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Ajay Puri",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Executive Vice President of Worldwide Field Operations",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 20.2,
+      "total_compensation_usd": 21590000,
+      "ownership_percentage": 0.017,
+      "ownership_value_eur": 651100000,
+      "ownership_value_cad": 1100000000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/ca/semiconductors/neoe-znvd/nvidia-shares/management",
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Mark Stevens",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Independent Director",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 17.4,
+      "total_compensation_usd": 343830,
+      "ownership_percentage": 0.14,
+      "ownership_value_eur": 5300000000,
+      "related_to": "NVIDIA",
+      "relationship": "board member"
+    },
+    "sources": [
+      "https://www.forbes.com/profile/jensen-huang/",
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "A. Seawell",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Independent Director",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 28.2,
+      "total_compensation_usd": 343830,
+      "ownership_percentage": 0.014,
+      "ownership_value_eur": 540900000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Harvey Jones",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Independent Director",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 32.3,
+      "total_compensation_usd": 343830,
+      "ownership_percentage": 0.029,
+      "ownership_value_eur": 1100000000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Dawn Hudson",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Independent Director",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 12.6,
+      "total_compensation_usd": 343830,
+      "ownership_percentage": 0.0015,
+      "ownership_value_eur": 56600000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Tench Coxe",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Independent Director",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 32.7,
+      "total_compensation_usd": 343830,
+      "ownership_percentage": 0.13,
+      "ownership_value_eur": 4700000000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Melissa Lora",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Independent Director",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 2.6,
+      "total_compensation_usd": 343830,
+      "ownership_percentage": 2e-05,
+      "ownership_value_eur": 749700
+    },
+    "sources": [
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Stephen Neal",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Lead Independent Director",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 6.9,
+      "total_compensation_usd": 343830,
+      "ownership_percentage": 0.00075,
+      "ownership_value_eur": 28100000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Aarti Shah",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Independent Director",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 5.3,
+      "total_compensation_usd": 343830,
+      "ownership_percentage": 5e-05,
+      "ownership_value_eur": 1900000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "John Dabiri",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Independent Director",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 5.6,
+      "total_compensation_usd": 343830,
+      "ownership_percentage": 7e-05,
+      "ownership_value_eur": 2600000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/de/semiconductors/fra-nvd0/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "Donald Robertson",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Vice President & Chief Accounting Officer",
+      "organization": "NVIDIA Corporation",
+      "tenure_years": 6.7,
+      "total_compensation_usd": null,
+      "ownership_percentage": 0.0013,
+      "ownership_value_cad": 79700000
+    },
+    "sources": [
+      "https://simplywall.st/stocks/ca/semiconductors/neoe-znvd/nvidia-shares/management"
+    ]
+  },
+  {
+    "name": "OpenAI",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "AI research organization",
+      "jurisdiction": "USA",
+      "status": "active",
+      "notable_support": "Received Nvidia supercomputer donation in 2016",
+      "team_size": "about 150 people"
+    },
+    "sources": [
+      "https://time.com/collections/time100-ai-2024/7012761/jensen-huang-2/",
+      "https://fortune.com/2025/07/28/nvidia-ceo-jensen-huang-billionaires-stock-compensation-ai-talent-war-meta-openai/",
+      "https://www.fool.com/investing/how-to-invest/famous-investors/jensen-huang/"
+    ]
+  },
+  {
+    "name": "CoreWeave",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "AI Company",
+      "relationship_to_nvidia": "Largest holding of Nvidia's investments"
+    },
+    "sources": [
+      "https://www.fool.com/investing/how-to-invest/famous-investors/jensen-huang/"
+    ]
+  },
+  {
+    "name": "Meta",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "technology company",
+      "notable_action": "offering $100 million signing bonuses to poach OpenAI employees"
+    },
+    "sources": [
+      "https://fortune.com/2025/07/28/nvidia-ceo-jensen-huang-billionaires-stock-compensation-ai-talent-war-meta-openai/"
+    ]
+  },
+  {
+    "name": "DeepSeek",
+    "type": "organization",
+    "confidence": 0.8,
+    "attributes": {
+      "type": "AI company",
+      "team_size": "relatively slim AI crew"
+    },
+    "sources": [
+      "https://fortune.com/2025/07/28/nvidia-ceo-jensen-huang-billionaires-stock-compensation-ai-talent-war-meta-openai/"
+    ]
+  },
+  {
+    "name": "Moonshot AI",
+    "type": "organization",
+    "confidence": 0.8,
+    "attributes": {
+      "type": "AI company",
+      "team_size": "relatively slim AI crew"
+    },
+    "sources": [
+      "https://fortune.com/2025/07/28/nvidia-ceo-jensen-huang-billionaires-stock-compensation-ai-talent-war-meta-openai/"
+    ]
+  },
+  {
+    "name": "Deepmind",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "AI research organization",
+      "team_size": "about 150 people"
+    },
+    "sources": [
+      "https://fortune.com/2025/07/28/nvidia-ceo-jensen-huang-billionaires-stock-compensation-ai-talent-war-meta-openai/"
+    ]
+  },
+  {
+    "name": "Sam Altman",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "title": "leader",
+      "organization": "OpenAI",
+      "notable_statement": "confirmed Meta offered $100 million bonuses to OpenAI employees"
+    },
+    "sources": [
+      "https://fortune.com/2025/07/28/nvidia-ceo-jensen-huang-billionaires-stock-compensation-ai-talent-war-meta-openai/"
+    ]
+  },
+  {
+    "name": "Patrick Collison",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "title": "CEO",
+      "organization": "Stripe"
+    },
+    "sources": [
+      "https://fortune.com/2025/07/28/nvidia-ceo-jensen-huang-billionaires-stock-compensation-ai-talent-war-meta-openai/"
+    ]
+  },
+  {
+    "name": "Lisa Su",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "CEO",
+      "organization": "AMD",
+      "relation_to_jensen_huang": "distant cousin"
+    },
+    "sources": [
+      "https://www.businessinsider.com/jensen-huang-net-worth"
+    ]
+  },
+  {
+    "name": "Denny's",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "restaurant"
+    },
+    "sources": [
+      "https://www.businessinsider.com/jensen-huang-net-worth"
+    ]
+  },
+  {
+    "name": "NVIDIA Corp",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Corporation",
+      "location": "Santa Clara, CA",
+      "CEO": "Jen-Hsun Huang",
+      "CEO_pay_ratio_to_median_employee_fy_2025": 166
+    },
+    "sources": [
+      "https://aflcio.org/paywatch/NVDA"
+    ]
+  },
+  {
+    "name": "Maky Zanganeh",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "related_to": "NVIDIA",
+      "relationship": "financial asset"
+    },
+    "sources": [
+      "https://www.forbes.com/profile/jensen-huang/"
+    ]
+  },
+  {
+    "name": "IEEE Medal of Honor",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "awarding_body": "IEEE",
+      "description": "Technology's most prestigious recognition",
+      "monetary_prize": 2000000,
+      "monetary_prize_start_year": 2025,
+      "awarded_by": "IEEE",
+      "year": 2026
+    },
+    "sources": [
+      "https://www.timesofai.com/news/ieee-medal-of-honor-2026-jensen-huang/",
+      "https://www.prnewswire.com/il/news-releases/nvidia-ceo-jensen-huang-awarded-2026-ieee-medal-of-honor-technologys-most-prestigious-recognition-302649743.html"
+    ]
+  },
+  {
+    "name": "IEEE",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Professional Association",
+      "jurisdiction": "International",
+      "status": "Active",
+      "name": "Institute of Electrical and Electronics Engineers",
+      "abbreviation": "IEEE",
+      "membership": "More than 500,000 worldwide",
+      "mission": "Advancing technology for humanity",
+      "awards": [
+        "Founder\u2019s Medal"
+      ],
+      "key_people": [
+        {
+          "name": "Mary Ellen Randall",
+          "title": "IEEE President"
+        }
+      ],
+      "award_details": {
+        "IEEE Medal of Honor": {
+          "established": 1917,
+          "description": "Awarded to individuals whose contributions have profoundly shaped technology and engineering",
+          "prize_amount": "$2 million (2026)",
+          "notable_recipients": [
+            "Jensen Huang",
+            "Vinton G. Cerf",
+            "Robert Kahn",
+            "Bradford W. Parkinson",
+            "Morris Chang"
+          ]
+        }
+      }
+    },
+    "sources": [
+      "https://www.prnewswire.com/il/news-releases/nvidia-ceo-jensen-huang-awarded-2026-ieee-medal-of-honor-technologys-most-prestigious-recognition-302649743.html",
+      "https://www.hpcwire.com/off-the-wire/nvidia-ceo-jensen-huang-awarded-2026-ieee-medal-of-honor/",
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  },
+  {
+    "name": "Queen Elizabeth Prize for Engineering",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "year": 2025,
+      "recipients": [
+        "Jensen Huang",
+        "Bill Dally"
+      ],
+      "description": "Awarded for pioneering work in accelerated computing foundational to modern AI and machine learning."
+    },
+    "sources": [
+      "https://blogs.nvidia.com/blog/nvidia-founder-and-ceo-jensen-huang-and-chief-scientist-bill-dally-awarded-prestigious-queen-elizabeth-prize-for-engineering/"
+    ]
+  },
+  {
+    "name": "Professor Stephen Hawking Fellowship",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "recipient": "Jensen Huang",
+      "awarding_body": "Cambridge Union Society",
+      "description": "Awarded for advancing science and inspiring future generations of technologists and researchers."
+    },
+    "sources": [
+      "https://blogs.nvidia.com/blog/nvidia-founder-and-ceo-jensen-huang-and-chief-scientist-bill-dally-awarded-prestigious-queen-elizabeth-prize-for-engineering/"
+    ]
+  },
+  {
+    "name": "Cambridge Union Society",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Debating Society",
+      "jurisdiction": "United Kingdom",
+      "status": "Active",
+      "notable_awards": [
+        "Professor Stephen Hawking Fellowship"
+      ]
+    },
+    "sources": [
+      "https://blogs.nvidia.com/blog/nvidia-founder-and-ceo-jensen-huang-and-chief-scientist-bill-dally-awarded-prestigious-queen-elizabeth-prize-for-engineering/"
+    ]
+  },
+  {
+    "name": "Lucy Hawking",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "Presenter of Professor Stephen Hawking Fellowship",
+      "relation": "Daughter of Stephen Hawking"
+    },
+    "sources": [
+      "https://blogs.nvidia.com/blog/nvidia-founder-and-ceo-jensen-huang-and-chief-scientist-bill-dally-awarded-prestigious-queen-elizabeth-prize-for-engineering/"
+    ]
+  },
+  {
+    "name": "Ivan Alexei Ampiah",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Union President",
+      "organization": "Cambridge Union Society"
+    },
+    "sources": [
+      "https://blogs.nvidia.com/blog/nvidia-founder-and-ceo-jensen-huang-and-chief-scientist-bill-dally-awarded-prestigious-queen-elizabeth-prize-for-engineering/"
+    ]
+  },
+  {
+    "name": "Liz Kendall",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Secretary of State for Science, Technology and Innovation",
+      "jurisdiction": "United Kingdom"
+    },
+    "sources": [
+      "https://blogs.nvidia.com/blog/nvidia-founder-and-ceo-jensen-huang-and-chief-scientist-bill-dally-awarded-prestigious-queen-elizabeth-prize-for-engineering/"
+    ]
+  },
+  {
+    "name": "Lord Patrick Vallance",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Minister for Science, Research, Innovation and Nuclear",
+      "jurisdiction": "United Kingdom"
+    },
+    "sources": [
+      "https://blogs.nvidia.com/blog/nvidia-founder-and-ceo-jensen-huang-and-chief-scientist-bill-dally-awarded-prestigious-queen-elizabeth-prize-for-engineering/"
+    ]
+  },
+  {
+    "name": "Institute of Electrical and Electronics Engineers",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Technical professional organization",
+      "jurisdiction": "Worldwide",
+      "status": "Active",
+      "membership": "More than 500,000 members worldwide",
+      "awards": [
+        "IEEE Medal of Honor"
+      ],
+      "president": "Mary Ellen Randall"
+    },
+    "sources": [
+      "https://www.twk.co.kr/news/articleView.html?idxno=1388"
+    ]
+  },
+  {
+    "name": "Mary Ellen Randall",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "President",
+      "organization": "Institute of Electrical and Electronics Engineers (IEEE)"
+    },
+    "sources": [
+      "https://www.twk.co.kr/news/articleView.html?idxno=1388"
+    ]
+  },
+  {
+    "name": "Thomas F. Rosenbaum",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "President",
+      "organization": "California Institute of Technology",
+      "additional_titles": "Sonja and William Davidow Presidential Chair, professor of physics"
+    },
+    "sources": [
+      "https://local.caltech.edu/news/nvidia-founder-and-ceo-jensen-huang-to-give-caltechs-130th-commencement-address"
+    ]
+  },
+  {
+    "name": "Jen-Hsun and Lori Huang Collaborative Innovation Complex",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "innovation complex",
+      "location": "Oregon State University",
+      "donors": [
+        "Jensen Huang",
+        "Lori Huang"
+      ]
+    },
+    "sources": [
+      "https://local.caltech.edu/news/nvidia-founder-and-ceo-jensen-huang-to-give-caltechs-130th-commencement-address"
+    ]
+  },
+  {
+    "name": "Jen-Hsun Huang Engineering Center",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "location": "Stanford University",
+      "donor": "Jensen Huang",
+      "donation_amount": 30000000
+    },
+    "sources": [
+      "https://local.caltech.edu/news/nvidia-founder-and-ceo-jensen-huang-to-give-caltechs-130th-commencement-address"
+    ]
+  },
+  {
+    "name": "Jen-Hsun Huang Hall",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "location": "Oneida Baptist Institute",
+      "donor": "Jensen Huang",
+      "donation_amount": 2000000
+    },
+    "sources": [
+      "https://local.caltech.edu/news/nvidia-founder-and-ceo-jensen-huang-to-give-caltechs-130th-commencement-address"
+    ]
+  },
+  {
+    "name": "Robert N. Noyce Award",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "presented_by": "Semiconductor Industry Association",
+      "description": "Industry\u2019s highest honor recognizing outstanding contributions to the semiconductor industry in technology or public policy",
+      "named_after": "Robert N. Noyce, co-founder of Fairchild Semiconductor and Intel Corporation",
+      "annual_presentation": true,
+      "2021_recipient": "Jensen Huang"
+    },
+    "sources": [
+      "https://www.semiconductors.org/nvidia-founder-and-ceo-jensen-huang-to-receive-semiconductor-industrys-top-honor/"
+    ]
+  },
+  {
+    "name": "Dr. Morris Chang Exemplary Leadership Award",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "name": "Dr. Morris Chang Exemplary Leadership Award"
+    },
+    "sources": [
+      "https://blogs.nvidia.com/blog/author/jen-hsun-huang/"
+    ]
+  }
+]

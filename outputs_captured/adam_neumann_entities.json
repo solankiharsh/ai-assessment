@@ -1,0 +1,3194 @@
+[
+  {
+    "name": "Adam Neumann",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "full_name": "Adam Neumann",
+      "title_role": "Co-founder and former CEO",
+      "organization": "WeWork",
+      "biography_url": "https://en.wikipedia.org/wiki/Adam_Neumann",
+      "languages": [
+        "Arabic",
+        "Egyptian Arabic",
+        "German",
+        "Spanish",
+        "Persian",
+        "French"
+      ],
+      "role": [
+        "cofounder",
+        "former CEO",
+        "former chairman of the board"
+      ],
+      "birthplace": "Tel Aviv, Israel",
+      "age": 45,
+      "military_service": "Israeli Navy",
+      "childhood_location": "Kibbutz Nir Am near Gaza Strip",
+      "dyslexia": "severe",
+      "family": {
+        "spouse": "Rebekah Paltrow Neumann",
+        "marriage_year": 2009,
+        "children_count": 5
+      },
+      "religious_practices": {
+        "observes_shabbat": true,
+        "grew_up_secular": true
+      },
+      "net_worth_estimate": "4.1 billion USD",
+      "title": "Chairman and CEO",
+      "education": "Baruch College at the City University of New York (dropped out)",
+      "early_businesses": [
+        {
+          "name": "Krawlers",
+          "description": "Line of baby clothes with knee pads",
+          "outcome": "Successful, evolved into Egg Baby brand"
+        },
+        {
+          "name": "Egg Baby",
+          "description": "Luxury baby clothing brand",
+          "status": "Operational, run by designer Suzan Lazar",
+          "notes": "Neumann no longer involved in daily operations"
+        },
+        {
+          "name": "Green Desk",
+          "description": "Eco-friendly coworking space",
+          "status": "Launched with Miguel McKelvey"
+        },
+        {
+          "name": "Retractable heel shoe",
+          "description": "Innovative shoe concept",
+          "outcome": "Failed"
+        }
+      ],
+      "net_worth": "4.1 billion USD",
+      "dates": {
+        "co-founded": 2010,
+        "ousted": 2019,
+        "exit_package_date": 2019,
+        "exit_package_amount": "nearly $500 million",
+        "exit_package_details": {
+          "stock": "$245 million",
+          "cash": "$200 million"
+        }
+      },
+      "citizenship": "Israel",
+      "residence": "Lower Manhattan, New York City",
+      "marital_status": "Married",
+      "children": 6,
+      "career_notes": [
+        "Cofounded coworking firm WeWork",
+        "Resigned as CEO in September 2019 shortly before company canceled planned IPO",
+        "Owned nearly 10% stake in WeWork after selling nearly $1 billion worth of shares while private",
+        "Acquired majority stakes in apartment buildings worth nearly $1 billion before debt since leaving WeWork",
+        "Founded residential real estate startup Flow valued at more than $1 billion by Andreessen Horowitz in 2022"
+      ],
+      "early_business": "Krawlers",
+      "background": "Raised on a kibbutz in Israel; moved to New York City in 2001 following his sister, a Miss Teen Israel",
+      "birth_year": 1979,
+      "birth_place": "Israel",
+      "roles": [
+        {
+          "title": "Co-Founder & Ex-CEO",
+          "organization": "WeWork"
+        }
+      ],
+      "entrepreneurial_ventures": [
+        "collapsible women's high heels",
+        "line of baby clothes"
+      ],
+      "speaking_fee_usd": {
+        "min": 200000,
+        "max": 300000,
+        "notes": "Lower end for virtual engagements, higher end for in-person US events; fees may exceed range for extended activities or international travel"
+      },
+      "location": "New York City",
+      "organizations": [
+        "Flowcarbon",
+        "WeWork"
+      ],
+      "notable_media": [
+        {
+          "title": "WeWork: or The Making and Breaking of a $47 Billion Unicorn",
+          "type": "Netflix documentary"
+        }
+      ],
+      "career_dates": {
+        "WeWork CEO tenure": "2010 - September 2019"
+      },
+      "nationality": "Israeli-American",
+      "health": {
+        "condition": "Severe dyslexia",
+        "notes": "Could not read or write until third grade"
+      },
+      "notable_investments": [
+        {
+          "amount": 350,
+          "currency": "million USD",
+          "investor": "Andreessen Horowitz",
+          "year": 2023
+        }
+      ],
+      "early_life": {
+        "parents_divorced_age": 7,
+        "homes_lived_in_by_age_22": 13,
+        "childhood_residence": "Israeli kibbutz",
+        "school_location": "near Gaza Strip"
+      },
+      "career": {
+        "role": "cofounder and former CEO",
+        "organization": "WeWork",
+        "tenure": "nearly a decade until late 2019",
+        "notable_events": [
+          "Stepped down as CEO in late 2019",
+          "WeWork filed for Chapter 11 bankruptcy in November 2019"
+        ],
+        "post_wework": {
+          "company": "Flow Global",
+          "activity": "attempting to buy WeWork"
+        }
+      },
+      "tenure": "Founder and CEO until 2019",
+      "description": "Accused of eccentric leadership, treating WeWork like a personal piggy bank, obtaining loans from WeWork for personal use, and causing financial hemorrhaging.",
+      "role_start_year": 2010,
+      "role_end_year": 2019,
+      "cofounder": true,
+      "role_start_date": null,
+      "role_end_date": "2019-09-24",
+      "subsequent_role": "Non-executive chairman",
+      "notable_events": [
+        {
+          "event": "stepped down",
+          "year": 2019,
+          "reason": "initial failure to go public and criticism of internal culture"
+        },
+        {
+          "event": "shelved bid to buy WeWork",
+          "year": 2024,
+          "month": "May"
+        }
+      ],
+      "departure_date": "September 2019",
+      "resignation_reason": "Pressure from some of the company\u2019s board members including SoftBank officials",
+      "severance_package": {
+        "stock_given_up": "most of his stock",
+        "cash_amount": 1700000000,
+        "consulting_fee": 185000000
+      },
+      "date_of_ceo_departure": "2019-09",
+      "role_change": "Stepped down as CEO, retained seat as nonexecutive chairman",
+      "resignation_date": "2019-09-24",
+      "new_role": "Non-executive chairman",
+      "business_partner": "Miguel McKelvey",
+      "notable_ventures": [
+        "WeWork",
+        "Egg Baby (luxury baby clothing brand)"
+      ],
+      "title_after_resignation": "Non-executive chairman",
+      "controversies": [
+        "smoking weed on a private jet",
+        "serving employees tequila shots after discussing layoffs",
+        "trademarking the term 'We' and forcing WeWork to buy it for $5.9 million"
+      ],
+      "tenure_end": "2019",
+      "position_after_ceo": "chairman of the board",
+      "golden_parachute_amount": "$1.7 billion",
+      "current_role": "Founder and leader",
+      "current_organization": "Flow Global",
+      "notable_dates": {
+        "IPO_fall_apart": "2019",
+        "Article_date": "2022-08-22"
+      },
+      "known_for": "Founder of WeWork",
+      "personal_investment": "cash and real estate assets",
+      "notability": "Controversial founder of WeWork; founder of Flow",
+      "ventures": [
+        {
+          "name": "Flow",
+          "type": "residential real estate venture",
+          "launch_date": "a little over three years ago from 2022",
+          "portfolio_size": "about 4,000 rental units",
+          "locations": [
+            "Atlanta",
+            "Fort Lauderdale",
+            "Miami",
+            "Nashville"
+          ],
+          "business_model": "Owns properties it manages"
+        }
+      ],
+      "new_venture": "Flow",
+      "activity": "Requested U.S. bankruptcy court assistance to re-acquire WeWork",
+      "notable_past_role": "Co-founder and former CEO",
+      "past_organization": "WeWork",
+      "status": "Stepping down as CEO, remaining nonexecutive chairman",
+      "previous_role": "co-founder and CEO of WeWork",
+      "previous_organization": "WeWork",
+      "current_venture": {
+        "name": "Flow",
+        "type": "real estate venture",
+        "funding": {
+          "amount": 350000000,
+          "currency": "USD",
+          "investor": "Andreessen Horowitz",
+          "year": 2022
+        }
+      },
+      "role_in_current_venture": "Founder/CEO",
+      "statements": [
+        "He was 'sure' Flow was a company that could go public 'one day.'"
+      ],
+      "role_in_new_venture": "Founder",
+      "start_date": "2010",
+      "birthdate": null,
+      "profession": "Businessman",
+      "net_worth_currency": "USD",
+      "ownership": {
+        "WeWork_shares": "10%"
+      },
+      "reputation": "Battered following reports of booze-soaked affairs and marijuana on private jet trips",
+      "net_worth_date": "November 2023",
+      "previous_net_worth": "2.3 billion USD",
+      "previous_net_worth_date": "2021",
+      "investments": [
+        {
+          "name": "Flow",
+          "type": "startup",
+          "industry": "multifamily residential properties",
+          "investment_received": "350 million USD",
+          "valuation": "1 billion USD",
+          "investment_date": "August 2022",
+          "investors": [
+            "Andreessen Horowitz"
+          ]
+        }
+      ],
+      "financial_transactions": {
+        "non_compete_agreement": "185 million USD",
+        "settlement_payment": "106 million USD",
+        "shares_sold_to_SoftBank": "578 million USD",
+        "loan_from_SoftBank": "432 million USD"
+      },
+      "family_office": {
+        "mortgage_amount": "31 million USD",
+        "mortgage_status": "fell behind on interest payments",
+        "mortgage_location": "San Jose, California"
+      },
+      "real_estate": {
+        "office_buildings_invested": true,
+        "rents_to_WeWork": false
+      },
+      "non_compete_status": "no longer has a non-compete with WeWork",
+      "relationship": "had a close personal relationship with Masayoshi Son",
+      "spouse": "Rebekah Neumann",
+      "net_worth_gamble": "500 million USD",
+      "notable_activity": "Bid to reclaim WeWork",
+      "cofounder_since": 2010,
+      "ousted_year": 2019,
+      "bid_amount": 650000000,
+      "bid_status": "rejected",
+      "bid_reason_rejection": "did not address $4 billion debt",
+      "statement_date": "2024-05",
+      "statement_source": "New York Times DealBook newsletter",
+      "address": "430 Park Ave, 19th Floor New York, NY 10022, U.S.A.",
+      "associated_organization": "WeWork Inc.",
+      "lawsuit_filing_date": "May 4, 2020",
+      "financials": {
+        "payments_received": 770000000,
+        "stock_value_at_SPAC": 722000000,
+        "stock_status": "now worthless"
+      },
+      "actions": [
+        "Bought commercial real estate on his own behalf and leased it back to WeWork",
+        "Owned four properties leased to WeWork with future undiscounted minimum lease payments of approximately $236.6 million",
+        "Owned six additional properties which WeWork might decide to buy",
+        "Had the right to overrule the Board of Directors according to the IPO prospectus"
+      ],
+      "companies": [
+        "WeWork",
+        "Flow"
+      ],
+      "legal_action": "bid rebuffed by WeWork creditors",
+      "date": "2024-04-22 to 2024-04-23",
+      "left_company_year": 2019,
+      "legal_actions": [
+        {
+          "type": "lawsuit",
+          "against": "SoftBank",
+          "date_filed": "2020-05-05",
+          "description": "Lawsuit accusing SoftBank of improperly backing out of an offer to buy shares held by Mr. Neumann, employees, and other investors."
+        }
+      ],
+      "share_sale": {
+        "amount": 480000000,
+        "currency": "USD",
+        "buyer": "SoftBank",
+        "description": "Selling $480 million of his shares to the Japanese conglomerate"
+      },
+      "involvement": "leading Flow, a real estate venture",
+      "court": "Delaware Court of Chancery",
+      "date_of_filing": "Monday night before May 4, 2020",
+      "settlement_amount_usd": 580000000,
+      "settlement_date": "2021-02-26",
+      "loan_repayment_extension": true,
+      "dispute": "settlement with SoftBank",
+      "potential_payout": "$500 million",
+      "shareholder_status": "major shareholder",
+      "notable_behaviors": [
+        "Smoked pot in a private plane crossing an international border",
+        "Banned meat from WeWork offices but was seen eating meat",
+        "Addressed layoffs somberly but event turned into a tequila-infused dance party"
+      ],
+      "impact": "Key to setting vision, strategic direction, and execution priorities at WeWork",
+      "notable_actions": [
+        "Leased buildings he owned to WeWork",
+        "Took a $7 million personal loan from WeWork",
+        "Cashed out at least $700 million in WeWork shares before IPO",
+        "Trademaked the word 'we' personally to extract millions from WeWork",
+        "Hosted staff meeting with tequila shots and Run-DMC performance"
+      ],
+      "co_founder_of": "WeWork",
+      "partner_cofounder": "Miguel McKelvey",
+      "personal_spending": {
+        "car": "Maybach sedan worth over $100,000",
+        "plane": "Gulfstream G650 worth $60 million",
+        "homes": [
+          "6000-square-foot Gramercy condo",
+          "60-acre estate in Westchester County",
+          "two Hamptons houses",
+          "$21 million mansion in Bay Area with guitar-shaped room"
+        ],
+        "household_staff": {
+          "nannies": 4,
+          "personal_assistants": 2,
+          "chef": 1
+        },
+        "children": 5
+      },
+      "personality_traits": [
+        "dyslexic",
+        "heavy drinking",
+        "marijuana use",
+        "grandiose pronouncements"
+      ],
+      "stock_control": "65%",
+      "vision": "wanted to be elected president of the world, live forever, become humanity\u2019s first trillionaire",
+      "confidence_statement": "descendants would be running WeWork in 300 years",
+      "office_features": [
+        "Peloton bike",
+        "infrared sauna",
+        "cold water plunge"
+      ],
+      "behavior": [
+        "personally bought stakes in buildings leased to WeWork",
+        "had long-term voting control of WeWork since 2014",
+        "sold and borrowed more than $1 billion against his WeWork stake",
+        "repeatedly skipped board meetings including during IPO planning"
+      ],
+      "notable_issues": [
+        "self-dealing",
+        "leasing properties to WeWork",
+        "fiduciary duty concerns"
+      ],
+      "legal_status": "under investigation by New York State Attorney General as of 2019",
+      "conflicts_of_interest": [
+        "Profited personally from building leases",
+        "Profited personally from trademarks"
+      ],
+      "corporate_governance": "Held dual-class stock giving 20\u00d7 voting power",
+      "allegations": [
+        "self-dealing",
+        "conflicts of interest"
+      ],
+      "investigated_by": [
+        "SEC",
+        "New York Attorney General"
+      ],
+      "accusations": [
+        "reckless and grossly negligent breach of fiduciary duties",
+        "self-dealing",
+        "conflicts of interest"
+      ],
+      "new_startup": "Flowcarbon",
+      "funding_raised": "$32 million",
+      "funding_date": "May 27, 2022",
+      "investors": [
+        "Andreessen Horowitz (a16z)"
+      ],
+      "activities_2023_2024": "Attempting to buy back WeWork or provide debt financing",
+      "notable_event": "submitted bid to buy back WeWork for more than $500 million",
+      "bid_date": "2024",
+      "activity_dates": "2023-2024",
+      "bid_year": 2024,
+      "new_company": "Flow Global",
+      "criticisms": [
+        "eccentric leadership",
+        "disengaged",
+        "treated WeWork like a personal piggy bank",
+        "obtained loans from WeWork for personal use",
+        "oversaw haemorrhaging of money"
+      ],
+      "2024_activity": "made a bid related to WeWork bankruptcy which was rebuffed",
+      "events": {
+        "stepped_down_CEO": "2019-09-24",
+        "stepped_down_chairman": "2019-10-22",
+        "golden_parachute_amount": 1700000000
+      }
+    },
+    "sources": [
+      "https://slidebean.com/story/how-is-the-wework-founder-still-rich",
+      "https://www.linkedin.com/posts/boardroom1_former-cofounder-ceo-of-wework-adam-neumann-activity-7323346659965349888-nPas",
+      "https://www.youtube.com/watch?v=pce7RadUH0o",
+      "https://www.businessinsider.com/adam-neumann-wework-founder-softbank-payout-settlement-lawsuit-2021-2",
+      "https://www.sofi.com/blog/friday-fundings-weworks-adam-neumann-back-snags-32-million-new-startup/",
+      "https://www.933thedrive.com/2024/04/23/wework-founder-neumann-wants-bankruptcy-courts-help-in-bid-to-repurchase-company/",
+      "https://www.theatlantic.com/ideas/archive/2019/09/curse-cult-of-the-founder/598753/",
+      "https://www.reuters.com/legal/wework-founder-neumann-wants-bankruptcy-courts-help-bid-repurchase-company-2024-04-23/",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOoqQmDeP7lNjWOgTcHAhCAa3cecstmYfqsYDm-v7GF_DhGQeT-Nn",
+      "https://pe-insights.com/the-money-men-who-enabled-adam-neumann-and-the-wework-debacle/",
+      "https://www.forbes.com/sites/roomykhan/2019/10/22/adam-neumann-needs-to-be-held-accountable-is-there-a-case-for-minority-shareholders-and-employees/",
+      "https://www.theguardian.com/business/2019/sep/24/adam-neumann-wework-step-down-ceo",
+      "https://money.usnews.com/investing/news/articles/2024-04-29/wework-reaches-settlement-with-creditors-rebuffs-neumann-bid",
+      "https://www.businessinsider.com/running-list-softbank-investments-2017-7",
+      "https://gothamartists.com/adam-neumann/",
+      "https://www.forbes.com/profile/adam-neumann/",
+      "https://www.forbes.com/sites/samanthasharf/2020/05/04/weworks-cofounder-adam-neumann-files-suit-in-delaware-against-one-time-ally-softbank/",
+      "https://www.vox.com/recode/2019/9/23/20879656/wework-mess-explained-ipo-softbank",
+      "https://www.theguardian.com/business/article/2024/may/30/wework-bankruptcy-plan-approved",
+      "https://wallstreetonparade.com/2023/08/weworks-stock-imploded-to-13-cents-yesterday-its-cult-master-adam-neumann-cashed-out-years-ago-and-is-a-billionaire/",
+      "https://www.opensourceceo.com/p/adam-neumann-deep-dive",
+      "https://www.curbed.com/article/what-we-know-about-adam-neumanns-flow.html",
+      "https://www.dandodiary.com/2019/11/articles/shareholders-derivative-litigation/wework-neumann-hit-with-shareholder-lawsuit/",
+      "https://www.businessinsider.com/how-wework-ceo-adam-neumann-spends-his-money-real-estate-2019-7",
+      "https://news.ycombinator.com/item?id=21580273",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOoqDKXsgPHqTtc4t8TKx234yn5SmSbYoOHB9tCFtnQsUR-QJOurP",
+      "https://www.tpr.org/2019-09-24/wework-ceo-steps-down-as-ipo-stalls",
+      "https://group.softbank/en/news/press/20210301",
+      "https://www.bbc.com/news/business-49803064",
+      "https://forward.com/fast-forward/429552/wework-adam-neumann/",
+      "https://allwork.space/2019/11/was-adam-neuman-self-dealing-the-sec-and-ny-attorney-general-will-investigate/",
+      "https://www.npr.org/2019/09/24/763913318/wework-ceo-steps-down-as-ipo-stalls",
+      "https://www.calcalistech.com/ctechnews/article/h1uevrw1xe",
+      "https://money.usnews.com/investing/news/articles/2024-04-23/wework-founder-neumann-wants-bankruptcy-courts-help-in-bid-to-repurchase-company",
+      "https://www.celebritynetworth.com/richest-businessmen/ceos/adam-neumann-net-worth/",
+      "https://www.theverge.com/2020/5/5/21247989/wework-adam-neumann-lawsuit-stock-deal-softbank",
+      "https://techcrunch.com/2025/04/24/report-adam-neumanns-flow-raises-100m-more-than-doubles-valuation-to-2-5b/",
+      "https://www.cnbc.com/2023/11/07/heres-how-much-wework-founder-adam-neumann-got-before-bankruptcy.html",
+      "https://www.aaespeakers.com/keynote-speakers/adam-neumann",
+      "https://www.forbes.com/sites/petercohan/2024/03/27/why-adam-neumanns-500-million-wework-bid-could-easily-fail/",
+      "https://www.businessinsider.com/wework-ipo-fiasco-adam-neumann-explained-events-timeline-2019-9",
+      "https://nypost.com/2023/11/09/business/wework-founder-adam-neumann-still-worth-1-7b-after-bankruptcy/",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOor7rDFKcK38LXOvjtvjEfD2T8BB2dVsWaH4LEsczXuZbb7BPURu",
+      "https://www.forbes.com.au/news/innovation/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOoqSw3p1njLrd838IZy7BZnE44KQdV04uIwOslu2ezyFsfZTDqmY",
+      "https://www.reddit.com/r/investing/comments/wp1amu/adam_neumanns_new_company_gets_a_350_million/",
+      "https://en.wikipedia.org/wiki/Adam_Neumann",
+      "https://www.nytimes.com/2020/05/05/business/adam-neumann-softbank-lawsuit.html",
+      "https://www.businessinsider.com/weworks-nightmare-ipo",
+      "https://www.cnn.com/2019/09/24/tech/wework-ceo-adam-neumann-stepping-down",
+      "https://www.founderoo.co/playbooks/adam-neumann-flow",
+      "https://chrisbakke.substack.com/p/adam-neumanns-post-wework-ventures",
+      "https://www.forbes.com.au/news/billionaires/former-ceo-adam-neumann-wants-to-buy-back-wework/",
+      "https://www.forbes.com/sites/rachelsandler/2021/02/26/wework-founder-adam-neumann-softbank-reach-settlement-in-legal-battle/",
+      "https://www.cnbc.com/2024/03/26/adam-neumann-wework-bid-faces-questions-over-financing-business-plan.html",
+      "https://fortune.com/2024/05/28/wework-flow-adam-neumann-bankruptcy-judge-chapter-11-flow/",
+      "https://www.reuters.com/business/finance/wework-reaches-settlement-with-creditors-rebuffs-neumann-bid-2024-04-29/",
+      "https://www.vanityfair.com/news/2019/11/inside-the-fall-of-wework?srsltid=AfmBOorpkPydewMnDHgTfWTjoNmor4L4jx6OB9X_wK5vhYuxFTTCSg-K",
+      "https://www.bisnow.com/national/news/coworking/wework-adam-neumann-self-dealing-probe-sec-new-york-attorney-general-101852",
+      "https://www.cnn.com/2022/08/15/tech/adam-neumann-flow",
+      "https://www.theglobeandmail.com/business/article-wework-reaches-settlement-with-creditors-rebuffs-neumann-bid/",
+      "https://en.wikipedia.org/wiki/Flow_(real_estate_company)",
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors",
+      "https://www.cnbc.com/2019/09/24/wework-ceo-adam-neumann-is-expected-to-step-down-amid-controversy-and-retain-chair-role-wsj-reports.html",
+      "https://robertreich.substack.com/p/the-6-secrets-to-becoming-a-fabulously",
+      "https://allwork.space/2024/04/creditors-pressure-wework-to-evaluate-neumanns-flow-proposal-during-bankruptcy-challenges/",
+      "https://www.bbc.com/news/business-49817037",
+      "https://www.forbes.com/sites/sarahemerson/2024/09/11/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/",
+      "https://www.nytimes.com/2021/02/26/business/wework-softbank-settlement.html",
+      "https://fortune.com/2019/11/19/wework-softbank-takeover-lawsuits/",
+      "https://www.coindesk.com/business/2024/09/12/weworks-neumanns-climate-firm-refunds-crypto-token-holders-after-failed-launch-forbes",
+      "https://2727coworking.com/articles/wework-history-ipo-bankruptcy",
+      "https://www.inc.com/business-insider/wework-new-york-attorney-general-investigating.html",
+      "https://earn2trade.com/blog/adam-neumann/",
+      "https://www.theguardian.com/business/2024/feb/06/adam-neumann-buy-wework",
+      "https://law.stanford.edu/press/wework-ex-ceo-neumann-softbank-sued-over-botched-ipo-plummeting-value/",
+      "https://www.businessinsider.com/wework-ceo-adam-neumann-bio-life-career-2019-8",
+      "https://www.wired.com/story/adam-neumann-bid-to-buy-wework-failed-will-he-compete/",
+      "https://fortune.com/2023/11/08/wework-adam-neumann-net-worth-bankruptcy/",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOopyuoP0dT1lT-HWRKwrIEV2fSkesrfK1_wqFKsxOXtd0WyaAb9L",
+      "https://slate.com/technology/2019/09/wework-co-founder-adam-neumann-relinquishes-ceo-title.html",
+      "https://www.forbes.com/sites/jimosman/2024/03/25/adam-neumanns-500m-gamble-the-billionaires-bid-to-reclaim-wework/",
+      "https://www.linkedin.com/posts/boardroom1_as-co-founder-and-ceo-adam-neumann-grew-activity-7178361298454220801-Cno7"
+    ]
+  },
+  {
+    "name": "WeWork",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "name": "WeWork",
+      "type": "coworking company",
+      "founder": "Adam Neumann",
+      "jurisdiction": "not explicitly stated",
+      "status": "private (post-IPO delay and SoftBank takeover in 2019)",
+      "key_people": [
+        "Adam Neumann (former CEO and chairman)",
+        "SoftBank (biggest investor)"
+      ],
+      "valuation": {
+        "pre-IPO_filing": 47000000000,
+        "post-IPO_delay": 10000000000,
+        "post-SoftBank_takeover": 5000000000
+      },
+      "locations_in_Israel": 5,
+      "special_features": "WeWork Jerusalem location observes Jewish holidays including Sukkot and Shabbat",
+      "locations": {
+        "cities": 111,
+        "countries": 29
+      },
+      "founding_year": 2010,
+      "founders": [
+        "Adam Neumann",
+        "Miguel McKelvey"
+      ],
+      "valuation_peak": "US$47 billion in 2019",
+      "major_investors": [
+        "Softbank"
+      ],
+      "corporate_events": [
+        "Canceled planned IPO in 2019",
+        "Went public in October 2021 by merging with BowX Acquisition Corp",
+        "Sold some assets including a wave pool business after failed IPO"
+      ],
+      "industry": "Shared office spaces",
+      "peak_valuation_usd": 47000000000,
+      "description": "Company that redefined the concept of shared workspaces globally, emphasizing community and innovative office environments",
+      "founded_year": 2010,
+      "mission": "Bring individuals and companies together to improve collaboration and accelerate development",
+      "business_model": "Co-working office spaces with on-demand hot desks",
+      "rebranded_name": "The We Company",
+      "rebrand_year": 2019,
+      "aliases": [
+        "We"
+      ],
+      "financials": {
+        "2018_loss": "nearly $2 billion"
+      },
+      "members_count": 527000,
+      "locations_count": 528,
+      "planned_new_locations": 169,
+      "workforce_layoff_discussion": {
+        "number": 5000,
+        "percentage": 33
+      },
+      "investors": [
+        "JP Morgan Chase",
+        "Goldman Sachs",
+        "SoftBank",
+        "Benchmark Capital"
+      ],
+      "valuation_post_softbank_deal": "$8 billion",
+      "IPO_status": "postponed and filing withdrawn",
+      "layoffs": "up to one-third of workforce",
+      "valuation_2019": "approximately US$47 billion",
+      "valuation_timeline": {
+        "August 2019": "$47 billion",
+        "September 2019": "$10 billion",
+        "Q3 2019 (post SoftBank takeover)": "$5 billion"
+      },
+      "major_arms": [
+        "WeWork",
+        "WeLive",
+        "WeGrow"
+      ],
+      "IPO_filing_date": "August 14, 2019",
+      "IPO_delay_date": "September 16, 2019",
+      "valuation_drop": {
+        "from": "47 billion USD",
+        "to": "less than 10 billion USD",
+        "date": "2019"
+      },
+      "notable_person": "Adam Neumann",
+      "former_valuation": "47 billion USD",
+      "bankruptcy_filing": "2023",
+      "acquisition": {
+        "acquirer": "Yardi",
+        "amount": "450 million USD"
+      },
+      "sale_price": "450 million USD",
+      "buyer": "Yardi",
+      "parent_company": "The We Company",
+      "notable_events": [
+        "shelved IPO attempt in 2019",
+        "experienced spectacular fall from being America\u2019s most valuable startup",
+        "lost $39 billion in company value"
+      ],
+      "valuation_year": 2019,
+      "bankruptcy_filing_date": "November 2023",
+      "founded": 2010,
+      "funding_rounds": [
+        {
+          "series": "Series A",
+          "amount": "$17 million",
+          "investors": [
+            "Benchmark Capital"
+          ],
+          "year": 2012
+        },
+        {
+          "series": "Series D",
+          "amount": "$355 million",
+          "valuation": "$1.5 billion",
+          "investors": [
+            "T. Rowe Price",
+            "Goldman Sachs"
+          ],
+          "year": 2014
+        },
+        {
+          "series": "Series F",
+          "amount": "$690 million",
+          "valuation": "$10 billion",
+          "year": 2016
+        },
+        {
+          "series": "Investment",
+          "valuation": "$20 billion",
+          "investor": "SoftBank",
+          "year": 2017
+        }
+      ],
+      "valuation_peak_currency": "USD",
+      "expected_ipo_valuation": "80-100 billion USD",
+      "financials_at_bankruptcy": {
+        "liabilities": "19 billion USD",
+        "assets": "15 billion USD"
+      },
+      "ownership": {
+        "majority_owner": "SoftBank Group"
+      },
+      "share_price_fall": "over 99%",
+      "liabilities": "19 billion USD",
+      "assets": "15 billion USD",
+      "public_status": "public since 2021 via SPAC merger",
+      "bankruptcy_effects": {
+        "creditors": "debt converted to equity",
+        "shareholders": "wiped out",
+        "bondholders": "low-ranking bonds wiped out"
+      },
+      "CEO": {
+        "name": "David Tolley",
+        "role": "CEO",
+        "statements": [
+          "achieved extraordinary outcomes in restructuring",
+          "strong demand and increased member net promoter scores"
+        ]
+      },
+      "subsidiaries": [
+        "WeLive",
+        "WeGrow"
+      ],
+      "notable_event": "Subject of Adam Neumann's bid to buy back",
+      "valuation_peak_date": "January 2019",
+      "IPO_valuation": 9000000000,
+      "IPO_date": "October 2021",
+      "bankruptcy_exit_expected": "2024-05",
+      "debt_amount": 4000000000,
+      "valuation_2019_post_ipo_attempt": 270000000,
+      "valuation_spac_2021": 9000000000,
+      "share_price_current": 0.12,
+      "CEO_statement_date": "2024-04",
+      "CEO_statement_source": "The Real Deal",
+      "debt": "nearly $19 billion",
+      "creditor": "Yardi Systems",
+      "bankruptcy_court_approval_date": "Monday before late April 2024",
+      "expected_exit_bankruptcy": "late May 2024",
+      "workforce": "Potentially to slash one third of workforce",
+      "valuation_post_ipo_fall": "4 billion USD",
+      "conflicts": [
+        "Founder Adam Neumann's personal conflicts of interest disclosed"
+      ],
+      "funding": {
+        "January 2019": "2 billion USD from SoftBank Group Corp."
+      },
+      "IPO": {
+        "planned": true,
+        "delayed": true,
+        "expected_raise": "3 billion USD",
+        "likely_raise": "2 billion USD"
+      },
+      "conflicts_of_interest": "Paid more than $12 million in rent to buildings partially owned by officers including Adam Neumann",
+      "valuation_after_cut": "10-12 billion USD",
+      "employees": 12500,
+      "users": 500000,
+      "2018_losses": "2 billion USD",
+      "executive_turnover": [
+        "chief communications officer",
+        "cohead of real estate fund",
+        "global head of real estate partnerships"
+      ],
+      "cash_status": "would run out before Thanksgiving 2019 without emergency funding",
+      "board_of_directors": {
+        "notable_members": [
+          "Adam Neumann (co-founder and chairman)",
+          "Mark Schwartz (former Goldman Sachs partner)"
+        ],
+        "issues": [
+          "approved decisions enabling Neumann\u2019s conflicts of interest",
+          "some directors had potential conflicts of interest"
+        ]
+      },
+      "issues": [
+        "leasing properties from Adam Neumann",
+        "board aware of self-dealing arrangements"
+      ],
+      "valuation_post_softbank": "$9\u201310 billion",
+      "financial_events": [
+        "Burned through cash with $1.9 billion loss in 2018",
+        "Filed for Chapter 11 bankruptcy protection in late 2023",
+        "Completed court-approved restructuring in mid-2024",
+        "Shed roughly $4 billion in debt"
+      ],
+      "corporate_governance": "Dual-class stock structure giving founder disproportionate voting power",
+      "legal_issues": [
+        "Facing lawsuits from landlords over stability concerns"
+      ],
+      "bid_amount": "More than $500 million",
+      "bankruptcy_exit_goal": "May 31, 2024",
+      "financial_status": {
+        "unsecured_creditors_pressure": true,
+        "rent_arrears": "over $40 million including several million dollars of April rent",
+        "lease_renegotiations": "less than a third of leases negotiated",
+        "capital_raise_goal": "at least $400 million"
+      },
+      "peak_valuation": "47 billion USD",
+      "bankruptcy_date": "2023-11-06",
+      "major_creditors": [
+        "SoftBank",
+        "King Street Capital",
+        "Cupar Grimmond"
+      ],
+      "debt_cancelled": 4000000000,
+      "post_bankruptcy_equity_value": 750000000,
+      "locations_closed": 160,
+      "total_locations_before_closure": 450,
+      "legal_action": "rebuffed Adam Neumann's bid",
+      "date": "2024-04-29",
+      "bankruptcy": {
+        "chapter": 11,
+        "filed": "November 2023",
+        "plan_approval_date": "May 2024",
+        "debt_eliminated": 4000000000,
+        "rent_cost_savings": 8000000000,
+        "leased_locations_canceled": 160,
+        "total_locations": 450,
+        "control_transferred_to": [
+          "group of lenders",
+          "Yardi Systems"
+        ]
+      },
+      "valuation_history": [
+        {
+          "peak_valuation": 47000000000,
+          "period": "before 2019 IPO attempt"
+        },
+        {
+          "market_valuation_post_ipo": 50000000,
+          "year": 2021
+        }
+      ],
+      "expected_reemergence": "June 2024",
+      "financial_outlook": "sustainable, profitable growth",
+      "recent_event": "reached settlement with creditors in 2024",
+      "rejected_bid_from": "Adam Neumann",
+      "date_of_bankruptcy_filing": "2023-11-06",
+      "management": "Currently controlling company, subject to potential forced ceding of control",
+      "events": {
+        "IPO_filing_date": "2019-08-14",
+        "IPO_delay_date": "2019-09-16",
+        "SoftBank_takeover_date": "2019-10-22",
+        "layoffs": {
+          "date": "2019-11-21",
+          "number_of_employees_laid_off": 2400
+        }
+      }
+    },
+    "sources": [
+      "https://fortune.com/2023/11/06/wework-files-for-bankruptcy-revoke-leases-adam-neumann/",
+      "https://www.bbc.com/news/business-49803064",
+      "https://forward.com/fast-forward/429552/wework-adam-neumann/",
+      "https://allwork.space/2024/04/creditors-pressure-wework-to-evaluate-neumanns-flow-proposal-during-bankruptcy-challenges/",
+      "https://www.businessinsider.com/wework-ipo-fiasco-adam-neumann-explained-events-timeline-2019-9",
+      "https://www.linkedin.com/posts/boardroom1_former-cofounder-ceo-of-wework-adam-neumann-activity-7323346659965349888-nPas",
+      "https://slidebean.com/story/how-is-the-wework-founder-still-rich",
+      "https://nypost.com/2023/11/09/business/wework-founder-adam-neumann-still-worth-1-7b-after-bankruptcy/",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOor7rDFKcK38LXOvjtvjEfD2T8BB2dVsWaH4LEsczXuZbb7BPURu",
+      "https://www.sofi.com/blog/friday-fundings-weworks-adam-neumann-back-snags-32-million-new-startup/",
+      "https://www.bbc.com/news/business-49817037",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOoqSw3p1njLrd838IZy7BZnE44KQdV04uIwOslu2ezyFsfZTDqmY",
+      "https://www.933thedrive.com/2024/04/23/wework-founder-neumann-wants-bankruptcy-courts-help-in-bid-to-repurchase-company/",
+      "https://en.wikipedia.org/wiki/Adam_Neumann",
+      "https://www.theatlantic.com/ideas/archive/2019/09/curse-cult-of-the-founder/598753/",
+      "https://www.reuters.com/legal/wework-founder-neumann-wants-bankruptcy-courts-help-bid-repurchase-company-2024-04-23/",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOoqQmDeP7lNjWOgTcHAhCAa3cecstmYfqsYDm-v7GF_DhGQeT-Nn",
+      "https://slate.com/technology/2019/09/wework-co-founder-adam-neumann-relinquishes-ceo-title.html",
+      "https://pe-insights.com/the-money-men-who-enabled-adam-neumann-and-the-wework-debacle/",
+      "https://www.businessinsider.com/weworks-nightmare-ipo",
+      "https://www.npr.org/2019/09/24/763913318/wework-ceo-steps-down-as-ipo-stalls",
+      "https://www.nytimes.com/2021/02/26/business/wework-softbank-settlement.html",
+      "https://fortune.com/2019/11/19/wework-softbank-takeover-lawsuits/",
+      "https://www.theguardian.com/business/2019/sep/24/adam-neumann-wework-step-down-ceo",
+      "https://www.forbes.com/sites/roomykhan/2019/10/22/adam-neumann-needs-to-be-held-accountable-is-there-a-case-for-minority-shareholders-and-employees/",
+      "https://money.usnews.com/investing/news/articles/2024-04-23/wework-founder-neumann-wants-bankruptcy-courts-help-in-bid-to-repurchase-company",
+      "https://money.usnews.com/investing/news/articles/2024-04-29/wework-reaches-settlement-with-creditors-rebuffs-neumann-bid",
+      "https://2727coworking.com/articles/wework-history-ipo-bankruptcy",
+      "https://www.inc.com/business-insider/wework-new-york-attorney-general-investigating.html",
+      "https://earn2trade.com/blog/adam-neumann/",
+      "https://www.theguardian.com/business/2024/feb/06/adam-neumann-buy-wework",
+      "https://www.celebritynetworth.com/richest-businessmen/ceos/adam-neumann-net-worth/",
+      "https://www.cnn.com/2019/09/24/tech/wework-ceo-adam-neumann-stepping-down",
+      "https://www.businessinsider.com/running-list-softbank-investments-2017-7",
+      "https://gothamartists.com/adam-neumann/",
+      "https://chrisbakke.substack.com/p/adam-neumanns-post-wework-ventures",
+      "https://www.forbes.com/profile/adam-neumann/",
+      "https://www.forbes.com.au/news/billionaires/former-ceo-adam-neumann-wants-to-buy-back-wework/",
+      "https://www.tpr.org/2019-09-24/wework-ceo-steps-down-as-ipo-stalls",
+      "https://www.vox.com/recode/2019/9/23/20879656/wework-mess-explained-ipo-softbank",
+      "https://law.stanford.edu/press/wework-ex-ceo-neumann-softbank-sued-over-botched-ipo-plummeting-value/",
+      "https://techcrunch.com/2025/04/24/report-adam-neumanns-flow-raises-100m-more-than-doubles-valuation-to-2-5b/",
+      "https://www.businessinsider.com/wework-ceo-adam-neumann-bio-life-career-2019-8",
+      "https://www.theguardian.com/business/article/2024/may/30/wework-bankruptcy-plan-approved",
+      "https://www.wired.com/story/adam-neumann-bid-to-buy-wework-failed-will-he-compete/",
+      "https://fortune.com/2024/05/28/wework-flow-adam-neumann-bankruptcy-judge-chapter-11-flow/",
+      "https://www.cnbc.com/2023/11/07/heres-how-much-wework-founder-adam-neumann-got-before-bankruptcy.html",
+      "https://www.cnbc.com/2024/03/26/adam-neumann-wework-bid-faces-questions-over-financing-business-plan.html",
+      "https://www.reuters.com/business/finance/wework-reaches-settlement-with-creditors-rebuffs-neumann-bid-2024-04-29/",
+      "https://www.vanityfair.com/news/2019/11/inside-the-fall-of-wework?srsltid=AfmBOorpkPydewMnDHgTfWTjoNmor4L4jx6OB9X_wK5vhYuxFTTCSg-K",
+      "https://www.dandodiary.com/2019/11/articles/shareholders-derivative-litigation/wework-neumann-hit-with-shareholder-lawsuit/",
+      "https://www.bisnow.com/national/news/coworking/wework-adam-neumann-self-dealing-probe-sec-new-york-attorney-general-101852",
+      "https://www.businessinsider.com/how-wework-ceo-adam-neumann-spends-his-money-real-estate-2019-7",
+      "https://fortune.com/2023/11/08/wework-adam-neumann-net-worth-bankruptcy/",
+      "https://www.theglobeandmail.com/business/article-wework-reaches-settlement-with-creditors-rebuffs-neumann-bid/",
+      "https://news.ycombinator.com/item?id=21580273",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOopyuoP0dT1lT-HWRKwrIEV2fSkesrfK1_wqFKsxOXtd0WyaAb9L",
+      "https://www.forbes.com/sites/petercohan/2024/03/27/why-adam-neumanns-500-million-wework-bid-could-easily-fail/",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOoqDKXsgPHqTtc4t8TKx234yn5SmSbYoOHB9tCFtnQsUR-QJOurP",
+      "https://www.cnbc.com/2019/09/24/wework-ceo-adam-neumann-is-expected-to-step-down-amid-controversy-and-retain-chair-role-wsj-reports.html",
+      "https://www.forbes.com/sites/jimosman/2024/03/25/adam-neumanns-500m-gamble-the-billionaires-bid-to-reclaim-wework/",
+      "https://www.linkedin.com/posts/boardroom1_as-co-founder-and-ceo-adam-neumann-grew-activity-7178361298454220801-Cno7",
+      "https://robertreich.substack.com/p/the-6-secrets-to-becoming-a-fabulously"
+    ]
+  },
+  {
+    "name": "Rebekah Paltrow Neumann",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "Chief Brand and Impact Officer",
+      "organization": "WeWork",
+      "relation_to_Adam_Neumann": "Spouse",
+      "family_relation": "cousin of Gwyneth Paltrow",
+      "founder_of": "WeGrow (conscious entrepreneurial school for 2- to 11-year-olds)",
+      "influence": "One of three people who would choose WeWork's next CEO if Adam Neumann becomes disabled or deceased within ten years",
+      "relation": "wife of Adam Neumann",
+      "marriage_year": 2009,
+      "children_count": 5,
+      "relationship": "wife of Adam Neumann",
+      "relation_to_celebrity": "Gwyneth Paltrow's first cousin",
+      "joint_spending": "$90 million on six homes"
+    },
+    "sources": [
+      "https://forward.com/fast-forward/429552/wework-adam-neumann/",
+      "https://www.businessinsider.com/wework-ceo-adam-neumann-bio-life-career-2019-8",
+      "https://www.vanityfair.com/news/2019/11/inside-the-fall-of-wework?srsltid=AfmBOorpkPydewMnDHgTfWTjoNmor4L4jx6OB9X_wK5vhYuxFTTCSg-K"
+    ]
+  },
+  {
+    "name": "WeGrow",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "School",
+      "focus": "Conscious entrepreneurial education",
+      "age_range": "2 to 11 years old",
+      "founder": "Rebekah Paltrow Neumann"
+    },
+    "sources": [
+      "https://forward.com/fast-forward/429552/wework-adam-neumann/"
+    ]
+  },
+  {
+    "name": "Miguel McKelvey",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "full_name": "Miguel McKelvey",
+      "title": "co-founder",
+      "organization": "WeWork",
+      "roles": [
+        {
+          "title": "Co-founder",
+          "organization": "WeWork",
+          "start_date": "2010"
+        }
+      ],
+      "collaboration": "Co-founded WeWork with Adam Neumann",
+      "previous_role": "Ran Egg Baby office operations",
+      "cofounder": true,
+      "role_start_year": 2010,
+      "background": "trained architect",
+      "role": "Co-founder",
+      "notable_events": [
+        "co-founded WeWork with Adam Neumann in 2009",
+        "opened first Manhattan office in 2010"
+      ],
+      "start_date": "2010",
+      "founded_WeWork": 2008,
+      "partner_cofounder": "Adam Neumann",
+      "founded": 2010
+    },
+    "sources": [
+      "https://www.celebritynetworth.com/richest-businessmen/ceos/adam-neumann-net-worth/",
+      "https://www.cnn.com/2019/09/24/tech/wework-ceo-adam-neumann-stepping-down",
+      "https://pe-insights.com/the-money-men-who-enabled-adam-neumann-and-the-wework-debacle/",
+      "https://slidebean.com/story/how-is-the-wework-founder-still-rich",
+      "https://gothamartists.com/adam-neumann/",
+      "https://www.forbes.com.au/news/billionaires/former-ceo-adam-neumann-wants-to-buy-back-wework/",
+      "https://www.businessinsider.com/how-wework-ceo-adam-neumann-spends-his-money-real-estate-2019-7",
+      "https://www.bbc.com/news/business-49817037",
+      "https://2727coworking.com/articles/wework-history-ipo-bankruptcy",
+      "https://slate.com/technology/2019/09/wework-co-founder-adam-neumann-relinquishes-ceo-title.html",
+      "https://earn2trade.com/blog/adam-neumann/"
+    ]
+  },
+  {
+    "name": "Softbank",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "name": "SoftBank",
+      "type": "investment company",
+      "jurisdiction": "Japan",
+      "status": "Active",
+      "key_people": [
+        "Masayoshi Son"
+      ],
+      "investment_in_wework": 9000000000,
+      "role": "biggest investor and eventual controller of WeWork",
+      "role_in_wework": "provided rescue funding package, pushed for Adam Neumann's resignation",
+      "valuation_contribution": "$47 billion valuation in recent investment round",
+      "actions": [
+        "gave Adam Neumann $1.7 billion golden parachute to step down",
+        "assigned WeWork a $5 billion valuation at end of Q3 2019",
+        "took control of WeWork on 2019-10-22"
+      ],
+      "year": 2017,
+      "investments": {
+        "WeWork": {
+          "total_invested": 16000000000,
+          "invested_while_neumann_in_charge": 10000000000,
+          "stock_purchase_2019": 3000000000
+        }
+      },
+      "ownership_in_WeWork": "About 60%",
+      "financial_transactions_with_Neumann": {
+        "shares_purchased": "578 million USD",
+        "loan_to_Neumann": "432 million USD"
+      },
+      "relation_to_adam_neumann": "Investor in WeWork (implied by search query but not explicitly stated in source content)",
+      "bid_amount": 450000000,
+      "bid_status": "successful",
+      "partner_bidder": "Yardi Systems",
+      "involved_in": "dispute settlement with Adam Neumann",
+      "legal_issues": [
+        {
+          "type": "lawsuit",
+          "filed_by": "Adam Neumann",
+          "date": "2020-05-05",
+          "description": "Accused of improperly backing out of an offer to buy shares held by Adam Neumann, employees, and other investors."
+        }
+      ],
+      "founder": "Masayoshi Son",
+      "legal_issue": "subject of lawsuit by Adam Neumann over abandoned $3 billion buyout",
+      "involvement": "Pumped cash into WeWork before collapse",
+      "deal_value": 8000000000,
+      "ownership_stake_post_restructuring": "16.5% to 36%",
+      "new_funding_amount": 450000000
+    },
+    "sources": [
+      "https://www.bbc.com/news/business-49803064",
+      "https://slidebean.com/story/how-is-the-wework-founder-still-rich",
+      "https://www.businessinsider.com/wework-ipo-fiasco-adam-neumann-explained-events-timeline-2019-9",
+      "https://nypost.com/2023/11/09/business/wework-founder-adam-neumann-still-worth-1-7b-after-bankruptcy/",
+      "https://www.businessinsider.com/adam-neumann-wework-founder-softbank-payout-settlement-lawsuit-2021-2",
+      "https://www.bbc.com/news/business-49817037",
+      "https://www.nytimes.com/2020/05/05/business/adam-neumann-softbank-lawsuit.html",
+      "https://www.nytimes.com/2021/02/26/business/wework-softbank-settlement.html",
+      "https://fortune.com/2019/11/19/wework-softbank-takeover-lawsuits/",
+      "https://www.theguardian.com/business/2019/sep/24/adam-neumann-wework-step-down-ceo",
+      "https://www.theguardian.com/business/2024/feb/06/adam-neumann-buy-wework",
+      "https://www.celebritynetworth.com/richest-businessmen/ceos/adam-neumann-net-worth/",
+      "https://www.theverge.com/2020/5/5/21247989/wework-adam-neumann-lawsuit-stock-deal-softbank",
+      "https://www.forbes.com/sites/samanthasharf/2020/05/04/weworks-cofounder-adam-neumann-files-suit-in-delaware-against-one-time-ally-softbank/",
+      "https://www.vox.com/recode/2019/9/23/20879656/wework-mess-explained-ipo-softbank",
+      "https://www.forbes.com/sites/rachelsandler/2021/02/26/wework-founder-adam-neumann-softbank-reach-settlement-in-legal-battle/",
+      "https://fortune.com/2024/05/28/wework-flow-adam-neumann-bankruptcy-judge-chapter-11-flow/",
+      "https://www.dandodiary.com/2019/11/articles/shareholders-derivative-litigation/wework-neumann-hit-with-shareholder-lawsuit/",
+      "https://www.theglobeandmail.com/business/article-wework-reaches-settlement-with-creditors-rebuffs-neumann-bid/",
+      "https://news.ycombinator.com/item?id=21580273",
+      "https://www.forbes.com/sites/jimosman/2024/03/25/adam-neumanns-500m-gamble-the-billionaires-bid-to-reclaim-wework/"
+    ]
+  },
+  {
+    "name": "Masayoshi Son",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "full_name": "Masayoshi Son",
+      "title": "CEO",
+      "organization": "SoftBank Group Corp.",
+      "role": "CEO",
+      "description": "Japan's richest man",
+      "relationship_to_Neumann": "once his most powerful cheerleader",
+      "actions": [
+        "helped inflate WeWork\u2019s valuation to $47 billion",
+        "pushed Adam Neumann to act bigger and crazier"
+      ]
+    },
+    "sources": [
+      "https://www.businessinsider.com/running-list-softbank-investments-2017-7",
+      "https://pe-insights.com/the-money-men-who-enabled-adam-neumann-and-the-wework-debacle/",
+      "https://www.forbes.com/sites/samanthasharf/2020/05/04/weworks-cofounder-adam-neumann-files-suit-in-delaware-against-one-time-ally-softbank/",
+      "https://www.bbc.com/news/business-49817037",
+      "https://fortune.com/2023/11/08/wework-adam-neumann-net-worth-bankruptcy/"
+    ]
+  },
+  {
+    "name": "Flow",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "real estate venture",
+      "valuation": "1 billion USD",
+      "investors": [
+        "Andreessen Horowitz"
+      ],
+      "operations": {
+        "locations": [
+          "Atlanta",
+          "Nashville",
+          "Miami",
+          "Fort Lauderdale"
+        ],
+        "units_owned": "more than 4,000 apartment units",
+        "occupancy_rate": "95-96%",
+        "coworking_service": "Workflow",
+        "workflow_launch_date": "October 2024",
+        "workflow_scope": "Only in Flow owned or managed properties",
+        "construction_loan": {
+          "amount": "155 million USD",
+          "purpose": "Finish project and convert rentals to condos"
+        },
+        "development": {
+          "name": "Flow House",
+          "description": "40-story, 466-unit condo development",
+          "location": "Miami Worldcenter",
+          "price_start": "450,000 USD"
+        }
+      },
+      "founder": "Adam Neumann",
+      "name": "Flow",
+      "industry": "multifamily residential properties",
+      "description": "Adam Neumann's new venture after WeWork",
+      "investment": {
+        "amount": "$350 million",
+        "investor": "Andreessen Horowitz",
+        "note": "Largest investment by Andreessen Horowitz in a single project"
+      },
+      "focus": "transform residential rental market with reliable services and community features",
+      "launch_date": "expected 2023",
+      "funding": {
+        "amount": "350 million USD",
+        "investor": "Andreessen Horowitz"
+      },
+      "jurisdiction": "United States",
+      "status": "active",
+      "mission": "Reinvent traditional apartment living by fostering community and shared experiences, enabling renters to build equity",
+      "focus_areas": [
+        "Housing crisis",
+        "Affordability",
+        "Isolation in modern living",
+        "Renter wealth accumulation"
+      ],
+      "backers": [
+        "Andreessen Horowitz (a16z)"
+      ],
+      "portfolio": {
+        "units": 4000,
+        "cities": [
+          "Atlanta",
+          "Fort Lauderdale",
+          "Miami",
+          "Nashville"
+        ]
+      },
+      "developments": [
+        {
+          "name": "466-unit rental/condo tower",
+          "location": "Miami",
+          "status": "under construction"
+        }
+      ],
+      "planned_events": [
+        "IPO"
+      ],
+      "key_people": [
+        "Adam Neumann (leader)"
+      ],
+      "valuation_change": "More than doubled",
+      "future_plans": "Potential IPO",
+      "valuation_2022": "1 billion USD",
+      "valuation_latest": "2.5 billion USD",
+      "funding_2022": "350 million USD from Andreessen Horowitz",
+      "latest_funding": "Over 100 million USD",
+      "investment_received": "350 million USD",
+      "investment_date": "August 2022",
+      "launch_year": 2022,
+      "business_focus": "transform residential rental experience",
+      "properties": [
+        "Fort Lauderdale, Florida",
+        "Miami, Florida",
+        "Nashville",
+        "Atlanta"
+      ],
+      "plans": "300 million dollar development in downtown Miami including residential, retail, and work spaces",
+      "rental_prices": {
+        "Fort Lauderdale": "around $2,500/month for one-bedroom",
+        "Miami": "from $2,900/month for one-bedroom"
+      },
+      "valuation_pre_opening": "over 1 billion USD",
+      "activity": "proposed buyout offer for WeWork during bankruptcy",
+      "financial_offer": "ready to outbid any existing offers by 10%"
+    },
+    "sources": [
+      "https://www.wired.com/story/adam-neumann-bid-to-buy-wework-failed-will-he-compete/",
+      "https://allwork.space/2024/04/creditors-pressure-wework-to-evaluate-neumanns-flow-proposal-during-bankruptcy-challenges/",
+      "https://www.founderoo.co/playbooks/adam-neumann-flow",
+      "https://www.curbed.com/article/what-we-know-about-adam-neumanns-flow.html",
+      "https://gothamartists.com/adam-neumann/",
+      "https://www.youtube.com/watch?v=pce7RadUH0o",
+      "https://chrisbakke.substack.com/p/adam-neumanns-post-wework-ventures",
+      "https://www.forbes.com/profile/adam-neumann/",
+      "https://www.cnn.com/2022/08/15/tech/adam-neumann-flow",
+      "https://www.calcalistech.com/ctechnews/article/h1uevrw1xe",
+      "https://www.linkedin.com/posts/boardroom1_former-cofounder-ceo-of-wework-adam-neumann-activity-7323346659965349888-nPas",
+      "https://www.reddit.com/r/investing/comments/wp1amu/adam_neumanns_new_company_gets_a_350_million/",
+      "https://fortune.com/2023/11/08/wework-adam-neumann-net-worth-bankruptcy/",
+      "https://techcrunch.com/2025/04/24/report-adam-neumanns-flow-raises-100m-more-than-doubles-valuation-to-2-5b/",
+      "https://en.wikipedia.org/wiki/Flow_(real_estate_company)",
+      "https://robertreich.substack.com/p/the-6-secrets-to-becoming-a-fabulously"
+    ]
+  },
+  {
+    "name": "BowX Acquisition Corp",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Blank check company",
+      "role": "Merged with WeWork to take it public in October 2021"
+    },
+    "sources": [
+      "https://www.forbes.com/profile/adam-neumann/"
+    ]
+  },
+  {
+    "name": "City University of New York Baruch",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "University",
+      "notable_alumni": [
+        "Adam Neumann"
+      ]
+    },
+    "sources": [
+      "https://www.forbes.com/profile/adam-neumann/"
+    ]
+  },
+  {
+    "name": "Rebekah Neumann",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "full_name": "Rebekah Neumann",
+      "relation": "Wife of Adam Neumann",
+      "family_relation": "Cousin of Gwyneth Paltrow",
+      "roles": [
+        {
+          "title": "Founding partner",
+          "organization": "WeWork"
+        },
+        {
+          "title": "Founder",
+          "organization": "WeGrow"
+        }
+      ],
+      "WeGrow": {
+        "type": "Elementary school",
+        "location": "New York City",
+        "operational_until": 2019
+      },
+      "role": "cofounder of WeWork",
+      "organization": "WeWork",
+      "relationship": "wife of Adam Neumann",
+      "role_change": "role reduced after Adam Neumann's resignation",
+      "notable_actions": [
+        "Bought back rights to WeGrow curriculum",
+        "Plans to relaunch WeGrow school"
+      ]
+    },
+    "sources": [
+      "https://www.bbc.com/news/business-49803064",
+      "https://earn2trade.com/blog/adam-neumann/",
+      "https://www.businessinsider.com/how-wework-ceo-adam-neumann-spends-his-money-real-estate-2019-7"
+    ]
+  },
+  {
+    "name": "166 2nd Financial Services",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "name": "166 2nd Financial Services",
+      "type": "private wealth management firm",
+      "founders": [
+        "Adam Neumann",
+        "Rebekah Neumann"
+      ],
+      "founded_year": 2019,
+      "jurisdiction": "Delaware, USA",
+      "role": "investor in Flowcarbon",
+      "associated_person": "Adam Neumann"
+    },
+    "sources": [
+      "https://earn2trade.com/blog/adam-neumann/",
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors"
+    ]
+  },
+  {
+    "name": "Egg Baby",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "name": "Egg Baby",
+      "type": "Luxury baby clothing brand",
+      "founder": "Adam Neumann",
+      "designer": "Suzan Lazar",
+      "status": "Active",
+      "distribution": "Sold worldwide in various departmental stores"
+    },
+    "sources": [
+      "https://earn2trade.com/blog/adam-neumann/"
+    ]
+  },
+  {
+    "name": "Green Desk",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "name": "GreenDesk",
+      "type": "Company",
+      "founders": [
+        "Adam Neumann",
+        "Miguel McKelvey"
+      ],
+      "industry": "Eco-friendly co-working space",
+      "jurisdiction": "Brooklyn, New York, USA",
+      "status": "Sold in 2010",
+      "founding_year": 2008
+    },
+    "sources": [
+      "https://earn2trade.com/blog/adam-neumann/",
+      "https://www.celebritynetworth.com/richest-businessmen/ceos/adam-neumann-net-worth/"
+    ]
+  },
+  {
+    "name": "Flow Global",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Real estate company",
+      "activity": "attempting to buy WeWork",
+      "focus": "Residential real estate, branded apartments",
+      "founder": "Adam Neumann",
+      "funding": {
+        "amount": "$350 million",
+        "investor": "Andreessen Horowitz",
+        "year": 2022
+      }
+    },
+    "sources": [
+      "https://www.theguardian.com/business/2024/feb/06/adam-neumann-buy-wework",
+      "https://www.businessinsider.com/wework-ceo-adam-neumann-bio-life-career-2019-8"
+    ]
+  },
+  {
+    "name": "Baruch College",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "college",
+      "location": "New York City",
+      "notable_alumni": [
+        "Adam Neumann"
+      ]
+    },
+    "sources": [
+      "https://www.businessinsider.com/wework-ceo-adam-neumann-bio-life-career-2019-8"
+    ]
+  },
+  {
+    "name": "Israel Defense Forces",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "military",
+      "jurisdiction": "Israel",
+      "branches": [
+        "Navy"
+      ],
+      "notable_personnel": [
+        "Adam Neumann"
+      ]
+    },
+    "sources": [
+      "https://www.businessinsider.com/wework-ceo-adam-neumann-bio-life-career-2019-8"
+    ]
+  },
+  {
+    "name": "John Santora",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "CEO",
+      "organization": "WeWork",
+      "start_date": "April 2024",
+      "appointed": "April 2024"
+    },
+    "sources": [
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOoqQmDeP7lNjWOgTcHAhCAa3cecstmYfqsYDm-v7GF_DhGQeT-Nn",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOor7rDFKcK38LXOvjtvjEfD2T8BB2dVsWaH4LEsczXuZbb7BPURu",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOoqSw3p1njLrd838IZy7BZnE44KQdV04uIwOslu2ezyFsfZTDqmY",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOopyuoP0dT1lT-HWRKwrIEV2fSkesrfK1_wqFKsxOXtd0WyaAb9L",
+      "https://www.thecorporategovernanceinstitute.com/insights/case-studies/what-exactly-happened-to-wework/?srsltid=AfmBOoqDKXsgPHqTtc4t8TKx234yn5SmSbYoOHB9tCFtnQsUR-QJOurP"
+    ]
+  },
+  {
+    "name": "The We Company",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "office space company",
+      "jurisdiction": "Delaware",
+      "status": "public since October 21, 2021",
+      "parent_of": "WeWork",
+      "rebrand_year": 2019,
+      "address": "115 West 18th Street, New York, New York 10011",
+      "phone": "(646) 491-9060",
+      "stock_classes": [
+        "Class A common stock",
+        "Class B common stock",
+        "Class C common stock"
+      ],
+      "stock_symbol": "WE",
+      "registration_number": "333-",
+      "irs_employer_id": "61-1936163",
+      "stock_price": "collapsed to 13 cents a share as of August 2023",
+      "financial_status": "substantial doubt about ability to continue as a going concern as of August 2023",
+      "key_people": [
+        "Adam Neumann (Chairman and CEO in 2019)"
+      ],
+      "relationship": "parent company of WeWork"
+    },
+    "sources": [
+      "https://wallstreetonparade.com/2023/08/weworks-stock-imploded-to-13-cents-yesterday-its-cult-master-adam-neumann-cashed-out-years-ago-and-is-a-billionaire/",
+      "https://www.sec.gov/Archives/edgar/data/1533523/000119312519220499/d781982ds1.htm",
+      "https://www.cnn.com/2019/09/24/tech/wework-ceo-adam-neumann-stepping-down",
+      "https://www.vanityfair.com/news/2019/11/inside-the-fall-of-wework?srsltid=AfmBOorpkPydewMnDHgTfWTjoNmor4L4jx6OB9X_wK5vhYuxFTTCSg-K"
+    ]
+  },
+  {
+    "name": "Artie Minson",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Co-CEO",
+      "organization": "WeWork",
+      "start_date": "September 2019",
+      "previous_roles": [
+        "co-president",
+        "chief financial officer"
+      ],
+      "role": "co-CEO",
+      "appointed_co_CEO_date": "2019-09",
+      "appointed_co_ceo_date": "2019-09-24",
+      "roles": [
+        {
+          "title": "Interim CEO",
+          "organization": "WeWork",
+          "start_date": "2019-09"
+        }
+      ]
+    },
+    "sources": [
+      "https://www.bbc.com/news/business-49803064",
+      "https://www.npr.org/2019/09/24/763913318/wework-ceo-steps-down-as-ipo-stalls",
+      "https://www.vox.com/recode/2019/9/23/20879656/wework-mess-explained-ipo-softbank",
+      "https://slate.com/technology/2019/09/wework-co-founder-adam-neumann-relinquishes-ceo-title.html",
+      "https://www.cnbc.com/2019/09/24/wework-ceo-adam-neumann-is-expected-to-step-down-amid-controversy-and-retain-chair-role-wsj-reports.html",
+      "https://www.tpr.org/2019-09-24/wework-ceo-steps-down-as-ipo-stalls"
+    ]
+  },
+  {
+    "name": "Sebastian Gunningham",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Co-CEO",
+      "organization": "WeWork",
+      "start_date": "September 2019",
+      "previous_role": "vice chairman",
+      "previous_roles": [
+        "Vice Chairman at WeWork",
+        "Former Amazon executive"
+      ],
+      "role": "co-CEO",
+      "appointed_co_CEO_date": "2019-09",
+      "appointed_co_ceo_date": "2019-09-24",
+      "roles": [
+        {
+          "title": "Interim CEO",
+          "organization": "WeWork",
+          "start_date": "2019-09"
+        }
+      ]
+    },
+    "sources": [
+      "https://www.bbc.com/news/business-49803064",
+      "https://www.npr.org/2019/09/24/763913318/wework-ceo-steps-down-as-ipo-stalls",
+      "https://www.vox.com/recode/2019/9/23/20879656/wework-mess-explained-ipo-softbank",
+      "https://slate.com/technology/2019/09/wework-co-founder-adam-neumann-relinquishes-ceo-title.html",
+      "https://www.cnbc.com/2019/09/24/wework-ceo-adam-neumann-is-expected-to-step-down-amid-controversy-and-retain-chair-role-wsj-reports.html",
+      "https://www.tpr.org/2019-09-24/wework-ceo-steps-down-as-ipo-stalls"
+    ]
+  },
+  {
+    "name": "Sam Reynolds",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "technology analyst"
+    },
+    "sources": [
+      "https://www.bbc.com/news/business-49803064"
+    ]
+  },
+  {
+    "name": "Richard Kramer",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "founder",
+      "organization": "Arete Research"
+    },
+    "sources": [
+      "https://www.bbc.com/news/business-49803064"
+    ]
+  },
+  {
+    "name": "Joey Low",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "Investor",
+      "organization": "WeWork",
+      "comments": [
+        "Described Adam Neumann's trademarking of 'We' and selling rights back to WeWork as 'in bad taste'",
+        "Initially intended to invest little but invested tens of millions based on Neumann's character and vision",
+        "Believes in the company's vision and model"
+      ]
+    },
+    "sources": [
+      "https://www.tpr.org/2019-09-24/wework-ceo-steps-down-as-ipo-stalls"
+    ]
+  },
+  {
+    "name": "Andreessen Horowitz",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "venture capital firm",
+      "notable_investments": [
+        "Flow"
+      ],
+      "key_people": [
+        {
+          "name": "Marc Andreessen",
+          "role": "Partner or key figure"
+        }
+      ],
+      "notable_person": "Marc Andreessen",
+      "jurisdiction": "Not specified",
+      "status": "Active",
+      "investment": {
+        "recipient": "Flow",
+        "amount": 350000000,
+        "year": 2022
+      },
+      "investments": [
+        "Flow"
+      ],
+      "notable_investment_rounds": [
+        {
+          "company": "Flow",
+          "amount": "350 million USD",
+          "valuation": "1 billion USD",
+          "year": 2022
+        },
+        {
+          "company": "Flow",
+          "amount": "latest funding round (over 100 million USD)",
+          "valuation": "2.5 billion USD",
+          "year": 2023
+        }
+      ],
+      "notable_investment": {
+        "recipient": "Adam Neumann's startup",
+        "amount": 350,
+        "currency": "million USD",
+        "description": "largest single investment ever by the firm"
+      },
+      "alias": "a16z",
+      "role": "investor in Flowcarbon",
+      "investment_amount": "part of $70 million Series A round",
+      "investment_in": "Flowcarbon",
+      "focus": "crypto"
+    },
+    "sources": [
+      "https://www.linkedin.com/posts/boardroom1_former-cofounder-ceo-of-wework-adam-neumann-activity-7323346659965349888-nPas",
+      "https://www.sofi.com/blog/friday-fundings-weworks-adam-neumann-back-snags-32-million-new-startup/",
+      "https://www.forbes.com.au/news/innovation/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/",
+      "https://www.reddit.com/r/investing/comments/wp1amu/adam_neumanns_new_company_gets_a_350_million/",
+      "https://www.forbes.com/sites/sarahemerson/2024/09/11/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/",
+      "https://www.calcalistech.com/ctechnews/article/h1uevrw1xe",
+      "https://www.coindesk.com/business/2024/09/12/weworks-neumanns-climate-firm-refunds-crypto-token-holders-after-failed-launch-forbes",
+      "https://www.theguardian.com/business/2024/feb/06/adam-neumann-buy-wework",
+      "https://www.founderoo.co/playbooks/adam-neumann-flow",
+      "https://chrisbakke.substack.com/p/adam-neumanns-post-wework-ventures",
+      "https://techcrunch.com/2025/04/24/report-adam-neumanns-flow-raises-100m-more-than-doubles-valuation-to-2-5b/",
+      "https://www.theguardian.com/business/article/2024/may/30/wework-bankruptcy-plan-approved",
+      "https://www.wired.com/story/adam-neumann-bid-to-buy-wework-failed-will-he-compete/",
+      "https://www.curbed.com/article/what-we-know-about-adam-neumanns-flow.html",
+      "https://www.cnn.com/2022/08/15/tech/adam-neumann-flow",
+      "https://www.businessinsider.com/how-wework-ceo-adam-neumann-spends-his-money-real-estate-2019-7",
+      "https://fortune.com/2023/11/08/wework-adam-neumann-net-worth-bankruptcy/",
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors",
+      "https://robertreich.substack.com/p/the-6-secrets-to-becoming-a-fabulously"
+    ]
+  },
+  {
+    "name": "Marc Andreessen",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Cofounder and General Partner",
+      "organization": "Andreessen Horowitz",
+      "role": "Co-founder",
+      "notable_action": "Wrote blog post praising Adam Neumann as visionary leader",
+      "board_membership": "Flow"
+    },
+    "sources": [
+      "https://www.reddit.com/r/investing/comments/wp1amu/adam_neumanns_new_company_gets_a_350_million/",
+      "https://chrisbakke.substack.com/p/adam-neumanns-post-wework-ventures",
+      "https://www.cnn.com/2022/08/15/tech/adam-neumann-flow"
+    ]
+  },
+  {
+    "name": "Preferred Apartment Communities",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "real estate company",
+      "jurisdiction": "United States",
+      "status": "acquired",
+      "acquirer": "Blackstone",
+      "acquisition_date": "2022",
+      "portfolio_size_in_region": 12000
+    },
+    "sources": [
+      "https://www.curbed.com/article/what-we-know-about-adam-neumanns-flow.html"
+    ]
+  },
+  {
+    "name": "Blackstone",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "investment firm",
+      "jurisdiction": "United States",
+      "status": "active",
+      "notable_acquisitions": [
+        {
+          "company": "Preferred Apartment Communities",
+          "date": "2022"
+        }
+      ]
+    },
+    "sources": [
+      "https://www.curbed.com/article/what-we-know-about-adam-neumanns-flow.html"
+    ]
+  },
+  {
+    "name": "Yardi",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "real estate firm",
+      "acquisition": {
+        "target": "WeWork",
+        "amount": "450 million USD"
+      },
+      "jurisdiction": "Not specified",
+      "status": "Active",
+      "notable_transaction": "Purchased WeWork for 450 million USD after bankruptcy in 2023"
+    },
+    "sources": [
+      "https://techcrunch.com/2025/04/24/report-adam-neumanns-flow-raises-100m-more-than-doubles-valuation-to-2-5b/",
+      "https://www.linkedin.com/posts/boardroom1_former-cofounder-ceo-of-wework-adam-neumann-activity-7323346659965349888-nPas"
+    ]
+  },
+  {
+    "name": "Mark Schwartz",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "former partner",
+      "organization": "Goldman Sachs Group Inc.",
+      "age": 65,
+      "role": "board member at WeWork",
+      "former_role": "partner at Goldman Sachs Group Inc.",
+      "notable_actions": [
+        "expressed frustration about WeWork\u2019s financial state in October 2019 board meeting"
+      ]
+    },
+    "sources": [
+      "https://pe-insights.com/the-money-men-who-enabled-adam-neumann-and-the-wework-debacle/"
+    ]
+  },
+  {
+    "name": "James Dimon",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "CEO",
+      "organization": "JPMorgan Chase & Co.",
+      "role": "CEO",
+      "actions": [
+        "championed Adam Neumann and WeWork during IPO battle"
+      ]
+    },
+    "sources": [
+      "https://pe-insights.com/the-money-men-who-enabled-adam-neumann-and-the-wework-debacle/"
+    ]
+  },
+  {
+    "name": "Michael Eisenberg",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "title": "partner",
+      "organization": "Benchmark Capital",
+      "location": "Israel-based",
+      "role": "partner",
+      "notable_events": [
+        "became interested in Adam Neumann\u2019s vision within a couple of years of WeWork founding"
+      ]
+    },
+    "sources": [
+      "https://pe-insights.com/the-money-men-who-enabled-adam-neumann-and-the-wework-debacle/"
+    ]
+  },
+  {
+    "name": "We Co.",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "parent company",
+      "jurisdiction": "United States",
+      "status": "distressed asset by October 2019",
+      "key_people": [
+        "Adam Neumann (nonexecutive chairman)"
+      ],
+      "alias": "WeWork parent company"
+    },
+    "sources": [
+      "https://pe-insights.com/the-money-men-who-enabled-adam-neumann-and-the-wework-debacle/",
+      "https://slate.com/technology/2019/09/wework-co-founder-adam-neumann-relinquishes-ceo-title.html"
+    ]
+  },
+  {
+    "name": "Boardroom",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "media company",
+      "followers": 151442
+    },
+    "sources": [
+      "https://www.linkedin.com/posts/boardroom1_as-co-founder-and-ceo-adam-neumann-grew-activity-7178361298454220801-Cno7"
+    ]
+  },
+  {
+    "name": "Micah Gandy",
+    "type": "person",
+    "confidence": 0.8,
+    "attributes": {
+      "experience": "25+ years leadership in automotive, finance, SaaS & real estate",
+      "personal": "Proud father of 7"
+    },
+    "sources": [
+      "https://www.linkedin.com/posts/boardroom1_as-co-founder-and-ceo-adam-neumann-grew-activity-7178361298454220801-Cno7"
+    ]
+  },
+  {
+    "name": "Benchmark Capital",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "venture capital firm",
+      "role": "investor in WeWork Series A funding"
+    },
+    "sources": [
+      "https://slidebean.com/story/how-is-the-wework-founder-still-rich"
+    ]
+  },
+  {
+    "name": "T. Rowe Price",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "investment management firm",
+      "role": "investor in WeWork Series D funding"
+    },
+    "sources": [
+      "https://slidebean.com/story/how-is-the-wework-founder-still-rich"
+    ]
+  },
+  {
+    "name": "Goldman Sachs",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "financial services",
+      "role": "lead underwriter on WeWork IPO"
+    },
+    "sources": [
+      "https://wallstreetonparade.com/2023/08/weworks-stock-imploded-to-13-cents-yesterday-its-cult-master-adam-neumann-cashed-out-years-ago-and-is-a-billionaire/",
+      "https://slidebean.com/story/how-is-the-wework-founder-still-rich"
+    ]
+  },
+  {
+    "name": "SoftBank Group Corp.",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Investment conglomerate",
+      "jurisdiction": "Japan",
+      "key_people": [
+        "Masayoshi Son"
+      ],
+      "losses_due_to_WeWork": {
+        "equity_losses": "11.5 billion USD",
+        "debt_at_risk": "2.2 billion USD"
+      },
+      "loan_to_Adam_Neumann": "432 million USD",
+      "role": "Majority owner of WeWork post-2019 rescue",
+      "settlement_amount_usd": 1600000000,
+      "settlement_date": "February 25, 2021",
+      "settlement_description": "Settlement agreement resolving all claims in Delaware Court of Chancery lawsuit without admission of liability",
+      "status": "active",
+      "investments": [
+        {
+          "organization": "WeWork",
+          "amount": "2 billion USD",
+          "date": "January 2019"
+        }
+      ],
+      "investment_funds": [
+        "SoftBank Vision Fund",
+        "SoftBank Vision Fund II"
+      ],
+      "actions": [
+        "Provided multibillion-dollar rescue package in late 2019"
+      ]
+    },
+    "sources": [
+      "https://www.businessinsider.com/running-list-softbank-investments-2017-7",
+      "https://fortune.com/2023/11/08/wework-adam-neumann-net-worth-bankruptcy/",
+      "https://2727coworking.com/articles/wework-history-ipo-bankruptcy",
+      "https://slate.com/technology/2019/09/wework-co-founder-adam-neumann-relinquishes-ceo-title.html",
+      "https://group.softbank/en/news/press/20210301"
+    ]
+  },
+  {
+    "name": "Krawlers",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "baby clothes business",
+      "founder": "Adam Neumann",
+      "product": "baby clothes with knee pads"
+    },
+    "sources": [
+      "https://www.businessinsider.com/how-wework-ceo-adam-neumann-spends-his-money-real-estate-2019-7"
+    ]
+  },
+  {
+    "name": "Dan Loeb",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "Hedge fund billionaire",
+      "organization": "Third Point",
+      "net_worth": 3300000000,
+      "net_worth_currency": "USD",
+      "involvement": "Helping Adam Neumann in efforts to regain control of WeWork"
+    },
+    "sources": [
+      "https://www.theguardian.com/business/2024/feb/06/adam-neumann-buy-wework",
+      "https://www.forbes.com.au/news/billionaires/former-ceo-adam-neumann-wants-to-buy-back-wework/"
+    ]
+  },
+  {
+    "name": "Third Point",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Investment firm",
+      "key_people": [
+        {
+          "name": "Dan Loeb",
+          "role": "Founder/CEO"
+        }
+      ],
+      "known_for": "Taking over ailing companies"
+    },
+    "sources": [
+      "https://www.theguardian.com/business/2024/feb/06/adam-neumann-buy-wework",
+      "https://www.forbes.com.au/news/billionaires/former-ceo-adam-neumann-wants-to-buy-back-wework/"
+    ]
+  },
+  {
+    "name": "David Tolley",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "Affiant",
+      "organization": "WeWork Inc.",
+      "statement_date": "November 2023",
+      "statement_source": "The Real Deal",
+      "statement": "announced plan for reorganized WeWork better capitalized and positioned for growth",
+      "statements": [
+        "In one of the largest and most complex restructurings, we have achieved extraordinary outcomes.",
+        "Over the last year, we have also seen strong demand across the WeWork system and increased our member net promoter scores."
+      ],
+      "dates": [
+        "November 7, 2023",
+        "November 14, 2023",
+        "December 11, 2023",
+        "January 15, 2024"
+      ]
+    },
+    "sources": [
+      "https://www.wired.com/story/adam-neumann-bid-to-buy-wework-failed-will-he-compete/",
+      "https://fortune.com/2024/05/28/wework-flow-adam-neumann-bankruptcy-judge-chapter-11-flow/",
+      "https://www.alvarezandmarsal.com/sites/default/files/canada/Motion%20Record%20of%20the%20Applicant%20re%20Third%20Supplemental%20Order%20-%20Applicant%20-%20WeWork%20Inc.%20-%2015-JAN-2024_1.pdf",
+      "https://www.forbes.com/sites/petercohan/2024/03/27/why-adam-neumanns-500-million-wework-bid-could-easily-fail/",
+      "https://www.theguardian.com/business/article/2024/may/30/wework-bankruptcy-plan-approved"
+    ]
+  },
+  {
+    "name": "Yardi Systems",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "real estate technology firm",
+      "jurisdiction": "United States",
+      "role": "major creditor of WeWork",
+      "provided_financing": "$450 million for WeWork restructuring deal",
+      "role_in_wework_bankruptcy": "part of group gaining control after bankruptcy plan approval"
+    },
+    "sources": [
+      "https://www.wired.com/story/adam-neumann-bid-to-buy-wework-failed-will-he-compete/",
+      "https://fortune.com/2024/05/28/wework-flow-adam-neumann-bankruptcy-judge-chapter-11-flow/",
+      "https://www.theguardian.com/business/article/2024/may/30/wework-bankruptcy-plan-approved"
+    ]
+  },
+  {
+    "name": "New Jersey Bankruptcy Court",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "jurisdiction": "New Jersey, USA",
+      "role": "court rejecting Adam Neumann's bid to buy back WeWork"
+    },
+    "sources": [
+      "https://fortune.com/2024/05/28/wework-flow-adam-neumann-bankruptcy-judge-chapter-11-flow/"
+    ]
+  },
+  {
+    "name": "Quinn Emanuel",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "law firm",
+      "jurisdiction": "United States",
+      "practice_areas": [
+        "Securities Litigation"
+      ],
+      "notable_clients": [
+        "Fortune 500 companies",
+        "Investment banks",
+        "Directors and officers",
+        "Special committees",
+        "Audit committees",
+        "Institutional investors",
+        "Hedge funds and private equity firms",
+        "Financial advisors",
+        "Broker-dealers"
+      ],
+      "notable_rankings": [
+        "Ranked first among firms that major companies want to face least as opposing counsel (BTI Consulting Group, 2025)"
+      ],
+      "specializations": [
+        "Internal investigations",
+        "Negotiations with DOJ, SEC, CFTC, FTC, CFPB"
+      ],
+      "partners": "More than two dozen former prosecutors including former high-ranking DOJ lawyers and alumni of US Attorney\u2019s Offices"
+    },
+    "sources": [
+      "https://www.quinnemanuel.com/practice-areas/securities-litigation/"
+    ]
+  },
+  {
+    "name": "Yuga Labs",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "NFT creator",
+      "notable_case": "Defended in a securities class action alleging NFTs were securities; court dismissed case finding NFTs marketed for consumptive uses, not investment contracts"
+    },
+    "sources": [
+      "https://www.quinnemanuel.com/practice-areas/securities-litigation/"
+    ]
+  },
+  {
+    "name": "Elon Musk",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "roles": [
+        "CEO of Tesla",
+        "Twitter purchaser"
+      ],
+      "legal_cases": [
+        "Multi-billion securities trial related to 2018 Tesla privatization tweets; defense verdict obtained",
+        "Securities class actions related to Twitter statements and filings",
+        "Market manipulation case related to Dogecoin",
+        "Securities case concerning Tesla\u2019s full-self-driving technology; full dismissal obtained"
+      ]
+    },
+    "sources": [
+      "https://www.quinnemanuel.com/practice-areas/securities-litigation/"
+    ]
+  },
+  {
+    "name": "Tesla",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "public company",
+      "legal_cases": [
+        "Securities case concerning full-self-driving technology; full dismissal obtained"
+      ]
+    },
+    "sources": [
+      "https://www.quinnemanuel.com/practice-areas/securities-litigation/"
+    ]
+  },
+  {
+    "name": "DiDi Global Inc.",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "description": "Described as the 'Uber of China'",
+      "legal_cases": [
+        "Putative securities class action alleging undisclosed directive from China\u2019s Cybersecurity Administration during IPO; motion to dismiss filed"
+      ]
+    },
+    "sources": [
+      "https://www.quinnemanuel.com/practice-areas/securities-litigation/"
+    ]
+  },
+  {
+    "name": "Match Group Inc.",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "legal_cases": [
+        "Putative class action alleging material misstatements related to Tinder financials; complaint dismissed"
+      ]
+    },
+    "sources": [
+      "https://www.quinnemanuel.com/practice-areas/securities-litigation/"
+    ]
+  },
+  {
+    "name": "Paris Hilton",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "legal_cases": [
+        "Represented in a putative class action related to celebrity endorsements"
+      ]
+    },
+    "sources": [
+      "https://www.quinnemanuel.com/practice-areas/securities-litigation/"
+    ]
+  },
+  {
+    "name": "The Special Committee of the Board of Directors of WeWork Inc.",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "address": "c/o Jared DeMatteis 45 W 18th Street, Floor 6 New York, New York 10011, U.S.A.",
+      "representative": {
+        "name": "Jared DeMatteis",
+        "title": "Managing Director, Global Head of General Corporate, Legal and Assistant Secretary"
+      },
+      "role": "Plaintiff in lawsuit against SoftBank Group Corp.",
+      "lawsuit_filing_date": "April 7, 2020"
+    },
+    "sources": [
+      "https://group.softbank/en/news/press/20210301"
+    ]
+  },
+  {
+    "name": "WeWork Inc.",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "address": "45 W 18th Street, Floor 6 New York, New York 10011, U.S.A.",
+      "representative": {
+        "name": "Sandeep Mathrani",
+        "title": "Chief Executive Officer and a member of the Board of Directors"
+      },
+      "business_nature": "Provider of co-working space service 'WeWork'",
+      "former_name": "The We Company",
+      "type": "company",
+      "jurisdiction": "United States and Canada",
+      "status": "Applicant in Companies\u2019 Creditors Arrangement Act proceedings",
+      "key_people": [],
+      "related_entities": [
+        "9670416 Canada Inc.",
+        "WeWork Canada GP ULC",
+        "WeWork Canada LP ULC",
+        "WeWork Companies U.S. LLC"
+      ]
+    },
+    "sources": [
+      "https://www.alvarezandmarsal.com/sites/default/files/canada/Motion%20Record%20of%20the%20Applicant%20re%20Third%20Supplemental%20Order%20-%20Applicant%20-%20WeWork%20Inc.%20-%2015-JAN-2024_1.pdf",
+      "https://group.softbank/en/news/press/20210301"
+    ]
+  },
+  {
+    "name": "SoftBank Vision Fund (AIV M1) L.P.",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "Defendant in lawsuit filed by Adam Neumann and WeWork Special Committee"
+    },
+    "sources": [
+      "https://group.softbank/en/news/press/20210301"
+    ]
+  },
+  {
+    "name": "Natalie Sojka",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "former WeWork employee",
+      "legal_action": "filed proposed class action lawsuit in San Francisco Superior Court",
+      "accusation": "accused WeWork\u2019s board of directors of breaching fiduciary duties to minority shareholders"
+    },
+    "sources": [
+      "https://law.stanford.edu/press/wework-ex-ceo-neumann-softbank-sued-over-botched-ipo-plummeting-value/"
+    ]
+  },
+  {
+    "name": "Michael Klausner",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "corporate law and governance professor",
+      "organization": "Stanford Law School",
+      "comment": "WeWork\u2019s private status has no bearing on the merits of a case; self-dealing claims are scrutinized carefully by courts"
+    },
+    "sources": [
+      "https://law.stanford.edu/press/wework-ex-ceo-neumann-softbank-sued-over-botched-ipo-plummeting-value/"
+    ]
+  },
+  {
+    "name": "U.S. Securities and Exchange Commission",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "regulatory agency",
+      "jurisdiction": "United States",
+      "investigation": "inquiry into WeWork over possible rule violations",
+      "status": "active",
+      "role": "regulator of securities markets"
+    },
+    "sources": [
+      "https://www.bisnow.com/national/news/coworking/wework-adam-neumann-self-dealing-probe-sec-new-york-attorney-general-101852",
+      "https://www.investmentexecutive.com/uncategorized/sec-charges-seven-groups-in-alleged-crypto-confidence-scam/",
+      "https://www.reuters.com/article/business/wework-faces-us-sec-inquiry-over-possible-rule-violations-bloomberg-idUSKBN1XP1YA/"
+    ]
+  },
+  {
+    "name": "Jennifer Berrent",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Co-President and Chief Legal Officer",
+      "organization": "The We Company"
+    },
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1533523/000119312519220499/d781982ds1.htm"
+    ]
+  },
+  {
+    "name": "Jared DeMatteis",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "title": "Deputy Chief Legal Officer",
+      "organization": "The We Company"
+    },
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1533523/000119312519220499/d781982ds1.htm"
+    ]
+  },
+  {
+    "name": "Graham Robinson",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "organization": "Skadden, Arps, Slate, Meagher & Flom LLP",
+      "address": "4 Times Square, New York, New York 10036",
+      "phone": "(212) 735-3000",
+      "fax": "(212) 735-2000"
+    },
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1533523/000119312519220499/d781982ds1.htm"
+    ]
+  },
+  {
+    "name": "Laura Knoll",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "organization": "Skadden, Arps, Slate, Meagher & Flom LLP"
+    },
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1533523/000119312519220499/d781982ds1.htm"
+    ]
+  },
+  {
+    "name": "Ryan J. Dzierniejko",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "organization": "Skadden, Arps, Slate, Meagher & Flom LLP"
+    },
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1533523/000119312519220499/d781982ds1.htm"
+    ]
+  },
+  {
+    "name": "Roxane F. Reardon",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "organization": "Simpson Thacher & Bartlett LLP",
+      "address": "425 Lexington Avenue, New York, New York 10017",
+      "phone": "(212) 455-2000",
+      "fax": "(212) 455-2502"
+    },
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1533523/000119312519220499/d781982ds1.htm"
+    ]
+  },
+  {
+    "name": "John C. Ericson",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "organization": "Simpson Thacher & Bartlett LLP"
+    },
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1533523/000119312519220499/d781982ds1.htm"
+    ]
+  },
+  {
+    "name": "Susheel Kirpalani",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "attorney for Adam Neumann",
+      "organization": "Flow",
+      "statement": "criticized WeWork for misleading the court and selling company to Yardi-led group for less than Flow's proposal",
+      "statements": "claimed $450 million funding was disguised equity sale",
+      "date": "2024"
+    },
+    "sources": [
+      "https://www.wired.com/story/adam-neumann-bid-to-buy-wework-failed-will-he-compete/",
+      "https://www.theglobeandmail.com/business/article-wework-reaches-settlement-with-creditors-rebuffs-neumann-bid/"
+    ]
+  },
+  {
+    "name": "Eric Koester",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "professor of innovation and entrepreneurship",
+      "organization": "Georgetown University",
+      "comment": "described Adam Neumann's options as 'wartime CEO' or 'peacetime CEO' regarding competition with WeWork"
+    },
+    "sources": [
+      "https://www.wired.com/story/adam-neumann-bid-to-buy-wework-failed-will-he-compete/"
+    ]
+  },
+  {
+    "name": "SEC",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "regulatory agency",
+      "jurisdiction": "United States",
+      "status": "active",
+      "role": "regulator in crypto fraud cases",
+      "full_name": "U.S. Securities and Exchange Commission"
+    },
+    "sources": [
+      "https://allwork.space/2019/11/was-adam-neuman-self-dealing-the-sec-and-ny-attorney-general-will-investigate/",
+      "https://fortune.com/2019/11/19/wework-softbank-takeover-lawsuits/",
+      "https://carbon-pulse.com/321920/",
+      "https://decrypt.co/105267?p=105267"
+    ]
+  },
+  {
+    "name": "IN THE COURT OF CHANCERY OF THE STATE OF DELAWARE IN RE WEWORK LITIGATION",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "jurisdiction": "State of Delaware",
+      "court": "Court of Chancery",
+      "case_subject": "WeWork litigation"
+    },
+    "sources": [
+      "https://courts.delaware.gov/Opinions/Download.aspx?id=314190"
+    ]
+  },
+  {
+    "name": "JPMorgan Securities LLC",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "financial services",
+      "parent_organization": "JPMorgan Chase",
+      "legal_status": "unit of JPMorgan Chase with five felony counts",
+      "role": "lead underwriter on WeWork IPO"
+    },
+    "sources": [
+      "https://wallstreetonparade.com/2023/08/weworks-stock-imploded-to-13-cents-yesterday-its-cult-master-adam-neumann-cashed-out-years-ago-and-is-a-billionaire/"
+    ]
+  },
+  {
+    "name": "Skadden Arps, Slate, Meagher & Flom",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "law firm",
+      "role": "represented WeWork in IPO"
+    },
+    "sources": [
+      "https://wallstreetonparade.com/2023/08/weworks-stock-imploded-to-13-cents-yesterday-its-cult-master-adam-neumann-cashed-out-years-ago-and-is-a-billionaire/"
+    ]
+  },
+  {
+    "name": "Simpson, Thacher & Bartlett",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "law firm",
+      "role": "represented Wall Street bank underwriters in WeWork IPO"
+    },
+    "sources": [
+      "https://wallstreetonparade.com/2023/08/weworks-stock-imploded-to-13-cents-yesterday-its-cult-master-adam-neumann-cashed-out-years-ago-and-is-a-billionaire/"
+    ]
+  },
+  {
+    "name": "Walter Isaacson",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "biographer of Steve Jobs",
+      "comment_on_Neumann": "reminded him of Steve Jobs",
+      "publication": "Fast Company",
+      "considered_biography_of_Neumann": false
+    },
+    "sources": [
+      "https://www.vanityfair.com/news/2019/11/inside-the-fall-of-wework?srsltid=AfmBOorpkPydewMnDHgTfWTjoNmor4L4jx6OB9X_wK5vhYuxFTTCSg-K"
+    ]
+  },
+  {
+    "name": "New York Attorney General",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "government agency",
+      "jurisdiction": "New York State",
+      "role": "investigating Adam Neumann for self-dealing",
+      "status": "active"
+    },
+    "sources": [
+      "https://allwork.space/2019/11/was-adam-neuman-self-dealing-the-sec-and-ny-attorney-general-will-investigate/",
+      "https://www.bisnow.com/national/news/coworking/wework-adam-neumann-self-dealing-probe-sec-new-york-attorney-general-101852",
+      "https://www.inc.com/business-insider/wework-new-york-attorney-general-investigating.html"
+    ]
+  },
+  {
+    "name": "Open Source CEO",
+    "type": "organization",
+    "confidence": 0.8,
+    "attributes": {
+      "type": "media/publication",
+      "jurisdiction": "unknown",
+      "status": "active",
+      "key_people": [
+        {
+          "name": "Bill Kerr",
+          "role": "author"
+        }
+      ]
+    },
+    "sources": [
+      "https://www.opensourceceo.com/p/adam-neumann-deep-dive"
+    ]
+  },
+  {
+    "name": "Flowcarbon",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "ICO project",
+      "jurisdiction": "Not specified",
+      "status": "active",
+      "key_people": [
+        "Adam Neumann"
+      ],
+      "description": "Company that raised US$70 million in May 2022 to tokenize carbon credits and build an on-chain market; failed to launch its Goddess Nature Token and is refunding investors.",
+      "founded": 2022,
+      "funding": {
+        "amount_raised": 70000000,
+        "currency": "USD",
+        "notable_investors": [
+          "Andreessen Horowitz"
+        ]
+      },
+      "product": "Goddess Nature Token (GNT)",
+      "product_status": "Token failed to launch; refunds issued",
+      "industry": "blockchain, carbon offsets",
+      "funding_raised": "$32 million from a16z plus $38 million from token sale",
+      "products": [
+        "Goddess Nature Token (GNT)"
+      ],
+      "business_model": "Sells carbon credits via blockchain tokens; charges 2% tokenization fee",
+      "associated_person": "Adam Neumann",
+      "notable_events": "issuing refunds after failing to launch crypto token",
+      "investors": [
+        "Andreessen Horowitz"
+      ],
+      "token_symbol": "GNT"
+    },
+    "sources": [
+      "https://cryptonews.com/news/adam-neumann-backed-flowcarbons-crypto-token-never-launched-company-repays-investors/",
+      "https://decrypt.co/105267?p=105267",
+      "https://carbon-pulse.com/321920/",
+      "https://www.sofi.com/blog/friday-fundings-weworks-adam-neumann-back-snags-32-million-new-startup/",
+      "https://www.forbes.com.au/news/innovation/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/",
+      "https://www.coindesk.com/business/2024/09/12/weworks-neumanns-climate-firm-refunds-crypto-token-holders-after-failed-launch-forbes",
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors",
+      "https://www.forbes.com/sites/sarahemerson/2024/09/11/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/",
+      "https://icoholder.com/en/flowcarbon-1024071"
+    ]
+  },
+  {
+    "name": "Goddess Nature Token",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "issuer": "Flowcarbon",
+      "type": "crypto-carbon token",
+      "status": "never launched",
+      "description": "A carbon credit crypto token that Flowcarbon failed to launch.",
+      "alias": "GNT",
+      "backing": "1:1 by carbon credits",
+      "funds_raised": 38000000,
+      "currency": "USD",
+      "ticker": "GNT",
+      "use_case": "Carbon credit trading on crypto exchanges",
+      "funding_raised": "$38 million",
+      "abbreviation": "GNT",
+      "associated_project": "Flowcarbon",
+      "associated_with": "Flowcarbon",
+      "associated_organization": "Flowcarbon",
+      "symbol": "GNT"
+    },
+    "sources": [
+      "https://cryptonews.com/news/adam-neumann-backed-flowcarbons-crypto-token-never-launched-company-repays-investors/",
+      "https://decrypt.co/105267?p=105267",
+      "https://carbon-pulse.com/321920/",
+      "https://www.sofi.com/blog/friday-fundings-weworks-adam-neumann-back-snags-32-million-new-startup/",
+      "https://www.forbes.com.au/news/innovation/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/",
+      "https://www.coindesk.com/business/2024/09/12/weworks-neumanns-climate-firm-refunds-crypto-token-holders-after-failed-launch-forbes",
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors",
+      "https://www.forbes.com/sites/sarahemerson/2024/09/11/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/",
+      "https://icoholder.com/en/flowcarbon-1024071"
+    ]
+  },
+  {
+    "name": "Arianna Simpson",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "general partner",
+      "organization": "Andreessen Horowitz"
+    },
+    "sources": [
+      "https://www.forbes.com.au/news/innovation/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/"
+    ]
+  },
+  {
+    "name": "Fifth Wall",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "venture capital firm",
+      "investment_amount": "$4 million in Flowcarbon token"
+    },
+    "sources": [
+      "https://www.forbes.com.au/news/innovation/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/"
+    ]
+  },
+  {
+    "name": "Jennifer Owens",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "spokesperson",
+      "organization": "Flowcarbon"
+    },
+    "sources": [
+      "https://www.forbes.com.au/news/innovation/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/"
+    ]
+  },
+  {
+    "name": "Sam Levinson",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "Hollywood producer",
+      "investment": "investor in Flowcarbon"
+    },
+    "sources": [
+      "https://www.forbes.com.au/news/innovation/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/"
+    ]
+  },
+  {
+    "name": "Ashley Levinson",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "Hollywood producer",
+      "investment": "investor in Flowcarbon"
+    },
+    "sources": [
+      "https://www.forbes.com.au/news/innovation/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/"
+    ]
+  },
+  {
+    "name": "Kevin Turen",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "producer of Euphoria",
+      "investment": "investor in Flowcarbon",
+      "date_of_death": "November 2023"
+    },
+    "sources": [
+      "https://www.forbes.com.au/news/innovation/adam-neumanns-climate-company-is-issuing-refunds-after-failing-to-launch-crypto-token/"
+    ]
+  },
+  {
+    "name": "General Catalyst",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "venture capital firm",
+      "role": "investor in Flowcarbon's May 2022 funding round"
+    },
+    "sources": [
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors"
+    ]
+  },
+  {
+    "name": "Samsung Next",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "corporate venture arm",
+      "role": "investor in Flowcarbon's May 2022 funding round"
+    },
+    "sources": [
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors"
+    ]
+  },
+  {
+    "name": "Invesco Private Capital",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "investment firm",
+      "role": "investor in Flowcarbon's May 2022 funding round"
+    },
+    "sources": [
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors"
+    ]
+  },
+  {
+    "name": "Allegory Labs",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "investment firm",
+      "role": "investor in Flowcarbon's May 2022 funding round"
+    },
+    "sources": [
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors"
+    ]
+  },
+  {
+    "name": "Sarah Emerson",
+    "type": "person",
+    "confidence": 0.95,
+    "attributes": {
+      "role": "journalist",
+      "organization": "Forbes",
+      "notable_work": "Reported on Flowcarbon refunding investors after failing to launch Goddess Nature Token"
+    },
+    "sources": [
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors"
+    ]
+  },
+  {
+    "name": "Verra",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "Carbon Credit Registry",
+      "jurisdiction": "Washington DC, USA",
+      "status": "active",
+      "key_people": [
+        "Lara Kennedy"
+      ],
+      "actions": "Prohibited tokenisation of retired carbon credits in May 2022",
+      "position": "Warned against tokenizing carbon credits"
+    },
+    "sources": [
+      "https://www.coindesk.com/business/2024/09/12/weworks-neumanns-climate-firm-refunds-crypto-token-holders-after-failed-launch-forbes",
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors"
+    ]
+  },
+  {
+    "name": "Lara Kennedy",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "spokesperson",
+      "organization": "Verra",
+      "statements": "Confirmed Verra's prohibition on tokenisation of retired credits and no forecast date for next announcement"
+    },
+    "sources": [
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors"
+    ]
+  },
+  {
+    "name": "Toucan",
+    "type": "organization",
+    "confidence": 0.85,
+    "attributes": {
+      "type": "company",
+      "activity": "Created about 22 million 'Base Carbon Tonnes' tokens by bridging carbon offsets onto blockchain",
+      "industry": "crypto-based carbon credit solutions"
+    },
+    "sources": [
+      "https://www.sofi.com/blog/friday-fundings-weworks-adam-neumann-back-snags-32-million-new-startup/",
+      "https://reddmonitor.substack.com/p/flowcarbon-is-refunding-investors"
+    ]
+  },
+  {
+    "name": "Dana Gibber",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "CEO",
+      "organization": "Flowcarbon",
+      "statement_date": "July 2022",
+      "statement": "Company paused token launch to wait for markets to stabilize"
+    },
+    "sources": [
+      "https://www.coindesk.com/business/2024/09/12/weworks-neumanns-climate-firm-refunds-crypto-token-holders-after-failed-launch-forbes"
+    ]
+  },
+  {
+    "name": "Regen",
+    "type": "organization",
+    "confidence": 0.8,
+    "attributes": {
+      "industry": "crypto-based carbon credit solutions"
+    },
+    "sources": [
+      "https://www.sofi.com/blog/friday-fundings-weworks-adam-neumann-back-snags-32-million-new-startup/"
+    ]
+  },
+  {
+    "name": "Moss",
+    "type": "organization",
+    "confidence": 0.8,
+    "attributes": {
+      "industry": "crypto-based carbon credit solutions"
+    },
+    "sources": [
+      "https://www.sofi.com/blog/friday-fundings-weworks-adam-neumann-back-snags-32-million-new-startup/"
+    ]
+  },
+  {
+    "name": "KlimaDAO",
+    "type": "organization",
+    "confidence": 0.8,
+    "attributes": {
+      "industry": "crypto-based carbon credit solutions"
+    },
+    "sources": [
+      "https://www.sofi.com/blog/friday-fundings-weworks-adam-neumann-back-snags-32-million-new-startup/"
+    ]
+  },
+  {
+    "name": "Morocoin Tech Corp.",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "crypto asset trading platform (alleged)",
+      "status": "accused in SEC complaint"
+    },
+    "sources": [
+      "https://www.investmentexecutive.com/uncategorized/sec-charges-seven-groups-in-alleged-crypto-confidence-scam/"
+    ]
+  },
+  {
+    "name": "Berge Blockchain Technology Co. Ltd.",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "crypto asset trading platform (alleged)",
+      "status": "accused in SEC complaint"
+    },
+    "sources": [
+      "https://www.investmentexecutive.com/uncategorized/sec-charges-seven-groups-in-alleged-crypto-confidence-scam/"
+    ]
+  },
+  {
+    "name": "Cirkor Inc.",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "crypto asset trading platform (alleged)",
+      "status": "accused in SEC complaint"
+    },
+    "sources": [
+      "https://www.investmentexecutive.com/uncategorized/sec-charges-seven-groups-in-alleged-crypto-confidence-scam/"
+    ]
+  },
+  {
+    "name": "AI Wealth Inc.",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "investment club",
+      "status": "accused in SEC complaint"
+    },
+    "sources": [
+      "https://www.investmentexecutive.com/uncategorized/sec-charges-seven-groups-in-alleged-crypto-confidence-scam/"
+    ]
+  },
+  {
+    "name": "AI Investment Education Foundation Ltd.",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "investment club",
+      "status": "accused in SEC complaint"
+    },
+    "sources": [
+      "https://www.investmentexecutive.com/uncategorized/sec-charges-seven-groups-in-alleged-crypto-confidence-scam/"
+    ]
+  },
+  {
+    "name": "Zenith Asset Tech Foundation",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "investment club",
+      "status": "accused in SEC complaint"
+    },
+    "sources": [
+      "https://www.investmentexecutive.com/uncategorized/sec-charges-seven-groups-in-alleged-crypto-confidence-scam/"
+    ]
+  },
+  {
+    "name": "Laura D\u2019Allaird",
+    "type": "person",
+    "confidence": 0.95,
+    "attributes": {
+      "title": "Chief",
+      "role": "Chief of the cyber and emerging technologies unit",
+      "organization": "U.S. Securities and Exchange Commission"
+    },
+    "sources": [
+      "https://www.investmentexecutive.com/uncategorized/sec-charges-seven-groups-in-alleged-crypto-confidence-scam/"
+    ]
+  },
+  {
+    "name": "Sandeep Mathrani",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "CEO",
+      "organization": "WeWork",
+      "dates": {
+        "active": "October 2022"
+      },
+      "actions": "Shut down Adam Neumann's $1 billion financing attempt in October 2022"
+    },
+    "sources": [
+      "https://www.theguardian.com/business/2024/feb/06/adam-neumann-buy-wework"
+    ]
+  },
+  {
+    "name": "Rithm Capital",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "Potential financial backer for Adam Neumann's bid",
+      "status": "Consideration at very early stages"
+    },
+    "sources": [
+      "https://www.cnbc.com/2024/03/26/adam-neumann-wework-bid-faces-questions-over-financing-business-plan.html"
+    ]
+  },
+  {
+    "name": "Alex Spiro",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "attorney",
+      "organization": "Flow",
+      "activity_dates": "2024",
+      "notable_statement": "Flow and financial partners ready to outbid any existing offers for WeWork by 10%"
+    },
+    "sources": [
+      "https://allwork.space/2024/04/creditors-pressure-wework-to-evaluate-neumanns-flow-proposal-during-bankruptcy-challenges/"
+    ]
+  },
+  {
+    "name": "Embassy Group",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "real estate investment firm",
+      "jurisdiction": "India",
+      "ownership": {
+        "WeWork India": "73%"
+      }
+    },
+    "sources": [
+      "https://allwork.space/2024/04/creditors-pressure-wework-to-evaluate-neumanns-flow-proposal-during-bankruptcy-challenges/"
+    ]
+  },
+  {
+    "name": "WeWork India",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "joint venture",
+      "jurisdiction": "India",
+      "ownership": {
+        "WeWork": "27%",
+        "Embassy Group": "73%"
+      },
+      "potential_sale": {
+        "price": "Rs 1,200 crore (~$144.58 million)",
+        "investors_interested": [
+          "Enam group\u2019s family office",
+          "A91 Partners",
+          "Mithun Sacheti"
+        ]
+      }
+    },
+    "sources": [
+      "https://allwork.space/2024/04/creditors-pressure-wework-to-evaluate-neumanns-flow-proposal-during-bankruptcy-challenges/"
+    ]
+  },
+  {
+    "name": "Unsecured creditors of WeWork",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "creditors pressuring WeWork during bankruptcy",
+      "demands": [
+        "consider Adam Neumann's Flow proposal",
+        "provide Flow and other bidders necessary information to make proposals",
+        "grant additional 30 days to file bankruptcy plan conditional on these demands"
+      ],
+      "concerns": [
+        "lack of secured financing to exit bankruptcy",
+        "failure to pay over $40 million in rent",
+        "less than a third of leases negotiated"
+      ]
+    },
+    "sources": [
+      "https://allwork.space/2024/04/creditors-pressure-wework-to-evaluate-neumanns-flow-proposal-during-bankruptcy-challenges/"
+    ]
+  },
+  {
+    "name": "WeWork spokesperson",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "spokesperson",
+      "organization": "WeWork",
+      "statements": [
+        "WeWork is an extraordinary company and it's no surprise we receive expressions of interest from third parties on a regular basis",
+        "Our Board and our advisors review those approaches in the ordinary course, to ensure we always act in the best long-term interests of the company",
+        "WeWork remains intensely focused on finishing the important work we began back in November, and believe we will emerge from Chapter 11 in the second quarter as a financially strong and profitable company"
+      ]
+    },
+    "sources": [
+      "https://www.forbes.com/sites/petercohan/2024/03/27/why-adam-neumanns-500-million-wework-bid-could-easily-fail/"
+    ]
+  },
+  {
+    "name": "Cupar Grimmond",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "affiliation": "WeWork technology partner Yardi Systems",
+      "ownership_stake_post_restructuring": "majority equity owner"
+    },
+    "sources": [
+      "https://www.theglobeandmail.com/business/article-wework-reaches-settlement-with-creditors-rebuffs-neumann-bid/"
+    ]
+  },
+  {
+    "name": "John Sherwood",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "U.S. Bankruptcy Judge",
+      "jurisdiction": "Newark, New Jersey",
+      "actions": [
+        "approved WeWork restructuring plan",
+        "rejected Adam Neumann's $650 million bid"
+      ],
+      "date": "2024"
+    },
+    "sources": [
+      "https://www.theglobeandmail.com/business/article-wework-reaches-settlement-with-creditors-rebuffs-neumann-bid/"
+    ]
+  },
+  {
+    "name": "Steven Serajeddini",
+    "type": "person",
+    "confidence": 1.0,
+    "attributes": {
+      "role": "lawyer for WeWork",
+      "actions": "announced settlements with junior creditors",
+      "date": "2024"
+    },
+    "sources": [
+      "https://www.theglobeandmail.com/business/article-wework-reaches-settlement-with-creditors-rebuffs-neumann-bid/"
+    ]
+  },
+  {
+    "name": "Antara Capital",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "bondholder group",
+      "role": "junior creditor opposing initial restructuring"
+    },
+    "sources": [
+      "https://www.theglobeandmail.com/business/article-wework-reaches-settlement-with-creditors-rebuffs-neumann-bid/"
+    ]
+  },
+  {
+    "name": "9670416 Canada Inc.",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "company",
+      "jurisdiction": "Canada",
+      "status": "Canadian Debtor in CCAA proceedings",
+      "key_people": []
+    },
+    "sources": [
+      "https://www.alvarezandmarsal.com/sites/default/files/canada/Motion%20Record%20of%20the%20Applicant%20re%20Third%20Supplemental%20Order%20-%20Applicant%20-%20WeWork%20Inc.%20-%2015-JAN-2024_1.pdf"
+    ]
+  },
+  {
+    "name": "WeWork Canada GP ULC",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "company",
+      "jurisdiction": "Canada",
+      "status": "Canadian Debtor in CCAA proceedings",
+      "key_people": []
+    },
+    "sources": [
+      "https://www.alvarezandmarsal.com/sites/default/files/canada/Motion%20Record%20of%20the%20Applicant%20re%20Third%20Supplemental%20Order%20-%20Applicant%20-%20WeWork%20Inc.%20-%2015-JAN-2024_1.pdf"
+    ]
+  },
+  {
+    "name": "WeWork Companies U.S. LLC",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "company",
+      "jurisdiction": "United States",
+      "status": "Real Property Obligor in CCAA proceedings",
+      "key_people": []
+    },
+    "sources": [
+      "https://www.alvarezandmarsal.com/sites/default/files/canada/Motion%20Record%20of%20the%20Applicant%20re%20Third%20Supplemental%20Order%20-%20Applicant%20-%20WeWork%20Inc.%20-%2015-JAN-2024_1.pdf"
+    ]
+  },
+  {
+    "name": "Brendan O\u2019Neill",
+    "type": "person",
+    "confidence": 0.95,
+    "attributes": {
+      "role": "Lawyer for the Applicant",
+      "organization": "Goodmans LLP",
+      "contact": {
+        "email": "boneill@goodmans.ca",
+        "LSO_number": "43331J"
+      }
+    },
+    "sources": [
+      "https://www.alvarezandmarsal.com/sites/default/files/canada/Motion%20Record%20of%20the%20Applicant%20re%20Third%20Supplemental%20Order%20-%20Applicant%20-%20WeWork%20Inc.%20-%2015-JAN-2024_1.pdf"
+    ]
+  },
+  {
+    "name": "Joseph Pasquariello",
+    "type": "person",
+    "confidence": 0.95,
+    "attributes": {
+      "role": "Lawyer for the Applicant",
+      "organization": "Goodmans LLP",
+      "contact": {
+        "email": "jpasquariello@goodmans.ca",
+        "LSO_number": "38390C"
+      }
+    },
+    "sources": [
+      "https://www.alvarezandmarsal.com/sites/default/files/canada/Motion%20Record%20of%20the%20Applicant%20re%20Third%20Supplemental%20Order%20-%20Applicant%20-%20WeWork%20Inc.%20-%2015-JAN-2024_1.pdf"
+    ]
+  },
+  {
+    "name": "Trish Barrett",
+    "type": "person",
+    "confidence": 0.95,
+    "attributes": {
+      "role": "Lawyer for the Applicant",
+      "organization": "Goodmans LLP",
+      "contact": {
+        "email": "tbarrett@goodmans.ca",
+        "LSO_number": "77904U"
+      }
+    },
+    "sources": [
+      "https://www.alvarezandmarsal.com/sites/default/files/canada/Motion%20Record%20of%20the%20Applicant%20re%20Third%20Supplemental%20Order%20-%20Applicant%20-%20WeWork%20Inc.%20-%2015-JAN-2024_1.pdf"
+    ]
+  },
+  {
+    "name": "Justice Steele",
+    "type": "person",
+    "confidence": 0.9,
+    "attributes": {
+      "role": "Judge",
+      "court": "Ontario Superior Court of Justice (Commercial List)",
+      "date_of_hearing": "January 18, 2024"
+    },
+    "sources": [
+      "https://www.alvarezandmarsal.com/sites/default/files/canada/Motion%20Record%20of%20the%20Applicant%20re%20Third%20Supplemental%20Order%20-%20Applicant%20-%20WeWork%20Inc.%20-%2015-JAN-2024_1.pdf"
+    ]
+  },
+  {
+    "name": "U.S. Bankruptcy Court",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "jurisdiction": "United States",
+      "role": "Adjudicating WeWork bankruptcy and considering Adam Neumann's bid to re-acquire company"
+    },
+    "sources": [
+      "https://www.933thedrive.com/2024/04/23/wework-founder-neumann-wants-bankruptcy-courts-help-in-bid-to-repurchase-company/"
+    ]
+  },
+  {
+    "name": "AML Watcher",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "AML screening solution provider",
+      "jurisdiction": "Global",
+      "status": "Active",
+      "services": [
+        "Sanctions & PEP Screening",
+        "Fugitive Lists screening",
+        "Exclusion Lists screening",
+        "Fraud Warnings screening",
+        "Disciplinary Actions screening",
+        "Debarment Lists screening",
+        "Enforcement Actions screening",
+        "Law Enforcement Lists screening",
+        "Restricted and Denied Party Lists screening",
+        "Fitness & Probity Lists screening",
+        "Biometric Screening",
+        "Custom Risk Scoring",
+        "Proprietary In-house AML database"
+      ],
+      "coverage": {
+        "countries": 235,
+        "languages": 80,
+        "watchlists": 3500
+      },
+      "features": [
+        "TruRisk technology for reducing false positives",
+        "User role management",
+        "Transparency in case handling",
+        "Automated background checks",
+        "Compliance with AML regulations"
+      ]
+    },
+    "sources": [
+      "https://amlwatcher.com/watchlist-screening/"
+    ]
+  },
+  {
+    "name": "ComplyAdvantage",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "company",
+      "jurisdiction": "unknown",
+      "status": "active",
+      "products": [
+        "ComplyAdvantage Mesh",
+        "Financial crime risk applications",
+        "Customer Screening",
+        "Company Screening",
+        "Ongoing Monitoring",
+        "Transaction Monitoring",
+        "Payment Screening",
+        "Sanctions & Watchlists screening",
+        "PEPs & RCAs screening",
+        "Adverse Media screening",
+        "Agentic workflows"
+      ]
+    },
+    "sources": [
+      "https://complyadvantage.com/fincrime-risk-intelligence/sanctions-watchlists-screening/"
+    ]
+  },
+  {
+    "name": "Ebury",
+    "type": "organization",
+    "confidence": 0.9,
+    "attributes": {
+      "type": "financial services",
+      "jurisdiction": "unknown",
+      "status": "active",
+      "key_people": [
+        {
+          "title": "Screening and Transaction Monitoring Manager"
+        }
+      ]
+    },
+    "sources": [
+      "https://complyadvantage.com/fincrime-risk-intelligence/sanctions-watchlists-screening/"
+    ]
+  },
+  {
+    "name": "Alessa",
+    "type": "organization",
+    "confidence": 1.0,
+    "attributes": {
+      "type": "software company",
+      "jurisdiction": "not specified",
+      "status": "active",
+      "products": [
+        "Basic Screening",
+        "Standard Screening",
+        "Integrated Screening"
+      ],
+      "services": [
+        "Watchlist Screening",
+        "Sanctions Screening",
+        "PEP Screening",
+        "Sanctions/Watchlist/PEP risk screening",
+        "Real-time screening",
+        "Batch screening",
+        "PEP Scoring",
+        "AI insights from Screening History",
+        "EDD plug-in",
+        "API or Datafile formats for Watchlists/Sanctions data"
+      ]
+    },
+    "sources": [
+      "https://alessa.com/software-solutions/aml-compliance/sanction-watchlist-screening/"
+    ]
+  }
+]

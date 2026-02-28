@@ -1,0 +1,17 @@
+{
+  "run_id": "adam_neumann",
+  "subject": "adam neumann",
+  "started_at": "2026-02-28 16:53:08.620837+00:00",
+  "completed_at": "2026-02-28 17:33:47.415034+00:00",
+  "duration_seconds": 2438.8,
+  "total_cost_usd": 2.2194689999999997,
+  "iterations": 5,
+  "phases_executed": [],
+  "entities_found": 125,
+  "connections_found": 132,
+  "risk_flags_count": 20,
+  "sources_accessed": 10,
+  "sources_failed": 0,
+  "termination_reason": "terminated_by_director",
+  "error_count": 0
+}

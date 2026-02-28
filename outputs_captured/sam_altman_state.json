@@ -1,0 +1,51 @@
+{
+  "subject": {
+    "full_name": "Sam Altman",
+    "aliases": [],
+    "date_of_birth": null,
+    "current_role": null,
+    "current_organization": null,
+    "education": [],
+    "professional_history": [],
+    "known_associations": [],
+    "summary": ""
+  },
+  "entities": [],
+  "connections": [],
+  "risk_flags": [],
+  "search_history": [],
+  "hypotheses": [],
+  "pending_content": [],
+  "current_phase": "synthesis",
+  "iteration": 1,
+  "max_iterations": 1,
+  "last_decision": {
+    "reasoning": "Maximum iterations reached. Moving to synthesis.",
+    "next_action": "generate_report",
+    "search_queries": [],
+    "target_entity_ids": [],
+    "current_phase": "synthesis",
+    "confidence_in_completeness": 0.0,
+    "gaps_identified": []
+  },
+  "entities_added_per_iteration": [],
+  "facts_added_per_iteration": [],
+  "confidence_scores": {},
+  "overall_confidence": 0.0,
+  "total_llm_calls": 1,
+  "total_search_calls": 0,
+  "estimated_cost_usd": 0.025043999999999997,
+  "should_terminate": true,
+  "error_log": [],
+  "logs": [
+    "Generating final report\u2026"
+  ],
+  "inaccessible_urls": [],
+  "temporal_facts": [],
+  "temporal_contradictions": [],
+  "risk_debate_transcript": [],
+  "graph_insights": [],
+  "pii_annotations": [],
+  "final_report": "# Due Diligence Report: Sam Altman\n\n**Role:** Unknown @ Unknown\n**Generated:** N/A\n**Confidence:** 0.00\n\n---\n\n## 1. Executive Summary\n\n# Due Diligence Report: Sam Altman\n**Generated:** January 2025 | **Investigation ID:** SA-2025-001 | **Iterations:** 1\n\n---\n\n## Executive Summary\n\n### \u26a0\ufe0f INSUFFICIENT DATA - INVESTIGATION INCOMPLETE\n\nThis due diligence investigation was unable to proceed due to a **critical failure in data collection**. No searches were executed, no entities were discovered, and no risk assessment could be performed. The investigation system returned empty results across all parameters.\n\n| Metric | Value |\n|--------|-------|\n| Facts Extracted | 0 |\n| Entities Discovered | 0 |\n| Risk Flags Identified | 0 |\n| Search Iterations | 0 |\n| Overall Confidence | **0% - No Data** |\n\n**Assessment Status:** This report cannot provide a meaningful risk evaluation for Sam Altman. A complete re-investigation with functional data retrieval is required before any business decisions should be made.\n\n---\n\n## Subject Profile\n\n| Field | Information |\n|-------|-------------|\n| **Full Legal Name** | Sam Altman |\n| **Known Aliases** | None identified |\n| **Date of Birth** | Not retrieved |\n| **Current Role** | Not retrieved |\n| **Current Organization** | Not retrieved |\n| **CRD/SEC ID Numbers** | Not retrieved |\n| **Location** | Not retrieved |\n| **Education** | Not retrieved |\n| **Professional History** | Not retrieved |\n| **Known Associations** | Not retrieved |\n\n> **Note:** The subject \"Sam Altman\" is a common name. Without additional identifying information, this investigation cannot confirm which individual was the intended subject. The most prominent individual by this name is Samuel H. Altman, CEO of OpenAI, but this has not been verified through investigation sources.\n\n---\n\n## Organizational Connections\n\n**No organizational connections were discovered during this investigation.**\n\n| Category | Entities Found |\n|----------|----------------|\n| Financial Entities | 0 |\n| Business Entities | 0 |\n| Regulatory Bodies | 0 |\n| Legal Proceedings | 0 |\n\n---\n\n## Risk Assessment\n\n### Investigation Failure Risk\n\n---\n\n## 2. Subject Profile\n\n- **Full Name:** Sam Altman\n\n---\n\n## 3. Entity Map\n\n| Type | Name | Confidence |\n|------|------|------------|\n\n**Total entities:** 0\n\n---\n\n## 4. Timeline\n\n(No temporal facts extracted)\n\n\n---\n\n## 5. Risk Assessment\n\nNo risk flags identified.\n\n\n---\n\n## 6. Key Connections\n\nNo connections mapped.\n\n---\n\n## 7. Source Audit\n\n- **Searches conducted:** 0\n- **Iterations:** 1\n- **Estimated cost:** $0.0000\n\n\n---\n\n## 8. Appendix\n\n### Investigation Metrics\n- **Total Entities:** 0\n- **Total Connections:** 0\n- **Total Search Queries:** 0\n- **Iteration Count:** 1\n\n\n\n",
+  "redacted_report": ""
+}

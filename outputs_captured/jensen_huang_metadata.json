@@ -1,0 +1,17 @@
+{
+  "run_id": "jensen_huang",
+  "subject": "Jensen Huang",
+  "started_at": "2026-02-28 16:18:00.506437+00:00",
+  "completed_at": "2026-02-28 16:33:11.767175+00:00",
+  "duration_seconds": 911.3,
+  "total_cost_usd": 0.9554084999999999,
+  "iterations": 3,
+  "phases_executed": [],
+  "entities_found": 74,
+  "connections_found": 64,
+  "risk_flags_count": 6,
+  "sources_accessed": 5,
+  "sources_failed": 0,
+  "termination_reason": "terminated_by_director",
+  "error_count": 0
+}
