@@ -1,0 +1,234 @@
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T09:07:21.748219+00:00"}
+{"event": "search", "query": "Timothy Overturf CEO Sisu Capital", "phase": "baseline", "ts": "2026-02-27T09:07:21.749610+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" finance investment", "phase": "baseline", "ts": "2026-02-27T09:07:21.749722+00:00"}
+{"event": "search", "query": "Sisu Capital investment firm", "phase": "baseline", "ts": "2026-02-27T09:07:21.749773+00:00"}
+{"event": "search", "query": "\"Tim Overturf\" Sisu Capital LinkedIn", "phase": "baseline", "ts": "2026-02-27T09:07:21.749814+00:00"}
+{"event": "search", "query": "Timothy Overturf biography background career", "phase": "baseline", "ts": "2026-02-27T09:07:21.749850+00:00"}
+{"event": "node", "node": "web_research", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T09:07:28.783628+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T09:14:39.445505+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 2, "ts": "2026-02-27T09:14:53.839158+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 2, "ts": "2026-02-27T09:16:11.808309+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 3, "ts": "2026-02-27T09:16:26.403179+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 3, "ts": "2026-02-27T09:17:22.250286+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 4, "ts": "2026-02-27T09:17:35.143883+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 4, "ts": "2026-02-27T09:18:44.129180+00:00"}
+{"event": "node", "node": "director", "phase": "synthesis", "iteration": 5, "ts": "2026-02-27T09:18:44.136938+00:00"}
+{"event": "node", "node": "entity_resolution", "phase": "synthesis", "iteration": 5, "ts": "2026-02-27T09:19:01.814669+00:00"}
+{"event": "node", "node": "generate_report", "phase": "synthesis", "iteration": 5, "ts": "2026-02-27T09:20:17.740174+00:00"}
+{"event": "node", "node": "temporal_analysis", "phase": "synthesis", "iteration": 5, "ts": "2026-02-27T09:21:03.406641+00:00"}
+{"event": "node", "node": "update_graph_db", "phase": "synthesis", "iteration": 5, "ts": "2026-02-27T09:21:40.086373+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T09:56:29.948677+00:00"}
+{"event": "search", "query": "Timothy Overturf CEO Sisu Capital", "phase": "baseline", "ts": "2026-02-27T09:56:29.951189+00:00"}
+{"event": "search", "query": "Timothy Overturf LinkedIn investment finance", "phase": "baseline", "ts": "2026-02-27T09:56:29.951295+00:00"}
+{"event": "search", "query": "Sisu Capital investment firm fund manager", "phase": "baseline", "ts": "2026-02-27T09:56:29.951357+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" biography career history", "phase": "baseline", "ts": "2026-02-27T09:56:29.951405+00:00"}
+{"event": "search", "query": "Sisu Capital AUM portfolio investments", "phase": "baseline", "ts": "2026-02-27T09:56:29.951454+00:00"}
+{"event": "node", "node": "web_research", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T09:56:34.424603+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T10:02:29.321790+00:00"}
+{"event": "node", "node": "director", "phase": "synthesis", "iteration": 2, "ts": "2026-02-27T10:02:29.327177+00:00"}
+{"event": "node", "node": "entity_resolution", "phase": "synthesis", "iteration": 2, "ts": "2026-02-27T10:02:38.878876+00:00"}
+{"event": "node", "node": "generate_report", "phase": "synthesis", "iteration": 2, "ts": "2026-02-27T10:04:02.919089+00:00"}
+{"event": "node", "node": "temporal_analysis", "phase": "synthesis", "iteration": 2, "ts": "2026-02-27T10:04:47.349836+00:00"}
+{"event": "node", "node": "update_graph_db", "phase": "synthesis", "iteration": 2, "ts": "2026-02-27T10:05:08.638260+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T10:10:44.166516+00:00"}
+{"event": "search", "query": "Timothy Overturf CEO Sisu Capital", "phase": "baseline", "ts": "2026-02-27T10:10:44.168720+00:00"}
+{"event": "search", "query": "Timothy Overturf LinkedIn investment finance", "phase": "baseline", "ts": "2026-02-27T10:10:44.168812+00:00"}
+{"event": "search", "query": "Sisu Capital investment firm fund manager", "phase": "baseline", "ts": "2026-02-27T10:10:44.168873+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" biography career history", "phase": "baseline", "ts": "2026-02-27T10:10:44.168928+00:00"}
+{"event": "search", "query": "Sisu Capital AUM portfolio investments", "phase": "baseline", "ts": "2026-02-27T10:10:44.168978+00:00"}
+{"event": "node", "node": "web_research", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T10:10:45.521681+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T10:10:55.681341+00:00"}
+{"event": "node", "node": "director", "phase": "synthesis", "iteration": 2, "ts": "2026-02-27T10:10:55.684217+00:00"}
+{"event": "node", "node": "entity_resolution", "phase": "synthesis", "iteration": 2, "ts": "2026-02-27T10:11:04.951272+00:00"}
+{"event": "node", "node": "generate_report", "phase": "synthesis", "iteration": 2, "ts": "2026-02-27T10:12:24.492152+00:00"}
+{"event": "node", "node": "temporal_analysis", "phase": "synthesis", "iteration": 2, "ts": "2026-02-27T10:13:06.758774+00:00"}
+{"event": "node", "node": "update_graph_db", "phase": "synthesis", "iteration": 2, "ts": "2026-02-27T10:13:27.411786+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T12:29:19.795271+00:00"}
+{"event": "search", "query": "Timothy Overturf CEO Sisu Capital", "phase": "baseline", "ts": "2026-02-27T12:29:19.797945+00:00"}
+{"event": "search", "query": "Sisu Capital investment firm", "phase": "baseline", "ts": "2026-02-27T12:29:19.798071+00:00"}
+{"event": "search", "query": "Timothy Overturf LinkedIn background career", "phase": "baseline", "ts": "2026-02-27T12:29:19.798124+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" finance executive", "phase": "baseline", "ts": "2026-02-27T12:29:19.798171+00:00"}
+{"event": "search", "query": "Sisu Capital portfolio investments", "phase": "baseline", "ts": "2026-02-27T12:29:19.798214+00:00"}
+{"event": "node", "node": "web_research", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T12:29:24.879092+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T12:36:25.996726+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 2, "ts": "2026-02-27T12:36:37.176726+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 2, "ts": "2026-02-27T12:37:36.266367+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 3, "ts": "2026-02-27T12:37:50.637265+00:00"}
+{"event": "search", "query": "SEC v Sisu Capital Timothy Overturf complaint outcome judgment 2023 2024", "phase": "adversarial", "ts": "2026-02-27T12:37:50.649700+00:00"}
+{"event": "search", "query": "Hansueli Overturf California investment adviser suspension disciplinary history", "phase": "adversarial", "ts": "2026-02-27T12:37:50.650147+00:00"}
+{"event": "search", "query": "Timothy Overturf FINRA BrokerCheck CRD 6422933 disclosures", "phase": "adversarial", "ts": "2026-02-27T12:37:50.650312+00:00"}
+{"event": "search", "query": "\"Sisu Capital\" \"Overturf\" criminal charges fraud indictment", "phase": "adversarial", "ts": "2026-02-27T12:37:50.650431+00:00"}
+{"event": "search", "query": "Timothy Overturf Arcata California current activities 2024 2025", "phase": "adversarial", "ts": "2026-02-27T12:37:50.650525+00:00"}
+{"event": "node", "node": "web_research", "phase": "adversarial", "iteration": 3, "ts": "2026-02-27T12:38:48.529083+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "adversarial", "iteration": 3, "ts": "2026-02-27T13:07:17.807993+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 4, "ts": "2026-02-27T13:07:30.492267+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 4, "ts": "2026-02-27T13:08:40.177080+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 5, "ts": "2026-02-27T13:08:52.754667+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 5, "ts": "2026-02-27T13:10:28.084259+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 6, "ts": "2026-02-27T13:10:38.837321+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 6, "ts": "2026-02-27T13:11:56.186429+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 7, "ts": "2026-02-27T13:12:09.399854+00:00"}
+{"event": "search", "query": "SEC v Sisu Capital LLC Timothy Overturf case disposition settlement judgment 2024", "phase": "adversarial", "ts": "2026-02-27T13:12:09.408948+00:00"}
+{"event": "search", "query": "Timothy Overturf FINRA arbitration claims investor complaints", "phase": "adversarial", "ts": "2026-02-27T13:12:09.409223+00:00"}
+{"event": "search", "query": "\"Sisu Capital\" \"consent order\" OR \"final judgment\" OR \"settlement\" SEC", "phase": "adversarial", "ts": "2026-02-27T13:12:09.409331+00:00"}
+{"event": "search", "query": "Timothy Overturf securities industry bar suspension FINRA SEC order", "phase": "adversarial", "ts": "2026-02-27T13:12:09.409412+00:00"}
+{"event": "search", "query": "Hans Overturf Switzerland FINMA regulatory status", "phase": "adversarial", "ts": "2026-02-27T13:12:09.409487+00:00"}
+{"event": "node", "node": "web_research", "phase": "adversarial", "iteration": 7, "ts": "2026-02-27T13:13:23.467810+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 1, "progress": 0.241, "ts": "2026-02-27T15:40:42.343619+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: search_web (phase: SearchPhase.BASELINE, iter 1)", "ts": "2026-02-27T15:40:51.055896+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T15:40:51.056361+00:00"}
+{"event": "node_start", "node": "web_research", "label": "Web Research", "phase": "baseline", "iteration": 1, "progress": 0.241, "ts": "2026-02-27T15:40:51.059500+00:00"}
+{"event": "search", "query": "Timothy Overturf Sisu Capital CEO biography", "phase": "baseline", "ts": "2026-02-27T15:40:51.060104+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Timothy Overturf Sisu Capital CEO biography", "ts": "2026-02-27T15:40:51.060221+00:00"}
+{"event": "search", "query": "Sisu Capital investment firm fund manager", "phase": "baseline", "ts": "2026-02-27T15:40:51.060319+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Sisu Capital investment firm fund manager", "ts": "2026-02-27T15:40:51.060394+00:00"}
+{"event": "search", "query": "Timothy Overturf LinkedIn finance career background", "phase": "baseline", "ts": "2026-02-27T15:40:51.060471+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Timothy Overturf LinkedIn finance career background", "ts": "2026-02-27T15:40:51.060539+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" investor portfolio companies", "phase": "baseline", "ts": "2026-02-27T15:40:51.060615+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): \"Timothy Overturf\" investor portfolio companies", "ts": "2026-02-27T15:40:51.060685+00:00"}
+{"event": "search", "query": "Sisu Capital AUM assets under management headquarters", "phase": "baseline", "ts": "2026-02-27T15:40:51.060751+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Sisu Capital AUM assets under management headquarters", "ts": "2026-02-27T15:40:51.060816+00:00"}
+{"event": "log", "node": "web_research", "message": "Web research complete \u2014 5 queries, iter 1", "ts": "2026-02-27T15:40:56.147583+00:00"}
+{"event": "node", "node": "web_research", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T15:40:56.148252+00:00"}
+{"event": "node_start", "node": "fact_extraction", "label": "Fact Extraction", "phase": "baseline", "iteration": 1, "progress": 0.241, "ts": "2026-02-27T15:40:56.151692+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 1, "progress": 0.241, "ts": "2026-02-27T15:43:45.311867+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: search_web (phase: SearchPhase.BASELINE, iter 1)", "ts": "2026-02-27T15:43:46.123009+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T15:43:46.123203+00:00"}
+{"event": "node_start", "node": "web_research", "label": "Web Research", "phase": "baseline", "iteration": 1, "progress": 0.241, "ts": "2026-02-27T15:43:46.124988+00:00"}
+{"event": "search", "query": "Timothy Overturf Sisu Capital CEO biography", "phase": "baseline", "ts": "2026-02-27T15:43:46.125252+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Timothy Overturf Sisu Capital CEO biography", "ts": "2026-02-27T15:43:46.125310+00:00"}
+{"event": "search", "query": "Sisu Capital investment firm fund manager", "phase": "baseline", "ts": "2026-02-27T15:43:46.125365+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Sisu Capital investment firm fund manager", "ts": "2026-02-27T15:43:46.125415+00:00"}
+{"event": "search", "query": "Timothy Overturf LinkedIn finance career background", "phase": "baseline", "ts": "2026-02-27T15:43:46.125484+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Timothy Overturf LinkedIn finance career background", "ts": "2026-02-27T15:43:46.125531+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" investor portfolio companies", "phase": "baseline", "ts": "2026-02-27T15:43:46.125604+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): \"Timothy Overturf\" investor portfolio companies", "ts": "2026-02-27T15:43:46.125652+00:00"}
+{"event": "search", "query": "Sisu Capital AUM assets under management headquarters", "phase": "baseline", "ts": "2026-02-27T15:43:46.125708+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Sisu Capital AUM assets under management headquarters", "ts": "2026-02-27T15:43:46.125746+00:00"}
+{"event": "log", "node": "web_research", "message": "Web research complete \u2014 5 queries, iter 1", "ts": "2026-02-27T15:43:47.438169+00:00"}
+{"event": "node", "node": "web_research", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T15:43:47.438389+00:00"}
+{"event": "node_start", "node": "fact_extraction", "label": "Fact Extraction", "phase": "baseline", "iteration": 1, "progress": 0.241, "ts": "2026-02-27T15:43:47.439710+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 1, "progress": 0.082, "ts": "2026-02-27T15:43:59.493011+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: search_web (phase: SearchPhase.BASELINE, iter 1)", "ts": "2026-02-27T15:44:07.079988+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T15:44:07.080348+00:00"}
+{"event": "node_start", "node": "web_research", "label": "Web Research", "phase": "baseline", "iteration": 1, "progress": 0.082, "ts": "2026-02-27T15:44:07.083894+00:00"}
+{"event": "search", "query": "Timothy Overturf CEO Sisu Capital", "phase": "baseline", "ts": "2026-02-27T15:44:07.084506+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Timothy Overturf CEO Sisu Capital", "ts": "2026-02-27T15:44:07.084674+00:00"}
+{"event": "search", "query": "Sisu Capital investment firm", "phase": "baseline", "ts": "2026-02-27T15:44:07.084774+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Sisu Capital investment firm", "ts": "2026-02-27T15:44:07.084863+00:00"}
+{"event": "search", "query": "Timothy Overturf LinkedIn background career history", "phase": "baseline", "ts": "2026-02-27T15:44:07.085020+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Timothy Overturf LinkedIn background career history", "ts": "2026-02-27T15:44:07.085174+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" finance executive", "phase": "baseline", "ts": "2026-02-27T15:44:07.085417+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): \"Timothy Overturf\" finance executive", "ts": "2026-02-27T15:44:07.085566+00:00"}
+{"event": "search", "query": "Sisu Capital AUM portfolio investments", "phase": "baseline", "ts": "2026-02-27T15:44:07.085672+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (baseline): Sisu Capital AUM portfolio investments", "ts": "2026-02-27T15:44:07.085823+00:00"}
+{"event": "log", "node": "web_research", "message": "Web research complete \u2014 5 queries, iter 1", "ts": "2026-02-27T15:44:12.171246+00:00"}
+{"event": "node", "node": "web_research", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T15:44:12.172049+00:00"}
+{"event": "node_start", "node": "fact_extraction", "label": "Fact Extraction", "phase": "baseline", "iteration": 1, "progress": 0.082, "ts": "2026-02-27T15:44:12.177112+00:00"}
+{"event": "entities_update", "count": 73, "ts": "2026-02-27T15:52:10.207946+00:00"}
+{"event": "log", "node": "fact_extraction", "message": "Extracted facts \u2014 73 entities so far (iter 1)", "ts": "2026-02-27T15:52:10.208492+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "baseline", "iteration": 1, "ts": "2026-02-27T15:52:10.208992+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 2, "progress": 0.165, "ts": "2026-02-27T15:52:10.215355+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: analyze_risks (phase: SearchPhase.BASELINE, iter 2)", "ts": "2026-02-27T15:52:25.432800+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 2, "ts": "2026-02-27T15:52:25.433281+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "baseline", "iteration": 2, "progress": 0.165, "ts": "2026-02-27T15:52:25.445570+00:00"}
+{"event": "risks_update", "count": 10, "ts": "2026-02-27T15:53:17.522301+00:00"}
+{"event": "log", "node": "risk_analysis", "message": "Risk analysis complete \u2014 10 flags (iter 2)", "ts": "2026-02-27T15:53:17.523351+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "baseline", "iteration": 2, "ts": "2026-02-27T15:53:17.523527+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 3, "progress": 0.247, "ts": "2026-02-27T15:53:17.530979+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: analyze_risks (phase: SearchPhase.DEPTH, iter 3)", "ts": "2026-02-27T15:53:32.681162+00:00"}
+{"event": "node", "node": "director", "phase": "depth", "iteration": 3, "ts": "2026-02-27T15:53:32.681474+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "depth", "iteration": 3, "progress": 0.247, "ts": "2026-02-27T15:53:32.688341+00:00"}
+{"event": "risks_update", "count": 18, "ts": "2026-02-27T15:54:41.855407+00:00"}
+{"event": "log", "node": "risk_analysis", "message": "Risk analysis complete \u2014 18 flags (iter 3)", "ts": "2026-02-27T15:54:41.855865+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "depth", "iteration": 3, "ts": "2026-02-27T15:54:41.856176+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "depth", "iteration": 4, "progress": 0.329, "ts": "2026-02-27T15:54:41.861920+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: analyze_risks (phase: SearchPhase.DEPTH, iter 4)", "ts": "2026-02-27T15:54:53.802763+00:00"}
+{"event": "node", "node": "director", "phase": "depth", "iteration": 4, "ts": "2026-02-27T15:54:53.803479+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "depth", "iteration": 4, "progress": 0.329, "ts": "2026-02-27T15:54:53.813942+00:00"}
+{"event": "risks_update", "count": 27, "ts": "2026-02-27T15:55:48.294421+00:00"}
+{"event": "log", "node": "risk_analysis", "message": "Risk analysis complete \u2014 27 flags (iter 4)", "ts": "2026-02-27T15:55:48.294916+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "depth", "iteration": 4, "ts": "2026-02-27T15:55:48.295405+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "depth", "iteration": 5, "progress": 0.412, "ts": "2026-02-27T15:55:48.301380+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: analyze_risks (phase: SearchPhase.DEPTH, iter 5)", "ts": "2026-02-27T15:55:58.506467+00:00"}
+{"event": "node", "node": "director", "phase": "depth", "iteration": 5, "ts": "2026-02-27T15:55:58.507134+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "depth", "iteration": 5, "progress": 0.412, "ts": "2026-02-27T15:55:58.516149+00:00"}
+{"event": "risks_update", "count": 27, "ts": "2026-02-27T15:56:54.512237+00:00"}
+{"event": "log", "node": "risk_analysis", "message": "Risk analysis complete \u2014 27 flags (iter 5)", "ts": "2026-02-27T15:56:54.512840+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "depth", "iteration": 5, "ts": "2026-02-27T15:56:54.513605+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "depth", "iteration": 6, "progress": 0.494, "ts": "2026-02-27T15:56:54.517625+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: analyze_risks (phase: SearchPhase.DEPTH, iter 6)", "ts": "2026-02-27T15:57:09.829908+00:00"}
+{"event": "node", "node": "director", "phase": "depth", "iteration": 6, "ts": "2026-02-27T15:57:09.830304+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "depth", "iteration": 6, "progress": 0.494, "ts": "2026-02-27T15:57:09.836259+00:00"}
+{"event": "risks_update", "count": 27, "ts": "2026-02-27T15:57:11.161215+00:00"}
+{"event": "log", "node": "risk_analysis", "message": "Risk analysis complete \u2014 27 flags (iter 6)", "ts": "2026-02-27T15:57:11.161479+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "depth", "iteration": 6, "ts": "2026-02-27T15:57:11.161780+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "depth", "iteration": 7, "progress": 0.576, "ts": "2026-02-27T15:57:11.164575+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: analyze_risks (phase: SearchPhase.DEPTH, iter 7)", "ts": "2026-02-27T15:57:22.606645+00:00"}
+{"event": "node", "node": "director", "phase": "depth", "iteration": 7, "ts": "2026-02-27T15:57:22.611842+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "depth", "iteration": 7, "progress": 0.576, "ts": "2026-02-27T15:57:22.628120+00:00"}
+{"event": "risks_update", "count": 27, "ts": "2026-02-27T15:57:24.168112+00:00"}
+{"event": "log", "node": "risk_analysis", "message": "Risk analysis complete \u2014 27 flags (iter 7)", "ts": "2026-02-27T15:57:24.168665+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "depth", "iteration": 7, "ts": "2026-02-27T15:57:24.168997+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "depth", "iteration": 8, "progress": 0.659, "ts": "2026-02-27T15:57:24.175601+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: search_web (phase: SearchPhase.ADVERSARIAL, iter 8)", "ts": "2026-02-27T15:57:34.798477+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 8, "ts": "2026-02-27T15:57:34.799022+00:00"}
+{"event": "node_start", "node": "web_research", "label": "Web Research", "phase": "adversarial", "iteration": 8, "progress": 0.659, "ts": "2026-02-27T15:57:34.806375+00:00"}
+{"event": "search", "query": "SEC v. Timothy Overturf Sisu Capital case outcome judgment settlement 2023 2024", "phase": "adversarial", "ts": "2026-02-27T15:57:34.808108+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (adversarial): SEC v. Timothy Overturf Sisu Capital case outcome judgment settlement 2023 2024", "ts": "2026-02-27T15:57:34.808384+00:00"}
+{"event": "search", "query": "Timothy Overturf FINRA BrokerCheck CRD 6422933 disclosures arbitration", "phase": "adversarial", "ts": "2026-02-27T15:57:34.808486+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (adversarial): Timothy Overturf FINRA BrokerCheck CRD 6422933 disclosures arbitration", "ts": "2026-02-27T15:57:34.808571+00:00"}
+{"event": "search", "query": "Timothy Overturf criminal charges DOJ fraud indictment", "phase": "adversarial", "ts": "2026-02-27T15:57:34.808654+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (adversarial): Timothy Overturf criminal charges DOJ fraud indictment", "ts": "2026-02-27T15:57:34.808742+00:00"}
+{"event": "search", "query": "Hans Overturf California investment adviser suspension disciplinary order", "phase": "adversarial", "ts": "2026-02-27T15:57:34.808824+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (adversarial): Hans Overturf California investment adviser suspension disciplinary order", "ts": "2026-02-27T15:57:34.808907+00:00"}
+{"event": "search", "query": "Sisu Capital LLC Mill Valley bankruptcy dissolution", "phase": "adversarial", "ts": "2026-02-27T15:57:34.808998+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (adversarial): Sisu Capital LLC Mill Valley bankruptcy dissolution", "ts": "2026-02-27T15:57:34.809079+00:00"}
+{"event": "log", "node": "web_research", "message": "Web research complete \u2014 5 queries, iter 8", "ts": "2026-02-27T15:58:49.614282+00:00"}
+{"event": "node", "node": "web_research", "phase": "adversarial", "iteration": 8, "ts": "2026-02-27T15:58:49.615274+00:00"}
+{"event": "node_start", "node": "fact_extraction", "label": "Fact Extraction", "phase": "adversarial", "iteration": 8, "progress": 0.659, "ts": "2026-02-27T15:58:49.625179+00:00"}
+{"event": "entities_update", "count": 95, "ts": "2026-02-27T16:08:49.509108+00:00"}
+{"event": "log", "node": "fact_extraction", "message": "Extracted facts \u2014 95 entities so far (iter 8)", "ts": "2026-02-27T16:08:49.509775+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "adversarial", "iteration": 8, "ts": "2026-02-27T16:08:49.509994+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 9, "progress": 0.741, "ts": "2026-02-27T16:08:49.516279+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: analyze_risks (phase: SearchPhase.ADVERSARIAL, iter 9)", "ts": "2026-02-27T16:09:02.999580+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 9, "ts": "2026-02-27T16:09:03.000488+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "adversarial", "iteration": 9, "progress": 0.741, "ts": "2026-02-27T16:09:03.015360+00:00"}
+{"event": "risks_update", "count": 39, "ts": "2026-02-27T16:10:45.344885+00:00"}
+{"event": "log", "node": "risk_analysis", "message": "Risk analysis complete \u2014 39 flags (iter 9)", "ts": "2026-02-27T16:10:45.345577+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 9, "ts": "2026-02-27T16:10:45.346265+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 10, "progress": 0.824, "ts": "2026-02-27T16:10:45.357930+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: search_web (phase: SearchPhase.ADVERSARIAL, iter 10)", "ts": "2026-02-27T16:10:59.014582+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 10, "ts": "2026-02-27T16:10:59.015137+00:00"}
+{"event": "node_start", "node": "web_research", "label": "Web Research", "phase": "adversarial", "iteration": 10, "progress": 0.824, "ts": "2026-02-27T16:10:59.032402+00:00"}
+{"event": "search", "query": "SEC v Sisu Capital 3:23-cv-03855 settlement judgment 2024 2025 final order", "phase": "adversarial", "ts": "2026-02-27T16:10:59.034231+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (adversarial): SEC v Sisu Capital 3:23-cv-03855 settlement judgment 2024 2025 final order", "ts": "2026-02-27T16:10:59.034423+00:00"}
+{"event": "search", "query": "Timothy Overturf Arcata Theatre Lounge owner current business", "phase": "adversarial", "ts": "2026-02-27T16:10:59.034533+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (adversarial): Timothy Overturf Arcata Theatre Lounge owner current business", "ts": "2026-02-27T16:10:59.034630+00:00"}
+{"event": "search", "query": "\"thinly-traded bank stock\" Sisu Capital SEC fraud scheme", "phase": "adversarial", "ts": "2026-02-27T16:10:59.034725+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (adversarial): \"thinly-traded bank stock\" Sisu Capital SEC fraud scheme", "ts": "2026-02-27T16:10:59.035023+00:00"}
+{"event": "search", "query": "John Figueiredo Sisu Capital Sisu Extracts cannabis connection", "phase": "adversarial", "ts": "2026-02-27T16:10:59.036780+00:00"}
+{"event": "log", "node": "web_research", "message": "Searching (adversarial): John Figueiredo Sisu Capital Sisu Extracts cannabis connection", "ts": "2026-02-27T16:10:59.038051+00:00"}
+{"event": "log", "node": "web_research", "message": "Web research complete \u2014 4 queries, iter 10", "ts": "2026-02-27T16:11:52.745758+00:00"}
+{"event": "node", "node": "web_research", "phase": "adversarial", "iteration": 10, "ts": "2026-02-27T16:11:52.745918+00:00"}
+{"event": "node_start", "node": "fact_extraction", "label": "Fact Extraction", "phase": "adversarial", "iteration": 10, "progress": 0.824, "ts": "2026-02-27T16:11:52.749180+00:00"}
+{"event": "entities_update", "count": 119, "ts": "2026-02-27T16:22:27.923650+00:00"}
+{"event": "log", "node": "fact_extraction", "message": "Extracted facts \u2014 119 entities so far (iter 10)", "ts": "2026-02-27T16:22:27.924016+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "adversarial", "iteration": 10, "ts": "2026-02-27T16:22:27.924316+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 11, "progress": 0.906, "ts": "2026-02-27T16:22:27.932628+00:00"}
+{"event": "log", "node": "director", "message": "Director planned: generate_report (phase: SearchPhase.SYNTHESIS, iter 11)", "ts": "2026-02-27T16:22:40.058358+00:00"}
+{"event": "node", "node": "director", "phase": "synthesis", "iteration": 11, "ts": "2026-02-27T16:22:40.058981+00:00"}
+{"event": "node_start", "node": "entity_resolution", "label": "Entity Resolution", "phase": "synthesis", "iteration": 11, "progress": 0.906, "ts": "2026-02-27T16:22:40.076151+00:00"}
+{"event": "entities_update", "count": 115, "ts": "2026-02-27T16:22:46.121666+00:00"}
+{"event": "log", "node": "entity_resolution", "message": "Entity resolution done \u2014 115 entities", "ts": "2026-02-27T16:22:46.122310+00:00"}
+{"event": "node", "node": "entity_resolution", "phase": "synthesis", "iteration": 11, "ts": "2026-02-27T16:22:46.122877+00:00"}
+{"event": "node_start", "node": "generate_report", "label": "Report Generation", "phase": "synthesis", "iteration": 11, "progress": 0.906, "ts": "2026-02-27T16:22:46.131740+00:00"}
+{"event": "log", "node": "generate_report", "message": "Generating final report\u2026", "ts": "2026-02-27T16:22:46.134931+00:00"}
+{"event": "log", "node": "generate_report", "message": "Report generated successfully", "ts": "2026-02-27T16:24:01.482581+00:00"}
+{"event": "node", "node": "generate_report", "phase": "synthesis", "iteration": 11, "ts": "2026-02-27T16:24:01.482749+00:00"}
+{"event": "node_start", "node": "temporal_analysis", "label": "Temporal Analysis", "phase": "synthesis", "iteration": 11, "progress": 0.906, "ts": "2026-02-27T16:24:01.486244+00:00"}
+{"event": "log", "node": "temporal_analysis", "message": "Temporal analysis complete \u2014 0 facts", "ts": "2026-02-27T16:24:52.543188+00:00"}
+{"event": "node", "node": "temporal_analysis", "phase": "synthesis", "iteration": 11, "ts": "2026-02-27T16:24:52.543540+00:00"}
+{"event": "node_start", "node": "update_graph_db", "label": "Graph DB Sync", "phase": "synthesis", "iteration": 11, "progress": 0.906, "ts": "2026-02-27T16:24:52.547976+00:00"}
+{"event": "complete", "subject": "Timothy Overturf", "iterations": 11, "entities": 115, "risk_flags": 39, "cost_usd": 0.0, "progress": 1.0, "ts": "2026-02-27T16:25:21.129137+00:00"}
+{"event": "node", "node": "update_graph_db", "phase": "synthesis", "iteration": 11, "ts": "2026-02-27T16:25:21.129410+00:00"}

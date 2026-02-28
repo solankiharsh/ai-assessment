@@ -1,0 +1,44 @@
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 1, "progress": 0.318, "ts": "2026-02-28T16:18:00.548636+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: search_web (phase: SearchPhase.BASELINE, iter 1)", "ts": "2026-02-28T16:18:10.570693+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 1, "ts": "2026-02-28T16:18:10.571121+00:00"}
+{"event": "node_start", "node": "web_research", "label": "Web Research", "phase": "baseline", "iteration": 1, "progress": 0.318, "ts": "2026-02-28T16:18:10.574005+00:00"}
+{"event": "search", "query": "Jensen Huang biography education background Taiwan Oregon State Stanford", "phase": "baseline", "ts": "2026-02-28T16:18:10.574404+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Jensen Huang biography education background Taiwan Oregon State Stanford", "ts": "2026-02-28T16:18:10.574504+00:00"}
+{"event": "search", "query": "Jensen Huang NVIDIA founder CEO career history LSI Logic AMD", "phase": "baseline", "ts": "2026-02-28T16:18:10.574590+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Jensen Huang NVIDIA founder CEO career history LSI Logic AMD", "ts": "2026-02-28T16:18:10.574671+00:00"}
+{"event": "search", "query": "Jensen Huang board of directors positions affiliations 2024", "phase": "baseline", "ts": "2026-02-28T16:18:10.574766+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Jensen Huang board of directors positions affiliations 2024", "ts": "2026-02-28T16:18:10.574848+00:00"}
+{"event": "search", "query": "Jensen Huang net worth compensation NVIDIA executive pay", "phase": "baseline", "ts": "2026-02-28T16:18:10.574920+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Jensen Huang net worth compensation NVIDIA executive pay", "ts": "2026-02-28T16:18:10.574989+00:00"}
+{"event": "search", "query": "Jensen Huang awards honors recognition technology industry", "phase": "baseline", "ts": "2026-02-28T16:18:10.575060+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Jensen Huang awards honors recognition technology industry", "ts": "2026-02-28T16:18:10.575135+00:00"}
+{"event": "log", "node": "unknown", "message": "Web research complete \u2014 5 queries, iter 1", "ts": "2026-02-28T16:18:17.748766+00:00"}
+{"event": "node", "node": "web_research", "phase": "baseline", "iteration": 1, "ts": "2026-02-28T16:18:17.748990+00:00"}
+{"event": "node_start", "node": "fact_extraction", "label": "Fact Extraction", "phase": "baseline", "iteration": 1, "progress": 0.318, "ts": "2026-02-28T16:18:17.752621+00:00"}
+{"event": "entities_update", "count": 74, "ts": "2026-02-28T16:30:14.487298+00:00"}
+{"event": "log", "node": "unknown", "message": "Extracted facts \u2014 74 entities so far (iter 1)", "ts": "2026-02-28T16:30:14.487625+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "baseline", "iteration": 1, "ts": "2026-02-28T16:30:14.487716+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 2, "progress": 0.636, "ts": "2026-02-28T16:30:14.491301+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.BASELINE, iter 2)", "ts": "2026-02-28T16:30:25.482432+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 2, "ts": "2026-02-28T16:30:25.482691+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "baseline", "iteration": 2, "progress": 0.636, "ts": "2026-02-28T16:30:25.486836+00:00"}
+{"event": "risks_update", "count": 6, "ts": "2026-02-28T16:31:08.997206+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 6 flags (iter 2)", "ts": "2026-02-28T16:31:08.997701+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "baseline", "iteration": 2, "ts": "2026-02-28T16:31:08.998282+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 3, "progress": 0.95, "ts": "2026-02-28T16:31:09.002269+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: generate_report (phase: SearchPhase.SYNTHESIS, iter 3)", "ts": "2026-02-28T16:31:09.004412+00:00"}
+{"event": "node", "node": "director", "phase": "synthesis", "iteration": 3, "ts": "2026-02-28T16:31:09.004548+00:00"}
+{"event": "node_start", "node": "entity_resolution", "label": "Entity Resolution", "phase": "synthesis", "iteration": 3, "progress": 0.95, "ts": "2026-02-28T16:31:09.009323+00:00"}
+{"event": "entities_update", "count": 74, "ts": "2026-02-28T16:31:09.886540+00:00"}
+{"event": "log", "node": "unknown", "message": "Entity resolution done \u2014 74 entities", "ts": "2026-02-28T16:31:09.887148+00:00"}
+{"event": "node", "node": "entity_resolution", "phase": "synthesis", "iteration": 3, "ts": "2026-02-28T16:31:09.887829+00:00"}
+{"event": "node_start", "node": "temporal_analysis", "label": "Temporal Analysis", "phase": "synthesis", "iteration": 3, "progress": 0.95, "ts": "2026-02-28T16:31:09.891585+00:00"}
+{"event": "log", "node": "unknown", "message": "Temporal analysis complete \u2014 0 facts", "ts": "2026-02-28T16:31:52.985250+00:00"}
+{"event": "node", "node": "temporal_analysis", "phase": "synthesis", "iteration": 3, "ts": "2026-02-28T16:31:52.985572+00:00"}
+{"event": "node_start", "node": "generate_report", "label": "Report Generation", "phase": "synthesis", "iteration": 3, "progress": 0.95, "ts": "2026-02-28T16:31:52.989071+00:00"}
+{"event": "log", "node": "unknown", "message": "Generating final report\u2026", "ts": "2026-02-28T16:31:52.990069+00:00"}
+{"event": "log", "node": "unknown", "message": "Report generated successfully", "ts": "2026-02-28T16:32:56.434297+00:00"}
+{"event": "node", "node": "generate_report", "phase": "synthesis", "iteration": 3, "ts": "2026-02-28T16:32:56.434417+00:00"}
+{"event": "node_start", "node": "update_graph_db", "label": "Graph DB Sync", "phase": "synthesis", "iteration": 3, "progress": 0.95, "ts": "2026-02-28T16:32:56.435991+00:00"}
+{"event": "complete", "subject": "Jensen Huang", "iterations": 3, "entities": 74, "risk_flags": 6, "cost_usd": 0.0, "progress": 1.0, "ts": "2026-02-28T16:33:11.757245+00:00"}
+{"event": "node", "node": "update_graph_db", "phase": "synthesis", "iteration": 3, "ts": "2026-02-28T16:33:11.757956+00:00"}

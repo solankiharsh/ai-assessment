@@ -16,6 +16,46 @@ import type {
 } from "@/lib/types";
 
 const RUNNING_FILENAME = "_running.json";
+const MIN_STATE_LOGS = 50; // Prefer progress.jsonl when state.logs has fewer entries (e.g. older runs)
+
+/** Build log lines from progress.jsonl so completed runs show execution log like adam_neumann. */
+function readLogsFromProgress(outputDir: string, id: string): string[] {
+  try {
+    const progressPath = path.join(outputDir, `${id}_progress.jsonl`);
+    const raw = fs.readFileSync(progressPath, "utf-8");
+    const lines = raw.split("\n").filter((line) => line.trim());
+    const logs: string[] = [];
+    for (const line of lines) {
+      try {
+        const ev = JSON.parse(line) as Record<string, unknown>;
+        const event = ev.event as string | undefined;
+        if (event === "log" && typeof ev.message === "string") {
+          logs.push(ev.message);
+          continue;
+        }
+        // Format other events like structlog-style for consistency with Execution log
+        const parts: string[] = [];
+        if (event) parts.push(event);
+        if (ev.node && ev.node !== "unknown") parts.push(`node=${ev.node}`);
+        if (ev.phase != null) parts.push(`phase=${ev.phase}`);
+        if (ev.iteration != null) parts.push(`iteration=${ev.iteration}`);
+        if (ev.query != null) parts.push(`query=${String(ev.query).slice(0, 60)}`);
+        if (ev.label != null) parts.push(`label=${ev.label}`);
+        if (ev.message != null && event !== "log") parts.push(String(ev.message));
+        const rest = Object.entries(ev)
+          .filter(([k]) => !["event", "node", "phase", "iteration", "query", "label", "message", "ts"].includes(k))
+          .map(([k, v]) => `${k}=${JSON.stringify(v)}`);
+        if (parts.length || rest.length) logs.push([...parts, ...rest].join(" "));
+      } catch {
+        // Malformed line — keep as-is
+        logs.push(line.slice(0, 200));
+      }
+    }
+    return logs;
+  } catch {
+    return [];
+  }
+}
 
 /** Backend state file shape (ResearchState). */
 interface StateFile {
@@ -246,7 +286,12 @@ export async function GET(
       total_search_calls: state.total_search_calls ?? 0,
       estimated_cost_usd: state.estimated_cost_usd ?? 0,
       error_log: state.error_log ?? [],
-      logs: state.logs ?? [],
+      logs: (() => {
+        const stateLogs = state.logs ?? [];
+        if (stateLogs.length >= MIN_STATE_LOGS) return stateLogs;
+        const progressLogs = readLogsFromProgress(outputDir, id);
+        return progressLogs.length > 0 ? progressLogs : stateLogs;
+      })(),
       final_report: finalReport,
       entities_summary: entities.map((e) => ({
         name: e.name,
