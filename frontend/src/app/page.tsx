@@ -13,7 +13,7 @@ const PIPELINE_STEPS = [
     step: "01",
     title: "Director",
     description:
-      "Analyzes the subject and orchestrates the investigation plan, choosing research phases and search strategies adaptively.",
+      "Orchestrates the investigation: chooses the next step (search, risk analysis, connection mapping, source verification, or generate report) and research phase based on coverage and diminishing returns.",
     tech: "LangGraph",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
@@ -25,8 +25,8 @@ const PIPELINE_STEPS = [
     step: "02",
     title: "Web Research",
     description:
-      "Executes diverse, phased search queries (Baseline → Breadth → Depth → Adversarial → Triangulation) via Tavily with deduplication.",
-    tech: "Tavily API",
+      "Runs phased search queries (Baseline → Breadth → Depth → Adversarial → Triangulation) via Tavily (and Brave fallback) with result deduplication.",
+    tech: "Tavily + Brave",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
         <path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" strokeLinecap="round" strokeLinejoin="round" />
@@ -37,7 +37,7 @@ const PIPELINE_STEPS = [
     step: "03",
     title: "Fact Extraction",
     description:
-      "Extracts structured subject-predicate-object triples with confidence scores, categories, and source URLs from retrieved content.",
+      "Extracts entities, connections, and facts with confidence scores and source URLs from retrieved content; batches by token budget.",
     tech: "Multi-LLM",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
@@ -49,7 +49,7 @@ const PIPELINE_STEPS = [
     step: "04",
     title: "Risk Analysis",
     description:
-      "Multi-model debate between a Risk Analyst and Devil's Advocate to surface regulatory, reputational, financial, and legal red flags.",
+      "Risk Analyst and Devil's Advocate LLMs debate to surface regulatory, reputational, financial, and legal flags with severity and mitigation.",
     tech: "LLM Debate",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
@@ -59,9 +59,33 @@ const PIPELINE_STEPS = [
   },
   {
     step: "05",
+    title: "Connection Mapping",
+    description:
+      "Maps relationships between entities (e.g. WORKS_AT, BOARD_MEMBER_OF) with confidence; feeds the identity graph and Neo4j schema.",
+    tech: "LLM",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
+        <path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    step: "06",
+    title: "Source Verification",
+    description:
+      "Cross-checks claims across sources and flags contradictions; improves confidence and supports risk and temporal analysis.",
+    tech: "LLM",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
+        <path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    step: "07",
     title: "Entity Resolution",
     description:
-      "Deduplicates and merges entities using fuzzy matching, resolving aliases and co-references across all discovered facts.",
+      "When the Director chooses report: deduplicates and merges entities via fuzzy matching and alias resolution for a clean graph.",
     tech: "Graph + NLP",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
@@ -70,11 +94,11 @@ const PIPELINE_STEPS = [
     ),
   },
   {
-    step: "06",
+    step: "08",
     title: "Temporal Analysis",
     description:
-      "Reconstructs the timeline of events, cross-referencing dates and detecting inconsistencies in the subject's history.",
-    tech: "LLM + Graph",
+      "Builds chronological temporal facts and detects contradictions (e.g. overlapping roles); feeds the Timeline tab and report.",
+    tech: "LLM",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
         <path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
@@ -82,22 +106,10 @@ const PIPELINE_STEPS = [
     ),
   },
   {
-    step: "07",
-    title: "Adaptive Refinement",
-    description:
-      "Evaluates coverage gaps and uninvestigated entities. Loops back to Director for deeper investigation or finalizes.",
-    tech: "LangGraph Loop",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
-        <path d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
-  {
-    step: "08",
+    step: "09",
     title: "Report Generation",
     description:
-      "Synthesizes a comprehensive due diligence report with all facts, entities, risk analysis, and actionable recommendations.",
+      "Synthesizes the due diligence report from entities, connections, risks, temporal facts, and graph insights; supports PII redaction.",
     tech: "Multi-LLM",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
@@ -106,14 +118,14 @@ const PIPELINE_STEPS = [
     ),
   },
   {
-    step: "09",
-    title: "Identity Graph",
+    step: "10",
+    title: "Neo4j Graph DB",
     description:
-      "Persists entities and relationships to Neo4j; Cypher powers path and pattern queries. Interactive React Flow visualization in the UI.",
+      "Persists entities, connections, and risk flags to Neo4j; runs graph discovery (degree centrality, shortest path subject→risk entities, shell-company detection) and appends insights to the report and Graph tab.",
     tech: "Neo4j + React Flow",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
-        <path d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125v-3.75m-16.5 0v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -195,7 +207,7 @@ const TECH_STACK = [
 
 const STATS = [
   { value: "6", label: "Search phases" },
-  { value: "9", label: "Pipeline stages" },
+  { value: "10", label: "Pipeline stages" },
   { value: "3+", label: "AI models" },
   { value: "100%", label: "Real-time streaming" },
 ];
@@ -216,14 +228,14 @@ const DEMO_LOGS = [
   "[TemporalAnalysis] Contradiction detected: founding date inconsistency",
   "[AdaptiveRefinement] Coverage sufficient — proceeding to synthesis",
   "[ReportGeneration] Synthesizing due diligence report…",
-  "[IdentityGraph] 108 entities, 104 connections stored to SQLite",
+  "[Neo4j] 108 entities, 104 connections persisted; graph discovery (centrality, paths) run",
   "[Director] Investigation complete — 2 iterations, 5 risk flags",
 ];
 
 const DEMO_NODES = [
   "Director", "Web Research", "Fact Extraction", "Risk Analysis",
-  "Entity Resolution", "Temporal Analysis", "Adaptive Refinement",
-  "Report Generation", "Identity Graph",
+  "Connection Mapping", "Source Verification", "Entity Resolution",
+  "Temporal Analysis", "Report Gen", "Neo4j Graph",
 ];
 
 function DemoSection() {
@@ -237,7 +249,7 @@ function DemoSection() {
       setLogIdx((i) => {
         const next = (i + 1) % DEMO_LOGS.length;
         // Advance node every ~3 logs
-        if (next % 3 === 0) setNodeIdx((n) => Math.min(n + 1, DEMO_NODES.length - 1));
+        setNodeIdx((n) => Math.min(next, DEMO_NODES.length - 1));
         // Update metrics
         setMetrics({
           entities: Math.min(108, Math.round((next / DEMO_LOGS.length) * 108)),
@@ -270,6 +282,9 @@ function DemoSection() {
           </h2>
           <p className="mt-2 text-sm text-neutral-400 sm:mt-3">
             A simulated investigation of <span className="text-orange-400 font-medium">Timothy Overturf, CEO @ Sisu Capital</span>
+          </p>
+          <p className="mt-1 text-xs text-neutral-500 max-w-xl mx-auto">
+            Director-driven loop (search → facts → risk → connections → verification) then synthesis: entity resolution, temporal analysis, report generation, and Neo4j persistence with graph discovery.
           </p>
         </div>
 
@@ -637,9 +652,11 @@ export default function HomePage() {
             <h2 className="text-2xl font-bold text-white sm:text-3xl">
               How It Works
             </h2>
-            <p className="mt-2 text-sm text-neutral-400 sm:mt-3 sm:text-base">
-              A 9-stage autonomous pipeline powered by LangGraph. Stages 2–7
-              loop adaptively until coverage is sufficient.
+            <p className="mt-2 text-sm text-neutral-400 sm:mt-3 sm:text-base max-w-2xl mx-auto">
+              A 10-stage autonomous pipeline powered by LangGraph. The Director loops through
+              stages 2–6 (Web Research, Fact Extraction, Risk Analysis, Connection Mapping, Source Verification)
+              until coverage is sufficient; then stages 7–10 (Entity Resolution, Temporal Analysis, Report Generation,
+              Neo4j Graph DB) run once. Neo4j persists the identity graph and runs discovery (centrality, paths, shell-company detection) to enrich the report and Graph tab.
             </p>
           </div>
 
@@ -673,13 +690,13 @@ export default function HomePage() {
                     {step.description}
                   </p>
 
-                  {/* Loop indicator after step 7 */}
-                  {step.step === "07" && (
+                  {/* Loop indicator after step 6 */}
+                  {step.step === "06" && (
                     <div className="mt-2.5 flex items-center gap-2 rounded-lg border border-orange-500/15 bg-orange-500/5 px-2.5 py-1.5 text-[10px] text-orange-400/80 sm:mt-3 sm:px-3 sm:py-2 sm:text-xs">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4">
                         <path d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      Loops back to Stage 02 if more investigation is needed
+                      Stages 2–6 loop back to Director until coverage is sufficient; then 7–10 run once
                     </div>
                   )}
                 </div>

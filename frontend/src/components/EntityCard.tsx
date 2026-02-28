@@ -74,18 +74,18 @@ export function EntityCard({
               {entity.entity_type.replace(/_/g, " ")}
             </span>
             {compact && (
-              <span className="text-[10px] font-mono text-[var(--muted)]">
+              <span className="text-[10px] font-mono text-neutral-400">
                 {Math.round(entity.confidence * 100)}%
               </span>
             )}
           </div>
           {entity.description && !compact && (
-            <p className="mt-1 line-clamp-2 text-xs text-[var(--muted)]">
+            <p className="mt-1 line-clamp-2 text-xs text-neutral-400">
               {entity.description}
             </p>
           )}
           {entity.description && compact && (
-            <p className="mt-0.5 truncate text-[11px] text-[var(--muted)]" title={entity.description}>
+            <p className="mt-0.5 truncate text-[11px] text-neutral-400" title={entity.description}>
               {entity.description.length > 70 ? `${entity.description.slice(0, 70)}…` : entity.description}
             </p>
           )}
@@ -95,7 +95,7 @@ export function EntityCard({
       {!compact && (
         <>
           {(outConnections.length > 0 || inConnections.length > 0) && (
-            <div className="mt-2 text-xs text-[var(--muted)]">
+            <div className="mt-2 text-xs text-neutral-400">
               {outConnections.length} outgoing · {inConnections.length} incoming
             </div>
           )}
@@ -122,7 +122,7 @@ export function EntityCard({
             </div>
           )}
           {entity.source_urls?.length > 0 && (
-            <div className="mt-2 text-[10px] text-[var(--muted)]">
+            <div className="mt-2 text-[10px] text-neutral-400">
               {entity.source_urls.length} source
               {entity.source_urls.length !== 1 ? "s" : ""}
             </div>

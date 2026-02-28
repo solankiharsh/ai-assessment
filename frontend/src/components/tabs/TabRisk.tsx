@@ -68,7 +68,7 @@ function RiskFlagCard({ flag }: { flag: RiskFlag }) {
               {flag.severity}
             </span>
           </div>
-          <p className="mt-1 text-sm text-[var(--text-secondary)]">
+          <p className="mt-1 text-sm text-neutral-300">
             {flag.description}
           </p>
         </div>
@@ -77,10 +77,10 @@ function RiskFlagCard({ flag }: { flag: RiskFlag }) {
 
       {flag.mitigating_factors?.length > 0 && (
         <div className="mt-3 rounded-md border border-[var(--border)] bg-[var(--background)] p-2.5">
-          <div className="text-[11px] font-medium uppercase text-[var(--muted)]">
+          <div className="text-[11px] font-medium uppercase text-neutral-400">
             Mitigating factors
           </div>
-          <p className="mt-0.5 text-xs text-[var(--text-secondary)]">
+          <p className="mt-0.5 text-xs text-neutral-300">
             {flag.mitigating_factors.join("; ")}
           </p>
         </div>
@@ -99,7 +99,7 @@ function RiskFlagCard({ flag }: { flag: RiskFlag }) {
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[var(--accent)] hover:underline"
+                    className="text-orange-400 hover:text-orange-300 hover:underline"
                   >
                     {domainFromUrl(url)}
                   </a>

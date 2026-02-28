@@ -270,6 +270,10 @@ class Neo4jClient:
             return []
         if max_hops < 1 or max_hops > 10:
             max_hops = 5
+        a_trimmed = (entity_a or "").strip()
+        b_trimmed = (entity_b or "").strip()
+        if not a_trimmed or not b_trimmed or a_trimmed == b_trimmed:
+            return []
         with obs_metrics.track_graph_query("shortest_path"):
             cypher = (
                 "MATCH (a {name: $name_a}), (b {name: $name_b}),"
@@ -278,9 +282,13 @@ class Neo4jClient:
                 " [r IN relationships(path) | type(r)] AS relationship_chain,"
                 " length(path) AS hops"
             )
-            async with self._driver.session(database=self._database) as session:
-                result = await session.run(cypher, name_a=entity_a, name_b=entity_b)
-                return [record.data() async for record in result]
+            try:
+                async with self._driver.session(database=self._database) as session:
+                    result = await session.run(cypher, name_a=a_trimmed, name_b=b_trimmed)
+                    return [record.data() async for record in result]
+            except Exception as e:
+                logger.debug("shortest_path_failed", entity_a=a_trimmed, entity_b=b_trimmed, error=str(e))
+                return []
 
     async def detect_shell_companies(self) -> list[dict[str, Any]]:
         """Find organizations sharing addresses or registered agents."""

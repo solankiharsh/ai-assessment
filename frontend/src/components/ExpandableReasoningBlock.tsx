@@ -30,11 +30,11 @@ export function ExpandableReasoningBlock({
         className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors hover:bg-muted/50"
       >
         {open ? (
-          <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+          <ChevronDown className="h-3.5 w-3.5 shrink-0 text-neutral-400" />
         ) : (
-          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-neutral-400" />
         )}
-        <span className="flex-1 truncate text-muted-foreground">
+        <span className="flex-1 truncate text-neutral-300">
           {title}
         </span>
       </button>

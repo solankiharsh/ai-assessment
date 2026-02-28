@@ -12,7 +12,7 @@ ifeq ($(wildcard $(BIN)/activate),$(BIN)/activate)
   PIP   := $(BIN)/pip
 endif
 
-.PHONY: help venv install install-browsers env check-keys run run-quick evaluate test lint clean docker-up docker-down frontend-install frontend dev install-all
+.PHONY: help venv install install-browsers env check-keys run run-quick evaluate test lint clean docker-up docker-down frontend-install frontend dev install-all push-prompts
 
 help:
 	@echo "Deep Research Agent — targets:"
@@ -37,6 +37,7 @@ help:
 	@echo "    make clean           — remove __pycache__, .pytest_cache, .ruff_cache"
 	@echo "    make docker-up       — start Neo4j via docker-compose"
 	@echo "    make docker-down     — stop Neo4j"
+	@echo "    make push-prompts    — push agent prompts to LangSmith (requires LANGCHAIN_API_KEY)"
 	@echo ""
 	@echo "First time: make install-all   then edit .env with API keys"
 	@echo "Run console: make dev   (frontend reads backend outputs/ — run 'make run-quick' first to populate)"
@@ -104,6 +105,10 @@ docker-down:
 	else \
 		docker compose down; \
 	fi
+
+# Push agent prompt templates to LangSmith (requires LANGCHAIN_API_KEY in .env)
+push-prompts:
+	$(PYTHON) scripts/push_prompts_to_langsmith.py
 
 # --- Frontend (Next.js) ---
 frontend-install:

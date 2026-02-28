@@ -6,8 +6,11 @@ import { SourceCredibilityBar } from "../SourceCredibilityBar";
 import { ConflictIndicator } from "../ConflictIndicator";
 import { formatRelativeTime, domainFromUrl } from "@/lib/utils";
 
+const INITIAL_URLS = 5;
+
 export function TabSources({ investigation: inv }: { investigation: Investigation }) {
   const [domainFilter, setDomainFilter] = useState<string | null>(null);
+  const [expandedSources, setExpandedSources] = useState<Set<number>>(new Set());
 
   const allUrls = useMemo(() => {
     const set = new Set<string>();
@@ -139,7 +142,7 @@ export function TabSources({ investigation: inv }: { investigation: Investigatio
               </div>
               {r.result_urls?.length > 0 && (
                 <ul className="mt-2 space-y-0.5">
-                  {r.result_urls.slice(0, 5).map((url) => (
+                  {(expandedSources.has(i) ? r.result_urls : r.result_urls.slice(0, INITIAL_URLS)).map((url) => (
                     <li key={url}>
                       <a
                         href={url}
@@ -151,9 +154,20 @@ export function TabSources({ investigation: inv }: { investigation: Investigatio
                       </a>
                     </li>
                   ))}
-                  {r.result_urls.length > 5 && (
-                    <li className="text-[10px] text-[var(--muted)]">
-                      +{r.result_urls.length - 5} more
+                  {r.result_urls.length > INITIAL_URLS && (
+                    <li>
+                      <button
+                        type="button"
+                        onClick={() => setExpandedSources((prev) => {
+                          const next = new Set(prev);
+                          if (next.has(i)) next.delete(i);
+                          else next.add(i);
+                          return next;
+                        })}
+                        className="text-[10px] text-[var(--accent)] hover:underline focus:outline-none focus:ring-1 focus:ring-[var(--accent)] rounded"
+                      >
+                        {expandedSources.has(i) ? "Show less" : `+${r.result_urls.length - INITIAL_URLS} more`}
+                      </button>
                     </li>
                   )}
                 </ul>

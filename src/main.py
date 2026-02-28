@@ -36,6 +36,7 @@ from src.evaluation.metrics import evaluate
 from src.graph import ResearchGraph
 from src.models import ResearchState
 from src.observability import metrics as obs_metrics
+from src.observability.log_capture import execution_log_processor, get_sink, set_sink
 
 # ── Design: Intelligence Console — orange primary, amber/red risk ─────────────
 # Matches frontend design system: true dark, orange-tinted primary, risk severity colors
@@ -202,6 +203,7 @@ class _RichStructlogRenderer:
 structlog.configure(
     processors=[
         structlog.stdlib.add_log_level,
+        execution_log_processor,
         _RichStructlogRenderer(),
     ],
     wrapper_class=structlog.stdlib.BoundLogger,
@@ -279,6 +281,7 @@ async def run_investigation(
 
     start_time = time.time()
     on_progress: Callable[[str, dict], None] | None = None
+    set_sink([])
 
     if live:
         layout = Layout()
@@ -321,6 +324,11 @@ async def run_investigation(
             )
         finally:
             await graph.cleanup()
+
+    captured = get_sink()
+    if captured:
+        state.logs = captured
+    set_sink(None)
 
     elapsed = time.time() - start_time
     _display_results(state, elapsed)
