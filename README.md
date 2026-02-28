@@ -154,6 +154,12 @@ make docker-up
 # Set NEO4J_URI=bolt://localhost:7687 and NEO4J_PASSWORD in .env
 ```
 
+#### Neo4j Aura and the identity graph
+
+When `ENABLE_GRAPH_DB=true`, the pipeline persists the identity graph to Neo4j after each run (entities as nodes, connections as relationships, risk flags as `RiskFlag` nodes with `FLAGGED_FOR` edges). You can inspect and query it in **Neo4j Aura** (or Neo4j Browser): run Cypher to see node labels (Person, Organization, Event, RiskFlag, etc.), relationship types (e.g. `WORKS_AT`, `FLAGGED_FOR`), and property keys. The UI provides a schema-style overview (node and relationship counts by type) and a graph visualization with semantic coloring and labeled edges. Sample queries and a “quick check” for data are in [NEO4J_QUERIES.md](docs/NEO4J_QUERIES.md); the frontend **Graph** tab shows a state-derived view with the same semantics (node types, relationship labels, and a results overview by type).
+
+![Neo4j Aura — Query tab with graph visualization, node/relationship counts by type, and FLAGGED_FOR paths](docs/images/neo4j-aura-query-graph.png)
+
 ## Usage
 
 ```bash

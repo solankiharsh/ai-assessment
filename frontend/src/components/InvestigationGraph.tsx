@@ -148,7 +148,7 @@ function EntityNodeComponent({ data }: { data: NodeData }) {
 
       {/* Label below circle */}
       <p
-        className="pointer-events-none absolute left-1/2 -translate-x-1/2 max-w-[96px] truncate text-center text-[10px] font-medium text-neutral-200 leading-tight whitespace-nowrap"
+        className="pointer-events-none absolute left-1/2 -translate-x-1/2 max-w-[96px] truncate text-center text-[10px] font-medium leading-tight whitespace-nowrap text-white drop-shadow-[0_0_4px_rgba(0,0,0,0.9)]"
         style={{ top: size + 4 }}
       >
         {data.label}
@@ -311,6 +311,23 @@ export function InvestigationGraph({ caseId, onNodeSelect, riskEntityIds = new S
     rawEdges.filter((e) => visibleNodeIds.has(e.source) && visibleNodeIds.has(e.target)),
     [rawEdges, visibleNodeIds]);
 
+  // Results overview (Neo4j-style): nodes and relationships by type for the visible graph
+  const overview = useMemo(() => {
+    const nodeCountByType: Record<string, number> = {};
+    rawNodes
+      .filter((n) => visibleNodeIds.has(n.id))
+      .forEach((n) => {
+        const t = n.type ?? "unknown";
+        nodeCountByType[t] = (nodeCountByType[t] ?? 0) + 1;
+      });
+    const relCountByLabel: Record<string, number> = {};
+    visibleEdges.forEach((e) => {
+      const label = (e.label ?? "related").toString().replace(/_/g, " ").toLowerCase();
+      relCountByLabel[label] = (relCountByLabel[label] ?? 0) + 1;
+    });
+    return { nodeCountByType, relCountByLabel };
+  }, [rawNodes, visibleNodeIds, visibleEdges]);
+
   const layoutSize = Math.max(700, Math.sqrt(visibleNodeIds.size) * 200);
 
   const fingerprint = useMemo(() =>
@@ -356,9 +373,10 @@ export function InvestigationGraph({ caseId, onNodeSelect, riskEntityIds = new S
         type: "default" as const,
         animated: conf >= 0.9,
         label: e.label?.replace(/_/g, " ").toLowerCase().slice(0, 25),
-        labelStyle: { fill: "#a3a3a3", fontSize: 9, fontWeight: 500 },
-        labelBgStyle: { fill: "#0a0a0a", fillOpacity: 0.9 },
-        labelBgPadding: [4, 2] as [number, number],
+        labelStyle: { fill: "#e5e5e5", fontSize: 10, fontWeight: 600 },
+        labelBgStyle: { fill: "#171717", fillOpacity: 0.95 },
+        labelBgPadding: [6, 3] as [number, number],
+        labelBgBorderRadius: 4,
         style: {
           stroke: color,
           strokeWidth: Math.max(1.5, conf * 2.5),
@@ -486,14 +504,45 @@ export function InvestigationGraph({ caseId, onNodeSelect, riskEntityIds = new S
         </div>
       </div>
 
-      {/* Stats — top-right */}
-      {targetNode && (
-        <div className="absolute right-3 top-12 z-10 rounded-lg border border-orange-500/20 bg-neutral-950/90 px-3 py-2 text-[10px] backdrop-blur-sm sm:text-xs">
-          <p className="font-semibold text-orange-400">{targetNode.label}</p>
-          <p className="text-neutral-400">{totalNodes} nodes</p>
-          <p className="text-neutral-400">{rawEdges.length} connections</p>
-        </div>
-      )}
+      {/* Results overview — top-right (Neo4j-style: nodes/relationships by type) */}
+      <div className="absolute right-3 top-12 z-10 max-h-[min(70vh,420px)] overflow-y-auto rounded-lg border border-white/10 bg-neutral-950/95 px-3 py-2.5 text-[10px] backdrop-blur-sm sm:text-xs">
+        <p className="mb-2 font-semibold text-neutral-200">Results overview</p>
+        {targetNode && (
+          <p className="mb-2 truncate font-medium text-orange-400" title={targetNode.label}>
+            {targetNode.label}
+          </p>
+        )}
+        <p className="mb-1 font-medium text-neutral-300">
+          Nodes ({Object.values(overview.nodeCountByType).reduce((a, b) => a + b, 0)})
+        </p>
+        <ul className="mb-3 list-none space-y-0.5 pl-0">
+          {Object.entries(overview.nodeCountByType)
+            .sort(([, a], [, b]) => b - a)
+            .map(([type, count]) => (
+              <li key={type} className="flex items-center gap-2 text-neutral-400">
+                <span
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: ENTITY_COLORS[type] ?? "#64748b" }}
+                />
+                <span className="capitalize">{ENTITY_LABELS[type] ?? type.replace(/_/g, " ")}</span>
+                <span className="text-neutral-500">({count})</span>
+              </li>
+            ))}
+        </ul>
+        <p className="mb-1 font-medium text-neutral-300">
+          Relationships ({visibleEdges.length})
+        </p>
+        <ul className="list-none space-y-0.5 pl-0">
+          {Object.entries(overview.relCountByLabel)
+            .sort(([, a], [, b]) => b - a)
+            .map(([label, count]) => (
+              <li key={label} className="text-neutral-400">
+                <span className="capitalize">{label}</span>{" "}
+                <span className="text-neutral-500">({count})</span>
+              </li>
+            ))}
+        </ul>
+      </div>
 
       {/* ReactFlow canvas */}
       <div className="h-full w-full pt-9">
