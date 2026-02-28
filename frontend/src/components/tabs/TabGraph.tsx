@@ -30,8 +30,8 @@ export function TabGraph({
   return (
     <div className="relative flex h-full min-h-[400px] flex-col">
       <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] px-3 py-1.5">
-        <span className="text-xs font-medium text-neutral-300">
-          Identity Network — zoom, pan, click node for details
+        <span className="text-xs font-medium text-neutral-200">
+          Identity Network — zoom, pan, click a node for details; edges show relationship type
         </span>
         {topConnected && (
           <span className="text-[11px] text-neutral-300">
