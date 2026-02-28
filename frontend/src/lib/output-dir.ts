@@ -7,10 +7,14 @@ import fs from "fs";
 export function getOutputDir(): string {
   const env = process.env.OUTPUT_DIR;
   if (env) return path.isAbsolute(env) ? env : path.resolve(process.cwd(), env);
-  // When running from frontend/: ../outputs. When running from repo root: outputs
-  const fromFrontend = path.resolve(process.cwd(), "..", "outputs");
-  const fromRoot = path.resolve(process.cwd(), "outputs");
+  const cwd = process.cwd();
+  const fromRoot = path.resolve(cwd, "outputs");
+  const fromFrontend = path.resolve(cwd, "..", "outputs");
   try {
+    // When running from frontend/ (Next.js dev or build), prefer repo-level ../outputs
+    // so the UI shows all cases (e.g. timothy_overturf, adam_neumann, jensen_huang) from CLI runs.
+    const dirName = path.basename(cwd);
+    if (dirName === "frontend" && fs.existsSync(fromFrontend)) return fromFrontend;
     if (fs.existsSync(fromRoot)) return fromRoot;
   } catch {
     // ignore
