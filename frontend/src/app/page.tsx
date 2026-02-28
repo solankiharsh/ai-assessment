@@ -623,6 +623,36 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── EXPLANATION VIDEO ──────────────────────────────── */}
+      <section className="relative border-t border-white/5 py-12 sm:py-16 md:py-20">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-500/[0.04] blur-[80px]" />
+        </div>
+        <div className="relative mx-auto max-w-4xl px-4 sm:px-6">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-white sm:text-3xl">
+              Explanation Video
+            </h2>
+            <p className="mt-2 text-sm text-neutral-400 sm:text-base max-w-xl mx-auto">
+              How the Deep Research AI Agent works — from search and extraction to risk debate and report.
+            </p>
+          </div>
+          <div className="rounded-xl overflow-hidden border border-white/10 bg-black/40 shadow-2xl ring-1 ring-white/5">
+            <video
+              className="w-full aspect-video"
+              controls
+              playsInline
+              preload="metadata"
+              aria-label="Deep Research AI Agent explanation video"
+            >
+              <source src="/deep-research-agent.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </section>
+
       {/* ── DEMO SECTION ──────────────────────────────────── */}
       <DemoSection />
 
