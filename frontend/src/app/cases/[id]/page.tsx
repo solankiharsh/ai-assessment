@@ -101,7 +101,7 @@ export default function CasePage() {
     refetchInterval: (query) => (query.state.status === "error" ? 3000 : false),
   });
 
-  // Clear live events when investigation completes
+  // Clear live events when investigation is complete
   useEffect(() => {
     if (inv?.status === "complete") {
       setLiveProgressEvents([]);
