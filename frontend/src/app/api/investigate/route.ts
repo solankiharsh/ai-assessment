@@ -116,18 +116,10 @@ export async function POST(request: Request) {
 
   const { repoRoot, pythonPath } = getRepoRootAndPython();
 
-  // Don't pass LLM/search API keys from Node env so the backend uses only repo .env
-  const keysToOmit = new Set([
-    "LITELLM_API_KEY",
-    "ANTHROPIC_API_KEY",
-    "OPENAI_API_KEY",
-    "GOOGLE_API_KEY",
-    "TAVILY_API_KEY",
-    "BRAVE_SEARCH_API_KEY",
-    "LANGCHAIN_API_KEY",
-  ]);
+  // Pass full env (including API keys) to the backend so it has keys when run from the UI.
+  // In deployment (e.g. Railway) there is often no .env file; the platform injects keys as env vars.
+  // The backend also loads repo .env when present (config.py); env vars take precedence.
   const passthroughEnv: NodeJS.ProcessEnv = { ...process.env, PYTHONUNBUFFERED: "1" };
-  keysToOmit.forEach((k) => delete passthroughEnv[k]);
 
   try {
     const child = spawn(pythonPath, args, {
