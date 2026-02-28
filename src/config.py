@@ -29,9 +29,17 @@ for _key in ("ANTHROPIC_API_KEY", "OPENAI_API_KEY"):
     if os.environ.get(_key, "").strip().endswith(_EXPIRED_KEY_SUFFIX):
         os.environ[_key] = ""
 
-# Disable LangSmith tracing when no API key — avoids 403 Forbidden noise
-if not os.environ.get("LANGCHAIN_API_KEY", "").strip():
+# LangSmith tracing: disable when no API key (avoids 403); when key is set, ensure env is "true" (LangSmith checks == "true")
+_langsmith_key = (
+    os.environ.get("LANGCHAIN_API_KEY", "").strip()
+    or os.environ.get("LANGSMITH_API_KEY", "").strip()
+)
+if not _langsmith_key:
     os.environ["LANGCHAIN_TRACING_V2"] = "false"
+else:
+    _tracing = os.environ.get("LANGCHAIN_TRACING_V2", "").lower() or os.environ.get("LANGSMITH_TRACING", "").lower()
+    if _tracing in ("true", "1", "yes"):
+        os.environ["LANGCHAIN_TRACING_V2"] = "true"
 
 
 class LLMConfig(BaseSettings):

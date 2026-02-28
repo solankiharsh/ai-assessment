@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any
 
 import structlog
+from langchain_core.tracers.context import tracing_v2_enabled
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, StateGraph
 
@@ -572,14 +573,25 @@ class ResearchGraph:
         start_time = time.time()
         obs_metrics.investigation_started(investigation_id=slug or "unknown", persona="default")
 
+        run_config = {
+            "recursion_limit": max_iter * 10 + 20,
+            "configurable": {"thread_id": slug},
+        }
+        if settings.observability.tracing_enabled:
+            run_config["run_name"] = f"investigate:{subject_name}"
+
         try:
-            final_state_dict = await self.graph.ainvoke(
-                initial_state.model_dump(),
-                config={
-                    "recursion_limit": max_iter * 10 + 20,
-                    "configurable": {"thread_id": slug},
-                },
-            )
+            if settings.observability.tracing_enabled:
+                with tracing_v2_enabled(project_name=settings.observability.langsmith_project):
+                    final_state_dict = await self.graph.ainvoke(
+                        initial_state.model_dump(),
+                        config=run_config,
+                    )
+            else:
+                final_state_dict = await self.graph.ainvoke(
+                    initial_state.model_dump(),
+                    config=run_config,
+                )
             final_state = ResearchState(**final_state_dict)
         except Exception as e:
             logger.error("investigation_error", error=str(e))
@@ -678,14 +690,19 @@ class ResearchGraph:
     async def resume(self, thread_id: str) -> ResearchState:
         """Resume a checkpointed investigation by thread_id."""
         logger.info("investigation_resuming", thread_id=thread_id)
+        settings = get_settings()
+        run_config = {
+            "recursion_limit": 32,
+            "configurable": {"thread_id": thread_id},
+        }
+        if settings.observability.tracing_enabled:
+            run_config["run_name"] = f"resume:{thread_id}"
         try:
-            final_state_dict = await self.graph.ainvoke(
-                None,
-                config={
-                    "recursion_limit": 32,
-                    "configurable": {"thread_id": thread_id},
-                },
-            )
+            if settings.observability.tracing_enabled:
+                with tracing_v2_enabled(project_name=settings.observability.langsmith_project):
+                    final_state_dict = await self.graph.ainvoke(None, config=run_config)
+            else:
+                final_state_dict = await self.graph.ainvoke(None, config=run_config)
             return ResearchState(**final_state_dict)
         except Exception as e:
             logger.error("resume_error", error=str(e))
