@@ -33,7 +33,8 @@ export function TabOverview({
   onViewAllRisk?: () => void;
 }) {
 
-  const riskScore = inv.risk_score ?? Math.min(100, (inv.risk_flags?.length ?? 0) * 12);
+  // Use only API-derived risk score (no client fallback) so value matches list and is never synthetic
+  const riskScore = inv.risk_score ?? 0;
   const riskLevel =
     inv.report_risk_level ??
     (riskScore >= 80 ? "critical" : riskScore >= 60 ? "high" : riskScore >= 30 ? "medium" : riskScore > 0 ? "low" : "clear");

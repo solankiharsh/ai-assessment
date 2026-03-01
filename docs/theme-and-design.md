@@ -1,7 +1,5 @@
 # Theme and design system
 
-The frontend uses the **deriv-ai-research-agent** design system for visual consistency.
-
 ## Stack
 
 - **Styling:** Tailwind CSS v4 with `@theme inline` and CSS variables

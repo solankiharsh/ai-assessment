@@ -4,8 +4,6 @@
 **Date**: 2026-02-25  
 **Context**: We evaluated patterns from external agent architectures and adopted those that improved our evaluation criteria. Adversarial debate and a two-tier (DEEP/FAST) model strategy are documented here; one reference was the TradingAgents codebase.
 
-> **Demo**: *"I studied several open-source agent architectures to identify proven patterns, then selectively adopted what improved our specific use case."* Evaluation and selective adoption — not copying.
-
 ---
 
 ## Executive summary
