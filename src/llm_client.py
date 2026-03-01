@@ -18,6 +18,7 @@ import json
 import os
 from enum import Enum
 from typing import Optional, TypeVar
+from urllib.parse import urlparse
 
 import structlog
 from langchain_anthropic import ChatAnthropic
@@ -223,6 +224,25 @@ class LLMClient:
         use_litellm = bool(settings.llm.litellm_api_key and settings.llm.litellm_api_key.strip())
         base_url = (settings.llm.litellm_api_base or "").strip() or "http://localhost:4000"
         api_key = (settings.llm.litellm_api_key or "").strip()
+
+        def _is_localhost(url: str) -> bool:
+            if not url or not url.strip():
+                return True
+            try:
+                host = (urlparse(url).hostname or "").lower()
+                return host in ("localhost", "127.0.0.1", "::1")
+            except Exception:
+                return True
+
+        # In deployed environments (e.g. Railway), localhost is not reachable. Only use
+        # LiteLLM when base URL is explicitly set to a non-localhost endpoint.
+        if use_litellm and api_key and _is_localhost(base_url):
+            structlog.get_logger().warning(
+                "litellm_skipped_localhost",
+                base_url=base_url,
+                msg="LITELLM_API_BASE is localhost or unset; using direct provider keys if set.",
+            )
+            use_litellm = False
 
         if use_litellm and api_key:
             # All models via LiteLLM proxy (OpenAI-compatible). Proxy routes by model name.

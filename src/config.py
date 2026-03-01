@@ -48,9 +48,9 @@ class LLMConfig(BaseSettings):
     # LiteLLM proxy: single key and base URL; proxy routes to Claude/OpenAI/Gemini. Takes precedence when set.
     litellm_api_key: str = Field(default="", alias="LITELLM_API_KEY")
     litellm_api_base: str = Field(
-        default="https://localhost:4000/v1 ",
+        default="",
         alias="LITELLM_API_BASE",
-        description="LiteLLM proxy base URL (OpenAI-compatible).",
+        description="LiteLLM proxy base URL (OpenAI-compatible). Required for LiteLLM in deployment; if unset or localhost, direct provider keys are used.",
     )
 
     anthropic_api_key: str = Field(default="", alias="ANTHROPIC_API_KEY")

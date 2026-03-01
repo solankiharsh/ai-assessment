@@ -21,8 +21,8 @@ Set these in **Service → Variables** (or in the Railway dashboard). All of the
 | Variable | Description |
 |----------|-------------|
 | `LITELLM_API_KEY` | LiteLLM proxy API key (if you use a proxy for all models). |
-| `LITELLM_API_BASE` | LiteLLM base URL (e.g. `https://your-proxy.up.railway.app/v1`) when using a proxy. |
-| **or** direct provider keys | If not using LiteLLM: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GOOGLE_API_KEY`. |
+| `LITELLM_API_BASE` | **Required when using LiteLLM in production.** Set to your proxy’s **public** URL (e.g. `https://your-proxy.up.railway.app/v1`). If unset or localhost, the app skips LiteLLM and uses direct provider keys instead. |
+| **or** direct provider keys | If not using a remote proxy: set `OPENAI_API_KEY` (required for runs), and optionally `ANTHROPIC_API_KEY`, `GOOGLE_API_KEY`. Do **not** set `LITELLM_API_KEY`, or set `LITELLM_API_BASE` to a non-localhost URL. |
 | `TAVILY_API_KEY` | Tavily search API key. |
 | `BRAVE_SEARCH_API_KEY` | Brave Search API key (optional but recommended as fallback). |
 | `SEC_CONTACT_EMAIL` | Email for SEC EDGAR User-Agent (e.g. your email). |
@@ -53,6 +53,20 @@ If Neo4j is not set or unreachable, the agent still runs; graph persistence is s
 - `REPO_ROOT=/app` — Backend and frontend expect the app at `/app`.
 - `BACKEND_PYTHON=/app/.venv/bin/python` — Next.js uses this to spawn the agent.
 - `OUTPUT_DIR=/app/outputs` — Case state and reports are written here (ephemeral unless you add a volume).
+
+---
+
+## 2b. “Connection error” on live runs
+
+If every LLM call fails with **Connection error** and logs show `use_litellm=True`, the app is trying to reach a LiteLLM proxy at **localhost**, which is not available inside the Railway container.
+
+**Fix (choose one):**
+
+1. **Use direct provider keys (no proxy)**  
+   In Railway variables: set `OPENAI_API_KEY` (and optionally `ANTHROPIC_API_KEY`, `GOOGLE_API_KEY`). Leave `LITELLM_API_KEY` unset, or delete it. The app will use OpenAI/Anthropic/Google APIs directly.
+
+2. **Use a remote LiteLLM proxy**  
+   Run LiteLLM somewhere reachable (e.g. another Railway service or your own server). In this app’s variables set `LITELLM_API_KEY` and `LITELLM_API_BASE` to that proxy’s **public** URL (e.g. `https://your-litellm.up.railway.app/v1`). The app only uses LiteLLM when `LITELLM_API_BASE` is a non-localhost URL.
 
 ---
 
