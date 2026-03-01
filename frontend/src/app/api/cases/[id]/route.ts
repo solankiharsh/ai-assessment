@@ -5,6 +5,13 @@ import fs from "fs";
 import path from "path";
 import { getOutputDir, readJson, readText } from "@/lib/output-dir";
 import { computeRiskScore, computeOverallConfidence, applyReportFindings } from "@/lib/case-metrics";
+import {
+  getCaseFromSupabase,
+  uploadCaseToSupabase,
+  isSupabaseConfigured,
+  type CaseFiles,
+  type CaseMeta,
+} from "@/lib/supabase-cases";
 import type {
   Investigation,
   SubjectProfile,
@@ -83,6 +90,91 @@ interface StateFile {
   graph_insights?: { type: string; data: Record<string, unknown>[] }[];
 }
 
+/** Build log lines from progress JSONL string (same format as readLogsFromProgress). */
+function logsFromProgressString(progressStr: string): string[] {
+  const lines = progressStr.split("\n").filter((line) => line.trim());
+  const logs: string[] = [];
+  for (const line of lines) {
+    try {
+      const ev = JSON.parse(line) as Record<string, unknown>;
+      const event = ev.event as string | undefined;
+      if (event === "log" && typeof ev.message === "string") {
+        logs.push(ev.message);
+        continue;
+      }
+      const parts: string[] = [];
+      if (event) parts.push(event);
+      if (ev.node && ev.node !== "unknown") parts.push(`node=${ev.node}`);
+      if (ev.phase != null) parts.push(`phase=${ev.phase}`);
+      if (ev.iteration != null) parts.push(`iteration=${ev.iteration}`);
+      if (ev.query != null) parts.push(`query=${String(ev.query).slice(0, 60)}`);
+      if (ev.label != null) parts.push(`label=${ev.label}`);
+      if (ev.message != null && event !== "log") parts.push(String(ev.message));
+      const rest = Object.entries(ev)
+        .filter(([k]) => !["event", "node", "phase", "iteration", "query", "label", "message", "ts"].includes(k))
+        .map(([k, v]) => `${k}=${JSON.stringify(v)}`);
+      if (parts.length || rest.length) logs.push([...parts, ...rest].join(" "));
+    } catch {
+      logs.push(line.slice(0, 200));
+    }
+  }
+  return logs;
+}
+
+/** Build Investigation from Supabase Storage CaseFiles. */
+function buildInvestigationFromStored(id: string, files: CaseFiles): Investigation {
+  const state = files.state as StateFile;
+  const entities: Entity[] =
+    (files.entities as { entities?: Entity[] } | null)?.entities ?? state.entities ?? [];
+  const finalReport = files.report || state.final_report ?? "";
+  const riskFlags = state.risk_flags ?? [];
+  const base = computeRiskScore(
+    { risk_flags: riskFlags, final_report: state.final_report },
+    finalReport
+  );
+  const { riskScore, reportRiskLevel, reportRiskFindings } = applyReportFindings(
+    finalReport,
+    base.riskScore,
+    base.reportRiskLevel
+  );
+  const overallConfidence = computeOverallConfidence(state.overall_confidence, entities);
+  const stateLogs = state.logs ?? [];
+  const progressLogs = logsFromProgressString(files.progress);
+  const logs = stateLogs.length >= MIN_STATE_LOGS ? stateLogs : progressLogs.length > 0 ? progressLogs : stateLogs;
+  const metadata = files.metadata as Investigation["run_metadata"] | null;
+  return {
+    id,
+    target: state.subject?.full_name ?? id.replace(/_/g, " "),
+    status: "complete",
+    subject: state.subject,
+    entities,
+    connections: state.connections ?? [],
+    risk_flags: riskFlags,
+    search_history: state.search_history ?? [],
+    hypotheses: state.hypotheses ?? [],
+    current_phase: state.current_phase ?? "synthesis",
+    iteration: state.iteration ?? 0,
+    max_iterations: state.max_iterations ?? 8,
+    confidence_scores: state.confidence_scores ?? {},
+    overall_confidence: overallConfidence,
+    total_llm_calls: state.total_llm_calls ?? 0,
+    total_search_calls: state.total_search_calls ?? 0,
+    estimated_cost_usd: state.estimated_cost_usd ?? 0,
+    error_log: state.error_log ?? [],
+    logs,
+    final_report: finalReport,
+    entities_summary: entities.map((e) => ({ name: e.name, type: e.entity_type, confidence: e.confidence })),
+    report_risk_level: reportRiskLevel as Investigation["report_risk_level"],
+    risk_score: riskScore,
+    report_risk_findings: reportRiskFindings as Investigation["report_risk_findings"],
+    temporal_facts: state.temporal_facts ?? [],
+    temporal_contradictions: state.temporal_contradictions ?? [],
+    risk_debate_transcript: state.risk_debate_transcript ?? [],
+    graph_insights: state.graph_insights ?? [],
+    run_metadata: metadata ?? undefined,
+  };
+}
+
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -93,12 +185,19 @@ export async function GET(
   }
 
   try {
+    const stored = await getCaseFromSupabase(id);
+    if (stored) {
+      const investigation = buildInvestigationFromStored(id, stored);
+      return NextResponse.json(investigation);
+    }
+
     const outputDir = getOutputDir();
     const statePath = path.join(outputDir, `${id}_state.json`);
     const reportPath = path.join(outputDir, `${id}_report.md`);
     const entitiesPath = path.join(outputDir, `${id}_entities.json`);
     const metadataPath = path.join(outputDir, `${id}_metadata.json`);
     const runningPath = path.join(outputDir, `${id}${RUNNING_FILENAME}`);
+    const progressPath = path.join(outputDir, `${id}_progress.jsonl`);
 
     const state = readJson<StateFile>(statePath);
     if (!state) {
@@ -206,6 +305,27 @@ export async function GET(
       graph_insights: state.graph_insights ?? [],
       run_metadata: readJson<Investigation["run_metadata"]>(metadataPath) ?? undefined,
     };
+
+    if (isSupabaseConfigured()) {
+      const progressText = readText(progressPath);
+      const meta: CaseMeta = {
+        subject_name: state.subject?.full_name ?? id.replace(/_/g, " "),
+        risk_score: riskScore,
+        confidence: overallConfidence,
+        updated_at: new Date().toISOString(),
+      };
+      uploadCaseToSupabase(
+        id,
+        {
+          state,
+          report: finalReport,
+          entities: entities,
+          metadata: readJson(metadataPath),
+          progress: progressText,
+        },
+        meta
+      ).catch((e) => console.error("Supabase uploadCase", id, e));
+    }
 
     return NextResponse.json(investigation);
   } catch (e) {

@@ -3,6 +3,7 @@
 import { NextResponse } from "next/server";
 import { getOutputDir, listStateFiles, readJson, readText, getMtime } from "@/lib/output-dir";
 import { computeRiskScore, computeOverallConfidence, applyReportFindings } from "@/lib/case-metrics";
+import { listCasesFromSupabase } from "@/lib/supabase-cases";
 import type { CaseSummary } from "@/lib/types";
 
 /** Raw state shape from backend (subset we need for list). */
@@ -23,7 +24,8 @@ export async function GET() {
   try {
     const outputDir = getOutputDir();
     const ids = listStateFiles(outputDir);
-    const cases: CaseSummary[] = [];
+    const localCases: CaseSummary[] = [];
+    const byId = new Map<string, CaseSummary>();
 
     for (const id of ids) {
       const statePath = `${outputDir}/${id}_state.json`;
@@ -43,7 +45,7 @@ export async function GET() {
         const entitiesFile = readJson<{ entities?: { confidence?: number }[] }>(entitiesPath);
         if (entitiesFile?.entities?.length) entities = entitiesFile.entities;
         const confidence = computeOverallConfidence(state.overall_confidence, entities);
-        cases.push({
+        localCases.push({
           id,
           subject_name: state.subject?.full_name ?? id.replace(/_/g, " "),
           updated_at: mtime ? mtime.toISOString() : new Date().toISOString(),
@@ -52,7 +54,7 @@ export async function GET() {
           status: "complete",
         });
       } else if (running) {
-        cases.push({
+        localCases.push({
           id,
           subject_name: running.subject_name ?? id.replace(/_/g, " "),
           updated_at: mtime ? mtime.toISOString() : new Date().toISOString(),
@@ -63,7 +65,14 @@ export async function GET() {
       }
     }
 
-    cases.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+    const supabaseCases = await listCasesFromSupabase();
+    for (const c of supabaseCases) byId.set(c.id, c);
+    for (const c of localCases) {
+      if (c.status === "running" || !byId.has(c.id)) byId.set(c.id, c);
+    }
+    const cases = Array.from(byId.values()).sort(
+      (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+    );
     return NextResponse.json({ cases });
   } catch (e) {
     console.error("GET /api/cases", e);

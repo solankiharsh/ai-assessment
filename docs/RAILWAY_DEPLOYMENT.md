@@ -72,7 +72,19 @@ If every LLM call fails with **Connection error** and logs show `use_litellm=Tru
 
 ## 3. Output persistence (optional)
 
-By default, **outputs** (case state, reports, progress) live in `/app/outputs` inside the container and are **lost on redeploy**. To keep them:
+By default, **outputs** (case state, reports, progress) live in `/app/outputs` inside the container and are **lost on redeploy**. To keep them, use one of:
+
+### Option A: Supabase Storage (recommended)
+
+If you have **Supabase** (e.g. `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in your env):
+
+1. Create a bucket named `investigation-cases` in the Supabase Dashboard → Storage.
+2. Set in Railway: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`.
+3. Completed cases are uploaded to Storage when a run finishes (or when you open a case). After a redeploy, the app lists and loads cases from Storage so they persist.
+
+See [Supabase Storage setup](supabase-storage-setup.md) for details.
+
+### Option B: Railway Volume
 
 1. In Railway: **Service → Volumes** → **Add Volume**.
 2. Mount path: `/app/outputs`.

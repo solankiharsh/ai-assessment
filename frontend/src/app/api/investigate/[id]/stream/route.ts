@@ -3,7 +3,9 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import { getOutputDir } from "@/lib/output-dir";
+import { getOutputDir, readJson, readText } from "@/lib/output-dir";
+import { computeRiskScore, computeOverallConfidence, applyReportFindings } from "@/lib/case-metrics";
+import { uploadCaseToSupabase, isSupabaseConfigured } from "@/lib/supabase-cases";
 
 const RUNNING_FILENAME = "_running.json";
 const POLL_MS = 800;
@@ -96,6 +98,38 @@ export async function GET(
         const runningExists = fs.existsSync(runningPath);
 
         if (stateExists) {
+          if (isSupabaseConfigured()) {
+            const statePath = path.join(outputDir, `${id}_state.json`);
+            const reportPath = path.join(outputDir, `${id}_report.md`);
+            const entitiesPath = path.join(outputDir, `${id}_entities.json`);
+            const metadataPath = path.join(outputDir, `${id}_metadata.json`);
+            const progressPath = path.join(outputDir, `${id}_progress.jsonl`);
+            const state = readJson<{ subject?: { full_name?: string }; risk_flags?: { severity?: string }[]; overall_confidence?: number; final_report?: string; entities?: { confidence?: number }[] }>(statePath);
+            const report = readText(reportPath);
+            const entitiesFile = readJson<{ entities?: unknown }>(entitiesPath);
+            const entities = state ? (entitiesFile?.entities ?? state.entities ?? []) : [];
+            const base = state ? computeRiskScore(state, report || state.final_report ?? "") : { riskScore: 0, reportRiskLevel: null };
+            const { riskScore } = state ? applyReportFindings(report || "", base.riskScore, base.reportRiskLevel) : { riskScore: 0 };
+            const confidence = state ? computeOverallConfidence(state.overall_confidence, Array.isArray(entities) ? entities : []) : 0;
+            if (state) {
+              uploadCaseToSupabase(
+                id,
+                {
+                  state,
+                  report: report || state.final_report ?? "",
+                  entities: Array.isArray(entities) ? entities : entitiesFile?.entities ?? state.entities,
+                  metadata: readJson(metadataPath),
+                  progress: readText(progressPath),
+                },
+                {
+                  subject_name: state.subject?.full_name ?? id.replace(/_/g, " "),
+                  risk_score: riskScore,
+                  confidence,
+                  updated_at: new Date().toISOString(),
+                }
+              ).catch((e) => console.error("Supabase uploadCase on done", id, e));
+            }
+          }
           finish();
           return;
         }
