@@ -287,6 +287,14 @@ class TemporalContradiction(BaseModel):
     severity: RiskSeverity = RiskSeverity.MEDIUM
     confidence: float = 0.5
 
+    @field_validator("fact_a_id", "fact_b_id", "description", mode="before")
+    @classmethod
+    def _coerce_contradiction_str(cls, v: Any) -> str:
+        """Coerce to str; LLM or JSON may return null/non-string."""
+        if v is None:
+            return ""
+        return str(v).strip() if isinstance(v, str) else str(v)
+
 
 class GraphInsight(BaseModel):
     """A discovery made by running Cypher queries over the identity graph."""

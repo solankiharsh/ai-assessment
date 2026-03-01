@@ -93,13 +93,13 @@ class TemporalAnalyzer:
             )
             state.temporal_facts.append(fact)
 
-        # Parse contradictions and auto-generate risk flags
+        # Parse contradictions and auto-generate risk flags (coerce IDs/description to str; LLM may return null or non-string)
         for tc_raw in data.get("contradictions", []):
             sev_str = (tc_raw.get("severity") or "medium").lower()
             contradiction = TemporalContradiction(
-                fact_a_id=tc_raw.get("fact_a_id", ""),
-                fact_b_id=tc_raw.get("fact_b_id", ""),
-                description=tc_raw.get("description", ""),
+                fact_a_id=str(tc_raw.get("fact_a_id") or ""),
+                fact_b_id=str(tc_raw.get("fact_b_id") or ""),
+                description=str(tc_raw.get("description") or ""),
                 severity=sev_map.get(sev_str, RiskSeverity.MEDIUM),
                 confidence=float(tc_raw.get("confidence", 0.5)),
             )
