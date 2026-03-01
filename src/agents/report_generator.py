@@ -57,6 +57,22 @@ class ReportGenerator:
                 lines.append(f"[{role}]: {text}")
             debate_str = "\n\n".join(lines)
 
+        # Format graph insights for report (discovery queries over identity graph)
+        graph_insights_str = "(No graph insights available)"
+        if getattr(state, "graph_insights", None):
+            lines = []
+            for insight in state.graph_insights:
+                desc = insight.get("description", insight.get("type", "insight"))
+                results = insight.get("results", insight.get("data", []))
+                if isinstance(results, list):
+                    lines.append(f"## {desc}")
+                    for r in results[:15]:
+                        lines.append(f"- {r}")
+                else:
+                    lines.append(f"## {desc}: {results}")
+            if lines:
+                graph_insights_str = "\n".join(lines)
+
         user_prompt = REPORT_GENERATOR_USER_TEMPLATE.format(
             subject_name=state.subject.full_name,
             subject_profile=json.dumps(state.subject.model_dump(), indent=2, default=str),
@@ -72,6 +88,7 @@ class ReportGenerator:
             timeline=timeline_str,
             temporal_contradictions=contradictions_str,
             risk_debate_transcript=debate_str,
+            graph_insights=graph_insights_str,
         )
         try:
             report = await self.llm.generate_for_task(

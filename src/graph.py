@@ -23,6 +23,7 @@ from langgraph.graph import END, StateGraph
 from src.agents.connection_mapper import ConnectionMappingAgent
 from src.agents.entity_resolver import EntityResolver
 from src.agents.fact_extractor import FactExtractionAgent
+from src.agents.graph_reasoner import graph_reasoning_node as run_graph_reasoning
 from src.agents.report_generator import ReportGenerator
 from src.agents.research_director import ResearchDirector
 from src.agents.risk_analyzer import RiskAnalysisAgent
@@ -95,10 +96,7 @@ class ResearchGraph:
         graph.add_node("risk_analysis", self._risk_analysis_node)
         graph.add_node("connection_mapping", self._connection_mapping_node)
         graph.add_node("source_verification", self._source_verification_node)
-        graph.add_node("update_graph_db", self._update_graph_db_node)
-        graph.add_node("generate_report", self._generate_report_node)
-        graph.add_node("temporal_analysis", self._temporal_analysis_node)
-        graph.add_node("entity_resolution", self._entity_resolution_node)
+        graph.add_node("synthesis", self._synthesis_node)
 
         graph.set_entry_point("director")
         graph.add_conditional_edges(
@@ -109,19 +107,16 @@ class ResearchGraph:
                 "risk_analysis": "risk_analysis",
                 "connection_mapping": "connection_mapping",
                 "source_verification": "source_verification",
-                "generate_report": "entity_resolution",
+                "generate_report": "synthesis",
                 "end": END,
             },
         )
-        graph.add_edge("entity_resolution", "temporal_analysis")
-        graph.add_edge("temporal_analysis", "generate_report")
+        graph.add_edge("synthesis", END)
         graph.add_edge("web_research", "fact_extraction")
         graph.add_edge("fact_extraction", "director")
         graph.add_edge("risk_analysis", "director")
         graph.add_edge("connection_mapping", "director")
         graph.add_edge("source_verification", "director")
-        graph.add_edge("generate_report", "update_graph_db")
-        graph.add_edge("update_graph_db", END)
 
         return graph.compile(checkpointer=self._checkpointer)
 
@@ -155,6 +150,8 @@ class ResearchGraph:
         "temporal_analysis": "Temporal Analysis",
         "generate_report": "Report Generation",
         "update_graph_db": "Graph DB Sync",
+        "graph_reasoning": "Graph Reasoning",
+        "synthesis": "Synthesis",
     }
 
     def _emit_progress(self, event: dict) -> None:
@@ -382,24 +379,68 @@ class ResearchGraph:
         )
         return out
 
-    async def _update_graph_db_node(self, state_dict: dict) -> dict:
+    async def _synthesis_node(self, state_dict: dict) -> dict:
+        """
+        Run the full synthesis pipeline with a single Neo4j driver lifecycle.
+        Driver is owned here: open once, pass to nodes that need it, close in one finally.
+        """
+        settings = get_settings()
+        neo4j_client: Neo4jClient | None = None
+        if settings.agent.enable_graph_db:
+            neo4j_client = Neo4jClient()
+            await neo4j_client.connect()
+        try:
+            self._emit_node_start("synthesis", state_dict)
+            self._emit_node_start("entity_resolution", state_dict)
+            state_dict = await self._entity_resolution_node(state_dict)
+            self._emit_node_start("temporal_analysis", state_dict)
+            state_dict = await self._temporal_analysis_node(state_dict)
+            self._emit_node_start("update_graph_db", state_dict)
+            state_dict = await self._update_graph_db_node(state_dict, neo4j=neo4j_client)
+            self._emit_node_start("graph_reasoning", state_dict)
+            state_dict = await self._graph_reasoning_node(state_dict, neo4j=neo4j_client)
+            self._emit_node_start("generate_report", state_dict)
+            state_dict = await self._generate_report_node(state_dict)
+            return state_dict
+        finally:
+            if neo4j_client is not None and neo4j_client.is_connected:
+                await neo4j_client.close()
+
+    async def _graph_reasoning_node(self, state_dict: dict, neo4j: Neo4jClient | None = None) -> dict:
+        """Run graph discovery queries. Does not own the driver; caller closes."""
+        client = neo4j if neo4j is not None else self.neo4j
+        self._write_stage_in("graph_reasoning", state_dict)
+        self._emit_node_start("graph_reasoning", state_dict)
+        out = await run_graph_reasoning(state_dict, client)
+        self._write_stage_out("graph_reasoning", out)
+        if self._on_progress:
+            self._on_progress("graph_reasoning", out)
+        self._emit_progress(
+            {"event": "node", "node": "graph_reasoning", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
+        )
+        return out
+
+    async def _update_graph_db_node(self, state_dict: dict, neo4j: Neo4jClient | None = None) -> dict:
+        """Persist state to Neo4j and run inline discovery. Does not close when neo4j is passed (caller owns it)."""
+        client = neo4j if neo4j is not None else self.neo4j
+        owned_by_caller = neo4j is not None
         self._write_stage_in("update_graph_db", state_dict)
         self._emit_node_start("update_graph_db", state_dict)
         state = ResearchState(**state_dict)
         settings = get_settings()
-        if settings.agent.enable_graph_db:
+        graph_db_populated = False
+        if settings.agent.enable_graph_db and client is not None:
             try:
-                await self.neo4j.connect()
-                await self.neo4j.clear_graph()
-                counts = await self.neo4j.persist_state(state)
+                if not client.is_connected:
+                    await client.connect()
+                await client.clear_graph()
+                counts = await client.persist_state(state)
                 logger.info("graph_db_updated", **counts)
-                # Auto-discovery queries
+                graph_db_populated = (counts.get("nodes", 0) or counts.get("relationships", 0)) > 0
                 try:
-                    centrality = await self.neo4j.degree_centrality(top_n=10)
+                    centrality = await client.degree_centrality(top_n=10)
                     if centrality:
                         state.graph_insights.append({"type": "degree_centrality", "data": centrality})
-
-                    # Shortest paths from subject to risk-flagged entities
                     risk_entity_names = set()
                     for flag in state.risk_flags:
                         for eid in flag.entity_ids:
@@ -410,7 +451,7 @@ class ResearchGraph:
                     for name in list(risk_entity_names)[:5]:
                         if not name or name == subject_name:
                             continue
-                        paths = await self.neo4j.shortest_path(subject_name, name)
+                        paths = await client.shortest_path(subject_name, name)
                         if paths:
                             state.graph_insights.append({
                                 "type": "shortest_path",
@@ -418,8 +459,7 @@ class ResearchGraph:
                                 "to": name,
                                 "data": paths,
                             })
-
-                    shells = await self.neo4j.detect_shell_companies()
+                    shells = await client.detect_shell_companies()
                     if shells:
                         state.graph_insights.append({"type": "shell_companies", "data": shells})
                 except Exception as e:
@@ -428,21 +468,13 @@ class ResearchGraph:
                 logger.error("graph_db_error", error=str(e))
                 state.error_log.append(f"Neo4j: {e}")
             finally:
-                await self.neo4j.close()
+                if not owned_by_caller and client.is_connected:
+                    await client.close()
+        state.graph_db_populated = graph_db_populated
         out = state.model_dump()
         self._write_stage_out("update_graph_db", out)
         if self._on_progress:
             self._on_progress("update_graph_db", out)
-        # Emit final complete event with investigation summary
-        self._emit_progress({
-            "event": "complete",
-            "subject": out.get("subject", {}).get("full_name", "") if isinstance(out.get("subject"), dict) else "",
-            "iterations": out.get("iteration", 0),
-            "entities": len(out.get("entities") or []),
-            "risk_flags": len(out.get("risk_flags") or []),
-            "cost_usd": out.get("estimated_cost_usd", 0.0),
-            "progress": 1.0,
-        })
         self._emit_progress(
             {"event": "node", "node": "update_graph_db", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )
@@ -524,6 +556,15 @@ class ResearchGraph:
         if self._on_progress:
             self._on_progress("generate_report", out)
         self._emit_log(state, "Report generated successfully")
+        self._emit_progress({
+            "event": "complete",
+            "subject": out.get("subject", {}).get("full_name", "") if isinstance(out.get("subject"), dict) else "",
+            "iterations": out.get("iteration", 0),
+            "entities": len(out.get("entities") or []),
+            "risk_flags": len(out.get("risk_flags") or []),
+            "cost_usd": out.get("estimated_cost_usd", 0.0),
+            "progress": 1.0,
+        })
         self._emit_progress(
             {"event": "node", "node": "generate_report", "phase": out.get("current_phase"), "iteration": out.get("iteration")}
         )

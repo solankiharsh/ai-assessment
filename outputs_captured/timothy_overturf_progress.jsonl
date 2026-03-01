@@ -232,3 +232,191 @@
 {"event": "node_start", "node": "update_graph_db", "label": "Graph DB Sync", "phase": "synthesis", "iteration": 11, "progress": 0.906, "ts": "2026-02-27T16:24:52.547976+00:00"}
 {"event": "complete", "subject": "Timothy Overturf", "iterations": 11, "entities": 115, "risk_flags": 39, "cost_usd": 0.0, "progress": 1.0, "ts": "2026-02-27T16:25:21.129137+00:00"}
 {"event": "node", "node": "update_graph_db", "phase": "synthesis", "iteration": 11, "ts": "2026-02-27T16:25:21.129410+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 1, "progress": 0.123, "ts": "2026-03-01T08:31:20.002120+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: search_web (phase: SearchPhase.BASELINE, iter 1)", "ts": "2026-03-01T08:31:28.584555+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 1, "ts": "2026-03-01T08:31:28.585013+00:00"}
+{"event": "node_start", "node": "web_research", "label": "Web Research", "phase": "baseline", "iteration": 1, "progress": 0.123, "ts": "2026-03-01T08:31:28.587686+00:00"}
+{"event": "search", "query": "Timothy Overturf CEO Sisu Capital", "phase": "baseline", "ts": "2026-03-01T08:31:28.588060+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Timothy Overturf CEO Sisu Capital", "ts": "2026-03-01T08:31:28.588140+00:00"}
+{"event": "search", "query": "Sisu Capital investment firm", "phase": "baseline", "ts": "2026-03-01T08:31:28.588243+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Sisu Capital investment firm", "ts": "2026-03-01T08:31:28.588550+00:00"}
+{"event": "search", "query": "Timothy Overturf LinkedIn background experience", "phase": "baseline", "ts": "2026-03-01T08:31:28.588668+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Timothy Overturf LinkedIn background experience", "ts": "2026-03-01T08:31:28.588748+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" finance investment", "phase": "baseline", "ts": "2026-03-01T08:31:28.588815+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): \"Timothy Overturf\" finance investment", "ts": "2026-03-01T08:31:28.588874+00:00"}
+{"event": "search", "query": "Sisu Capital SEC filings Form ADV", "phase": "baseline", "ts": "2026-03-01T08:31:28.588927+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Sisu Capital SEC filings Form ADV", "ts": "2026-03-01T08:31:28.588977+00:00"}
+{"event": "log", "node": "unknown", "message": "Web research complete \u2014 5 queries, iter 1", "ts": "2026-03-01T08:31:35.606845+00:00"}
+{"event": "node", "node": "web_research", "phase": "baseline", "iteration": 1, "ts": "2026-03-01T08:31:35.607523+00:00"}
+{"event": "node_start", "node": "fact_extraction", "label": "Fact Extraction", "phase": "baseline", "iteration": 1, "progress": 0.123, "ts": "2026-03-01T08:31:35.611711+00:00"}
+{"event": "entities_update", "count": 67, "ts": "2026-03-01T08:38:28.532512+00:00"}
+{"event": "log", "node": "unknown", "message": "Extracted facts \u2014 67 entities so far (iter 1)", "ts": "2026-03-01T08:38:28.532727+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "baseline", "iteration": 1, "ts": "2026-03-01T08:38:28.533003+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 2, "progress": 0.246, "ts": "2026-03-01T08:38:28.535565+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.ADVERSARIAL, iter 2)", "ts": "2026-03-01T08:38:40.824645+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 2, "ts": "2026-03-01T08:38:40.825323+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "adversarial", "iteration": 2, "progress": 0.246, "ts": "2026-03-01T08:38:40.831295+00:00"}
+{"event": "risks_update", "count": 11, "ts": "2026-03-01T08:39:35.837608+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 11 flags (iter 2)", "ts": "2026-03-01T08:39:35.838077+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 2, "ts": "2026-03-01T08:39:35.838622+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 3, "progress": 0.368, "ts": "2026-03-01T08:39:35.842770+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: search_web (phase: SearchPhase.ADVERSARIAL, iter 3)", "ts": "2026-03-01T08:39:48.344518+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 3, "ts": "2026-03-01T08:39:48.345007+00:00"}
+{"event": "node_start", "node": "web_research", "label": "Web Research", "phase": "adversarial", "iteration": 3, "progress": 0.368, "ts": "2026-03-01T08:39:48.350306+00:00"}
+{"event": "search", "query": "SEC v Sisu Capital Timothy Overturf Hansueli Overturf case outcome judgment 2024", "phase": "adversarial", "ts": "2026-03-01T08:39:48.351277+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (adversarial): SEC v Sisu Capital Timothy Overturf Hansueli Overturf case outcome judgment 2024", "ts": "2026-03-01T08:39:48.351381+00:00"}
+{"event": "search", "query": "\"sisusolution.io\" OR \"sisu solution\" crypto blockchain Timothy Overturf", "phase": "adversarial", "ts": "2026-03-01T08:39:48.351462+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (adversarial): \"sisusolution.io\" OR \"sisu solution\" crypto blockchain Timothy Overturf", "ts": "2026-03-01T08:39:48.351536+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" BrokerCheck FINRA disclosure complaint arbitration", "phase": "adversarial", "ts": "2026-03-01T08:39:48.351604+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (adversarial): \"Timothy Overturf\" BrokerCheck FINRA disclosure complaint arbitration", "ts": "2026-03-01T08:39:48.351680+00:00"}
+{"event": "search", "query": "\"Eric Anthony Adams\" \"Sisu Capital\" compliance officer", "phase": "adversarial", "ts": "2026-03-01T08:39:48.351746+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (adversarial): \"Eric Anthony Adams\" \"Sisu Capital\" compliance officer", "ts": "2026-03-01T08:39:48.351813+00:00"}
+{"event": "search", "query": "\"Hansueli Overturf\" OR \"Hans Overturf\" criminal charges fraud California", "phase": "adversarial", "ts": "2026-03-01T08:39:48.351886+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (adversarial): \"Hansueli Overturf\" OR \"Hans Overturf\" criminal charges fraud California", "ts": "2026-03-01T08:39:48.351956+00:00"}
+{"event": "log", "node": "unknown", "message": "Web research complete \u2014 5 queries, iter 3", "ts": "2026-03-01T08:40:23.508756+00:00"}
+{"event": "node", "node": "web_research", "phase": "adversarial", "iteration": 3, "ts": "2026-03-01T08:40:23.509266+00:00"}
+{"event": "node_start", "node": "fact_extraction", "label": "Fact Extraction", "phase": "adversarial", "iteration": 3, "progress": 0.368, "ts": "2026-03-01T08:40:23.517067+00:00"}
+{"event": "entities_update", "count": 101, "ts": "2026-03-01T08:47:48.752587+00:00"}
+{"event": "log", "node": "unknown", "message": "Extracted facts \u2014 101 entities so far (iter 3)", "ts": "2026-03-01T08:47:48.752889+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "adversarial", "iteration": 3, "ts": "2026-03-01T08:47:48.753408+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 4, "progress": 0.491, "ts": "2026-03-01T08:47:48.758786+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.ADVERSARIAL, iter 4)", "ts": "2026-03-01T08:48:02.211321+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 4, "ts": "2026-03-01T08:48:02.211924+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "adversarial", "iteration": 4, "progress": 0.491, "ts": "2026-03-01T08:48:02.219044+00:00"}
+{"event": "risks_update", "count": 21, "ts": "2026-03-01T08:49:05.162501+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 21 flags (iter 4)", "ts": "2026-03-01T08:49:05.162905+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 4, "ts": "2026-03-01T08:49:05.163399+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 5, "progress": 0.614, "ts": "2026-03-01T08:49:05.168526+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.ADVERSARIAL, iter 5)", "ts": "2026-03-01T08:49:16.330477+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 5, "ts": "2026-03-01T08:49:16.331040+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "adversarial", "iteration": 5, "progress": 0.614, "ts": "2026-03-01T08:49:16.339339+00:00"}
+{"event": "risks_update", "count": 21, "ts": "2026-03-01T08:50:25.552892+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 21 flags (iter 5)", "ts": "2026-03-01T08:50:25.553381+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 5, "ts": "2026-03-01T08:50:25.553851+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 6, "progress": 0.737, "ts": "2026-03-01T08:50:25.559547+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: search_web (phase: SearchPhase.ADVERSARIAL, iter 6)", "ts": "2026-03-01T08:50:40.114555+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 6, "ts": "2026-03-01T08:50:40.115245+00:00"}
+{"event": "node_start", "node": "web_research", "label": "Web Research", "phase": "adversarial", "iteration": 6, "progress": 0.737, "ts": "2026-03-01T08:50:40.122042+00:00"}
+{"event": "search", "query": "SEC v Sisu Capital LLC case 3:23-cv-03855 Northern District California 2024 ruling order", "phase": "adversarial", "ts": "2026-03-01T08:50:40.123057+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (adversarial): SEC v Sisu Capital LLC case 3:23-cv-03855 Northern District California 2024 ruling order", "ts": "2026-03-01T08:50:40.123179+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" \"Sisu Capital\" settlement consent judgment penalty 2024", "phase": "adversarial", "ts": "2026-03-01T08:50:40.123275+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (adversarial): \"Timothy Overturf\" \"Sisu Capital\" settlement consent judgment penalty 2024", "ts": "2026-03-01T08:50:40.123360+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" Arcata Theatre Lounge crypto bank shares scheme", "phase": "adversarial", "ts": "2026-03-01T08:50:40.123443+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (adversarial): \"Timothy Overturf\" Arcata Theatre Lounge crypto bank shares scheme", "ts": "2026-03-01T08:50:40.123516+00:00"}
+{"event": "search", "query": "\"Sisu Capital\" California Department Financial Protection Innovation enforcement action", "phase": "adversarial", "ts": "2026-03-01T08:50:40.123584+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (adversarial): \"Sisu Capital\" California Department Financial Protection Innovation enforcement action", "ts": "2026-03-01T08:50:40.123646+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" OR \"Sisu Capital\" KlaymanToskes MDF Law investor claim recovery", "phase": "adversarial", "ts": "2026-03-01T08:50:40.123707+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (adversarial): \"Timothy Overturf\" OR \"Sisu Capital\" KlaymanToskes MDF Law investor claim recovery", "ts": "2026-03-01T08:50:40.123768+00:00"}
+{"event": "log", "node": "unknown", "message": "Web research complete \u2014 5 queries, iter 6", "ts": "2026-03-01T08:51:30.492135+00:00"}
+{"event": "node", "node": "web_research", "phase": "adversarial", "iteration": 6, "ts": "2026-03-01T08:51:30.492745+00:00"}
+{"event": "node_start", "node": "fact_extraction", "label": "Fact Extraction", "phase": "adversarial", "iteration": 6, "progress": 0.737, "ts": "2026-03-01T08:51:30.501113+00:00"}
+{"event": "entities_update", "count": 135, "ts": "2026-03-01T09:00:13.755576+00:00"}
+{"event": "log", "node": "unknown", "message": "Extracted facts \u2014 135 entities so far (iter 6)", "ts": "2026-03-01T09:00:13.756083+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "adversarial", "iteration": 6, "ts": "2026-03-01T09:00:13.756623+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 7, "progress": 0.86, "ts": "2026-03-01T09:00:13.763153+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.SYNTHESIS, iter 7)", "ts": "2026-03-01T09:00:26.136808+00:00"}
+{"event": "node", "node": "director", "phase": "synthesis", "iteration": 7, "ts": "2026-03-01T09:00:26.137276+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "synthesis", "iteration": 7, "progress": 0.86, "ts": "2026-03-01T09:00:26.146321+00:00"}
+{"event": "risks_update", "count": 31, "ts": "2026-03-01T09:01:25.635893+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 31 flags (iter 7)", "ts": "2026-03-01T09:01:25.636526+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "synthesis", "iteration": 7, "ts": "2026-03-01T09:01:25.637097+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:01:25.643361+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: generate_report (phase: SearchPhase.SYNTHESIS, iter 8)", "ts": "2026-03-01T09:01:25.644983+00:00"}
+{"event": "node", "node": "director", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:01:25.645082+00:00"}
+{"event": "node_start", "node": "entity_resolution", "label": "Entity Resolution", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:01:25.652267+00:00"}
+{"event": "entities_update", "count": 132, "ts": "2026-03-01T09:01:30.753542+00:00"}
+{"event": "log", "node": "unknown", "message": "Entity resolution done \u2014 132 entities", "ts": "2026-03-01T09:01:30.753888+00:00"}
+{"event": "node", "node": "entity_resolution", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:01:30.754180+00:00"}
+{"event": "node_start", "node": "temporal_analysis", "label": "Temporal Analysis", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:01:30.759583+00:00"}
+{"event": "log", "node": "unknown", "message": "Temporal analysis complete \u2014 0 facts", "ts": "2026-03-01T09:02:27.074146+00:00"}
+{"event": "node", "node": "temporal_analysis", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:02:27.074716+00:00"}
+{"event": "node_start", "node": "update_graph_db", "label": "Graph DB Sync", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:02:27.080428+00:00"}
+{"event": "node", "node": "update_graph_db", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:02:57.611826+00:00"}
+{"event": "node_start", "node": "graph_reasoning", "label": "Graph Reasoning", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:02:57.622093+00:00"}
+{"event": "node", "node": "graph_reasoning", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:02:57.624316+00:00"}
+{"event": "node_start", "node": "generate_report", "label": "Report Generation", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:02:57.628559+00:00"}
+{"event": "log", "node": "unknown", "message": "Generating final report\u2026", "ts": "2026-03-01T09:02:57.629848+00:00"}
+{"event": "log", "node": "unknown", "message": "Report generated successfully", "ts": "2026-03-01T09:04:09.139838+00:00"}
+{"event": "complete", "subject": "Timothy Overturf", "iterations": 8, "entities": 132, "risk_flags": 31, "cost_usd": 0.0, "progress": 1.0, "ts": "2026-03-01T09:04:09.139945+00:00"}
+{"event": "node", "node": "generate_report", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:04:09.140003+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 1, "progress": 0.123, "ts": "2026-03-01T09:08:15.773656+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: search_web (phase: SearchPhase.BASELINE, iter 1)", "ts": "2026-03-01T09:08:23.730946+00:00"}
+{"event": "node", "node": "director", "phase": "baseline", "iteration": 1, "ts": "2026-03-01T09:08:23.731275+00:00"}
+{"event": "node_start", "node": "web_research", "label": "Web Research", "phase": "baseline", "iteration": 1, "progress": 0.123, "ts": "2026-03-01T09:08:23.733983+00:00"}
+{"event": "search", "query": "Timothy Overturf CEO Sisu Capital", "phase": "baseline", "ts": "2026-03-01T09:08:23.734554+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Timothy Overturf CEO Sisu Capital", "ts": "2026-03-01T09:08:23.734681+00:00"}
+{"event": "search", "query": "\"Timothy Overturf\" biography career history", "phase": "baseline", "ts": "2026-03-01T09:08:23.734795+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): \"Timothy Overturf\" biography career history", "ts": "2026-03-01T09:08:23.734880+00:00"}
+{"event": "search", "query": "Sisu Capital investment firm fund", "phase": "baseline", "ts": "2026-03-01T09:08:23.734967+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Sisu Capital investment firm fund", "ts": "2026-03-01T09:08:23.735043+00:00"}
+{"event": "search", "query": "Timothy Overturf LinkedIn professional background", "phase": "baseline", "ts": "2026-03-01T09:08:23.735117+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): Timothy Overturf LinkedIn professional background", "ts": "2026-03-01T09:08:23.735198+00:00"}
+{"event": "search", "query": "\"Tim Overturf\" finance executive", "phase": "baseline", "ts": "2026-03-01T09:08:23.735265+00:00"}
+{"event": "log", "node": "unknown", "message": "Searching (baseline): \"Tim Overturf\" finance executive", "ts": "2026-03-01T09:08:23.735333+00:00"}
+{"event": "log", "node": "unknown", "message": "Web research complete \u2014 5 queries, iter 1", "ts": "2026-03-01T09:08:30.811798+00:00"}
+{"event": "node", "node": "web_research", "phase": "baseline", "iteration": 1, "ts": "2026-03-01T09:08:30.812703+00:00"}
+{"event": "node_start", "node": "fact_extraction", "label": "Fact Extraction", "phase": "baseline", "iteration": 1, "progress": 0.123, "ts": "2026-03-01T09:08:30.816436+00:00"}
+{"event": "entities_update", "count": 40, "ts": "2026-03-01T09:13:49.098015+00:00"}
+{"event": "log", "node": "unknown", "message": "Extracted facts \u2014 40 entities so far (iter 1)", "ts": "2026-03-01T09:13:49.099740+00:00"}
+{"event": "node", "node": "fact_extraction", "phase": "baseline", "iteration": 1, "ts": "2026-03-01T09:13:49.099993+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "baseline", "iteration": 2, "progress": 0.246, "ts": "2026-03-01T09:13:49.106913+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.ADVERSARIAL, iter 2)", "ts": "2026-03-01T09:14:03.309670+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 2, "ts": "2026-03-01T09:14:03.310310+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "adversarial", "iteration": 2, "progress": 0.246, "ts": "2026-03-01T09:14:03.318084+00:00"}
+{"event": "risks_update", "count": 0, "ts": "2026-03-01T09:15:16.931117+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 0 flags (iter 2)", "ts": "2026-03-01T09:15:16.931763+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 2, "ts": "2026-03-01T09:15:16.932286+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 3, "progress": 0.368, "ts": "2026-03-01T09:15:16.937422+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.ADVERSARIAL, iter 3)", "ts": "2026-03-01T09:15:26.215646+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 3, "ts": "2026-03-01T09:15:26.216277+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "adversarial", "iteration": 3, "progress": 0.368, "ts": "2026-03-01T09:15:26.225945+00:00"}
+{"event": "risks_update", "count": 0, "ts": "2026-03-01T09:15:27.726871+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 0 flags (iter 3)", "ts": "2026-03-01T09:15:27.735139+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 3, "ts": "2026-03-01T09:15:27.735679+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 4, "progress": 0.491, "ts": "2026-03-01T09:15:27.739701+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.ADVERSARIAL, iter 4)", "ts": "2026-03-01T09:15:37.320092+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 4, "ts": "2026-03-01T09:15:37.320775+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "adversarial", "iteration": 4, "progress": 0.491, "ts": "2026-03-01T09:15:37.328193+00:00"}
+{"event": "risks_update", "count": 0, "ts": "2026-03-01T09:15:38.847310+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 0 flags (iter 4)", "ts": "2026-03-01T09:15:38.848034+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 4, "ts": "2026-03-01T09:15:38.848679+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 5, "progress": 0.614, "ts": "2026-03-01T09:15:38.856325+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.ADVERSARIAL, iter 5)", "ts": "2026-03-01T09:15:48.351496+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 5, "ts": "2026-03-01T09:15:48.352261+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "adversarial", "iteration": 5, "progress": 0.614, "ts": "2026-03-01T09:15:48.360928+00:00"}
+{"event": "risks_update", "count": 0, "ts": "2026-03-01T09:15:49.546397+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 0 flags (iter 5)", "ts": "2026-03-01T09:15:49.547028+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 5, "ts": "2026-03-01T09:15:49.547501+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 6, "progress": 0.737, "ts": "2026-03-01T09:15:49.553756+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.ADVERSARIAL, iter 6)", "ts": "2026-03-01T09:16:00.601579+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 6, "ts": "2026-03-01T09:16:00.604732+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "adversarial", "iteration": 6, "progress": 0.737, "ts": "2026-03-01T09:16:00.612541+00:00"}
+{"event": "risks_update", "count": 0, "ts": "2026-03-01T09:16:01.928900+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 0 flags (iter 6)", "ts": "2026-03-01T09:16:01.929397+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 6, "ts": "2026-03-01T09:16:01.929713+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 7, "progress": 0.86, "ts": "2026-03-01T09:16:01.935030+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: analyze_risks (phase: SearchPhase.ADVERSARIAL, iter 7)", "ts": "2026-03-01T09:16:12.437604+00:00"}
+{"event": "node", "node": "director", "phase": "adversarial", "iteration": 7, "ts": "2026-03-01T09:16:12.442708+00:00"}
+{"event": "node_start", "node": "risk_analysis", "label": "Risk Analysis", "phase": "adversarial", "iteration": 7, "progress": 0.86, "ts": "2026-03-01T09:16:12.449503+00:00"}
+{"event": "risks_update", "count": 0, "ts": "2026-03-01T09:16:13.663399+00:00"}
+{"event": "log", "node": "unknown", "message": "Risk analysis complete \u2014 0 flags (iter 7)", "ts": "2026-03-01T09:16:13.664939+00:00"}
+{"event": "node", "node": "risk_analysis", "phase": "adversarial", "iteration": 7, "ts": "2026-03-01T09:16:13.665946+00:00"}
+{"event": "node_start", "node": "director", "label": "Director \u00b7 Planning", "phase": "adversarial", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:16:13.673123+00:00"}
+{"event": "log", "node": "unknown", "message": "Director planned: generate_report (phase: SearchPhase.SYNTHESIS, iter 8)", "ts": "2026-03-01T09:16:13.676400+00:00"}
+{"event": "node", "node": "director", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:16:13.676694+00:00"}
+{"event": "node_start", "node": "entity_resolution", "label": "Entity Resolution", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:16:13.686840+00:00"}
+{"event": "entities_update", "count": 38, "ts": "2026-03-01T09:16:16.293521+00:00"}
+{"event": "log", "node": "unknown", "message": "Entity resolution done \u2014 38 entities", "ts": "2026-03-01T09:16:16.293808+00:00"}
+{"event": "node", "node": "entity_resolution", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:16:16.294079+00:00"}
+{"event": "node_start", "node": "temporal_analysis", "label": "Temporal Analysis", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:16:16.297258+00:00"}
+{"event": "log", "node": "unknown", "message": "Temporal analysis complete \u2014 21 facts", "ts": "2026-03-01T09:16:56.942637+00:00"}
+{"event": "node", "node": "temporal_analysis", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:16:56.943953+00:00"}
+{"event": "node_start", "node": "update_graph_db", "label": "Graph DB Sync", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:16:56.946150+00:00"}
+{"event": "node", "node": "update_graph_db", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:17:04.783958+00:00"}
+{"event": "node_start", "node": "graph_reasoning", "label": "Graph Reasoning", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:17:04.794376+00:00"}
+{"event": "node", "node": "graph_reasoning", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:17:04.798749+00:00"}
+{"event": "node_start", "node": "generate_report", "label": "Report Generation", "phase": "synthesis", "iteration": 8, "progress": 0.95, "ts": "2026-03-01T09:17:04.802829+00:00"}
+{"event": "log", "node": "unknown", "message": "Generating final report\u2026", "ts": "2026-03-01T09:17:04.804488+00:00"}
+{"event": "log", "node": "unknown", "message": "Report generated successfully", "ts": "2026-03-01T09:18:10.067354+00:00"}
+{"event": "complete", "subject": "Timothy Overturf", "iterations": 8, "entities": 38, "risk_flags": 4, "cost_usd": 0.0, "progress": 1.0, "ts": "2026-03-01T09:18:10.067802+00:00"}
+{"event": "node", "node": "generate_report", "phase": "synthesis", "iteration": 8, "ts": "2026-03-01T09:18:10.067915+00:00"}

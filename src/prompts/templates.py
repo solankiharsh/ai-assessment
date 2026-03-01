@@ -345,7 +345,11 @@ Reflect uncertainty in confidence where key sources could not be fetched. Cite i
 {risk_debate_transcript}
 </risk_debate_transcript>
 
-Include a TIMELINE section summarizing the chronological history. If temporal contradictions exist, call them out explicitly in the Risk Assessment section. Include a summary of the risk debate arguments if available."""
+<graph_insights>
+{graph_insights}
+</graph_insights>
+
+Include a TIMELINE section summarizing the chronological history. If temporal contradictions exist, call them out explicitly in the Risk Assessment section. Include a summary of the risk debate arguments if available. If graph_insights are present, add a "Network Analysis" section highlighting these graph-derived findings (e.g. hidden intermediaries, risk proximity, hub entities, shell company indicators); these represent structural patterns no single source would reveal."""
 
 
 # ═══════════════════════════════════════════════════════════

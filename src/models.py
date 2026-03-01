@@ -288,6 +288,16 @@ class TemporalContradiction(BaseModel):
     confidence: float = 0.5
 
 
+class GraphInsight(BaseModel):
+    """A discovery made by running Cypher queries over the identity graph."""
+
+    query_name: str
+    description: str
+    insight_type: str  # hidden_connection, shell_company_indicator, risk_proximity, hub_entity, etc.
+    results: list[dict[str, Any]] = Field(default_factory=list)
+    result_count: int = 0
+
+
 class Hypothesis(BaseModel):
     """An active investigation thread the Research Director is pursuing."""
 
@@ -421,8 +431,9 @@ class ResearchState(BaseModel):
     # ── Risk Debate Transcript ──
     risk_debate_transcript: list[dict[str, str]] = Field(default_factory=list)
 
-    # ── Graph Insights (from Neo4j queries) ──
+    # ── Graph Insights (from Neo4j discovery queries after graph persist) ──
     graph_insights: list[dict[str, Any]] = Field(default_factory=list)
+    graph_db_populated: bool = False  # True after update_graph_db successfully persists
 
     # ── PII Annotations ──
     pii_annotations: list[dict[str, str]] = Field(default_factory=list)

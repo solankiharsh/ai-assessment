@@ -7,6 +7,8 @@ Labels and relationship types are allowlisted to prevent Cypher injection.
 
 from __future__ import annotations
 
+import re
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import structlog
@@ -17,6 +19,13 @@ from src.models import EntityType, ResearchState
 from src.observability import metrics as obs_metrics
 
 logger = structlog.get_logger()
+
+
+def _investigation_id_from_state(state: ResearchState) -> str:
+    """Derive a stable investigation ID from subject name for graph provenance."""
+    name = (state.subject.full_name or "").strip().lower()
+    name = re.sub(r"\s+", "_", re.sub(r"[^a-z0-9\s]", "", name)) or "run"
+    return name[:64]
 
 # Allowlisted node labels (Cypher does not support parameterized labels)
 VALID_NODE_LABELS = frozenset(
@@ -120,6 +129,26 @@ class Neo4jClient:
                 except Exception as e:
                     logger.debug("constraint_exists", error=str(e))
 
+    async def ensure_indexes(self) -> None:
+        """Create indexes on first use for query performance."""
+        if not self.is_connected:
+            return
+        indexes = [
+            "CREATE INDEX IF NOT EXISTS FOR (p:Person) ON (p.name)",
+            "CREATE INDEX IF NOT EXISTS FOR (o:Organization) ON (o.name)",
+            "CREATE INDEX IF NOT EXISTS FOR (l:Location) ON (l.name)",
+            "CREATE INDEX IF NOT EXISTS FOR (rf:RiskFlag) ON (rf.flag_id)",
+            "CREATE INDEX IF NOT EXISTS FOR (rf:RiskFlag) ON (rf.severity)",
+            "CREATE INDEX IF NOT EXISTS FOR (n:Person) ON (n.investigation_id)",
+            "CREATE INDEX IF NOT EXISTS FOR (n:Organization) ON (n.investigation_id)",
+        ]
+        async with self._driver.session(database=self._database) as session:
+            for cypher in indexes:
+                try:
+                    await session.run(cypher)
+                except Exception as e:
+                    logger.debug("index_creation_skipped", cypher=cypher[:50], error=str(e))
+
     async def persist_state(self, state: ResearchState) -> dict[str, int]:
         """Persist investigation state to Neo4j. Uses allowlisted labels only."""
         if not self.is_connected:
@@ -127,6 +156,9 @@ class Neo4jClient:
             return {"nodes": 0, "relationships": 0}
 
         await self.create_constraints()
+        await self.ensure_indexes()
+        inv_id = _investigation_id_from_state(state)
+        updated_at = datetime.now(timezone.utc).isoformat()
         node_count = 0
         rel_count = 0
 
@@ -142,6 +174,8 @@ class Neo4jClient:
                         "description": entity.description,
                         "aliases": entity.aliases,
                         "source_urls": entity.source_urls,
+                        "investigation_id": inv_id,
+                        "updated_at": updated_at,
                         **{k: str(v) for k, v in entity.attributes.items()},
                     }
                     # Label is allowlisted; use parameterized props only
@@ -161,7 +195,8 @@ class Neo4jClient:
                         f"MATCH (a:{src_label} {{entity_id: $src_id}})"
                         f" MATCH (b:{tgt_label} {{entity_id: $tgt_id}})"
                         f" MERGE (a)-[r:{rel_type}]->(b)"
-                        " SET r.description = $desc, r.confidence = $conf, r.source_urls = $urls"
+                        " SET r.description = $desc, r.confidence = $conf, r.source_urls = $urls,"
+                        " r.investigation_id = $inv_id, r.updated_at = $updated_at"
                     )
                     await session.run(
                         cypher,
@@ -170,8 +205,10 @@ class Neo4jClient:
                         desc=conn.description,
                         conf=conn.confidence,
                         urls=conn.source_urls,
+                        inv_id=inv_id,
+                        updated_at=updated_at,
                     )
-                    # Edge provenance: add temporal and source metadata
+                    # Edge provenance: temporal and source metadata
                     provenance_cypher = (
                         f"MATCH (a:{src_label} {{entity_id: $src_id}})"
                         f"-[r:{rel_type}]->"
@@ -181,12 +218,11 @@ class Neo4jClient:
                         " r.start_date = $start_date,"
                         " r.end_date = $end_date"
                     )
-                    from datetime import datetime, timezone
                     await session.run(
                         provenance_cypher,
                         src_id=conn.source_entity_id,
                         tgt_id=conn.target_entity_id,
-                        ts=datetime.now(timezone.utc).isoformat(),
+                        ts=updated_at,
                         primary_url=conn.source_urls[0] if conn.source_urls else "",
                         start_date=conn.start_date or "",
                         end_date=conn.end_date or "",
@@ -197,7 +233,8 @@ class Neo4jClient:
                     await session.run(
                         "MERGE (r:RiskFlag {flag_id: $flag_id}) SET r.category = $category, "
                         "r.severity = $severity, r.title = $title, r.description = $description, "
-                        "r.confidence = $confidence, r.evidence = $evidence",
+                        "r.confidence = $confidence, r.evidence = $evidence, "
+                        "r.investigation_id = $inv_id",
                         flag_id=flag.id,
                         category=flag.category.value,
                         severity=flag.severity.value,
@@ -205,6 +242,7 @@ class Neo4jClient:
                         description=flag.description,
                         confidence=flag.confidence,
                         evidence=flag.evidence,
+                        inv_id=inv_id,
                     )
                     node_count += 1
                     for eid in flag.entity_ids:
@@ -254,6 +292,15 @@ class Neo4jClient:
             result = await session.run(cypher, name=entity_name)
             return [record.data() async for record in result]
 
+    async def execute_read(self, cypher: str, parameters: Optional[dict[str, Any]] = None) -> list[dict[str, Any]]:
+        """Run a read-only parameterized Cypher query; returns list of record dicts."""
+        if not self.is_connected:
+            return []
+        params = parameters or {}
+        async with self._driver.session(database=self._database) as session:
+            result = await session.run(cypher, params)
+            return [record.data() async for record in result]
+
     async def get_graph_stats(self) -> dict[str, int]:
         if not self.is_connected:
             return {}
@@ -291,23 +338,26 @@ class Neo4jClient:
                 return []
 
     async def detect_shell_companies(self) -> list[dict[str, Any]]:
-        """Find organizations sharing addresses or registered agents."""
+        """Find organizations sharing a location. Only uses persisted properties (e.g. from entity attributes)."""
         if not self.is_connected:
             return []
+        # Only query properties we explicitly persist (e.g. location from entity.attributes)
+        # IS NOT NULL and <> '' avoid false positives from empty values
+        cypher = """
+        MATCH (o1:Organization)
+        MATCH (o2:Organization)
+        WHERE o1 <> o2
+          AND o1.location IS NOT NULL
+          AND o1.location = o2.location
+          AND o1.location <> ''
+        RETURN o1.name AS org_a, o2.name AS org_b,
+               o1.location AS shared_location,
+               'shared_address' AS link_type
+        ORDER BY shared_location
+        LIMIT 50
+        """
         with obs_metrics.track_graph_query("shell_companies"):
-            cypher = (
-                "MATCH (o1:Organization), (o2:Organization)"
-                " WHERE o1.entity_id < o2.entity_id"
-                " AND (o1.address IS NOT NULL AND o1.address = o2.address"
-                "  OR o1.registered_agent IS NOT NULL AND o1.registered_agent = o2.registered_agent)"
-                " RETURN o1.name AS org_a, o2.name AS org_b,"
-                " CASE WHEN o1.address = o2.address THEN 'shared_address'"
-                "      ELSE 'shared_agent' END AS link_type"
-                " LIMIT 50"
-            )
-            async with self._driver.session(database=self._database) as session:
-                result = await session.run(cypher)
-                return [record.data() async for record in result]
+            return await self.execute_read(cypher)
 
     async def degree_centrality(self, top_n: int = 10) -> list[dict[str, Any]]:
         """Most-connected nodes by relationship count."""

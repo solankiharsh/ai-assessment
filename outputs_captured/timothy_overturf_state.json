@@ -6886,11 +6886,64 @@
   ],
   "confidence_scores": {},
   "overall_confidence": 0.0,
-  "total_llm_calls": 178,
+  "total_llm_calls": 182,
   "total_search_calls": 14,
   "estimated_cost_usd": 3.1866,
   "should_terminate": true,
   "error_log": [],
+  "logs": [
+    "Investigation Starting: Timothy Overturf (CEO @ Sisu Capital)",
+    "llm_client_initialized budget_usd=5.0 models_created_on_first_use=True",
+    "investigation_started subject=Timothy Overturf max_iterations=12",
+    "BASELINE PHASE START",
+    "Director planned: search_web (phase: baseline, iter 1)",
+    "Searching (baseline): Timothy Overturf CEO Sisu Capital",
+    "Searching (baseline): \"Timothy Overturf\" finance executive",
+    "Searching (baseline): Timothy Overturf LinkedIn background career history",
+    "Searching (baseline): Sisu Capital AUM portfolio investments",
+    "Searching (baseline): Sisu Capital investment firm",
+    "Web research complete \u2014 5 queries, iter 1",
+    "Extracted facts \u2014 73 entities so far (iter 1)",
+    "Director planned: analyze_risks (phase: baseline, iter 2)",
+    "Risk analysis complete \u2014 10 flags (iter 2)",
+    "DEPTH PHASE START",
+    "Director planned: analyze_risks (phase: depth, iter 3)",
+    "Risk analysis complete \u2014 18 flags (iter 3)",
+    "Director planned: analyze_risks (phase: depth, iter 4)",
+    "Risk analysis complete \u2014 27 flags (iter 4)",
+    "Director planned: analyze_risks (phase: depth, iter 5)",
+    "Risk analysis complete \u2014 27 flags (iter 5)",
+    "Director planned: analyze_risks (phase: depth, iter 6)",
+    "Risk analysis complete \u2014 27 flags (iter 6)",
+    "Director planned: analyze_risks (phase: depth, iter 7)",
+    "Risk analysis complete \u2014 27 flags (iter 7)",
+    "ADVERSARIAL PHASE START",
+    "Director planned: search_web (phase: adversarial, iter 8)",
+    "Searching (adversarial): Timothy Overturf FINRA BrokerCheck CRD 6422933 disclosures arbitration",
+    "Searching (adversarial): SEC v. Timothy Overturf Sisu Capital case outcome judgment settlement 2023 2024",
+    "Searching (adversarial): Sisu Capital LLC Mill Valley bankruptcy dissolution",
+    "Searching (adversarial): Hans Overturf California investment adviser suspension disciplinary order",
+    "Searching (adversarial): Timothy Overturf criminal charges DOJ fraud indictment",
+    "Web research complete \u2014 5 queries, iter 8",
+    "Extracted facts \u2014 95 entities so far (iter 8)",
+    "Director planned: analyze_risks (phase: adversarial, iter 9)",
+    "Risk analysis complete \u2014 39 flags (iter 9)",
+    "Director planned: search_web (phase: adversarial, iter 10)",
+    "Searching (adversarial): \"thinly-traded bank stock\" Sisu Capital SEC fraud scheme",
+    "Searching (adversarial): John Figueiredo Sisu Capital Sisu Extracts cannabis connection",
+    "Searching (adversarial): Timothy Overturf Arcata Theatre Lounge owner current business",
+    "Searching (adversarial): SEC v Sisu Capital 3:23-cv-03855 settlement judgment 2024 2025 final order",
+    "Web research complete \u2014 4 queries, iter 10",
+    "Extracted facts \u2014 119 entities so far (iter 10)",
+    "SYNTHESIS PHASE START",
+    "Director planned: generate_report (phase: synthesis, iter 11)",
+    "Entity resolution done \u2014 115 entities",
+    "Generating final report\u2026",
+    "Report generated successfully",
+    "Temporal analysis complete \u2014 0 facts",
+    "investigation_complete subject=Timothy Overturf duration=2481.7s entities=115 flags=39",
+    "Generating final report\u2026"
+  ],
   "inaccessible_urls": [
     {
       "url": "https://www.wealthminder.com/financial-advisors/advisory-firms/sisu-capital-llc/23419",
@@ -6905,8 +6958,180 @@
       "phase": "adversarial"
     }
   ],
-  "temporal_facts": [],
-  "temporal_contradictions": [],
+  "temporal_facts": [
+    {
+      "id": "tf1",
+      "claim": "Hansueli Overturf suspended by State of California from acting as investment adviser",
+      "entity_id": "e403c6f7",
+      "date_range": [
+        "2011-11",
+        "2014-11"
+      ],
+      "as_of_date": null,
+      "source_urls": [],
+      "confidence": 0.95,
+      "category": "regulatory"
+    },
+    {
+      "id": "tf2",
+      "claim": "Hansueli Overturf suspended by State of California from acting as investment adviser",
+      "entity_id": "e403c6f7",
+      "date_range": [
+        "2017-12",
+        "2019-12"
+      ],
+      "as_of_date": null,
+      "source_urls": [],
+      "confidence": 0.95,
+      "category": "regulatory"
+    },
+    {
+      "id": "tf3",
+      "claim": "Timothy Overturf founded Sisu Capital, LLC at age 18",
+      "entity_id": "7749d933",
+      "date_range": [
+        "2013",
+        "2014"
+      ],
+      "as_of_date": null,
+      "source_urls": [],
+      "confidence": 0.92,
+      "category": "professional"
+    },
+    {
+      "id": "tf4",
+      "claim": "Timothy Overturf registered as Investment Adviser Representative with Sisu Capital LLC",
+      "entity_id": "7749d933",
+      "date_range": [
+        "2015-01-08",
+        "2020-12-31"
+      ],
+      "as_of_date": null,
+      "source_urls": [],
+      "confidence": 0.98,
+      "category": "professional"
+    },
+    {
+      "id": "tf5",
+      "claim": "Sisu Capital and Timothy Overturf breached fiduciary duties; unauthorized and unsuitable trades",
+      "entity_id": "7749d933",
+      "date_range": [
+        "2017-12",
+        "2021-05"
+      ],
+      "as_of_date": null,
+      "source_urls": [],
+      "confidence": 0.92,
+      "category": "regulatory"
+    },
+    {
+      "id": "tf6",
+      "claim": "Hansueli Overturf gave investment advice to Sisu Capital clients",
+      "entity_id": "e403c6f7",
+      "date_range": [
+        "2017",
+        "2021"
+      ],
+      "as_of_date": null,
+      "source_urls": [],
+      "confidence": 0.9,
+      "category": "regulatory"
+    },
+    {
+      "id": "tf7",
+      "claim": "Sisu Capital withdrew over $2 million in fees from client accounts",
+      "entity_id": "7749d933",
+      "date_range": [
+        "2017",
+        "2021"
+      ],
+      "as_of_date": null,
+      "source_urls": [],
+      "confidence": 0.9,
+      "category": "financial"
+    },
+    {
+      "id": "tf8",
+      "claim": "Sisu Capital managed approximately $51.7 million in assets before shutting down",
+      "entity_id": "7749d933",
+      "date_range": [
+        "2017",
+        "2021"
+      ],
+      "as_of_date": null,
+      "source_urls": [],
+      "confidence": 0.85,
+      "category": "financial"
+    },
+    {
+      "id": "tf9",
+      "claim": "SEC filed complaint against Timothy Overturf and Sisu Capital",
+      "entity_id": "7749d933",
+      "date_range": [
+        "2023-08-01",
+        "2023-08-01"
+      ],
+      "as_of_date": null,
+      "source_urls": [],
+      "confidence": 0.98,
+      "category": "legal"
+    },
+    {
+      "id": "tf10",
+      "claim": "Timothy Overturf and Joseph Ostini purchased Arcata Theatre Lounge",
+      "entity_id": "b3027807",
+      "date_range": [
+        "2019",
+        "2019"
+      ],
+      "as_of_date": null,
+      "source_urls": [],
+      "confidence": 0.85,
+      "category": "event"
+    }
+  ],
+  "temporal_contradictions": [
+    {
+      "id": "tc1",
+      "fact_a_id": "tf2",
+      "fact_b_id": "tf6",
+      "description": "Hansueli Overturf was suspended from acting as investment adviser (Dec 2017\u2013Dec 2019) yet provided investment advice to Sisu clients during 2017\u20132021.",
+      "severity": "critical",
+      "confidence": 0.92
+    },
+    {
+      "id": "tc2",
+      "fact_a_id": "tf1",
+      "fact_b_id": "tf3",
+      "description": "Hansueli Overturf was suspended Nov 2011\u2013Nov 2014; Timothy founded Sisu at age 18 in 2013/2014 during that suspension period.",
+      "severity": "high",
+      "confidence": 0.88
+    },
+    {
+      "id": "tc3",
+      "fact_a_id": "tf4",
+      "fact_b_id": "tf8",
+      "description": "Timothy was registered as IAR through Dec 2020; Sisu reportedly shut down in 2021 with $51.7M AUM\u2014timeline of wind-down vs registration.",
+      "severity": "medium",
+      "confidence": 0.75
+    },
+    {
+      "id": "tc4",
+      "fact_a_id": "tf2",
+      "fact_b_id": "tf6",
+      "description": "Suspension (2017\u20132019) overlaps with period Hans gave advice to Sisu clients (2017\u20132021).",
+      "severity": "critical",
+      "confidence": 0.9
+    },
+    {
+      "id": "tc5",
+      "fact_a_id": "tf3",
+      "fact_b_id": "tf5",
+      "description": "Firm founded 2013/2014; alleged breach period 2017\u20132021\u2014founding during father's suspension then later breach period.",
+      "severity": "high",
+      "confidence": 0.85
+    }
+  ],
   "risk_debate_transcript": [
     {
       "role": "proponent",
@@ -7069,70 +7294,653 @@
           "degree": 4
         }
       ]
+    },
+    {
+      "type": "degree_centrality",
+      "data": [
+        {
+          "name": null,
+          "type": null,
+          "degree": 81
+        },
+        {
+          "name": "Timothy Overturf",
+          "type": "person",
+          "degree": 55
+        },
+        {
+          "name": "Hansueli Overturf",
+          "type": "person",
+          "degree": 32
+        },
+        {
+          "name": "SISU CAPITAL LLC",
+          "type": "organization",
+          "degree": 30
+        },
+        {
+          "name": "Securities and Exchange Commission",
+          "type": "organization",
+          "degree": 16
+        },
+        {
+          "name": "Sisu",
+          "type": "organization",
+          "degree": 11
+        },
+        {
+          "name": "SISU CAPITAL LIMITED",
+          "type": "organization",
+          "degree": 6
+        },
+        {
+          "name": "Sisu Extracts",
+          "type": "organization",
+          "degree": 6
+        },
+        {
+          "name": "Timothy Silas Prugh Overturf",
+          "type": "person",
+          "degree": 5
+        },
+        {
+          "name": "Arcata Theatre Lounge",
+          "type": "organization",
+          "degree": 4
+        }
+      ]
+    },
+    {
+      "type": "shortest_path",
+      "from": "Timothy Overturf",
+      "to": "Securities and Exchange Commission",
+      "data": [
+        {
+          "entity_chain": [
+            "Timothy Overturf",
+            "Securities and Exchange Commission"
+          ],
+          "relationship_chain": [
+            "RELATED_TO"
+          ],
+          "hops": 1
+        }
+      ]
+    },
+    {
+      "type": "shortest_path",
+      "from": "Timothy Overturf",
+      "to": "Hansueli Overturf",
+      "data": [
+        {
+          "entity_chain": [
+            "Timothy Overturf",
+            "Hansueli Overturf"
+          ],
+          "relationship_chain": [
+            "RELATED_TO"
+          ],
+          "hops": 1
+        }
+      ]
+    },
+    {
+      "type": "shortest_path",
+      "from": "Timothy Overturf",
+      "to": "Sisu Investment Holdings",
+      "data": [
+        {
+          "entity_chain": [
+            "Timothy Overturf",
+            "SISU CAPITAL LLC",
+            null,
+            "Sisu Investment Holdings"
+          ],
+          "relationship_chain": [
+            "RELATED_TO",
+            "FLAGGED_FOR",
+            "FLAGGED_FOR"
+          ],
+          "hops": 3
+        }
+      ]
+    },
+    {
+      "type": "shortest_path",
+      "from": "Timothy Overturf",
+      "to": "Joy Seppala",
+      "data": [
+        {
+          "entity_chain": [
+            "Timothy Overturf",
+            "SISU CAPITAL LLC",
+            "Joy Seppala"
+          ],
+          "relationship_chain": [
+            "RELATED_TO",
+            "RELATED_TO"
+          ],
+          "hops": 2
+        }
+      ]
+    },
+    {
+      "type": "shortest_path",
+      "from": "Timothy Overturf",
+      "to": "Sisu Investment Corporation",
+      "data": [
+        {
+          "entity_chain": [
+            "Timothy Overturf",
+            "SISU CAPITAL LLC",
+            null,
+            "Sisu Investment Corporation"
+          ],
+          "relationship_chain": [
+            "RELATED_TO",
+            "FLAGGED_FOR",
+            "FLAGGED_FOR"
+          ],
+          "hops": 3
+        }
+      ]
+    },
+    {
+      "type": "shell_companies",
+      "data": [
+        {
+          "org_a": "Revolution Drum & Bugle Corps",
+          "org_b": "Floresville Independent School District",
+          "shared_location": "San Antonio, Texas",
+          "link_type": "shared_address"
+        },
+        {
+          "org_a": "Floresville Independent School District",
+          "org_b": "Revolution Drum & Bugle Corps",
+          "shared_location": "San Antonio, Texas",
+          "link_type": "shared_address"
+        }
+      ]
+    },
+    {
+      "query_name": "hidden_intermediaries",
+      "description": "Entities connected to subject through 2+ independent paths",
+      "insight_type": "hidden_connection",
+      "results": [
+        {
+          "entity": "SISU CAPITAL LLC",
+          "type": "Organization",
+          "connection_strength": 24
+        },
+        {
+          "entity": "Hansueli Overturf",
+          "type": "Person",
+          "connection_strength": 19
+        },
+        {
+          "entity": "Securities and Exchange Commission",
+          "type": "Organization",
+          "connection_strength": 11
+        },
+        {
+          "entity": "Timothy Silas Prugh Overturf",
+          "type": "Person",
+          "connection_strength": 6
+        },
+        {
+          "entity": null,
+          "type": "RiskFlag",
+          "connection_strength": 4
+        },
+        {
+          "entity": null,
+          "type": "RiskFlag",
+          "connection_strength": 4
+        },
+        {
+          "entity": null,
+          "type": "RiskFlag",
+          "connection_strength": 4
+        },
+        {
+          "entity": null,
+          "type": "RiskFlag",
+          "connection_strength": 3
+        },
+        {
+          "entity": null,
+          "type": "RiskFlag",
+          "connection_strength": 3
+        },
+        {
+          "entity": null,
+          "type": "RiskFlag",
+          "connection_strength": 3
+        }
+      ],
+      "result_count": 10
+    },
+    {
+      "query_name": "shared_addresses",
+      "description": "Organizations sharing a location (shell company indicator). Uses only persisted location property.",
+      "insight_type": "shell_company_indicator",
+      "results": [
+        {
+          "org1": "Revolution Drum & Bugle Corps",
+          "org2": "Floresville Independent School District",
+          "shared_location": "San Antonio, Texas"
+        },
+        {
+          "org1": "Floresville Independent School District",
+          "org2": "Revolution Drum & Bugle Corps",
+          "shared_location": "San Antonio, Texas"
+        }
+      ],
+      "result_count": 2
+    },
+    {
+      "query_name": "risk_proximity",
+      "description": "Shortest path from subject to any HIGH-severity risk flag",
+      "insight_type": "risk_proximity",
+      "results": [
+        {
+          "risk": "Hansueli Overturf's Extensive Prior Criminal and Regulatory History",
+          "severity": "high",
+          "hops": 1,
+          "path_names": [
+            "Timothy Overturf",
+            "Hansueli Overturf's Extensive Prior Criminal and Regulatory History"
+          ]
+        },
+        {
+          "risk": "Pending Federal Civil Litigation",
+          "severity": "high",
+          "hops": 1,
+          "path_names": [
+            "Timothy Overturf",
+            "Pending Federal Civil Litigation"
+          ]
+        },
+        {
+          "risk": "Failure to Disclose Material Disciplinary Information",
+          "severity": "high",
+          "hops": 1,
+          "path_names": [
+            "Timothy Overturf",
+            "Failure to Disclose Material Disciplinary Information"
+          ]
+        },
+        {
+          "risk": "Association with Suspended Investment Adviser",
+          "severity": "high",
+          "hops": 1,
+          "path_names": [
+            "Timothy Overturf",
+            "Association with Suspended Investment Adviser"
+          ]
+        },
+        {
+          "risk": "Fiduciary Duty Breach - Unauthorized Trading",
+          "severity": "high",
+          "hops": 1,
+          "path_names": [
+            "Timothy Overturf",
+            "Fiduciary Duty Breach - Unauthorized Trading"
+          ]
+        },
+        {
+          "risk": "Defunct Investment Firm with Regulatory Issues",
+          "severity": "high",
+          "hops": 1,
+          "path_names": [
+            "Timothy Overturf",
+            "Defunct Investment Firm with Regulatory Issues"
+          ]
+        },
+        {
+          "risk": "Self-Dealing and Personal Enrichment from Client Funds",
+          "severity": "high",
+          "hops": 1,
+          "path_names": [
+            "Timothy Overturf",
+            "Self-Dealing and Personal Enrichment from Client Funds"
+          ]
+        },
+        {
+          "risk": "Conflict of Interest - Undisclosed Investment Strategy for Personal Benefit",
+          "severity": "high",
+          "hops": 1,
+          "path_names": [
+            "Timothy Overturf",
+            "Conflict of Interest - Undisclosed Investment Strategy for Personal Benefit"
+          ]
+        },
+        {
+          "risk": "Young Age at Firm Founding During Father's Suspension Period",
+          "severity": "high",
+          "hops": 1,
+          "path_names": [
+            "Timothy Overturf",
+            "Young Age at Firm Founding During Father's Suspension Period"
+          ]
+        },
+        {
+          "risk": "Targeting of High Net-Worth Clients Amplifies Financial Harm",
+          "severity": "high",
+          "hops": 1,
+          "path_names": [
+            "Timothy Overturf",
+            "Targeting of High Net-Worth Clients Amplifies Financial Harm"
+          ]
+        }
+      ],
+      "result_count": 10
+    },
+    {
+      "query_name": "hub_entities",
+      "description": "Most connected entities (potential key facilitators)",
+      "insight_type": "hub_entity",
+      "results": [
+        {
+          "entity": "Timothy Overturf",
+          "type": "Person",
+          "degree": 55
+        },
+        {
+          "entity": "Hansueli Overturf",
+          "type": "Person",
+          "degree": 32
+        },
+        {
+          "entity": "SISU CAPITAL LLC",
+          "type": "Organization",
+          "degree": 30
+        },
+        {
+          "entity": "Securities and Exchange Commission",
+          "type": "Organization",
+          "degree": 16
+        },
+        {
+          "entity": "Sisu",
+          "type": "Organization",
+          "degree": 11
+        },
+        {
+          "entity": "SISU CAPITAL LIMITED",
+          "type": "Organization",
+          "degree": 6
+        },
+        {
+          "entity": "Sisu Extracts",
+          "type": "Organization",
+          "degree": 6
+        },
+        {
+          "entity": "Timothy Silas Prugh Overturf",
+          "type": "Person",
+          "degree": 5
+        },
+        {
+          "entity": "SiSU Health",
+          "type": "Organization",
+          "degree": 4
+        },
+        {
+          "entity": "John Figueiredo",
+          "type": "Person",
+          "degree": 4
+        }
+      ],
+      "result_count": 10
+    },
+    {
+      "query_name": "temporal_overlap",
+      "description": "Organizations with overlapping active periods and shared personnel",
+      "insight_type": "temporal_overlap",
+      "results": [
+        {
+          "person": "Timothy Overturf",
+          "org1": "Santa Clara Vanguard Cadets",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Blue Knights",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Legends Brass and Percussion Ensemble",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Dimensions Drum and Bugle Corps",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Marion Cadets Drum & Bugle Corps",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Revolution Drum & Bugle Corps",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Capital Regiment Drum and Bugle Corps",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Floresville Independent School District",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Pro-Mark",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Dynasty USA",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Remo Drumheads",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Timothy Overturf Properties",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Dallas Theological Seminary",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Captains Fund",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Overturf Financial Services",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "e-fon",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Arcata Theatre Lounge",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Joseppi\u2019s LLC",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "SISU CAPITAL LLC",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "SISU CAPITAL LLC",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "Santa Clara Vanguard Cadets",
+          "org2_start": "",
+          "org2_end": ""
+        },
+        {
+          "person": "Timothy Overturf",
+          "org1": "Blue Knights",
+          "org1_start": "",
+          "org1_end": "",
+          "org2": "Santa Clara Vanguard Cadets",
+          "org2_start": "",
+          "org2_end": ""
+        }
+      ],
+      "result_count": 20
+    },
+    {
+      "query_name": "isolated_clusters",
+      "description": "Entity clusters disconnected from the main subject graph",
+      "insight_type": "isolated_entity",
+      "results": [
+        {
+          "entity": "Ian Cockwell",
+          "type": "Person"
+        },
+        {
+          "entity": "2361380 Ontario Limited",
+          "type": "Organization"
+        },
+        {
+          "entity": "Kevin Press",
+          "type": "Person"
+        },
+        {
+          "entity": "Greg Capello",
+          "type": "Person"
+        },
+        {
+          "entity": "Rainmaker Securities, LLC",
+          "type": "Organization"
+        },
+        {
+          "entity": "Premier Alternatives",
+          "type": "Organization"
+        },
+        {
+          "entity": "Sisu Capital Management",
+          "type": "Organization"
+        },
+        {
+          "entity": "SiSU Health",
+          "type": "Organization"
+        },
+        {
+          "entity": "Praetura Ventures",
+          "type": "Organization"
+        },
+        {
+          "entity": "GMC Life Sciences Fund By Praetura",
+          "type": "Person"
+        }
+      ],
+      "result_count": 10
     }
   ],
+  "graph_db_populated": true,
   "pii_annotations": [
     {
       "entity_id": "",
       "field_name": "",
       "pii_type": "dob",
-      "original_value": "12/31/2020",
+      "original_value": "08/24/2023",
       "redacted_value": "[DOB REDACTED]"
     }
   ],
-  "final_report": "# Due Diligence Report: Timothy Overturf\n\n**Role:** CEO @ Sisu Capital\n**Generated:** N/A\n**Confidence:** 0.00\n\n---\n\n## 1. Executive Summary\n\n# Due Diligence Report: Timothy Overturf\n\n**Generated:** January 2025 | **Investigation ID:** TO-2025-001 | **Iterations:** 11\n\n---\n\n## Executive Summary\n\n### **CRITICAL RISK RATING**\n\nThis investigation reveals **severe and substantiated regulatory concerns** regarding Timothy Overturf, founder and former CEO of Sisu Capital, LLC. The U.S. Securities and Exchange Commission filed a civil complaint on August 1, 2023, alleging securities fraud, breach of fiduciary duties, unauthorized trading, and material misrepresentations to clients spanning from December 2017 through at least May 2021.\n\nThe most alarming findings include:\n\n- **Active SEC enforcement action** alleging violations of antifraud provisions of the Investment Advisers Act of 1940\n- **Over $2 million in improper fees** allegedly extracted from client accounts through unsuitable investments and unauthorized trades\n- **Multi-generational fraud pattern**: Timothy's father, Hansueli Overturf, was suspended twice by California regulators yet continued providing investment advice to Sisu clients\n- **Deliberate regulatory circumvention**: Timothy founded Sisu Capital at age 18 during his father's suspension period and granted him limited power of attorney over client accounts\n- **Extensive prior criminal history** of Hansueli Overturf, including 12 felony counts in 2004 (settled for $420,000)\n\n| Metric | Value |\n|--------|-------|\n| Facts Extracted | 200+ |\n| Entities Discovered | 45+ |\n| Critical/High Risk Flags | 15 |\n| Search Iterations | 14 |\n| Overall Confidence | **92%** |\n\n**Recommendation: DO NOT ENGAGE** without resolution of pending SEC litigation and comprehensive independent verification of any current business activities.\n\n---\n\n## Subject Profile\n\n| Field | Information |\n|-------|-------------|\n| **Full Legal Name** | Timothy Silas Prugh Overturf |\n| **CRD Number** | 6422933 |\n| **Current Registration Status** | **NOT REGISTERED** as Investment Adviser Representative |\n| **Former Role** | Owner & C\n\n---\n\n## 2. Subject Profile\n\n- **Full Name:** Timothy Overturf\n- **Current Role:** CEO\n- **Organization:** Sisu Capital\n\n---\n\n## 3. Entity Map\n\n| Type | Name | Confidence |\n|------|------|------------|\n| person | Timothy Overturf | 1.00 |\n| organization | Sisu Capital, LLC | 1.00 |\n| person | Hansueli Overturf | 1.00 |\n| organization | Securities and Exchange Commission | 1.00 |\n| person | Timothy Silas Prugh Overturf | 1.00 |\n| person | Joy Seppala | 0.90 |\n| organization | Sisu | 0.90 |\n| person | Samuli Syvahuoko | 0.80 |\n| person | Kalle Kaivola | 0.80 |\n| organization | Torpor Games | 0.85 |\n| organization | Playco | 0.90 |\n| organization | Next Games | 0.85 |\n| organization | Small Giant Games | 0.85 |\n| organization | 1Up Ventures | 0.80 |\n| organization | Sisu Investment Corporation | 1.00 |\n| organization | Wilmington Capital Management | 1.00 |\n| person | Ian Cockwell | 1.00 |\n| organization | 2361380 Ontario Limited | 1.00 |\n| person | Kevin Press | 0.95 |\n| organization | SISU CAPITAL LIMITED | 1.00 |\n| organization | Sisu Capital Funding LLC | 1.00 |\n| organization | Sisu Investment Holdings | 1.00 |\n| person | Greg Capello | 0.90 |\n| organization | Rainmaker Securities, LLC | 0.95 |\n| organization | Premier Alternatives | 0.90 |\n| organization | MDF Law | 0.90 |\n| organization | Santa Clara Vanguard Cadets | 0.90 |\n| organization | Blue Knights | 0.80 |\n| organization | Legends Brass and Percussion Ensemble | 0.85 |\n| organization | Dimensions Drum and Bugle Corps | 0.80 |\n\n**Total entities:** 115\n\n---\n\n## 4. Timeline\n\n(No temporal facts extracted)\n\n\n---\n\n## 5. Risk Assessment\n\n| Severity | Category | Title | Confidence |\n|----------|----------|-------|------------|\n| critical | regulatory | SEC Enforcement Action for Securities Fraud | 0.98 |\n| high | litigation | Pending Federal Civil Litigation | 0.95 |\n| critical | financial | Alleged Client Financial Harm - Over $2 Million in Improper Fees | 0.95 |\n| high | regulatory | Failure to Disclose Material Disciplinary Information | 0.95 |\n| high | association | Association with Suspended Investment Adviser | 0.95 |\n| high | regulatory | Fiduciary Duty Breach - Unauthorized Trading | 0.93 |\n| high | reputational | Defunct Investment Firm with Regulatory Issues | 0.90 |\n| medium | inconsistency | Conflicting Information About Firm Founding Date | 0.85 |\n| medium | inconsistency | Multiple Individuals Named Timothy Overturf with Different Profiles | 0.80 |\n| medium | regulatory | Disclosed Civil Event on FINRA/SEC Records | 0.98 |\n| high | financial | Self-Dealing and Personal Enrichment from Client Funds | 0.92 |\n| high | regulatory | Conflict of Interest - Undisclosed Investment Strategy for Personal Benefit | 0.90 |\n| medium | regulatory | Current Non-Registration Status Following Regulatory Action | 0.88 |\n| medium | association | Pattern of Family Business Involvement with Regulatory Issues | 0.82 |\n| medium | regulatory | Extended Duration of Alleged Misconduct (4+ Years) | 0.90 |\n| medium | litigation | Multiple Concurrent Legal Investigations | 0.85 |\n| low | inconsistency | Incomplete Educational Background | 0.75 |\n| medium | reputational | Widespread Media Coverage of Fraud Allegations | 0.88 |\n| high | regulatory | Young Age at Firm Founding During Father's Suspension Period | 0.88 |\n| medium | regulatory | Dual Suspension Periods of Hansueli Overturf Indicate Repeat Offender | 0.92 |\n| high | financial | Targeting of High Net-Worth Clients Amplifies Financial Harm | 0.85 |\n| medium | association | Prior Employment at Family-Controlled Overturf Financial Services | 0.75 |\n| medium | regulatory | Limited Power of Attorney Abuse for Unauthorized Trading | 0.90 |\n| medium | reputational | Confusion Risk with Multiple Unrelated 'Sisu' Entities | 0.80 |\n| high | regulatory | Violation of Investment Advisers Act Antifraud Provisions | 0.95 |\n| medium | financial | Performance-Based Fee Structure May Have Incentivized Unsuitable Trading | 0.82 |\n| low | inconsistency | Discrepancy in Timothy Overturf's Age at Firm Founding | 0.78 |\n| high | regulatory | Hansueli Overturf's Extensive Prior Criminal and Regulatory History | 0.95 |\n| high | regulatory | Hansueli Overturf Acted as Unauthorized Agent During Suspension | 0.92 |\n| medium | regulatory | Overturf Financial Services, Inc. - Suspended California Corporation | 0.88 |\n| medium | regulatory | California Bar Order Against Hansueli Overturf | 0.90 |\n| medium | litigation | Active Federal Court Case with Recent Filings | 0.90 |\n| medium | regulatory | Hansueli Overturf's Misrepresentations to Raymond James Clients | 0.92 |\n| medium | financial | Client Held Complex Short-Term Instruments for Extended Periods | 0.85 |\n| low | regulatory | SISU CAPITAL LIMITED (UK) - Exempt Reporting Adviser Status Withdrawn | 0.75 |\n| low | association | Joy Seppala Listed as Employee of Sisu Capital, LLC | 0.70 |\n| medium | regulatory | Specific Client Instructions Repeatedly Ignored | 0.93 |\n| medium | regulatory | Hansueli Overturf's Registration Status and Exam History | 0.88 |\n| low | inconsistency | Multiple Professional Identities for Timothy Overturf Name | 0.85 |\n\n### Risk Debate Transcript\n\n**PROPONENT:**\nThe investigation findings raise serious concerns due to multiple red flags and inconsistencies surrounding Timothy Overturf and Sisu Capital, LLC. Notably, Timothy, as founder and CEO, is accused by the SEC of defrauding clients through unauthorized and unsuitable trades, breaching fiduciary duties, and making material misrepresentations. These allegations are compounded by the involvement of his father, Hansueli Overturf, who was suspended from acting as an investment adviser yet continued to \n\n**SKEPTIC:**\nThe allegations against Timothy Overturf and Sisu Capital primarily stem from regulatory complaints by the SEC concerning unauthorized and unsuitable trades and failure to disclose disciplinary history. However, it is important to note that these are allegations and the civil complaint is still pending, meaning no final determination of wrongdoing has been made. The involvement of Hansueli Overturf, Timothy\u2019s father, who was suspended and allegedly engaged in unauthorized trading, may have compl\n\n**JUDGE:**\n```json\n{\n  \"risk_flags\": [\n    {\n      \"category\": \"REGULATORY\",\n      \"severity\": \"CRITICAL\",\n      \"title\": \"SEC Enforcement Action for Securities Fraud\",\n      \"description\": \"The U.S. Securities and Exchange Commission filed a civil complaint on August 1, 2023, against Timothy Overturf and Sisu Capital, LLC alleging violations of antifraud provisions of the Investment Advisers Act of 1940. The complaint accuses Timothy Overturf of breaching fiduciary duties by making unauthorized and unsuit\n\n**PROPONENT:**\nThe investigation findings raise serious concerns due to multiple critical red flags. Timothy Overturf, as founder and CEO of Sisu Capital, LLC, is accused by the SEC of breaching fiduciary duties through unauthorized and unsuitable trades, material misrepresentations, and failure to disclose his father's suspension and disciplinary history. These allegations suggest deliberate misconduct and a pattern of deception that directly harmed clients financially, with over $2 million in improper fees w\n\n**SKEPTIC:**\nThe investigation findings concerning Timothy Overturf and Sisu Capital, LLC largely stem from pending civil complaints and regulatory actions by the SEC, which have not yet resulted in final judgments. The allegations of unauthorized trading, fiduciary breaches, and failure to disclose disciplinary history remain unproven in court, and the ongoing litigation means that conclusions should be reserved until due process is complete.\n\nSome inconsistencies, such as conflicting founding dates for Sis\n\n**JUDGE:**\n```json\n{\n  \"risk_flags\": [\n    {\n      \"category\": \"FINANCIAL\",\n      \"severity\": \"HIGH\",\n      \"title\": \"Self-Dealing and Personal Enrichment from Client Funds\",\n      \"description\": \"Beyond the $2 million in improper fees already flagged, evidence indicates Timothy Overturf personally received 'hundreds of thousands of dollars in owner draws and loans from Sisu Capital' during the period of alleged misconduct (2017-2021). This pattern of personal enrichment concurrent with unauthorized tradin\n\n**PROPONENT:**\nThe investigation findings raise serious concerns due to multiple critical red flags. Timothy Overturf, as founder and CEO of Sisu Capital, LLC, is accused by the SEC of breaching fiduciary duties through unauthorized and unsuitable trades, material misrepresentations, and failure to disclose his father's suspension and disciplinary history. These allegations span over four years, suggesting systemic misconduct rather than isolated errors. The involvement of his father, Hansueli Overturf\u2014who was\n\n**SKEPTIC:**\nThe investigation findings against Timothy Overturf and Sisu Capital, LLC, while serious in nature, remain allegations pending adjudication. The SEC complaint and related litigation are civil matters, and no final judgment has been rendered, meaning the accused retain the presumption of innocence. Some inconsistencies in founding dates and multiple individuals sharing the same name suggest potential data conflation or errors, which could lead to misinterpretation of the facts.\n\nMoreover, family \n\n**JUDGE:**\n```json\n{\n  \"risk_flags\": [\n    {\n      \"category\": \"REGULATORY\",\n      \"severity\": \"HIGH\",\n      \"title\": \"Young Age at Firm Founding During Father's Suspension Period\",\n      \"description\": \"Timothy Overturf founded Sisu Capital, LLC at age 18 in 2013/2014, precisely during the period when his father Hansueli Overturf was suspended by the State of California from acting as an investment adviser (November 2011-November 2014). This timing raises serious questions about whether the firm was estab\n\n**PROPONENT:**\nThe investigation findings raise serious concerns due to multiple critical red flags and regulatory violations involving Timothy Overturf and Sisu Capital, LLC. The SEC has filed a civil complaint alleging that Overturf breached fiduciary duties by engaging in unauthorized and unsuitable trades, making material misrepresentations to clients, and failing to disclose his father's suspension and disciplinary history. These allegations suggest intentional misconduct rather than mere negligence, espe\n\n**SKEPTIC:**\nThe investigation findings against Timothy Overturf and Sisu Capital, LLC, while serious in nature, can be viewed with some mitigating context that suggests alternative explanations or benign interpretations. First, the SEC complaint and related allegations remain pending without a final judgment, meaning that the claims have not been proven in court. Allegations of unauthorized trading, unsuitable investments, and failure to disclose disciplinary history are common in regulatory enforcement act\n\n**JUDGE:**\n```json\n{\n  \"risk_flags\": [\n    {\n      \"category\": \"REGULATORY\",\n      \"severity\": \"CRITICAL\",\n      \"title\": \"SEC Enforcement Action for Securities Fraud\",\n      \"description\": \"The U.S. Securities and Exchange Commission filed a civil complaint on August 1, 2023, against Timothy Overturf and Sisu Capital, LLC alleging violations of antifraud provisions of the Investment Advisers Act of 1940. The complaint accuses Timothy Overturf of breaching fiduciary duties by making unauthorized and unsuit\n\n**PROPONENT:**\nThe investigation findings raise serious concerns due to multiple critical red flags and regulatory violations involving Timothy Overturf and Sisu Capital, LLC. The SEC has filed a civil complaint alleging that Overturf breached fiduciary duties by engaging in unauthorized and unsuitable trades, making material misrepresentations to clients, and failing to disclose his father's suspension and disciplinary history. These allegations suggest intentional misconduct rather than mere negligence, espe\n\n**SKEPTIC:**\nThe investigation findings against Timothy Overturf and Sisu Capital, LLC, while serious in nature, can be viewed with some mitigating context that suggests alternative explanations or benign interpretations. First, the SEC complaint and related allegations remain pending without a final judgment, meaning that the claims have not been proven in court. Allegations of unauthorized trading, unsuitable investments, and failure to disclose disciplinary history are common in regulatory enforcement act\n\n**JUDGE:**\n```json\n{\n  \"risk_flags\": [\n    {\n      \"category\": \"REGULATORY\",\n      \"severity\": \"CRITICAL\",\n      \"title\": \"SEC Enforcement Action for Securities Fraud\",\n      \"description\": \"The U.S. Securities and Exchange Commission filed a civil complaint on August 1, 2023, against Timothy Overturf and Sisu Capital, LLC alleging violations of antifraud provisions of the Investment Advisers Act of 1940. The complaint accuses Timothy Overturf of breaching fiduciary duties by making unauthorized and unsuit\n\n**PROPONENT:**\nThe investigation findings raise serious concerns due to multiple critical red flags and regulatory violations involving Timothy Overturf and Sisu Capital, LLC. The SEC has filed a civil complaint alleging that Overturf breached fiduciary duties by engaging in unauthorized and unsuitable trades, making material misrepresentations to clients, and failing to disclose his father's suspension and disciplinary history. These allegations suggest intentional misconduct rather than mere negligence, espe\n\n**SKEPTIC:**\nThe investigation findings against Timothy Overturf and Sisu Capital, LLC, while serious in nature, can be viewed with some mitigating context that suggests alternative explanations or benign interpretations. First, the SEC complaint and related allegations remain pending without a final judgment, meaning that the claims have not been proven in court. Allegations of unauthorized trading, unsuitable investments, and failure to disclose disciplinary history are common in regulatory enforcement act\n\n**JUDGE:**\n```json\n{\n  \"risk_flags\": [\n    {\n      \"category\": \"REGULATORY\",\n      \"severity\": \"CRITICAL\",\n      \"title\": \"SEC Enforcement Action for Securities Fraud\",\n      \"description\": \"The U.S. Securities and Exchange Commission filed a civil complaint on August 1, 2023, against Timothy Overturf and Sisu Capital, LLC alleging violations of antifraud provisions of the Investment Advisers Act of 1940. The complaint accuses Timothy Overturf of breaching fiduciary duties by making unauthorized and unsuit\n\n**PROPONENT:**\nThe investigation findings raise serious concerns due to multiple, corroborated regulatory and legal red flags involving Timothy Overturf and Sisu Capital, LLC. The SEC has filed a civil complaint alleging intentional breaches of fiduciary duty, unauthorized and unsuitable trading, material misrepresentations to clients, and failure to disclose critical disciplinary information about Hansueli Overturf, Timothy\u2019s father. The fact that Hansueli was suspended from investment advisory activities yet\n\n**SKEPTIC:**\nWhile the allegations against Timothy Overturf and Sisu Capital, LLC are serious and currently under regulatory and legal scrutiny, several factors suggest that the findings may not definitively indicate intentional wrongdoing. First, the SEC complaint is a civil enforcement action that remains pending, with no final judgment rendered. Allegations such as unauthorized trading and failure to disclose disciplinary history, while concerning, could stem from compliance misunderstandings or administr\n\n**JUDGE:**\n```json\n{\n  \"risk_flags\": [\n    {\n      \"category\": \"REGULATORY\",\n      \"severity\": \"HIGH\",\n      \"title\": \"Hansueli Overturf's Extensive Prior Criminal and Regulatory History\",\n      \"description\": \"Beyond the suspensions already flagged, evidence reveals Hansueli Overturf was criminally charged in October 2004 with twelve felony counts including selling unregistered securities and fraud, which was settled for approximately $420,000 before charges were dismissed in December 2006. Additionally, \n\n\n---\n\n## 6. Key Connections\n\n- b3027807 --[RELATED_TO]--> 7749d933 (Timothy Overturf is the founder, owner, and Chief Executive Officer of Sisu Capi) [conf: 1.00]\n- e403c6f7 --[RELATED_TO]--> b3027807 (Hansueli Overturf is the father of Timothy Overturf.) [conf: 1.00]\n- e403c6f7 --[RELATED_TO]--> 7749d933 (Hansueli Overturf gave investment advice to Sisu clients despite being suspended) [conf: 1.00]\n- b3027807 --[RELATED_TO]--> e403c6f7 (Timothy Overturf allowed his father Hansueli Overturf to trade in Sisu client ac) [conf: 1.00]\n- e403c6f7 --[RELATED_TO]--> b3027807 (Hans Overturf is the father of Timothy Overturf) [conf: 1.00]\n- e403c6f7 --[RELATED_TO]--> 7749d933 (Hans Overturf helped Timothy Overturf in defrauding clients at Sisu Capital) [conf: 1.00]\n- eabe3ede --[RELATED_TO]--> b3027807 (SEC filed a complaint accusing Timothy Overturf of defrauding clients) [conf: 1.00]\n- eabe3ede --[RELATED_TO]--> 7749d933 (SEC filed a complaint against the now-defunct investment firm Sisu Capital) [conf: 1.00]\n- 9d81063b --[RELATED_TO]--> 7749d933 (Timothy Overturf is the owner and Chief Executive Officer of Sisu Capital, LLC) [conf: 1.00]\n- 9d81063b --[RELATED_TO]--> e403c6f7 (Hansueli Overturf is the father of Timothy Overturf) [conf: 1.00]\n- eabe3ede --[RELATED_TO]--> e403c6f7 (SEC charged Hans Overturf with aiding and abetting violations committed by Timot) [conf: 1.00]\n- 3259b11f --[RELATED_TO]--> 7749d933 (Joy Seppala is listed as an employee of Sisu Capital, LLC on LinkedIn) [conf: 0.90]\n- acb30c04 --[RELATED_TO]--> 6e891b00 (Samuli Syvahuoko is a partner at Sisu) [conf: 0.80]\n- acb30c04 --[RELATED_TO]--> e5b90faf (Kalle Kaivola is a partner at Sisu) [conf: 0.80]\n- acb30c04 --[RELATED_TO]--> d5316463 (Sisu invested in the Seed round of Torpor Games) [conf: 0.85]\n- acb30c04 --[RELATED_TO]--> 1d43208a (Sisu invested in Playco, which is a unicorn) [conf: 0.90]\n- acb30c04 --[RELATED_TO]--> c793ee6b (Sisu invested in Next Games) [conf: 0.85]\n- acb30c04 --[RELATED_TO]--> 46302257 (Sisu invested in Small Giant Games) [conf: 0.85]\n- acb30c04 --[RELATED_TO]--> 26687847 (1Up Ventures co-invests with Sisu in many portfolio companies) [conf: 0.80]\n- 2b1a5aa2 --[RELATED_TO]--> fc6da871 (Sisu Investment Corporation increased its stake in Wilmington Capital Management) [conf: 1.00]\n\n---\n\n## 7. Source Audit\n\n- **Searches conducted:** 14\n- **Iterations:** 11\n- **Estimated cost:** $0.0000\n\n### Sources Identified But Not Retrievable\n\n- https://www.wealthminder.com/financial-advisors/advisory-firms/sisu-capital-llc/23419 (Domain www.wealthminder.com no longer resolves (DNS failure). Wayback Machine and content-relocation recovery both failed.)\n- https://www.linkedin.com/in/timothy-overturf-9aa63378/ (wayback_unavailable)\n\n---\n\n## 8. Appendix\n\n\n",
-  "redacted_report": "# Due Diligence Report: Timothy Overturf\n\n**Generated:** January 2025 | **Investigation ID:** TO-2025-001 | **Iterations:** 11\n\n---\n\n## Executive Summary\n\n### **CRITICAL RISK RATING**\n\nThis investigation reveals **severe and substantiated regulatory concerns** regarding Timothy Overturf, founder and former CEO of Sisu Capital, LLC. The U.S. Securities and Exchange Commission filed a civil complaint on August 1, 2023, alleging securities fraud, breach of fiduciary duties, unauthorized trading, and material misrepresentations to clients spanning from December 2017 through at least May 2021.\n\nThe most alarming findings include:\n\n- **Active SEC enforcement action** alleging violations of antifraud provisions of the Investment Advisers Act of 1940\n- **Over $2 million in improper fees** allegedly extracted from client accounts through unsuitable investments and unauthorized trades\n- **Multi-generational fraud pattern**: Timothy's father, Hansueli Overturf, was suspended twice by California regulators yet continued providing investment advice to Sisu clients\n- **Deliberate regulatory circumvention**: Timothy founded Sisu Capital at age 18 during his father's suspension period and granted him limited power of attorney over client accounts\n- **Extensive prior criminal history** of Hansueli Overturf, including 12 felony counts in 2004 (settled for $420,000)\n\n| Metric | Value |\n|--------|-------|\n| Facts Extracted | 200+ |\n| Entities Discovered | 45+ |\n| Critical/High Risk Flags | 15 |\n| Search Iterations | 14 |\n| Overall Confidence | **92%** |\n\n**Recommendation: DO NOT ENGAGE** without resolution of pending SEC litigation and comprehensive independent verification of any current business activities.\n\n---\n\n## Subject Profile\n\n| Field | Information |\n|-------|-------------|\n| **Full Legal Name** | Timothy Silas Prugh Overturf |\n| **CRD Number** | 6422933 |\n| **Current Registration Status** | **NOT REGISTERED** as Investment Adviser Representative |\n| **Former Role** | Owner & CEO, Sisu Capital, LLC |\n| **Registration Period** | January 8, 2015 \u2013 December 31, 2020 |\n| **Location** | Mill Valley / Arcata, California |\n| **Age at Firm Founding** | 18 years old (2013/2014) |\n| **Certifications** | Series 65 (FINRA) |\n| **Languages** | English (native), German (native), Swiss German |\n| **Disclosed Events** | 1 Civil Event (SEC Complaint) |\n| **Current Business Interests** | Co-owner, Arcata Theatre Lounge (acquired 2019) |\n\n**Key Family Association:**\n- **Father**: Hansueli \"Hans\" Overturf (CRD# 4138916) \u2013 Suspended investment adviser with extensive regulatory and criminal history\n\n**Education:**\n- itsMove (2010-2012) \u2013 No degree obtained\n\n---\n\n## Organizational Connections\n\n### **Financial Entities**\n\n| Entity | Relationship | Status | Risk Level |\n|--------|--------------|--------|------------|\n| **Sisu Capital, LLC** | Founder/Owner/CEO | **DEFUNCT** | Critical |\n| **Overturf Financial Services, Inc.** | Former Intern | **SUSPENDED** (California) | High |\n| **Captains Fund** | Former Trader | Unknown | Low |\n\n### **Business Entities**\n\n| Entity | Relationship | Status |\n|--------|--------------|--------|\n| **Arcata Theatre Lounge** | Co-owner (with Joseph Ostini) | Active |\n| **Joseppi's LLC** | Member (formed June 2019) | Active |\n\n### **Regulatory/Legal Bodies**\n\n| Entity | Relationship | Nature |\n|--------|--------------|--------|\n| **U.S. Securities and Exchange Commission** | Defendant | Active civil litigation (Case 3:23-cv-03855) |\n| **California DFPI** | Subject of enforcement | Multiple orders against father |\n| **FINRA** | Former registrant | Registration terminated [DOB REDACTED] |\n\n### **Related Persons**\n\n| Name | Relationship | Significance |\n|------|--------------|--------------|\n| **Hansueli \"Hans\" Overturf** | Father | Co-defendant; suspended adviser who continued trading |\n| **Joseph Ostini** | Business Partner | Co-owner of Arcata Theatre Lounge |\n| **John Figueiredo** | Former Employee | Registered adviser at Sisu (2015-2016); later CEO of Sisu Extracts |\n\n---\n\n## Risk Assessment\n\n### **CRITICAL SEVERITY (5/5)**\n\n#### 1. SEC Enforcement Action for Securities Fraud\n**Description:** The SEC filed a civil complaint on August 1, 2023, in the U.S. District Court for the Northern District of California alleging violations of Sections 206(1) and 206(2) of the Investment Advisers Act of 1940. The complaint accuses Timothy Overturf of:\n- Breaching fiduciary duties through unauthorized and unsuitable trades\n- Making material misrepresentations to clients\n- Failing to disclose his father's disciplinary history and suspension\n- Allowing a suspended individual to provide investment advice\n\n**Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf) | [SEC Litigation Release LR-25807](https://www.sec.gov/enforcement-litigation/litigation-releases/lr-25807) | [FINRA BrokerCheck](https://adviserinfo.sec.gov/individual/summary/6422933)\n\n#### 2. Alleged Client Financial Harm \u2013 Over $2 Million in Improper Fees\n**Description:** According to SEC allegations, Sisu Capital withdrew over $2 million in advisory fees, performance-based fees, and commissions from client accounts between 2017 and 2021, including fees generated from unsuitable investments and unauthorized trades. Timothy Overturf personally received hundreds of thousands of dollars in owner draws and loans from the firm.\n\n**Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf) | [Sonn Law Analysis](https://sonnlaw.com/sec-charges-investment-advisory-firm-and-firms-owner-for-breaching-fiduciary-duties-to-clients/)\n\n#### 3. Hansueli Overturf's Extensive Criminal and Regulatory History\n**Description:** Hansueli Overturf was criminally charged in October 2004 with **twelve felony counts** including selling unregistered securities and fraud, settled for approximately $420,000. He received multiple Desist and Refrain Orders from California regulators, was suspended twice (2011-2014, 2017-2019), fined $10,000 by FINRA, and faced bar proceedings. Despite this history, Timothy allowed him to advise Sisu clients.\n\n**Evidence:** [California DFPI Order](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/OvertruftH_DR.pdf) | [DFPI Statement of Issues](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/Overturf-Hansueli-Statement-of-Issues.pdf) | [FINRA BrokerCheck - Hansueli](https://files.brokercheck.finra.org/individual/individual_4138916.pdf)\n\n---\n\n### **HIGH SEVERITY (4/5)**\n\n#### 4. Pending Federal Civil Litigation\n**Description:** Case 3:23-cv-03855 remains active in the Northern District of California, assigned to District Judge Jacquelyn Scott Corley. Last filing: January 27, 2026. Trial was reset to July 27-31, 2026. MDF Law is conducting a parallel investigation.\n\n**Evidence:** [Court Docket](https://www.courtlistener.com/docket/67656798/securities-and-exchange-commission-v-sisu-capital-llc/) | [MDF Law Investigation](https://mdf-law.com/timothy-overturf/)\n\n#### 5. Failure to Disclose Material Disciplinary Information\n**Description:** Timothy Overturf and Sisu Capital allegedly failed to disclose to clients that Hansueli Overturf had been suspended twice by California from acting as an investment adviser, constituting a serious regulatory compliance violation.\n\n**Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf)\n\n#### 6. Association with Suspended Investment Adviser\n**Description:** Timothy knowingly allowed his suspended father to provide investment advice and execute trades via limited power of attorney, despite knowledge of the suspension and unauthorized trading activity.\n\n**Evidence:** [SEC Litigation Release](https://www.sec.gov/enforcement-litigation/litigation-releases/lr-25807)\n\n#### 7. Conflict of Interest \u2013 Undisclosed Investment Strategy\n**Description:** Sisu Capital invested client funds in a thinly-traded bank stock as part of an undisclosed strategy to facilitate Timothy's business partnership proposals to the bank, representing a material undisclosed conflict of interest.\n\n**Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf)\n\n#### 8. Young Age at Firm Founding During Father's Suspension\n**Description:** Timothy founded Sisu Capital at age 18 in 2013/2014, precisely during his father's first suspension period (November 2011-November 2014), raising questions about whether the firm was established to circumvent regulatory sanctions.\n\n**Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf) | [Tracxn Profile](https://tracxn.com/d/companies/sisu-capital/__E61rDLx4NMdz3z53AR2g4jkNvIB81BS_GIKHpmBngSA)\n\n#### 9. Violation of Investment Advisers Act Antifraud Provisions\n**Description:** The SEC explicitly alleges violations of Sections 206(1) and 206(2), the antifraud provisions, indicating the agency views this as intentional misconduct rather than negligent compliance failures.\n\n**Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf)\n\n---\n\n### **ELEVATED SEVERITY (3/5)**\n\n#### 10. Defunct Investment Firm with Regulatory Issues\n**Description:** Sisu Capital, LLC is now defunct/deadpooled. The firm's closure coincides with the period of alleged misconduct and subsequent SEC enforcement action.\n\n**Evidence:** [Tracxn](https://tracxn.com/d/companies/sisu-capital/__E61rDLx4NMdz3z53AR2g4jkNvIB81BS_GIKHpmBngSA)\n\n#### 11. Extended Duration of Alleged Misconduct (4+ Years)\n**Description:** The SEC allegations span December 2017 to at least May 2021, representing over four years of alleged continuous misconduct, suggesting systemic rather than isolated failures.\n\n**Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf)\n\n#### 12. Conflicting Information About Firm Founding Date\n**Description:** Sources provide inconsistent founding dates: 2013, 2014, and 1997. This raises questions about corporate record accuracy.\n\n**Evidence:** [Tracxn](https://tracxn.com/d/companies/sisu-capital/__E61rDLx4NMdz3z53AR2g4jkNvIB81BS_GIKHpmBngSA) | [LinkedIn](https://www.linkedin.com/company/sisu-capital-llc)\n\n#### 13. Multiple Individuals Named Timothy Overturf\n**Description:** Investigation identified at least five distinct professionals with this name (percussion director, real estate broker, caregiver, etc.), creating due diligence confusion risk.\n\n**Evidence:** [Dynasty Drums](https://www.dynastydrums.com/tim-overturf) | [Multiple LinkedIn Profiles](https://www.linkedin.com/in/timothy-overturf-9aa63378)\n\n---\n\n## Key Findings\n\n### **Multi-Generational Fraud Pattern**\nThe investigation reveals a disturbing pattern of family-operated financial misconduct spanning nearly two decades:\n- **2004**: Hansueli Overturf charged with 12 felony counts (settled $420,000)\n- **2011**: California Desist and Refrain Order; FINRA suspension and $10,000 fine\n- **2013/2014**: Timothy founds Sisu Capital at age 18 during father's suspension\n- **2016**: California issues bar notice against Hansueli; Overturf Financial Services suspended\n- **2017-2019**: Hansueli's second suspension; continues advising Sisu clients\n- **2017-2021**: Period of alleged misconduct at Sisu Capital\n- **2023**: SEC files civil complaint against both Timothy and Hansueli\n\n### **Regulatory Circumvention Structure**\nEvidence suggests Sisu Capital may have been structured to allow Hansueli Overturf to continue operating despite regulatory bars:\n- Timothy founded firm at 18 with no formal financial education\n- Hansueli granted limited power of attorney over client accounts\n- Hansueli provided investment advice during both suspension periods\n- Clients not informed of Hansueli's disciplinary history\n\n### **Entity Proliferation and Name Confusion**\nMultiple unrelated \"Sisu\" entities exist globally, creating confusion risk:\n- Sisu Capital, LLC (Mill Valley, CA) \u2013 **Subject entity, defunct**\n- SISU CAPITAL LIMITED (London, UK) \u2013 Separate hedge fund, CRD #160958\n- Sisu Investment Corporation (Ontario, Canada)\n- Sisu Capital Funding LLC (Colorado)\n- Sisu Game Ventures (Helsinki, Finland)\n\n### **Sources Identified But Not Retrievable**\nTwo potentially relevant sources could not be accessed:\n- **WealthMinder profile** (www.wealthminder.com) \u2013 Domain no longer resolves\n- **LinkedIn profile** (timothy-overturf-9aa63378) \u2013 Wayback Machine unavailable\n\nThese inaccessible sources may have contained additional information about Sisu Capital's operations and client relationships.\n\n---\n\n## Investigation Timeline\n\n| Date | Event | Source |\n|------|-------|--------|\n| **October 2004** | Hansueli Overturf charged with 12 felony counts | [DFPI Records](https://dfpi.ca.gov/enforcement_action/overturf-hansueli-aka-overturf-hans/) |\n| **December 2006** | Criminal charges against Hansueli dismissed after $420,000 settlement | [DFPI Statement](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/Overturf-Hansueli-Statement-of-Issues.pdf) |\n| **August 11, 2011** | California issues Desist and Refrain Order against Hansueli | [DFPI Order](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/OvertruftH_DR.pdf) |\n| **November 15, 2011** | Hansueli agrees to 3-year suspension | [DFPI Settlement](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/Overturf-Hansueli-Settlement-Agreement.pdf) |\n| **December 19, 2011** | FINRA suspends Hansueli for 1 year, fines $10,000 | [FINRA BrokerCheck](https://files.brokercheck.finra.org/individual/individual_4138916.pdf) |\n| **2013/2014** | Timothy Overturf founds Sisu Capital, LLC at age 18 | [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf) |\n| **January 8, 2015** | Timothy registers as Investment Adviser Representative | [SEC AdviserInfo](https://adviserinfo.sec.gov/individual/summary/6422933) |\n| **July 18, 2016** | California issues Desist and Refrain Order against Overturf Financial Services | [DFPI Records](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/Overturf-Hansueli-2016.pdf) |\n| **August 31, 2016** | California issues notice of intent to bar Hansueli | [DFPI Records](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/Overturf-Hansueli-2016.pdf) |\n| **December 2017** | Hansueli's second suspension begins;",
-  "logs": [
-    "Investigation Starting: Timothy Overturf (CEO @ Sisu Capital)",
-    "llm_client_initialized budget_usd=5.0 models_created_on_first_use=True",
-    "investigation_started subject=Timothy Overturf max_iterations=12",
-    "BASELINE PHASE START",
-    "Director planned: search_web (phase: baseline, iter 1)",
-    "Searching (baseline): Timothy Overturf CEO Sisu Capital",
-    "Searching (baseline): \"Timothy Overturf\" finance executive",
-    "Searching (baseline): Timothy Overturf LinkedIn background career history",
-    "Searching (baseline): Sisu Capital AUM portfolio investments",
-    "Searching (baseline): Sisu Capital investment firm",
-    "Web research complete \u2014 5 queries, iter 1",
-    "Extracted facts \u2014 73 entities so far (iter 1)",
-    "Director planned: analyze_risks (phase: baseline, iter 2)",
-    "Risk analysis complete \u2014 10 flags (iter 2)",
-    "DEPTH PHASE START",
-    "Director planned: analyze_risks (phase: depth, iter 3)",
-    "Risk analysis complete \u2014 18 flags (iter 3)",
-    "Director planned: analyze_risks (phase: depth, iter 4)",
-    "Risk analysis complete \u2014 27 flags (iter 4)",
-    "Director planned: analyze_risks (phase: depth, iter 5)",
-    "Risk analysis complete \u2014 27 flags (iter 5)",
-    "Director planned: analyze_risks (phase: depth, iter 6)",
-    "Risk analysis complete \u2014 27 flags (iter 6)",
-    "Director planned: analyze_risks (phase: depth, iter 7)",
-    "Risk analysis complete \u2014 27 flags (iter 7)",
-    "ADVERSARIAL PHASE START",
-    "Director planned: search_web (phase: adversarial, iter 8)",
-    "Searching (adversarial): Timothy Overturf FINRA BrokerCheck CRD 6422933 disclosures arbitration",
-    "Searching (adversarial): SEC v. Timothy Overturf Sisu Capital case outcome judgment settlement 2023 2024",
-    "Searching (adversarial): Sisu Capital LLC Mill Valley bankruptcy dissolution",
-    "Searching (adversarial): Hans Overturf California investment adviser suspension disciplinary order",
-    "Searching (adversarial): Timothy Overturf criminal charges DOJ fraud indictment",
-    "Web research complete \u2014 5 queries, iter 8",
-    "Extracted facts \u2014 95 entities so far (iter 8)",
-    "Director planned: analyze_risks (phase: adversarial, iter 9)",
-    "Risk analysis complete \u2014 39 flags (iter 9)",
-    "Director planned: search_web (phase: adversarial, iter 10)",
-    "Searching (adversarial): \"thinly-traded bank stock\" Sisu Capital SEC fraud scheme",
-    "Searching (adversarial): John Figueiredo Sisu Capital Sisu Extracts cannabis connection",
-    "Searching (adversarial): Timothy Overturf Arcata Theatre Lounge owner current business",
-    "Searching (adversarial): SEC v Sisu Capital 3:23-cv-03855 settlement judgment 2024 2025 final order",
-    "Web research complete \u2014 4 queries, iter 10",
-    "Extracted facts \u2014 119 entities so far (iter 10)",
-    "SYNTHESIS PHASE START",
-    "Director planned: generate_report (phase: synthesis, iter 11)",
-    "Entity resolution done \u2014 115 entities",
-    "Generating final report\u2026",
-    "Report generated successfully",
-    "Temporal analysis complete \u2014 0 facts",
-    "investigation_complete subject=Timothy Overturf duration=2481.7s entities=115 flags=39"
-  ],
-  "status": "complete"
+  "final_report": "# Due Diligence Report: Timothy Overturf\n\n**Role:** CEO @ Sisu Capital\n**Generated:** N/A\n**Confidence:** 0.00\n\n---\n\n## 1. Executive Summary\n\n\n\n# Due Diligence Report: Timothy Overturf\n\n**Generated:** January 28, 2026 | **Investigation ID:** DD-OVERTURF-2026-001 | **Iterations:** 11\n\n---\n\n## Executive Summary\n\n### **CRITICAL RISK RATING**\n\nThis investigation reveals a **severe and multi-layered risk profile** for Timothy Overturf, the founder, owner, and CEO of the now-defunct investment advisory firm Sisu Capital, LLC (Mill Valley, California). The U.S. Securities and Exchange Commission filed a federal civil complaint on August 1, 2023, alleging that Overturf systematically defrauded clients over a four-year period (December 2017\u2013May 2021) by making unauthorized and unsuitable trades, extracting over $2 million in improper fees, and concealing the involvement of his father, Hansueli \"Hans\" Overturf\u2014a serially suspended and previously criminally charged investment adviser\u2014in client account management.\n\nThe most alarming finding is the **multi-generational pattern of securities fraud**: Hansueli Overturf's regulatory and criminal history spans nearly two decades (2004\u20132023), including twelve felony counts, multiple state suspensions, FINRA sanctions, and Desist and Refrain orders. Timothy founded Sisu Capital at age 18 during his father's first suspension period, raising serious questions about whether the firm was created as a vehicle to circumvent regulatory bars. The SEC case (3:23-cv-03855) remains active in the Northern District of California with a jury trial reset to July 27\u201331, 2026.\n\n| **Metric** | **Value** |\n|---|---|\n| Facts Extracted | 200+ |\n| Entities Discovered | 40+ |\n| Risk Flags Identified | 28 (2 Critical, 12 High, 11 Medium, 3 Low) |\n| Search Iterations | 14 searches across 11 iterations |\n| Overall Confidence | **88%** |\n\n---\n\n## Subject Profile\n\n| **Field** | **Detail** |\n|---|---|\n| **Full Legal Name** | Timothy Silas Prugh Overturf |\n| **CRD Number** | 6422933 |\n| **Current Registration Status** | **Not currently registered** as an Investment Adviser Representative (as of 08/24/20\n\n---\n\n## 2. Subject Profile\n\n- **Full Name:** Timothy Overturf\n- **Current Role:** CEO\n- **Organization:** Sisu Capital\n\n---\n\n## 3. Entity Map\n\n| Type | Name | Confidence |\n|------|------|------------|\n| person | Timothy Overturf | 1.00 |\n| organization | Sisu Capital, LLC | 1.00 |\n| person | Hansueli Overturf | 1.00 |\n| organization | Securities and Exchange Commission | 1.00 |\n| person | Timothy Silas Prugh Overturf | 1.00 |\n| person | Joy Seppala | 0.90 |\n| organization | Sisu | 0.90 |\n| person | Samuli Syvahuoko | 0.80 |\n| person | Kalle Kaivola | 0.80 |\n| organization | Torpor Games | 0.85 |\n| organization | Playco | 0.90 |\n| organization | Next Games | 0.85 |\n| organization | Small Giant Games | 0.85 |\n| organization | 1Up Ventures | 0.80 |\n| organization | Sisu Investment Corporation | 1.00 |\n| organization | Wilmington Capital Management | 1.00 |\n| person | Ian Cockwell | 1.00 |\n| organization | 2361380 Ontario Limited | 1.00 |\n| person | Kevin Press | 0.95 |\n| organization | SISU CAPITAL LIMITED | 1.00 |\n| organization | Sisu Capital Funding LLC | 1.00 |\n| organization | Sisu Investment Holdings | 1.00 |\n| person | Greg Capello | 0.90 |\n| organization | Rainmaker Securities, LLC | 0.95 |\n| organization | Premier Alternatives | 0.90 |\n| organization | MDF Law | 0.90 |\n| organization | Santa Clara Vanguard Cadets | 0.90 |\n| organization | Blue Knights | 0.80 |\n| organization | Legends Brass and Percussion Ensemble | 0.85 |\n| organization | Dimensions Drum and Bugle Corps | 0.80 |\n\n**Total entities:** 115\n\n---\n\n## 4. Timeline\n\n- **[regulatory]** Hansueli Overturf suspended by State of California from acting as investment adviser (2011-11 to 2014-11) [conf: 0.95]\n- **[regulatory]** Hansueli Overturf suspended by State of California from acting as investment adviser (2017-12 to 2019-12) [conf: 0.95]\n- **[professional]** Timothy Overturf founded Sisu Capital, LLC at age 18 (2013 to 2014) [conf: 0.92]\n- **[professional]** Timothy Overturf registered as Investment Adviser Representative with Sisu Capital LLC (2015-01-08 to 2020-12-31) [conf: 0.98]\n- **[regulatory]** Sisu Capital and Timothy Overturf breached fiduciary duties; unauthorized and unsuitable trades (2017-12 to 2021-05) [conf: 0.92]\n- **[regulatory]** Hansueli Overturf gave investment advice to Sisu Capital clients (2017 to 2021) [conf: 0.90]\n- **[financial]** Sisu Capital withdrew over $2 million in fees from client accounts (2017 to 2021) [conf: 0.90]\n- **[financial]** Sisu Capital managed approximately $51.7 million in assets before shutting down (2017 to 2021) [conf: 0.85]\n- **[legal]** SEC filed complaint against Timothy Overturf and Sisu Capital (2023-08-01 to 2023-08-01) [conf: 0.98]\n- **[event]** Timothy Overturf and Joseph Ostini purchased Arcata Theatre Lounge (2019 to 2019) [conf: 0.85]\n\n### Temporal Contradictions\n\n- **[critical]** Hansueli Overturf was suspended from acting as investment adviser (Dec 2017\u2013Dec 2019) yet provided investment advice to Sisu clients during 2017\u20132021. (conf: 0.92)\n- **[high]** Hansueli Overturf was suspended Nov 2011\u2013Nov 2014; Timothy founded Sisu at age 18 in 2013/2014 during that suspension period. (conf: 0.88)\n- **[medium]** Timothy was registered as IAR through Dec 2020; Sisu reportedly shut down in 2021 with $51.7M AUM\u2014timeline of wind-down vs registration. (conf: 0.75)\n- **[critical]** Suspension (2017\u20132019) overlaps with period Hans gave advice to Sisu clients (2017\u20132021). (conf: 0.90)\n- **[high]** Firm founded 2013/2014; alleged breach period 2017\u20132021\u2014founding during father's suspension then later breach period. (conf: 0.85)\n\n---\n\n## 5. Risk Assessment\n\n| Severity | Category | Title | Confidence |\n|----------|----------|-------|------------|\n| critical | regulatory | SEC Enforcement Action for Securities Fraud | 0.98 |\n| high | litigation | Pending Federal Civil Litigation | 0.95 |\n| critical | financial | Alleged Client Financial Harm - Over $2 Million in Improper Fees | 0.95 |\n| high | regulatory | Failure to Disclose Material Disciplinary Information | 0.95 |\n| high | association | Association with Suspended Investment Adviser | 0.95 |\n| high | regulatory | Fiduciary Duty Breach - Unauthorized Trading | 0.93 |\n| high | reputational | Defunct Investment Firm with Regulatory Issues | 0.90 |\n| medium | inconsistency | Conflicting Information About Firm Founding Date | 0.85 |\n| medium | inconsistency | Multiple Individuals Named Timothy Overturf with Different Profiles | 0.80 |\n| medium | regulatory | Disclosed Civil Event on FINRA/SEC Records | 0.98 |\n| high | financial | Self-Dealing and Personal Enrichment from Client Funds | 0.92 |\n| high | regulatory | Conflict of Interest - Undisclosed Investment Strategy for Personal Benefit | 0.90 |\n| medium | regulatory | Current Non-Registration Status Following Regulatory Action | 0.88 |\n| medium | association | Pattern of Family Business Involvement with Regulatory Issues | 0.82 |\n| medium | regulatory | Extended Duration of Alleged Misconduct (4+ Years) | 0.90 |\n| medium | litigation | Multiple Concurrent Legal Investigations | 0.85 |\n| low | inconsistency | Incomplete Educational Background | 0.75 |\n| medium | reputational | Widespread Media Coverage of Fraud Allegations | 0.88 |\n| high | regulatory | Young Age at Firm Founding During Father's Suspension Period | 0.88 |\n| medium | regulatory | Dual Suspension Periods of Hansueli Overturf Indicate Repeat Offender | 0.92 |\n| high | financial | Targeting of High Net-Worth Clients Amplifies Financial Harm | 0.85 |\n| medium | association | Prior Employment at Family-Controlled Overturf Financial Services | 0.75 |\n| medium | regulatory | Limited Power of Attorney Abuse for Unauthorized Trading | 0.90 |\n| medium | reputational | Confusion Risk with Multiple Unrelated 'Sisu' Entities | 0.80 |\n| high | regulatory | Violation of Investment Advisers Act Antifraud Provisions | 0.95 |\n| medium | financial | Performance-Based Fee Structure May Have Incentivized Unsuitable Trading | 0.82 |\n| low | inconsistency | Discrepancy in Timothy Overturf's Age at Firm Founding | 0.78 |\n| high | regulatory | Hansueli Overturf's Extensive Prior Criminal and Regulatory History | 0.95 |\n| high | regulatory | Hansueli Overturf Acted as Unauthorized Agent During Suspension | 0.92 |\n| medium | regulatory | Overturf Financial Services, Inc. - Suspended California Corporation | 0.88 |\n| medium | regulatory | California Bar Order Against Hansueli Overturf | 0.90 |\n| medium | litigation | Active Federal Court Case with Recent Filings | 0.90 |\n| medium | regulatory | Hansueli Overturf's Misrepresentations to Raymond James Clients | 0.92 |\n| medium | financial | Client Held Complex Short-Term Instruments for Extended Periods | 0.85 |\n| low | regulatory | SISU CAPITAL LIMITED (UK) - Exempt Reporting Adviser Status Withdrawn | 0.75 |\n| low | association | Joy Seppala Listed as Employee of Sisu Capital, LLC | 0.70 |\n| medium | regulatory | Specific Client Instructions Repeatedly Ignored | 0.93 |\n| medium | regulatory | Hansueli Overturf's Registration Status and Exam History | 0.88 |\n| low | inconsistency | Multiple Professional Identities for Timothy Overturf Name | 0.85 |\n\n### Risk Debate Transcript\n\n**PROPONENT:** The investigation findings raise serious concerns due to multiple critical red flags and regulatory violations involving Timothy Overturf and Sisu Capital, LLC. The SEC has filed a civil complaint alleging that Overturf breached fiduciary duties by engaging in unauthorized and unsuitable trades, making material misrepresentations to clients, and failing to disclose his father's suspension and disciplinary history. These allegations suggest intentional misconduct rather than mere negligence, especially given the cited violations of antifraud provisions under the Investment Advisers Act of 1940.\n\nMoreover, Timothy Overturf knowingly allowed his father, Hansueli Overturf\u2014who was suspended twice by the State of California from acting as an investment adviser\u2014to trade in client accounts using limited power of attorney. This deliberate facilitation of unauthorized trading by a suspended individual indicates a serious governance failure and potential regulatory evasion. The fact that over $2 million in improper fees were withdrawn from client accounts, alongside personal enrichment by Timothy through owner draws and loans, points to significant financial harm and possible self-dealing.\n\nAdditional concerns stem from the timing and structure of the firm\u2019s founding. Sisu Capital was established by Timothy at age 18 during the period when his father was suspended, raising suspicion that the firm may have been created to circumvent regulatory restrictions. The firm's subsequent closure amid ongoing SEC enforcement further damages its credibility. Compounding these issues are inconsistencies in corporate records and the presence of multiple unrelated entities sharing the \"Sisu\" name, which could confuse due diligence efforts.\n\nTaken together, these findings indicate systemic compliance failures, potential fraud, and serious reputational and financial risks. The ongoing federal litigation and independent investigations underscore the gravity of the situation and warrant cautious treatment of any association with Timothy Overturf or Sisu Capital.\n\n**SKEPTIC:** The investigation findings against Timothy Overturf and Sisu Capital, LLC, while serious in nature, can be viewed with some mitigating context that suggests alternative explanations or benign interpretations. First, the SEC complaint and related allegations remain pending without a final judgment, meaning that the claims have not been proven in court. Allegations of unauthorized trading, unsuitable investments, and failure to disclose disciplinary history are common in regulatory enforcement actions and do not necessarily equate to intentional fraud or misconduct.\n\nMoreover, the involvement of family members, such as Hansueli Overturf, while raising concerns, may reflect a common practice in family-run businesses where roles and responsibilities overlap. The use of limited power of attorney to allow family members to assist in managing accounts is not unusual in wealth management, and the specific terms and controls around these arrangements are not fully disclosed. The timing of firm founding and registration discrepancies could be due to normal business development phases or data inconsistencies rather than deliberate evasion.\n\nAdditionally, the presence of multiple unrelated entities sharing the \"Sisu\" name and multiple individuals named Timothy Overturf with different professional backgrounds introduces potential for confusion and misattribution. Proper due diligence should distinguish these clearly. Finally, performance-based fee structures and owner draws, while flagged as potential conflicts, are standard industry practices when properly disclosed and managed.\n\nIn summary, while the allegations warrant thorough investigation, the current evidence includes plausible benign explanations such as pending adjudication, common family business practices, data inconsistencies, and standard industry fee arrangements. These factors suggest caution in drawing definitive conclusions until legal processes are complete.\n\n**JUDGE:** ```json\n{\n  \"risk_flags\": [\n    {\n      \"category\": \"REGULATORY\",\n      \"severity\": \"CRITICAL\",\n      \"title\": \"SEC Enforcement Action for Securities Fraud\",\n      \"description\": \"The U.S. Securities and Exchange Commission filed a civil complaint on August 1, 2023, against Timothy Overturf and Sisu Capital, LLC alleging violations of antifraud provisions of the Investment Advisers Act of 1940. The complaint accuses Timothy Overturf of breaching fiduciary duties by making unauthorized and unsuitable trades, making material misrepresentations to clients, and failing to disclose his father's disciplinary history and suspension. This represents active federal regulatory enforcement against the subject.\",\n      \"evidence\": [\n        \"https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf\",\n        \"https://www.sec.gov/enforcement-litigation/litigation-releases/lr-25807\",\n        \"https://adviserinfo.sec.gov/individual/summary/6422933\"\n      ],\n      \"entity_ids\": [\"b3027807\", \"7749d933\", \"eabe3ede\"],\n      \"confidence\": 0.98,\n      \"mitigating_factors\": [\n        \"Civil complaint is pending; no final judgment has been rendered yet\"\n      ]\n    },\n    {\n      \"category\": \"LITIGATION\",\n      \"severity\": \"HIGH\",\n      \"title\": \"Pending Federal Civil Litigation and Private Law Firm Investigation\",\n      \"description\": \"Timothy Overturf and Sisu Capital, LLC are defendants in an active federal civil lawsuit filed by the SEC in the U.S. District Court for the Northern District of California. The litigation alleges fraud and fiduciary breaches spanning from December 2017 to at least May 2021. Additionally, MDF Law is conducting an independent investigation into Timothy Overturf for similar conduct, indicating potential for additional private litigation or class action.\",\n      \"evidence\": [\n        \"https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf\",\n        \"https://mdf-law.com/timothy-overturf/\",\n        \"https://lostcoastoutpost.com/2023/aug/18/\n\n**PROPONENT:** The investigation findings raise serious concerns due to multiple, corroborated regulatory and legal red flags involving Timothy Overturf and Sisu Capital, LLC. The SEC has filed a civil complaint alleging intentional breaches of fiduciary duty, unauthorized and unsuitable trading, material misrepresentations to clients, and failure to disclose critical disciplinary information about Hansueli Overturf, Timothy\u2019s father. The fact that Hansueli was suspended from investment advisory activities yet continued to provide advice and execute trades through limited power of attorney granted by Timothy suggests deliberate circumvention of regulatory restrictions, indicating premeditated misconduct rather than inadvertent errors.\n\nMoreover, the alleged misuse of client funds to invest in thinly-traded bank stock as part of an undisclosed strategy to advance Timothy\u2019s personal business interests represents a clear conflict of interest and potential self-dealing. The extraction of over $2 million in advisory and performance fees from unsuitable investments further amplifies the financial harm to high net-worth clients, raising the risk of significant client losses. The extended duration of alleged misconduct\u2014spanning more than four years\u2014points to systemic compliance failures and sustained disregard for fiduciary responsibilities.\n\nAdditional concerns stem from the timing of Sisu Capital\u2019s founding during Hansueli\u2019s suspension period, suggesting the firm may have been established to enable continued advisory activities by a suspended individual through a family member. The presence of multiple ongoing investigations, including by a private law firm, and the firm\u2019s eventual closure under regulatory pressure, compound reputational and operational risks. Taken together, these findings warrant serious scrutiny and caution, as they reveal a pattern of regulatory evasion, conflicts of interest, and client harm that undermine trust in the individuals and entities involved.\n\n**SKEPTIC:** While the allegations against Timothy Overturf and Sisu Capital, LLC are serious and currently under regulatory and legal scrutiny, several factors suggest that the findings may not definitively indicate intentional wrongdoing. First, the SEC complaint is a civil enforcement action that remains pending, with no final judgment rendered. Allegations such as unauthorized trading and failure to disclose disciplinary history, while concerning, could stem from compliance misunderstandings or administrative oversights rather than deliberate fraud.\n\nThe involvement of Hansueli Overturf, Timothy\u2019s father, who was suspended during parts of the relevant period, complicates the situation but also raises the possibility that family business dynamics and informal arrangements contributed to regulatory lapses without malicious intent. Limited power of attorney arrangements are common in family wealth management, and the specific terms and controls around these may not be fully detailed in the complaint, leaving room for benign explanations.\n\nAdditionally, inconsistencies in founding dates and multiple individuals named Timothy Overturf with different professional backgrounds suggest some data confusion that could have inflated perceived risks. The presence of multiple unrelated entities named \"Sisu\" further underscores the need for careful differentiation to avoid conflating unrelated issues.\n\nFinally, performance-based fees and the targeting of high net-worth clients are standard industry practices that, while potentially incentivizing risk-taking, do not inherently imply misconduct. Given the ongoing nature of litigation and investigations, these findings should be viewed as allegations subject to defense and clarification rather than proven violations.\n\n**JUDGE:** ```json\n{\n  \"risk_flags\": [\n    {\n      \"category\": \"REGULATORY\",\n      \"severity\": \"HIGH\",\n      \"title\": \"Hansueli Overturf's Extensive Prior Criminal and Regulatory History\",\n      \"description\": \"Beyond the suspensions already flagged, evidence reveals Hansueli Overturf was criminally charged in October 2004 with twelve felony counts including selling unregistered securities and fraud, which was settled for approximately $420,000 before charges were dismissed in December 2006. Additionally, he received a Desist and Refrain Order from the California Commissioner of Business Oversight on August 11, 2011 for violations of Corporations Code section 25401 related to misleading statements in securities sales. FINRA also suspended him for one year and fined him $10,000 effective December 19, 2011 for engaging in undisclosed business activities while employed at Raymond James. This extensive pattern of regulatory and criminal issues spanning nearly two decades demonstrates a chronic inability to comply with securities regulations, making Timothy's decision to involve him in Sisu Capital operations particularly egregious.\",\n      \"evidence\": [\n        \"https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/OvertruftH_DR.pdf\",\n        \"https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/Overturf-Hansueli-Statement-of-Issues.pdf\",\n        \"https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/Overturf-Hansueli-Settlement-Agreement.pdf\",\n        \"https://files.brokercheck.finra.org/individual/individual_4138916.pdf\"\n      ],\n      \"entity_ids\": [\"e403c6f7\", \"114f24df\", \"b3027807\"],\n      \"confidence\": 0.95,\n      \"mitigating_factors\": [\n        \"Criminal charges were ultimately dismissed in 2006\",\n        \"Settlement does not constitute admission of guilt\"\n      ]\n    },\n    {\n      \"category\": \"REGULATORY\",\n      \"severity\": \"HIGH\",\n      \"title\": \"Hansueli Overturf Acted as Unauthorized Agent During Suspension\",\n      \"description\": \"During his suspension period\n\n\n---\n\n## 6. Key Connections\n\n- **Timothy Overturf** --[RELATED_TO]--> **Sisu Capital, LLC** (Timothy Overturf is the founder, owner, and Chief Executive Officer of Sisu Capital, LLC since 2013.) [conf: 1.00]\n- **Hansueli Overturf** --[RELATED_TO]--> **Timothy Overturf** (Hansueli Overturf is the father of Timothy Overturf.) [conf: 1.00]\n- **Hansueli Overturf** --[RELATED_TO]--> **Sisu Capital, LLC** (Hansueli Overturf gave investment advice to Sisu clients despite being suspended by the State of California.) [conf: 1.00]\n- **Timothy Overturf** --[RELATED_TO]--> **Hansueli Overturf** (Timothy Overturf allowed his father Hansueli Overturf to trade in Sisu client accounts using limited power of attorney d) [conf: 1.00]\n- **Hansueli Overturf** --[RELATED_TO]--> **Timothy Overturf** (Hans Overturf is the father of Timothy Overturf) [conf: 1.00]\n- **Hansueli Overturf** --[RELATED_TO]--> **Sisu Capital, LLC** (Hans Overturf helped Timothy Overturf in defrauding clients at Sisu Capital) [conf: 1.00]\n- **Securities and Exchange Commission** --[RELATED_TO]--> **Timothy Overturf** (SEC filed a complaint accusing Timothy Overturf of defrauding clients) [conf: 1.00]\n- **Securities and Exchange Commission** --[RELATED_TO]--> **Sisu Capital, LLC** (SEC filed a complaint against the now-defunct investment firm Sisu Capital) [conf: 1.00]\n- **Timothy Silas Prugh Overturf** --[RELATED_TO]--> **Sisu Capital, LLC** (Timothy Overturf is the owner and Chief Executive Officer of Sisu Capital, LLC) [conf: 1.00]\n- **Timothy Silas Prugh Overturf** --[RELATED_TO]--> **Hansueli Overturf** (Hansueli Overturf is the father of Timothy Overturf) [conf: 1.00]\n- **Securities and Exchange Commission** --[RELATED_TO]--> **Hansueli Overturf** (SEC charged Hans Overturf with aiding and abetting violations committed by Timothy Overturf and Sisu Capital) [conf: 1.00]\n- **Joy Seppala** --[RELATED_TO]--> **Sisu Capital, LLC** (Joy Seppala is listed as an employee of Sisu Capital, LLC on LinkedIn) [conf: 0.90]\n- **Sisu** --[RELATED_TO]--> **Samuli Syvahuoko** (Samuli Syvahuoko is a partner at Sisu) [conf: 0.80]\n- **Sisu** --[RELATED_TO]--> **Kalle Kaivola** (Kalle Kaivola is a partner at Sisu) [conf: 0.80]\n- **Sisu** --[RELATED_TO]--> **Torpor Games** (Sisu invested in the Seed round of Torpor Games) [conf: 0.85]\n- **Sisu** --[RELATED_TO]--> **Playco** (Sisu invested in Playco, which is a unicorn) [conf: 0.90]\n- **Sisu** --[RELATED_TO]--> **Next Games** (Sisu invested in Next Games) [conf: 0.85]\n- **Sisu** --[RELATED_TO]--> **Small Giant Games** (Sisu invested in Small Giant Games) [conf: 0.85]\n- **Sisu** --[RELATED_TO]--> **1Up Ventures** (1Up Ventures co-invests with Sisu in many portfolio companies) [conf: 0.80]\n- **Sisu Investment Corporation** --[RELATED_TO]--> **Wilmington Capital Management** (Sisu Investment Corporation increased its stake in Wilmington Capital Management to 35.4% of Class A shares and 29.3% of) [conf: 1.00]\n\n---\n\n## 7. Source Audit\n\n- **Searches conducted:** 14\n- **Iterations:** 11\n- **Estimated cost:** $3.1866\n\n### Sources Identified But Not Retrievable\n\n- https://www.wealthminder.com/financial-advisors/advisory-firms/sisu-capital-llc/23419 (Domain www.wealthminder.com no longer resolves (DNS failure). Wayback Machine and content-relocation recovery both failed.)\n- https://www.linkedin.com/in/timothy-overturf-9aa63378/ (wayback_unavailable)\n\n---\n\n## 8. Appendix\n\n### Investigation Metrics\n- **Total Entities:** 115\n- **Total Connections:** 104\n- **Total Search Queries:** 14\n- **Iteration Count:** 11\n\n### Graph Insights\n- **Degree Centrality**: 10 results\n- **Degree Centrality**: 10 results\n- **Shortest Path**: 1 results\n- **Shortest Path**: 1 results\n- **Shortest Path**: 1 results\n- **Shortest Path**: 1 results\n- **Shortest Path**: 1 results\n- **Shell Companies**: 2 results\n- ****: 0 results\n- ****: 0 results\n- ****: 0 results\n- ****: 0 results\n- ****: 0 results\n- ****: 0 results\n\n### Source Manifest\n- [15:44:09] **Tavily**: Timothy Overturf CEO Sisu Capital\n- [15:44:12] **Tavily**: Sisu Capital investment firm\n- [15:44:10] **Tavily**: Timothy Overturf LinkedIn background career history\n- [15:44:10] **Tavily**: \"Timothy Overturf\" finance executive\n- [15:44:12] **Tavily**: Sisu Capital AUM portfolio investments\n- [15:57:38] **Tavily+brave**: SEC v. Timothy Overturf Sisu Capital case outcome judgment settlement 2023 2024\n- [15:57:37] **Tavily+brave**: Timothy Overturf FINRA BrokerCheck CRD 6422933 disclosures arbitration\n- [15:57:40] **Tavily+brave**: Timothy Overturf criminal charges DOJ fraud indictment\n- [15:57:38] **Tavily+brave**: Hans Overturf California investment adviser suspension disciplinary order\n- [15:57:39] **Tavily+brave**: Sisu Capital LLC Mill Valley bankruptcy dissolution\n\n",
+  "redacted_report": "\n\n# Due Diligence Report: Timothy Overturf\n\n**Generated:** January 28, 2026 | **Investigation ID:** DD-OVERTURF-2026-001 | **Iterations:** 11\n\n---\n\n## Executive Summary\n\n### **CRITICAL RISK RATING**\n\nThis investigation reveals a **severe and multi-layered risk profile** for Timothy Overturf, the founder, owner, and CEO of the now-defunct investment advisory firm Sisu Capital, LLC (Mill Valley, California). The U.S. Securities and Exchange Commission filed a federal civil complaint on August 1, 2023, alleging that Overturf systematically defrauded clients over a four-year period (December 2017\u2013May 2021) by making unauthorized and unsuitable trades, extracting over $2 million in improper fees, and concealing the involvement of his father, Hansueli \"Hans\" Overturf\u2014a serially suspended and previously criminally charged investment adviser\u2014in client account management.\n\nThe most alarming finding is the **multi-generational pattern of securities fraud**: Hansueli Overturf's regulatory and criminal history spans nearly two decades (2004\u20132023), including twelve felony counts, multiple state suspensions, FINRA sanctions, and Desist and Refrain orders. Timothy founded Sisu Capital at age 18 during his father's first suspension period, raising serious questions about whether the firm was created as a vehicle to circumvent regulatory bars. The SEC case (3:23-cv-03855) remains active in the Northern District of California with a jury trial reset to July 27\u201331, 2026.\n\n| **Metric** | **Value** |\n|---|---|\n| Facts Extracted | 200+ |\n| Entities Discovered | 40+ |\n| Risk Flags Identified | 28 (2 Critical, 12 High, 11 Medium, 3 Low) |\n| Search Iterations | 14 searches across 11 iterations |\n| Overall Confidence | **88%** |\n\n---\n\n## Subject Profile\n\n| **Field** | **Detail** |\n|---|---|\n| **Full Legal Name** | Timothy Silas Prugh Overturf |\n| **CRD Number** | 6422933 |\n| **Current Registration Status** | **Not currently registered** as an Investment Adviser Representative (as of [DOB REDACTED]) |\n| **Former Role** | Owner, CEO, and Founder \u2014 Sisu Capital, LLC |\n| **Registration Period** | January 8, 2015 \u2013 December 31, 2020 (Sisu Capital LLC, CRD #169444) |\n| **Certifications** | Series 65 (FINRA) |\n| **Education** | itsMove (2010\u20132012, no degree obtained) |\n| **Languages** | English (native), German (native), Swiss German (bilingual) |\n| **Location** | Arcata, California (as of 2019\u20132023) |\n| **Other Business Interests** | Co-owner, Arcata Theatre Lounge (purchased 2019 with Joseph Ostini via Joseppi's LLC) |\n| **Prior Employment** | Intern, Overturf Financial Services; Trader, Captains Fund; Support Technician, e-fon |\n| **Key Family Member** | **Hansueli \"Hans\" Overturf** (father) \u2014 CRD #4138916; serially suspended investment adviser; co-defendant in SEC action |\n| **Disclosed Events (FINRA/SEC)** | 1 civil event |\n| **Active Litigation** | SEC v. Sisu Capital, LLC et al., Case No. 3:23-cv-03855 (N.D. Cal.) |\n\n**Note:** Multiple individuals named \"Timothy Overturf\" exist in public records, including a percussion director in Texas, a real estate professional in Georgia, and others. The subject of this report is definitively identified by CRD #6422933 and his association with Sisu Capital, LLC in Mill Valley/Arcata, California.\n\n---\n\n## Organizational Connections\n\n### Financial Entities\n\n| **Entity** | **Relationship** | **Confidence** |\n|---|---|---|\n| **Sisu Capital, LLC** (CRD #169444) | Founded and owned by Timothy Overturf; now defunct. RIA based in Mill Valley, CA. Managed ~$51.7M for ~42 high-net-worth clients. [Source](https://adviserinfo.sec.gov/individual/summary/6422933) | 100% |\n| **Overturf Financial Services, Inc.** | Suspended California corporation where Timothy interned; Hansueli Overturf was proprietor/president. Subject of 2016 Desist and Refrain Order. [Source](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/Overturf-Hansueli-2016.pdf) | 88% |\n| **Captains Fund** | Timothy listed as former \"Trader\" on professional profiles. Limited information available. [Source](https://www.xing.com/profile/Timothy_Overturf) | 60% |\n\n### Business Entities\n\n| **Entity** | **Relationship** | **Confidence** |\n|---|---|---|\n| **Arcata Theatre Lounge** | Co-purchased by Timothy Overturf and Joseph Ostini in 2019 via Joseppi's LLC. Entertainment venue in Arcata, CA. [Source](https://lostcoastoutpost.com/2019/jul/12/ambitious-twentysomethings-buy-arcata-theatre-loun/) | 85% |\n| **Joseppi's LLC** | LLC formed June 2019 by Timothy Overturf and Joseph Ostini to acquire the Arcata Theatre Lounge. [Source](https://amp.reddit.com/r/Humboldt/comments/cfv1vu/ambitious_twentysomethings_to_buy_arcata_theatre/) | 85% |\n\n### Regulatory/Legal Bodies\n\n| **Entity** | **Role** | **Confidence** |\n|---|---|---|\n| **U.S. Securities and Exchange Commission** | Plaintiff in civil fraud action against Timothy Overturf, Sisu Capital, and Hansueli Overturf. [Source](https://www.sec.gov/enforcement-litigation/litigation-releases/lr-25807) | 100% |\n| **California Department of Financial Protection and Innovation (DFPI)** | Issued multiple Desist and Refrain Orders and suspension orders against Hansueli Overturf. [Source](https://dfpi.ca.gov/enforcement_action/overturf-hansueli-aka-overturf-hans/) | 95% |\n| **FINRA** | Suspended Hansueli Overturf for one year and fined $10,000 (effective Dec 19, 2011). [Source](https://files.brokercheck.finra.org/individual/individual_4138916.pdf) | 95% |\n| **U.S. District Court, N.D. California** | Presiding court for SEC v. Sisu Capital, LLC et al. (Judge Jacquelyn Scott Corley). [Source](https://www.courtlistener.com/docket/67656798/securities-and-exchange-commission-v-sisu-capital-llc/) | 100% |\n\n### Investigating Law Firms\n\n| **Entity** | **Role** | **Confidence** |\n|---|---|---|\n| **MDF Law** | Conducting independent investigation into Timothy Overturf for similar conduct. [Source](https://mdf-law.com/timothy-overturf/) | 85% |\n| **KlaymanToskes** | Representing investors who suffered losses; has recovered over $600M for investors in other cases. [Source](https://klaymantoskes.com/broker-investigation/advisor-timothy-overturf/) | 85% |\n\n### Unrelated \"Sisu\" Entities (Disambiguation)\n\nThe following entities share the \"Sisu\" name but have **no established connection** to Timothy Overturf or Sisu Capital, LLC:\n\n- **SISU Capital Limited** (CRD #160958) \u2014 UK-based hedge fund, CEO Joy Victoria Seppala\n- **Sisu Capital Funding LLC** \u2014 Greenwood Village, CO; private money lending\n- **Sisu Investment Holdings** \u2014 Chicago, IL; holding company\n- **Sisu Investment Corporation** \u2014 Ontario, Canada; investment corporation\n- **Sisu Game Ventures** \u2014 Helsinki, Finland; gaming VC fund\n- **Sisu Data, Inc.** \u2014 San Francisco; cloud analytics (Series C, $129M raised)\n\n---\n\n## Risk Assessment\n\n### Critical (5/5)\n\n#### 1. SEC Enforcement Action for Securities Fraud\n**Severity: CRITICAL (5/5)**\n\nThe U.S. Securities and Exchange Commission filed a civil complaint on August 1, 2023 (Case No. 3:23-cv-03855, N.D. Cal.) against Timothy Overturf, Sisu Capital, LLC, and Hansueli Overturf, alleging violations of **Sections 206(1) and 206(2) of the Investment Advisers Act of 1940** \u2014 the Act's core antifraud provisions. The SEC seeks permanent injunctions, disgorgement with prejudgment interest, and civil penalties. The explicit invocation of antifraud provisions signals the SEC views this as **intentional misconduct**, not negligent compliance failure.\n\n- **Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf) | [SEC Litigation Release LR-25807](https://www.sec.gov/enforcement-litigation/litigation-releases/lr-25807) | [FINRA/SEC Records](https://adviserinfo.sec.gov/individual/summary/6422933)\n\n#### 2. Alleged Client Financial Harm \u2014 Over $2 Million in Improper Fees\n**Severity: CRITICAL (5/5)**\n\nSisu Capital withdrew over **$2 million in advisory fees, performance-based fees, and commissions** from client accounts between 2017 and 2021, including fees generated from unsuitable investments and unauthorized trades. Timothy Overturf personally received **hundreds of thousands of dollars in owner draws and loans** from the firm during this period. The firm managed approximately $51.7 million for ~42 high-net-worth clients, amplifying the per-client financial impact.\n\n- **Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf) | [Sonn Law Analysis](https://sonnlaw.com/sec-charges-investment-advisory-firm-and-firms-owner-for-breaching-fiduciary-duties-to-clients/)\n\n---\n\n### High (4/5)\n\n#### 3. Multi-Generational Fraud Pattern \u2014 Hansueli Overturf's Extensive Criminal and Regulatory History\n**Severity: HIGH (4/5)**\n\nHansueli Overturf's regulatory history spans nearly **two decades** of violations:\n- **October 2004:** Criminally charged with **twelve felony counts** including selling unregistered securities and fraud; settled for ~$420,000; charges dismissed December 2006.\n- **August 2011:** Desist and Refrain Order from California Commissioner for violations of Corporations Code \u00a725401.\n- **November 2011:** Agreed to three-year suspension from any investment adviser/broker-dealer position.\n- **December 2011:** FINRA suspended one year, fined $10,000 for undisclosed business activities at Raymond James.\n- **July 2016:** Desist and Refrain Order against Hansueli and Overturf Financial Services, Inc. for unlicensed broker-dealer activities.\n- **August 2016:** Notice of intent to **permanently bar** Hansueli from any broker-dealer/investment adviser position.\n- **December 2017\u2013December 2019:** Second California suspension.\n\nDespite this history, Timothy granted Hansueli limited power of attorney over client accounts and allowed him to provide investment advice during suspension periods.\n\n- **Evidence:** [DFPI Desist Order](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/OvertruftH_DR.pdf) | [DFPI Settlement](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/Overturf-Hansueli-Settlement-Agreement.pdf) | [FINRA BrokerCheck](https://files.brokercheck.finra.org/individual/individual_4138916.pdf) | [DFPI 2016 Order](https://dfpi.ca.gov/wp-content/uploads/sites/337/2013/05/Overturf-Hansueli-2016.pdf)\n\n#### 4. Firm Founded During Father's Suspension \u2014 Potential Regulatory Circumvention\n**Severity: HIGH (4/5)**\n\nTimothy Overturf founded Sisu Capital, LLC at age 18 in **2013/2014**, precisely during Hansueli's first California suspension (November 2011\u2013November 2014). This timing raises serious questions about whether the firm was established as a **vehicle to circumvent the father's regulatory bar**, allowing Hansueli to continue operating through his son's registered entity. Timothy's prior internship at Overturf Financial Services (also subject to regulatory action) reinforces this pattern.\n\n- **Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf) | [Tracxn Profile](https://tracxn.com/d/companies/sisu-capital/__E61rDLx4NMdz3z53AR2g4jkNvIB81BS_GIKHpmBngSA)\n\n#### 5. Fiduciary Duty Breach \u2014 Unauthorized Trading and Conflict of Interest\n**Severity: HIGH (4/5)**\n\nThe SEC alleges Timothy Overturf invested client funds in a **thinly-traded bank stock** as part of an **undisclosed strategy to accumulate shares for personal business partnership proposals** to the bank. He purchased 2,300 additional shares between March 2020 and March 2021 for a client who had **\"specifically and repeatedly instructed otherwise.\"** This represents both unauthorized trading and a material undisclosed conflict of interest.\n\n- **Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf) | [Sonn Law](https://sonnlaw.com/broker-investigations/sec-charges-investment-advisory-firm-and-firms-owner-for-breaching-fiduciary-duties-to-clients/)\n\n#### 6. Failure to Disclose Material Disciplinary Information\n**Severity: HIGH (4/5)**\n\nTimothy Overturf and Sisu Capital failed to disclose to clients that Hansueli Overturf had been suspended twice by California, had been criminally charged with twelve felony counts, and had been sanctioned by FINRA \u2014 all while Hansueli was actively providing investment advice to Sisu clients.\n\n- **Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf) | [SEC Individual Report](https://adviserinfo.sec.gov/individual/summary/6422933)\n\n#### 7. Violation of Investment Advisers Act Antifraud Provisions\n**Severity: HIGH (4/5)**\n\nThe SEC specifically alleges violations of Sections 206(1) and 206(2) of the Investment Advisers Act of 1940, which impose fiduciary duties and prohibit fraudulent conduct. These carry significant penalties including disgorgement, civil monetary penalties, and potential permanent industry bars.\n\n- **Evidence:** [SEC Litigation Release](https://www.sec.gov/enforcement-litigation/litigation-releases/lr-25807) | [Court Docket](https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-03855/pdf/USCOURTS-cand-3_23-cv-03855-0.pdf)\n\n#### 8. Self-Dealing and Personal Enrichment\n**Severity: HIGH (4/5)**\n\nTimothy Overturf personally extracted \"hundreds of thousands of dollars in owner draws and loans\" from Sisu Capital concurrent with the period of alleged unauthorized trading and unsuitable investments, suggesting systematic self-dealing at client expense.\n\n- **Evidence:** [SEC Complaint](https://www.sec.gov/files/litigation/complaints/2023/comp25807.pdf)\n\n#### 9. Defunct Firm with Active Regulatory Proceedings\n**Severity: HIGH (4/5)**\n\nSisu Capital, LLC is now defunct/deadpooled. Timothy's IAR registration ended December 31, 2020, and he is not currently registered. The firm's closure coincides with the end of the alleged misconduct period, and the subsequent SEC enforcement action creates lasting reputational and legal exposure.\n\n- **Evidence:** [Tracxn](https://tracxn.com/d/companies/sisu-capital/__E"
 }
