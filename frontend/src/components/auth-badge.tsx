@@ -2,9 +2,7 @@
 
 import { usePrivy } from "@privy-io/react-auth";
 import Link from "next/link";
-
-const PRIVY_APP_ID =
-  process.env.NEXT_PUBLIC_PRIVY_APP_ID ?? process.env.PRIVY_APP_ID ?? "";
+import { usePrivyAppId } from "@/contexts/public-config";
 
 /**
  * Renders Sign in link or signed-in user + Sign out. When Privy is configured,
@@ -12,7 +10,8 @@ const PRIVY_APP_ID =
  * Sign in link to /login (login page shows "not configured" message).
  */
 export function AuthBadge() {
-  if (!PRIVY_APP_ID) {
+  const privyAppId = usePrivyAppId();
+  if (!privyAppId) {
     return (
       <Link
         href="/login"

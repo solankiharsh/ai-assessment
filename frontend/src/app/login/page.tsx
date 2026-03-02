@@ -4,12 +4,19 @@ import { usePrivy } from "@privy-io/react-auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
-const PRIVY_APP_ID =
-  process.env.NEXT_PUBLIC_PRIVY_APP_ID ?? process.env.PRIVY_APP_ID ?? "";
+import { usePublicConfig } from "@/contexts/public-config";
 
 export default function LoginPage() {
-  if (!PRIVY_APP_ID) {
+  const { privyAppId, isLoading } = usePublicConfig();
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-orange-500/30 border-t-orange-500" />
+        <p className="mt-4 text-sm text-neutral-400">Loading…</p>
+      </div>
+    );
+  }
+  if (!privyAppId) {
     return <LoginUnconfigured />;
   }
   return <LoginWithPrivy />;

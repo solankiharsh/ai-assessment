@@ -3,12 +3,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { PrivyProvider } from "@privy-io/react-auth";
+import { PublicConfigProvider, usePublicConfig } from "@/contexts/public-config";
 
-/** Client must use NEXT_PUBLIC_PRIVY_APP_ID; optional fallback for build-time only */
-const privyAppId =
-  process.env.NEXT_PUBLIC_PRIVY_APP_ID ?? process.env.PRIVY_APP_ID ?? "";
-
-function AppProviders({ children }: { children: React.ReactNode }) {
+function AppProvidersInner({ children }: { children: React.ReactNode }) {
+  const { privyAppId } = usePublicConfig();
   const [client] = useState(
     () =>
       new QueryClient({
@@ -41,5 +39,9 @@ function AppProviders({ children }: { children: React.ReactNode }) {
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <AppProviders>{children}</AppProviders>;
+  return (
+    <PublicConfigProvider>
+      <AppProvidersInner>{children}</AppProvidersInner>
+    </PublicConfigProvider>
+  );
 }
