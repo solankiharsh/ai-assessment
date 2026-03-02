@@ -2,6 +2,7 @@
 const path = require("path");
 
 const nextConfig = {
+  output: "standalone",
   turbopack: {},
   webpack: (config) => {
     config.resolve = config.resolve ?? {};

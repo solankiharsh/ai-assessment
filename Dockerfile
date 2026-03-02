@@ -1,16 +1,18 @@
 # Deep Research Agent — single service for Railway: Next.js + Python backend (spawned by API routes)
 # Frontend serves UI and /api/*; POST /api/investigate spawns `python -m src.main investigate` from REPO_ROOT.
+# Multi-stage build keeps image under 4 GB: no Playwright Chromium, Next.js standalone in final stage.
 
-FROM node:20-bookworm-slim
+# -----------------------------------------------------------------------------
+# Stage 1: build backend + frontend
+# -----------------------------------------------------------------------------
+FROM node:20-bookworm-slim AS builder
 
-# Python 3.11 + venv for backend CLI
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3.11 python3.11-venv python3-pip ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Backend: virtualenv and install from pyproject.toml
 RUN python3.11 -m venv .venv
 ENV PATH="/app/.venv/bin:$PATH"
 
@@ -18,36 +20,51 @@ COPY pyproject.toml ./
 COPY src ./src
 COPY config ./config
 COPY scripts ./scripts
-# Persisted demo investigations (Timothy Overturf, Jensen Huang, Adam Neumann, Sam Altman) for deployed UI
 COPY outputs_captured ./outputs
 
 RUN pip install --no-cache-dir -e .
 
-# Playwright Chromium for tiered fetch (Tier 2). Skip if not needed to save image size.
-RUN playwright install chromium --with-deps || true
-
-# Frontend: install and build with robust layering
 WORKDIR /app/frontend
-
-# Copy package files first for better caching (no lock file — use npm install)
 COPY frontend/package.json ./
 RUN npm install
-
-# Copy source code
 COPY frontend ./
 
-# Build
-ENV NODE_OPTIONS="--max-old-space-size=4096" \
-    NEXT_TELEMETRY_DISABLED=1
+ENV NODE_OPTIONS="--max-old-space-size=4096" NEXT_TELEMETRY_DISABLED=1
 RUN npx next build
 
-# Runtime env: Next.js and spawn backend from /app
-ENV REPO_ROOT=/app \
+# -----------------------------------------------------------------------------
+# Stage 2: runtime image (backend + Next.js standalone only)
+# -----------------------------------------------------------------------------
+FROM node:20-bookworm-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.11 python3.11-venv python3-pip ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+RUN python3.11 -m venv .venv
+ENV PATH="/app/.venv/bin:$PATH"
+
+COPY pyproject.toml ./
+COPY src ./src
+COPY config ./config
+COPY scripts ./scripts
+COPY outputs_captured ./outputs
+
+RUN pip install --no-cache-dir -e .
+
+# Next.js standalone: server + minimal deps (no full node_modules)
+COPY --from=builder /app/frontend/.next/standalone ./
+COPY --from=builder /app/frontend/.next/static ./.next/static
+COPY --from=builder /app/frontend/public ./public
+
+ENV NODE_ENV=production \
+    REPO_ROOT=/app \
     BACKEND_PYTHON=/app/.venv/bin/python \
     OUTPUT_DIR=/app/outputs \
-    NODE_ENV=production
+    HOSTNAME=0.0.0.0 \
+    PORT=3000
 
-# Railway domain is currently set to 3000; force Next.js to match and bind to 0.0.0.0
 EXPOSE 3000
-WORKDIR /app/frontend
-CMD ["npx", "next", "start", "-H", "0.0.0.0", "-p", "3000"]
+CMD ["node", "server.js"]
