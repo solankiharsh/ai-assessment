@@ -29,9 +29,9 @@ RUN playwright install chromium --with-deps || true
 # Frontend: install and build with robust layering
 WORKDIR /app/frontend
 
-# Copy package files first for better caching
-COPY frontend/package.json frontend/package-lock.json ./
-RUN npm ci
+# Copy package files first for better caching (no lock file — use npm install)
+COPY frontend/package.json ./
+RUN npm install
 
 # Copy source code
 COPY frontend ./
