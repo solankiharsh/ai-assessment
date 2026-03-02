@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
+import { useAuthToken } from "@/hooks/use-auth-token";
 import { cn } from "@/lib/utils";
 import { Shield, Search, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -42,9 +43,10 @@ function StatPill({
 export function HeaderBar() {
   const pathname = usePathname();
   const caseId = getCaseIdFromPath(pathname);
+  const getToken = useAuthToken();
   const { data: caseData } = useQuery({
     queryKey: ["case", caseId],
-    queryFn: () => api.getCase(caseId!),
+    queryFn: async () => api.getCase(caseId!, await getToken()),
     enabled: !!caseId,
   });
 

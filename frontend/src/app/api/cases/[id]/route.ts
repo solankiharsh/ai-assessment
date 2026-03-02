@@ -3,7 +3,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import { getOutputDir, readJson, readText } from "@/lib/output-dir";
+import { getOutputDir, getOutputsCapturedDir, readJson, readText } from "@/lib/output-dir";
 import { computeRiskScore, computeOverallConfidence, applyReportFindings } from "@/lib/case-metrics";
 import {
   getCaseFromSupabase,
@@ -12,6 +12,7 @@ import {
   type CaseFiles,
   type CaseMeta,
 } from "@/lib/supabase-cases";
+import { getUserIdFromRequest } from "@/lib/auth";
 import type {
   Investigation,
   SubjectProfile,
@@ -126,7 +127,7 @@ function buildInvestigationFromStored(id: string, files: CaseFiles): Investigati
   const state = files.state as StateFile;
   const entities: Entity[] =
     (files.entities as { entities?: Entity[] } | null)?.entities ?? state.entities ?? [];
-  const finalReport = files.report || state.final_report ?? "";
+  const finalReport = (files.report || state.final_report) ?? "";
   const riskFlags = state.risk_flags ?? [];
   const base = computeRiskScore(
     { risk_flags: riskFlags, final_report: state.final_report },
@@ -176,7 +177,7 @@ function buildInvestigationFromStored(id: string, files: CaseFiles): Investigati
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
@@ -185,9 +186,59 @@ export async function GET(
   }
 
   try {
-    const stored = await getCaseFromSupabase(id);
-    if (stored) {
-      const investigation = buildInvestigationFromStored(id, stored);
+    const auth = await getUserIdFromRequest(request);
+    const ownerId = auth?.userId ?? null;
+    const result = await getCaseFromSupabase(id, ownerId);
+    if (result) {
+      const { files: stored, ownerId: caseOwnerId } = result;
+      let investigation = buildInvestigationFromStored(id, stored);
+      const hasNoTemporal =
+        (investigation.temporal_facts?.length ?? 0) === 0 &&
+        (investigation.temporal_contradictions?.length ?? 0) === 0;
+      if (hasNoTemporal) {
+        const capturedDir = getOutputsCapturedDir();
+        const outputDir = getOutputDir();
+        const candidates = [
+          path.join(capturedDir, `${id}_state.json`),
+          path.join(outputDir, `${id}_state.json`),
+        ];
+        for (const p of candidates) {
+          const localState = readJson<StateFile>(p);
+          const facts = localState?.temporal_facts ?? [];
+          const contradictions = localState?.temporal_contradictions ?? [];
+          if (facts.length > 0 || contradictions.length > 0) {
+            investigation = {
+              ...investigation,
+              temporal_facts: facts,
+              temporal_contradictions: contradictions,
+            };
+            const mergedState = {
+              ...(stored.state as Record<string, unknown>),
+              temporal_facts: facts,
+              temporal_contradictions: contradictions,
+            };
+            const meta: CaseMeta = {
+              subject_name: investigation.target,
+              risk_score: investigation.risk_score ?? 0,
+              confidence: investigation.overall_confidence ?? 0,
+              updated_at: new Date().toISOString(),
+            };
+            uploadCaseToSupabase(
+              id,
+              {
+                state: mergedState,
+                report: stored.report,
+                entities: stored.entities,
+                metadata: stored.metadata,
+                progress: stored.progress,
+              },
+              meta,
+              caseOwnerId
+            ).catch((e) => console.error("Supabase uploadCase (temporal merge)", id, e));
+            break;
+          }
+        }
+      }
       return NextResponse.json(investigation);
     }
 
@@ -314,6 +365,7 @@ export async function GET(
         confidence: overallConfidence,
         updated_at: new Date().toISOString(),
       };
+      const auth = await getUserIdFromRequest(request);
       uploadCaseToSupabase(
         id,
         {
@@ -323,7 +375,8 @@ export async function GET(
           metadata: readJson(metadataPath),
           progress: progressText,
         },
-        meta
+        meta,
+        auth?.userId ?? null
       ).catch((e) => console.error("Supabase uploadCase", id, e));
     }
 

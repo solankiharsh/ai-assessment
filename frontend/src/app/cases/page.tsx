@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { formatRelativeTime } from "@/lib/utils";
+import { useAuthToken } from "@/hooks/use-auth-token";
 import type { CaseSummary } from "@/lib/types";
 
 type SortKey = "updated" | "risk" | "name";
@@ -62,17 +63,23 @@ export default function CasesPage() {
   const router = useRouter();
   const [searchQ, setSearchQ] = useState("");
   const [sortBy, setSortBy] = useState<SortKey>("updated");
+  const [scopeTab, setScopeTab] = useState<"all" | "public" | "mine">("all");
+  const getToken = useAuthToken();
 
   const { data, isLoading } = useQuery({
     queryKey: ["cases"],
-    queryFn: () => api.listCases(),
+    queryFn: async () => api.listCases(await getToken()),
     staleTime: 15_000,
   });
 
   const cases = data?.cases ?? [];
+  const publicCases = useMemo(() => cases.filter((c) => c.scope !== "mine"), [cases]);
+  const myCases = useMemo(() => cases.filter((c) => c.scope === "mine"), [cases]);
+  const scopeFiltered =
+    scopeTab === "mine" ? myCases : scopeTab === "public" ? publicCases : cases;
 
   const filtered = useMemo(() => {
-    let list = cases;
+    let list = scopeFiltered;
     if (searchQ.trim()) {
       const q = searchQ.toLowerCase();
       list = list.filter((c) =>
@@ -84,7 +91,7 @@ export default function CasesPage() {
       if (sortBy === "name") return a.subject_name.localeCompare(b.subject_name);
       return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
     });
-  }, [cases, searchQ, sortBy]);
+  }, [scopeFiltered, searchQ, sortBy]);
 
   return (
     <div className="min-h-screen">
@@ -127,6 +134,23 @@ export default function CasesPage() {
               + New
             </button>
           </div>
+        </div>
+
+        {/* Scope: All / Public / My runs */}
+        <div className="mb-4 flex gap-1 rounded-lg border border-white/10 bg-white/5 p-1 w-fit">
+          {(["all", "public", "mine"] as const).map((s) => (
+            <button
+              key={s}
+              onClick={() => setScopeTab(s)}
+              className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors capitalize ${
+                scopeTab === s
+                  ? "bg-orange-500/20 text-orange-400"
+                  : "text-neutral-400 hover:text-white"
+              }`}
+            >
+              {s === "all" ? "All" : s === "public" ? "Public runs" : "My runs"}
+            </button>
+          ))}
         </div>
 
         {/* Search & sort */}

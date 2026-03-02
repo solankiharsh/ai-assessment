@@ -5,14 +5,16 @@ import { useQuery, useQueries } from "@tanstack/react-query";
 import { PhaseExplainer } from "@/components/PhaseExplainer";
 import { TabMethodology } from "@/components/tabs/TabMethodology";
 import { api } from "@/lib/api";
+import { useAuthToken } from "@/hooks/use-auth-token";
 import type { SearchPhase } from "@/lib/types";
 
 export default function PhasesPage() {
   const [selectedPhase, setSelectedPhase] = useState<SearchPhase | null>("baseline");
+  const getToken = useAuthToken();
 
   const { data: casesData } = useQuery({
     queryKey: ["cases"],
-    queryFn: () => api.listCases(),
+    queryFn: async () => api.listCases(await getToken()),
   });
   const cases = casesData?.cases ?? [];
   const caseIds = useMemo(
@@ -23,7 +25,7 @@ export default function PhasesPage() {
   const caseQueries = useQueries({
     queries: caseIds.map((id) => ({
       queryKey: ["case", id],
-      queryFn: () => api.getCase(id),
+      queryFn: async () => api.getCase(id, await getToken()),
     })),
   });
 
