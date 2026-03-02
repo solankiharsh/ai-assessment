@@ -23,8 +23,8 @@ export async function getUserIdFromRequest(request: Request): Promise<AuthResult
   try {
     const { PrivyClient } = await import("@privy-io/node");
     const privy = new PrivyClient({ appId: appId.trim(), appSecret: appSecret.trim() });
-    const verified = await privy.verifyAuthToken(token);
-    const userId = verified?.userId;
+    const verified = await privy.utils().auth().verifyAccessToken(token);
+    const userId = verified?.user_id;
     if (userId && typeof userId === "string") return { userId };
   } catch {
     // Invalid token or verification error
