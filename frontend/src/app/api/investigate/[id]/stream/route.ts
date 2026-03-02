@@ -8,6 +8,7 @@ import { computeRiskScore, computeOverallConfidence, applyReportFindings } from 
 import { uploadCaseToSupabase, isSupabaseConfigured } from "@/lib/supabase-cases";
 
 const RUNNING_FILENAME = "_running.json";
+const RUN_META_FILENAME = "_run_meta.json";
 const POLL_MS = 800;
 const DONE_AFTER_MISSING_RUNNING_COUNT = 2;
 
@@ -104,19 +105,22 @@ export async function GET(
             const entitiesPath = path.join(outputDir, `${id}_entities.json`);
             const metadataPath = path.join(outputDir, `${id}_metadata.json`);
             const progressPath = path.join(outputDir, `${id}_progress.jsonl`);
+            const runMetaPath = path.join(outputDir, `${id}${RUN_META_FILENAME}`);
             const state = readJson<{ subject?: { full_name?: string }; risk_flags?: { severity?: string }[]; overall_confidence?: number; final_report?: string; entities?: { confidence?: number }[] }>(statePath);
             const report = readText(reportPath);
             const entitiesFile = readJson<{ entities?: unknown }>(entitiesPath);
             const entities = state ? (entitiesFile?.entities ?? state.entities ?? []) : [];
-            const base = state ? computeRiskScore(state, report || state.final_report ?? "") : { riskScore: 0, reportRiskLevel: null };
+            const base = state ? computeRiskScore(state, (report || state.final_report) ?? "") : { riskScore: 0, reportRiskLevel: null };
             const { riskScore } = state ? applyReportFindings(report || "", base.riskScore, base.reportRiskLevel) : { riskScore: 0 };
             const confidence = state ? computeOverallConfidence(state.overall_confidence, Array.isArray(entities) ? entities : []) : 0;
+            const runMeta = readJson<{ owner_id?: string | null }>(runMetaPath);
+            const ownerId = typeof runMeta?.owner_id === "string" ? runMeta.owner_id : null;
             if (state) {
               uploadCaseToSupabase(
                 id,
                 {
                   state,
-                  report: report || state.final_report ?? "",
+                  report: (report || state.final_report) ?? "",
                   entities: Array.isArray(entities) ? entities : entitiesFile?.entities ?? state.entities,
                   metadata: readJson(metadataPath),
                   progress: readText(progressPath),
@@ -126,7 +130,8 @@ export async function GET(
                   risk_score: riskScore,
                   confidence,
                   updated_at: new Date().toISOString(),
-                }
+                },
+                ownerId
               ).catch((e) => console.error("Supabase uploadCase on done", id, e));
             }
           }

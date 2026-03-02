@@ -207,6 +207,20 @@ export interface CaseSummary {
   risk_score?: number;
   confidence?: number;
   status?: "running" | "complete" | "failed";
+  /** When listing from Supabase: "public" = everyone, "mine" = current user. */
+  scope?: "public" | "mine";
+}
+
+/** Allowlisted keys for user-provided API keys (never stored or logged). Matches backend config.py / .env.example. */
+export interface UserKeys {
+  litellm_api_key?: string;
+  litellm_api_base?: string;
+  anthropic_api_key?: string;
+  openai_api_key?: string;
+  google_api_key?: string;
+  tavily_api_key?: string;
+  brave_api_key?: string;
+  langchain_api_key?: string;
 }
 
 export interface InvestigateRequest {
@@ -214,6 +228,8 @@ export interface InvestigateRequest {
   current_role?: string;
   current_org?: string;
   max_iterations?: number;
+  /** Optional: use these keys for the run (no rate limit; keys never persisted). */
+  user_keys?: UserKeys;
 }
 
 export interface InvestigateResponse {

@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { getOutputDir, listStateFiles, readJson, readText, getMtime } from "@/lib/output-dir";
 import { computeRiskScore, computeOverallConfidence, applyReportFindings } from "@/lib/case-metrics";
 import { listCasesFromSupabase } from "@/lib/supabase-cases";
+import { getUserIdFromRequest } from "@/lib/auth";
 import type { CaseSummary } from "@/lib/types";
 
 /** Raw state shape from backend (subset we need for list). */
@@ -20,8 +21,11 @@ interface RunningSummary {
   started_at?: string;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const auth = await getUserIdFromRequest(request);
+    const ownerId = auth?.userId ?? null;
+
     const outputDir = getOutputDir();
     const ids = listStateFiles(outputDir);
     const localCases: CaseSummary[] = [];
@@ -65,10 +69,13 @@ export async function GET() {
       }
     }
 
-    const supabaseCases = await listCasesFromSupabase();
-    for (const c of supabaseCases) byId.set(c.id, c);
+    const supabaseCases = await listCasesFromSupabase(ownerId);
+    for (const c of supabaseCases) {
+      const key = c.scope === "mine" ? `${c.id}:mine` : c.id;
+      byId.set(key, c);
+    }
     for (const c of localCases) {
-      if (c.status === "running" || !byId.has(c.id)) byId.set(c.id, c);
+      if (c.status === "running" || !byId.has(c.id)) byId.set(c.id, { ...c, scope: "public" });
     }
     const cases = Array.from(byId.values()).sort(
       (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
+import { useAuthToken } from "@/hooks/use-auth-token";
 import { useUIStore } from "@/store/useUIStore";
 import { cn, formatRelativeTime } from "@/lib/utils";
 import { PanelLeftClose, Plus, Search } from "lucide-react";
@@ -43,10 +44,11 @@ export function LeftPanel({ caseId }: LeftPanelProps) {
   const [searchQ, setSearchQ] = useState("");
   const [filter, setFilter] = useState<FilterTab>("all");
   const [modalOpen, setModalOpen] = useState(false);
+  const getToken = useAuthToken();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["cases"],
-    queryFn: () => api.listCases(),
+    queryFn: async () => api.listCases(await getToken()),
   });
 
   const cases = data?.cases ?? [];

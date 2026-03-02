@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { formatRelativeTime } from "@/lib/utils";
-import type { CaseSummary } from "@/lib/types";
+import type { CaseSummary, UserKeys } from "@/lib/types";
+import { AuthBadge } from "@/components/auth-badge";
+import { useAuthToken } from "@/hooks/use-auth-token";
 
 /* ── Pipeline steps (our actual nodes) ──────────────────────────────── */
 const PIPELINE_STEPS = [
@@ -192,6 +194,26 @@ const FEATURES = [
       </svg>
     ),
   },
+  {
+    title: "Sign-in & Access",
+    description:
+      "Optional Privy auth — sign in with email, wallet, or socials to access investigations and keep your session across devices.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
+        <path d="M15.75 6a3.75 3.75 0 11-7.5 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    title: "Persistent Cases",
+    description:
+      "Completed investigations can be stored in Supabase so your case list survives redeploys and is available across environments.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
+        <path d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
 ];
 
 const TECH_STACK = [
@@ -203,6 +225,8 @@ const TECH_STACK = [
   { name: "FastAPI", role: "SSE streaming backend" },
   { name: "Next.js", role: "React frontend" },
   { name: "React Flow", role: "Identity graph" },
+  { name: "Privy", role: "Optional sign-in" },
+  { name: "Supabase", role: "Case persistence" },
 ];
 
 const STATS = [
@@ -228,7 +252,7 @@ const DEMO_LOGS = [
   "[TemporalAnalysis] Contradiction detected: founding date inconsistency",
   "[AdaptiveRefinement] Coverage sufficient — proceeding to synthesis",
   "[ReportGeneration] Synthesizing due diligence report…",
-  "[Neo4j] 108 entities, 104 connections persisted; graph discovery (centrality, paths) run",
+  "[Neo4j] 108 entities, 104 connections persisted; graph reasoning (discovery queries) run — insights fed to report",
   "[Director] Investigation complete — 2 iterations, 5 risk flags",
 ];
 
@@ -284,7 +308,7 @@ function DemoSection() {
             A simulated investigation of <span className="text-orange-400 font-medium">Timothy Overturf, CEO @ Sisu Capital</span>
           </p>
           <p className="mt-1 text-xs text-neutral-500 max-w-xl mx-auto">
-            Director-driven loop (search → facts → risk → connections → verification) then synthesis: entity resolution, temporal analysis, report generation, and Neo4j persistence with graph discovery.
+            Director-driven loop (search → facts → risk → connections → verification) then synthesis: entity resolution, temporal analysis, Neo4j persist, graph reasoning (discovery queries), and report generation.
           </p>
         </div>
 
@@ -418,32 +442,66 @@ export default function HomePage() {
   const [maxIterations, setMaxIterations] = useState(5);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+  const [useOwnKeys, setUseOwnKeys] = useState(false);
+  const [userKeys, setUserKeys] = useState<UserKeys>({});
 
+  const getToken = useAuthToken();
   const { data: casesData } = useQuery({
     queryKey: ["cases"],
-    queryFn: () => api.listCases(),
+    queryFn: async () => api.listCases(await getToken()),
     staleTime: 30_000,
   });
 
-  const recentCases = (casesData?.cases ?? [])
-    .slice()
-    .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
-    .slice(0, 5);
+  const cases = casesData?.cases ?? [];
+  const sortedCases = [...cases].sort(
+    (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+  );
+  const publicCases = sortedCases.filter((c) => c.scope !== "mine").slice(0, 5);
+  const myCases = sortedCases.filter((c) => c.scope === "mine").slice(0, 5);
+  const recentCases = sortedCases.slice(0, 5);
+
+  const hasUserKeys = Boolean(
+    useOwnKeys &&
+      (userKeys.litellm_api_key?.trim() ||
+        userKeys.litellm_api_base?.trim() ||
+        userKeys.anthropic_api_key?.trim() ||
+        userKeys.openai_api_key?.trim() ||
+        userKeys.google_api_key?.trim() ||
+        userKeys.tavily_api_key?.trim() ||
+        userKeys.brave_api_key?.trim() ||
+        userKeys.langchain_api_key?.trim())
+  );
 
   const handleStart = async () => {
     if (!targetName.trim()) return;
     setSubmitting(true);
     setFormError("");
     try {
-      const res = await api.investigate({
+      const token = hasUserKeys ? undefined : await getToken();
+      const payload = {
         subject_name: targetName.trim(),
         current_role: targetContext.trim() || undefined,
         current_org: targetOrg.trim() || undefined,
         max_iterations: maxIterations,
-      });
+        ...(hasUserKeys && {
+          user_keys: {
+            ...(userKeys.litellm_api_key?.trim() && { litellm_api_key: userKeys.litellm_api_key.trim() }),
+            ...(userKeys.litellm_api_base?.trim() && { litellm_api_base: userKeys.litellm_api_base.trim() }),
+            ...(userKeys.anthropic_api_key?.trim() && { anthropic_api_key: userKeys.anthropic_api_key.trim() }),
+            ...(userKeys.openai_api_key?.trim() && { openai_api_key: userKeys.openai_api_key.trim() }),
+            ...(userKeys.google_api_key?.trim() && { google_api_key: userKeys.google_api_key.trim() }),
+            ...(userKeys.tavily_api_key?.trim() && { tavily_api_key: userKeys.tavily_api_key.trim() }),
+            ...(userKeys.brave_api_key?.trim() && { brave_api_key: userKeys.brave_api_key.trim() }),
+            ...(userKeys.langchain_api_key?.trim() && { langchain_api_key: userKeys.langchain_api_key.trim() }),
+          },
+        }),
+      };
+      const res = await api.investigate(payload, token);
       router.push(`/cases/${res.case_id}`);
     } catch (err) {
-      setFormError((err as Error).message ?? "Failed to start investigation");
+      const msg = (err as Error).message ?? "Failed to start investigation";
+      setFormError(msg);
+      if (msg.includes("Sign in required")) router.push("/login");
       setSubmitting(false);
     }
   };
@@ -478,6 +536,7 @@ export default function HomePage() {
                 </svg>
                 GitHub
               </a>
+              <AuthBadge />
             </div>
 
             <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
@@ -585,6 +644,81 @@ export default function HomePage() {
                   />
                 </div>
 
+                <div className="space-y-2 rounded-lg border border-white/10 bg-white/[0.02] p-3">
+                  <label className="flex cursor-pointer items-center gap-2 text-xs text-neutral-400">
+                    <input
+                      type="checkbox"
+                      checked={useOwnKeys}
+                      onChange={(e) => setUseOwnKeys(e.target.checked)}
+                      className="rounded border-white/20"
+                    />
+                    Use my own API keys (no rate limit; keys never stored)
+                  </label>
+                  {useOwnKeys && (
+                    <div className="mt-2 max-h-[40vh] space-y-2 overflow-y-auto border-t border-white/10 pt-2">
+                      <p className="text-[10px] text-neutral-500">LLM (use LiteLLM or direct provider keys)</p>
+                      <input
+                        type="password"
+                        placeholder="LiteLLM API key"
+                        value={userKeys.litellm_api_key ?? ""}
+                        onChange={(e) => setUserKeys((k) => ({ ...k, litellm_api_key: e.target.value }))}
+                        className="w-full rounded border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-white placeholder:text-neutral-500"
+                      />
+                      <input
+                        type="text"
+                        placeholder="LiteLLM API base URL (e.g. https://...)"
+                        value={userKeys.litellm_api_base ?? ""}
+                        onChange={(e) => setUserKeys((k) => ({ ...k, litellm_api_base: e.target.value }))}
+                        className="w-full rounded border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-white placeholder:text-neutral-500"
+                      />
+                      <input
+                        type="password"
+                        placeholder="Anthropic API key"
+                        value={userKeys.anthropic_api_key ?? ""}
+                        onChange={(e) => setUserKeys((k) => ({ ...k, anthropic_api_key: e.target.value }))}
+                        className="w-full rounded border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-white placeholder:text-neutral-500"
+                      />
+                      <input
+                        type="password"
+                        placeholder="OpenAI API key"
+                        value={userKeys.openai_api_key ?? ""}
+                        onChange={(e) => setUserKeys((k) => ({ ...k, openai_api_key: e.target.value }))}
+                        className="w-full rounded border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-white placeholder:text-neutral-500"
+                      />
+                      <input
+                        type="password"
+                        placeholder="Google (Gemini) API key"
+                        value={userKeys.google_api_key ?? ""}
+                        onChange={(e) => setUserKeys((k) => ({ ...k, google_api_key: e.target.value }))}
+                        className="w-full rounded border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-white placeholder:text-neutral-500"
+                      />
+                      <p className="mt-1 text-[10px] text-neutral-500">Search</p>
+                      <input
+                        type="password"
+                        placeholder="Tavily API key"
+                        value={userKeys.tavily_api_key ?? ""}
+                        onChange={(e) => setUserKeys((k) => ({ ...k, tavily_api_key: e.target.value }))}
+                        className="w-full rounded border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-white placeholder:text-neutral-500"
+                      />
+                      <input
+                        type="password"
+                        placeholder="Brave Search API key"
+                        value={userKeys.brave_api_key ?? ""}
+                        onChange={(e) => setUserKeys((k) => ({ ...k, brave_api_key: e.target.value }))}
+                        className="w-full rounded border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-white placeholder:text-neutral-500"
+                      />
+                      <p className="mt-1 text-[10px] text-neutral-500">Optional: tracing</p>
+                      <input
+                        type="password"
+                        placeholder="LangSmith / LANGCHAIN_API_KEY"
+                        value={userKeys.langchain_api_key ?? ""}
+                        onChange={(e) => setUserKeys((k) => ({ ...k, langchain_api_key: e.target.value }))}
+                        className="w-full rounded border border-white/10 bg-white/5 px-2 py-1.5 text-xs text-white placeholder:text-neutral-500"
+                      />
+                    </div>
+                  )}
+                </div>
+
                 {formError && (
                   <p className="text-xs text-red-400">{formError}</p>
                 )}
@@ -607,17 +741,33 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Recent investigations */}
-            {recentCases.length > 0 && (
-              <div className="mt-4">
-                <p className="mb-2 text-[11px] font-medium text-neutral-500 sm:text-xs">
-                  Recent Investigations
-                </p>
-                <div className="space-y-1.5">
-                  {recentCases.map((c) => (
-                    <RecentCaseRow key={c.id} c={c} />
-                  ))}
-                </div>
+            {/* Recent investigations: Public and My runs */}
+            {(publicCases.length > 0 || myCases.length > 0) && (
+              <div className="mt-4 space-y-3">
+                {publicCases.length > 0 && (
+                  <div>
+                    <p className="mb-1.5 text-[11px] font-medium text-neutral-500 sm:text-xs">
+                      Public runs
+                    </p>
+                    <div className="space-y-1.5">
+                      {publicCases.map((c) => (
+                        <RecentCaseRow key={c.id} c={c} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {myCases.length > 0 && (
+                  <div>
+                    <p className="mb-1.5 text-[11px] font-medium text-neutral-500 sm:text-xs">
+                      My runs
+                    </p>
+                    <div className="space-y-1.5">
+                      {myCases.map((c) => (
+                        <RecentCaseRow key={`${c.id}:mine`} c={c} />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -699,8 +849,10 @@ export default function HomePage() {
             <p className="mt-2 text-sm text-neutral-400 sm:mt-3 sm:text-base max-w-2xl mx-auto">
               A 10-stage autonomous pipeline powered by LangGraph. The Director loops through
               stages 2–6 (Web Research, Fact Extraction, Risk Analysis, Connection Mapping, Source Verification)
-              until coverage is sufficient; then stages 7–10 (Entity Resolution, Temporal Analysis, Report Generation,
-              Neo4j Graph DB) run once. Neo4j persists the identity graph and runs discovery (centrality, paths, shell-company detection) to enrich the report and Graph tab.
+              until coverage is sufficient; then stages 7–10 run once: Entity Resolution, Temporal Analysis, Neo4j
+              persist, Graph Reasoning (discovery queries: centrality, paths, shell-company, shared-address), and
+              Report Generation. Graph insights feed the report and Graph tab. Optional sign-in (Privy) and
+              case persistence (Supabase) are available for deployment.
             </p>
           </div>
 

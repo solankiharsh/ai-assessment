@@ -5,9 +5,67 @@ import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 import { subjectToSlug } from "@/lib/utils";
-import type { InvestigateRequest, InvestigateResponse } from "@/lib/types";
+import { getUserIdFromRequest } from "@/lib/auth";
+import { isOverLimit } from "@/lib/rate-limit";
+import type { InvestigateRequest, InvestigateResponse, UserKeys } from "@/lib/types";
 
 const RUNNING_FILENAME = "_running.json";
+const RUN_META_FILENAME = "_run_meta.json";
+
+const USER_KEY_NAMES = [
+  "LITELLM_API_KEY",
+  "LITELLM_API_BASE",
+  "ANTHROPIC_API_KEY",
+  "OPENAI_API_KEY",
+  "GOOGLE_API_KEY",
+  "TAVILY_API_KEY",
+  "BRAVE_SEARCH_API_KEY",
+  "LANGCHAIN_API_KEY",
+] as const;
+
+const MAX_KEY_LENGTH = 512;
+const MAX_BASE_URL_LENGTH = 512;
+
+function hasUserKeys(userKeys?: UserKeys | null): boolean {
+  if (!userKeys || typeof userKeys !== "object") return false;
+  const keys: (keyof UserKeys)[] = [
+    "litellm_api_key",
+    "litellm_api_base",
+    "anthropic_api_key",
+    "openai_api_key",
+    "google_api_key",
+    "tavily_api_key",
+    "brave_api_key",
+    "langchain_api_key",
+  ];
+  return keys.some((k) => typeof userKeys[k] === "string" && (userKeys[k] as string).trim().length > 0);
+}
+
+function getUserKeysEnv(userKeys: UserKeys): Record<string, string> {
+  const keyMap: Record<string, keyof UserKeys> = {
+    LITELLM_API_KEY: "litellm_api_key",
+    LITELLM_API_BASE: "litellm_api_base",
+    ANTHROPIC_API_KEY: "anthropic_api_key",
+    OPENAI_API_KEY: "openai_api_key",
+    GOOGLE_API_KEY: "google_api_key",
+    TAVILY_API_KEY: "tavily_api_key",
+    BRAVE_SEARCH_API_KEY: "brave_api_key",
+    LANGCHAIN_API_KEY: "langchain_api_key",
+  };
+  const env: Record<string, string> = {};
+  for (const envName of USER_KEY_NAMES) {
+    const key = keyMap[envName];
+    const v = key ? userKeys[key] : undefined;
+    if (typeof v !== "string" || !v.trim()) continue;
+    const trimmed = v.trim();
+    if (envName === "LITELLM_API_BASE") {
+      env[envName] = trimmed.slice(0, MAX_BASE_URL_LENGTH);
+    } else {
+      env[envName] = trimmed.replace(/\s/g, "").slice(0, MAX_KEY_LENGTH);
+    }
+  }
+  return env;
+}
 
 /** Allowlisted: letters, numbers, spaces, common punctuation. No shell metacharacters. */
 function sanitizeArg(s: string, maxLen: number): string {
@@ -90,6 +148,24 @@ export async function POST(request: Request) {
     );
   }
 
+  const auth = await getUserIdFromRequest(request);
+  const usingOwnKeys = hasUserKeys(body.user_keys);
+
+  if (!usingOwnKeys) {
+    if (!auth) {
+      return NextResponse.json(
+        { error: "Sign in required to run with app keys" },
+        { status: 401 }
+      );
+    }
+    if (isOverLimit(auth.userId)) {
+      return NextResponse.json(
+        { error: "Rate limit exceeded. Try again later." },
+        { status: 429, headers: { "Retry-After": "3600" } }
+      );
+    }
+  }
+
   const outputDir = getOutputDir();
 
   const args: string[] = [
@@ -116,10 +192,12 @@ export async function POST(request: Request) {
 
   const { repoRoot, pythonPath } = getRepoRootAndPython();
 
-  // Pass full env (including API keys) to the backend so it has keys when run from the UI.
-  // In deployment (e.g. Railway) there is often no .env file; the platform injects keys as env vars.
-  // The backend also loads repo .env when present (config.py); env vars take precedence.
-  const passthroughEnv: NodeJS.ProcessEnv = { ...process.env, PYTHONUNBUFFERED: "1" };
+  // Pass env to backend. If user provided keys, overlay them (never stored or logged).
+  const passthroughEnv: NodeJS.ProcessEnv = {
+    ...process.env,
+    PYTHONUNBUFFERED: "1",
+    ...(usingOwnKeys && body.user_keys ? getUserKeysEnv(body.user_keys) : {}),
+  };
 
   try {
     const child = spawn(pythonPath, args, {
@@ -140,14 +218,20 @@ export async function POST(request: Request) {
   }
 
   try {
-    const runningPath = path.join(outputDir, `${case_id}${RUNNING_FILENAME}`);
     fs.mkdirSync(outputDir, { recursive: true });
+    const runningPath = path.join(outputDir, `${case_id}${RUNNING_FILENAME}`);
     fs.writeFileSync(
       runningPath,
       JSON.stringify({
         subject_name,
         started_at: new Date().toISOString(),
       }),
+      "utf-8"
+    );
+    const runMetaPath = path.join(outputDir, `${case_id}${RUN_META_FILENAME}`);
+    fs.writeFileSync(
+      runMetaPath,
+      JSON.stringify({ owner_id: auth?.userId ?? null }),
       "utf-8"
     );
   } catch (e) {

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
+import { useAuthToken } from "@/hooks/use-auth-token";
 import { PipelineProgress, currentNodeFromEvents } from "@/components/PipelineProgress";
 import { ExecutionLog } from "@/components/ExecutionLog";
 import { MetricsCards } from "@/components/MetricsCards";
@@ -90,13 +91,14 @@ function deriveStats(inv: { entities?: unknown[]; risk_flags?: unknown[]; iterat
 export default function CasePage() {
   const params = useParams();
   const id = typeof params.id === "string" ? params.id : "";
+  const getToken = useAuthToken();
 
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [liveProgressEvents, setLiveProgressEvents] = useState<LiveProgressEvent[]>([]);
 
   const { data: inv, isLoading, error, refetch, isRefetching } = useQuery({
     queryKey: ["case", id],
-    queryFn: () => api.getCase(id),
+    queryFn: async () => api.getCase(id, await getToken()),
     enabled: !!id,
     refetchInterval: (query) => (query.state.status === "error" ? 3000 : false),
   });

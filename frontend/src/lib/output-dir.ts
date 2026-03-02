@@ -22,6 +22,20 @@ export function getOutputDir(): string {
   return fromFrontend;
 }
 
+/** Resolve outputs_captured directory (canonical state with temporal data). */
+export function getOutputsCapturedDir(): string {
+  const cwd = process.cwd();
+  const fromRoot = path.resolve(cwd, "outputs_captured");
+  const fromFrontend = path.resolve(cwd, "..", "outputs_captured");
+  try {
+    if (fs.existsSync(fromRoot)) return fromRoot;
+    if (fs.existsSync(fromFrontend)) return fromFrontend;
+  } catch {
+    // ignore
+  }
+  return fromFrontend;
+}
+
 export function readJson<T>(filePath: string): T | null {
   try {
     const raw = fs.readFileSync(filePath, "utf-8");
