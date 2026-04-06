@@ -58,8 +58,8 @@ RUN pip install --no-cache-dir -e .
 COPY --from=builder /app/frontend/.next/standalone ./
 COPY --from=builder /app/frontend/.next/static ./.next/static
 COPY --from=builder /app/frontend/public ./public
-# Standalone tracer can miss @swc/helpers (used by next server runtime); copy from builder
-COPY --from=builder /app/frontend/node_modules/@swc /app/node_modules/@swc
+# Standalone tracer can miss @swc/helpers; Next's server require-hook resolves it under next/node_modules/
+COPY --from=builder /app/frontend/node_modules/@swc/helpers /app/node_modules/next/node_modules/@swc/helpers
 
 ENV NODE_ENV=production \
     REPO_ROOT=/app \
